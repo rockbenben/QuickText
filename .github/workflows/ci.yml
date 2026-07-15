@@ -1,0 +1,80 @@
+name: CI
+
+on:
+  push:
+    branches: [master, main]
+    tags: ['v*']
+  pull_request:
+
+jobs:
+  test:
+    runs-on: windows-latest
+    timeout-minutes: 15          # fail fast if a --smoke run deadlocks, instead of hanging to the 6h cap
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+      - name: Test (Core)
+        shell: pwsh
+        run: |
+          dotnet test tests/QuickText.Core.Tests -c Release --nologo --logger "trx;LogFileName=results.trx" --results-directory TestResults
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          # Guard against a silent 0-test run (a mis-loaded adapter can make `dotnet test` exit 0 with
+          # nothing run). Read the structured trx count — locale-independent and VSTest/MTP-agnostic,
+          # unlike scraping console text; an all-skipped run still counts as discovered (total >= 1).
+          $trx = Get-ChildItem TestResults -Filter results.trx -Recurse | Select-Object -First 1
+          if (-not $trx) { Write-Error 'no trx produced — tests did not run'; exit 1 }
+          [xml]$r = Get-Content -Raw $trx.FullName
+          $total = [int]$r.TestRun.ResultSummary.Counters.total
+          Write-Host "tests discovered: $total"
+          if ($total -lt 1) { Write-Error 'no tests ran (0 discovered)'; exit 1 }
+      - name: Build (App)
+        run: dotnet build src/QuickText.App -c Release --nologo
+      - name: Smoke (parse every window's XAML)
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem src/QuickText.App/bin/Release -Recurse -Filter QuickText.exe | Select-Object -First 1
+          if (-not $exe) { Write-Error 'QuickText.exe not found'; exit 1 }
+          # Resolve the marker via the SAME API the app writes with (.NET Path.GetTempPath), so a
+          # TMP-vs-TEMP divergence can't make the workflow look in a different directory than the app.
+          $marker = Join-Path ([System.IO.Path]::GetTempPath()) 'quicktext-smoke.txt'
+          Remove-Item $marker -ErrorAction SilentlyContinue
+          $p = Start-Process $exe.FullName -ArgumentList '--smoke' -PassThru -Wait
+          # The 'OK' marker the app writes is the reliable success signal; a WPF ExitCode can come back
+          # $null via Start-Process, so only an EXPLICIT non-zero code counts as failure.
+          $ok = (Test-Path $marker) -and ((Get-Content $marker -Raw).Trim() -eq 'OK')
+          Write-Host "smoke: exit=$($p.ExitCode) marker=$ok"
+          if (-not $ok -or ($p.ExitCode -and $p.ExitCode -ne 0)) { exit 1 }
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: test
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: 10.0.x
+      - name: Publish (single-file win-x64)
+        shell: pwsh
+        run: |
+          $v = "${{ github.ref_name }}" -replace '^v', ''   # tag v1.0.0 -> assembly version 1.0.0
+          dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64 -p:Version=$v --nologo
+      - name: Package
+        shell: pwsh
+        run: |
+          # The publish output is a single self-contained QuickText.exe. Attach it raw (one-click
+          # download-and-run for a portable app) AND zipped (smaller download; some browsers balk at
+          # a bare .exe).
+          Copy-Item src/QuickText.App/bin/Release/publish/QuickText.exe "QuickText-${{ github.ref_name }}-win-x64.exe"
+          Compress-Archive -Path src/QuickText.App/bin/Release/publish/* -DestinationPath "QuickText-${{ github.ref_name }}-win-x64.zip"
+      - name: Release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            QuickText-*-win-x64.exe
+            QuickText-*-win-x64.zip
+          generate_release_notes: true

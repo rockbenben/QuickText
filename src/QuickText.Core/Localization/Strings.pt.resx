@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>Abrir gestor</value></data>
+  <data name="Tray.OpenSearch"><value>Abrir pesquisa</value></data>
+  <data name="Tray.Settings"><value>Definições</value></data>
+  <data name="Tray.Autostart"><value>Iniciar com o Windows</value></data>
+  <data name="Tray.Exit"><value>Sair</value></data>
+  <data name="Search.Placeholder"><value>Pesquisar excertos…</value></data>
+  <data name="Manager.Categories"><value>Categorias</value></data>
+  <data name="Manager.Snippets"><value>Excertos</value></data>
+  <data name="Manager.Name"><value>Nome</value></data>
+  <data name="Manager.Abbr"><value>Abreviatura</value></data>
+  <data name="Manager.Body"><value>Conteúdo</value></data>
+  <data name="Manager.Add"><value>Adicionar</value></data>
+  <data name="Manager.Delete"><value>Eliminar</value></data>
+  <data name="Manager.Save"><value>Guardar</value></data>
+  <data name="Manager.Rename"><value>Mudar o nome</value></data>
+  <data name="Manager.NewCategory"><value>Nova categoria</value></data>
+  <data name="Manager.RenameCategory"><value>Mudar o nome da categoria</value></data>
+  <data name="Manager.CategoryName"><value>Nome da categoria</value></data>
+  <data name="Manager.NewCategoryName"><value>Nova categoria</value></data>
+  <data name="Manager.Wrap"><value>Moldar linhas</value></data>
+  <data name="Manager.OutputMode"><value>Saída</value></data>
+  <data name="Manager.OutputModeHint"><value>Como este excerto é enviado; “Seguir global” usa o modo de saída das Definições.</value></data>
+  <data name="Manager.Output.Default"><value>Seguir global</value></data>
+  <data name="Manager.Output.Paste"><value>Colar</value></data>
+  <data name="Manager.Output.PasteEnter"><value>Colar + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>Só copiar</value></data>
+  <data name="Manager.AbbrConflict"><value>Abreviatura duplicada de “{0}” — só uma será acionada</value></data>
+  <data name="Manager.Trash"><value>Reciclagem</value></data>
+  <data name="Manager.MoveTo"><value>Mover para categoria</value></data>
+  <data name="Manager.DeleteSelected"><value>Eliminar selecionados ({0})</value></data>
+  <data name="Manager.UsageStat"><value>Usado {0} vezes · último {1}</value></data>
+  <data name="Manager.NeverUsed"><value>Nunca usado</value></data>
+  <data name="Trash.Restore"><value>Restaurar</value></data>
+  <data name="Trash.DeleteForever"><value>Eliminar definitivamente</value></data>
+  <data name="Trash.Empty"><value>Esvaziar reciclagem</value></data>
+  <data name="Trash.Close"><value>Fechar</value></data>
+  <data name="Trash.EmptyState"><value>A reciclagem está vazia</value></data>
+  <data name="Trash.Hint"><value>Os excertos eliminados ficam aqui durante {0} dias e depois são removidos automaticamente. Ao restaurar, voltam à categoria original (recriada se necessário).</value></data>
+  <data name="Trash.EmptyConfirm"><value>Esvaziar a reciclagem? Todos os excertos serão irrecuperáveis.</value></data>
+  <data name="Tray.PauseAbbr"><value>Pausar expansão</value></data>
+  <data name="Tray.ResumeAbbr"><value>Retomar expansão</value></data>
+  <data name="Tray.PausedTip"><value>expansão de abreviaturas em pausa</value></data>
+  <data name="Settings.CaptureHotkey"><value>Atalho de captura</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>Guarda em silêncio o texto atual da área de transferência como novo excerto. Clique e prima uma combinação; Delete limpa (vazio = desativado).</value></data>
+  <data name="Settings.OpenBackups"><value>Abrir pasta de cópias</value></data>
+  <data name="Settings.AutoBackupHint"><value>A pasta de dados é compactada nesta máquina diariamente (mantém as 10 mais recentes); um zip de cópia restaura via “Importar cópia”.</value></data>
+  <data name="Msg.Captured"><value>Excerto guardado: {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>Abreviaturas duplicadas (só uma é acionada): {0}. Corrija-as no Gestor.</value></data>
+  <data name="Msg.CaptureEmpty"><value>Sem texto na área de transferência</value></data>
+  <data name="Manager.UseVars"><value>Ativar variáveis {variable}</value></data>
+  <data name="Manager.UseVarsHint"><value>Se marcado, os tokens {variable}, {clipboard}, {date} e {cursor} são processados no envio; se não, o conteúdo é enviado tal e qual (ideal para código/scripts com {…} literais).</value></data>
+  <data name="Manager.Image"><value>Imagem</value></data>
+  <data name="Manager.FromClipboard"><value>Da área de transferência</value></data>
+  <data name="Manager.FromFile"><value>Escolher ficheiro</value></data>
+  <data name="Manager.RemoveImage"><value>Remover</value></data>
+  <data name="Manager.Saved"><value>✓ Guardado</value></data>
+  <data name="Manager.NewSnippetName"><value>Novo excerto</value></data>
+  <data name="Manager.Filter"><value>Filtrar…</value></data>
+  <data name="Manager.Duplicate"><value>Duplicar</value></data>
+  <data name="Manager.DuplicateAbbr"><value>A abreviatura “{0}” já é usada por “{1}” — a expansão seria ambígua</value></data>
+  <data name="Msg.FirstRunHint"><value>Prima {0} para abrir o painel</value></data>
+  <data name="Settings.OpenFolder"><value>Abrir pasta de dados</value></data>
+  <data name="Tray.NewFromClipboard"><value>Novo da área de transferência</value></data>
+  <data name="Ctx.Edit"><value>Editar</value></data>
+  <data name="Ctx.Copy"><value>Copiar conteúdo</value></data>
+  <data name="Settings.AbbrBlacklist"><value>Desativar abreviaturas nestes processos</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>Nomes de processos separados por ponto e vírgula, ex.: cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>Exportar cópia</value></data>
+  <data name="Msg.Exported"><value>Cópia exportada</value></data>
+  <data name="Settings.ImportBackup"><value>Importar cópia</value></data>
+  <data name="Msg.ImportConfirm"><value>A importação irá substituir a biblioteca atual. Continuar?</value></data>
+  <data name="Msg.ImportInvalid"><value>Não é um ficheiro de cópia válido</value></data>
+  <data name="Msg.Imported"><value>Cópia importada</value></data>
+  <data name="Search.CreateNew"><value>Criar “{0}”</value></data>
+  <data name="Search.Hint.New"><value>Novo</value></data>
+  <data name="Search.Hint.Edit"><value>Editar</value></data>
+  <data name="Settings.SectionSummon"><value>Invocação</value></data>
+  <data name="Settings.PanelPlacement"><value>Posição do painel</value></data>
+  <data name="Settings.PlaceWindow"><value>Seguir janela ativa</value></data>
+  <data name="Settings.PlaceCaret"><value>Seguir cursor de texto</value></data>
+  <data name="Settings.PlaceFixed"><value>Lembrar última posição</value></data>
+  <data name="Settings.SectionOutput"><value>Saída</value></data>
+  <data name="Settings.SectionAbbr"><value>Abreviaturas</value></data>
+  <data name="Settings.SectionData"><value>Dados</value></data>
+  <data name="Settings.SectionGeneral"><value>Geral</value></data>
+  <data name="Manager.Color"><value>Cor</value></data>
+  <data name="Manager.DuplicateCategory"><value>Já existe uma categoria com esse nome</value></data>
+  <data name="Manager.SaveFailed"><value>Falha ao guardar: a pasta de dados pode estar bloqueada ou sem permissão de escrita. Tente novamente.</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>Eliminar a categoria “{0}”? Os seus excertos também serão removidos.</value></data>
+  <data name="Dialog.OK"><value>OK</value></data>
+  <data name="Dialog.Cancel"><value>Cancelar</value></data>
+  <data name="Search.Recents"><value>Recentes</value></data>
+  <data name="Search.Favorites"><value>Favoritos</value></data>
+  <data name="Search.KeepOpen"><value>Manter aberto (enviar vários)</value></data>
+  <data name="Dialog.FillVariables"><value>Preencher variáveis</value></data>
+  <data name="Settings.AutoSend"><value>Premir Enter após colar</value></data>
+  <data name="Settings.ClickToSend"><value>Enviar com um clique</value></data>
+  <data name="Settings.ClickToSendHint"><value>No painel de pesquisa, um clique envia o excerto; por predefinição, faz duplo clique ou prime Enter.</value></data>
+  <data name="Settings.Output"><value>Método de saída</value></data>
+  <data name="Settings.OutputPaste"><value>Colar na app ativa</value></data>
+  <data name="Settings.OutputClipboard"><value>Só copiar para a área de transferência</value></data>
+  <data name="Settings.Hotkey"><value>Atalho</value></data>
+  <data name="Settings.SummonMode"><value>Invocar por</value></data>
+  <data name="Settings.SummonModeHotkey"><value>Combinação de teclas</value></data>
+  <data name="Settings.SummonModeTap"><value>Toque num modificador</value></data>
+  <data name="Settings.SummonTapDouble"><value>Toque duplo (senão, único)</value></data>
+  <data name="Settings.SummonTapHint"><value>Clique aqui e prima um modificador (ex.: Ctrl direito); tocá-lo depois invoca o painel. Prima Delete para limpar. (Um modificador sozinho não pode ser um atalho normal, por isso é detetado por toque.)</value></data>
+  <data name="Settings.DataFolder"><value>Pasta de dados</value></data>
+  <data name="Settings.Language"><value>Idioma</value></data>
+  <data name="Settings.AbbrEnabled"><value>Ativar abreviaturas</value></data>
+  <data name="Settings.AbbrPrefix"><value>Prefixo de acionamento</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>Anteposto a cada abreviatura (predefinição ;). No Gestor escreva apenas a abreviatura (ex.: qm) — é acionada com prefixo+abreviatura (ex.: ;qm). Deixe vazio para não usar prefixo; um prefixo evita acionamentos ao escrever normalmente.</value></data>
+  <data name="Settings.RestoreClipboard"><value>Manter a minha área de transferência intacta</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Ao colar, usa brevemente a área de transferência e depois restaura o que tinha copiado — fica como estava.</value></data>
+  <data name="Settings.FollowSystem"><value>Seguir o sistema</value></data>
+  <data name="Msg.HotkeyTaken"><value>O atalho está em uso, altere-o</value></data>
+  <data name="Msg.ConflictFiles"><value>Detetados ficheiros de conflito de sincronização</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>Pasta de dados indisponível (um disco removível ou de rede pode estar desligado). Iniciado com uma biblioteca vazia por agora — redefina-a nas Definições, ou reconecte e reinicie.</value></data>
+  <data name="Search.Hint.Nav"><value>Navegar</value></data>
+  <data name="Search.Hint.Send"><value>Enviar</value></data>
+  <data name="Search.Hint.Close"><value>Fechar</value></data>
+  <data name="Search.Hint.SwitchCat"><value>Categoria</value></data>
+  <data name="Search.Empty.Title"><value>Ainda não há excertos</value></data>
+  <data name="Search.Empty.Sub"><value>Abra o Gestor no menu da bandeja para adicionar o primeiro excerto</value></data>
+  <data name="Search.NoMatch"><value>Nenhum excerto corresponde a “{0}”</value></data>
+  <data name="Search.NoMatch.Sub"><value>Tente outra palavra-chave, ou pinyin / iniciais / uma abreviatura</value></data>
+  <data name="Search.Count"><value>{0} resultados</value></data>
+  <data name="Settings.HotkeyHint"><value>Clique e prima uma tecla; teclas normais precisam de Ctrl / Alt / Shift / Win, as teclas de função F1–F24 podem ser usadas sozinhas</value></data>
+  <data name="Settings.HotkeyPrompt"><value>Prima as teclas… (Esc para cancelar)</value></data>
+  <data name="Settings.Portable"><value>Modo portátil</value></data>
+  <data name="Settings.PortableHint"><value>Mantém os dados numa pasta Data junto à app — viaja numa pen USB e não deixa nada no anfitrião. O interruptor cria o marcador por si; aplica-se após reiniciar e precisa da app num local com permissão de escrita.</value></data>
+  <data name="Settings.PortableRestart"><value>Modo portátil alterado — reinicie para aplicar. Mova a sua biblioteca de texto com Exportar / Importar cópia.</value></data>
+  <data name="Settings.PortableFailed"><value>Não é possível escrever junto à app (pode estar num local só de leitura como Program Files). O modo portátil precisa da app num local com permissão de escrita, como uma pen USB.</value></data>
+  <data name="Settings.CheckUpdates"><value>Verificar atualizações ao iniciar</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Quando ativado, conecta-se ao GitHub uma vez ao iniciar para procurar uma versão mais recente — é a única vez que o app acessa a internet; o restante funciona offline.</value></data>
+  <data name="Settings.CheckNow"><value>Verificar agora</value></data>
+  <data name="Msg.UpdateAvailable"><value>Versão {0} disponível — clique para baixar.</value></data>
+  <data name="Msg.UpToDate"><value>Você está na versão mais recente.</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>Não foi possível verificar atualizações. Tente novamente mais tarde.</value></data>
+</root>

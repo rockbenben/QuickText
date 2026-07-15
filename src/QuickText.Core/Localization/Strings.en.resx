@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>Open Manager</value></data>
+  <data name="Tray.OpenSearch"><value>Open Search</value></data>
+  <data name="Tray.Settings"><value>Settings</value></data>
+  <data name="Tray.Autostart"><value>Start with Windows</value></data>
+  <data name="Tray.Exit"><value>Exit</value></data>
+  <data name="Search.Placeholder"><value>Search snippets…</value></data>
+  <data name="Manager.Categories"><value>Categories</value></data>
+  <data name="Manager.Snippets"><value>Snippets</value></data>
+  <data name="Manager.Name"><value>Name</value></data>
+  <data name="Manager.Abbr"><value>Abbreviation</value></data>
+  <data name="Manager.Body"><value>Body</value></data>
+  <data name="Manager.Add"><value>Add</value></data>
+  <data name="Manager.Delete"><value>Delete</value></data>
+  <data name="Manager.Save"><value>Save</value></data>
+  <data name="Manager.Rename"><value>Rename</value></data>
+  <data name="Manager.NewCategory"><value>New category</value></data>
+  <data name="Manager.RenameCategory"><value>Rename category</value></data>
+  <data name="Manager.CategoryName"><value>Category name</value></data>
+  <data name="Manager.NewCategoryName"><value>New category</value></data>
+  <data name="Manager.Wrap"><value>Wrap lines</value></data>
+  <data name="Manager.OutputMode"><value>Output</value></data>
+  <data name="Manager.OutputModeHint"><value>How this snippet is sent; “Follow global” uses the output mode from Settings.</value></data>
+  <data name="Manager.Output.Default"><value>Follow global</value></data>
+  <data name="Manager.Output.Paste"><value>Paste</value></data>
+  <data name="Manager.Output.PasteEnter"><value>Paste + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>Copy only</value></data>
+  <data name="Manager.AbbrConflict"><value>Duplicate abbreviation of “{0}” — only one will fire</value></data>
+  <data name="Manager.Trash"><value>Trash</value></data>
+  <data name="Manager.MoveTo"><value>Move to category</value></data>
+  <data name="Manager.DeleteSelected"><value>Delete selected ({0})</value></data>
+  <data name="Manager.UsageStat"><value>Used {0} times · last {1}</value></data>
+  <data name="Manager.NeverUsed"><value>Never used</value></data>
+  <data name="Trash.Restore"><value>Restore</value></data>
+  <data name="Trash.DeleteForever"><value>Delete forever</value></data>
+  <data name="Trash.Empty"><value>Empty trash</value></data>
+  <data name="Trash.Close"><value>Close</value></data>
+  <data name="Trash.EmptyState"><value>Trash is empty</value></data>
+  <data name="Trash.Hint"><value>Deleted snippets are kept here for {0} days, then removed automatically. Restoring puts them back into their original category (recreated if needed).</value></data>
+  <data name="Trash.EmptyConfirm"><value>Empty the trash? All snippets will be unrecoverable.</value></data>
+  <data name="Tray.PauseAbbr"><value>Pause expansion</value></data>
+  <data name="Tray.ResumeAbbr"><value>Resume expansion</value></data>
+  <data name="Tray.PausedTip"><value>abbreviation expansion paused</value></data>
+  <data name="Settings.CaptureHotkey"><value>Capture hotkey</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>Silently saves the current clipboard text as a new snippet. Click, then press a combination; Delete clears it (empty = disabled).</value></data>
+  <data name="Settings.OpenBackups"><value>Open backups folder</value></data>
+  <data name="Settings.AutoBackupHint"><value>The data folder is zipped to this machine daily (newest 10 kept); a backup zip restores via “Import backup”.</value></data>
+  <data name="Msg.Captured"><value>Snippet saved: {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>Duplicate abbreviations (only one fires each): {0}. Fix them in the Manager.</value></data>
+  <data name="Msg.CaptureEmpty"><value>No text on the clipboard</value></data>
+  <data name="Manager.UseVars"><value>Enable {variable} placeholders</value></data>
+  <data name="Manager.UseVarsHint"><value>When checked, {variable}, {clipboard}, {date} and {cursor} tokens are processed on send; unchecked, the body is sent verbatim (best for code/scripts containing literal {…}).</value></data>
+  <data name="Manager.Image"><value>Image</value></data>
+  <data name="Manager.FromClipboard"><value>From clipboard</value></data>
+  <data name="Manager.FromFile"><value>Choose file</value></data>
+  <data name="Manager.RemoveImage"><value>Remove</value></data>
+  <data name="Manager.Saved"><value>✓ Saved</value></data>
+  <data name="Manager.NewSnippetName"><value>New snippet</value></data>
+  <data name="Manager.Filter"><value>Filter…</value></data>
+  <data name="Manager.Duplicate"><value>Duplicate</value></data>
+  <data name="Manager.DuplicateAbbr"><value>Abbreviation “{0}” is already used by “{1}” — expansion would be ambiguous</value></data>
+  <data name="Msg.FirstRunHint"><value>Press {0} to open the panel</value></data>
+  <data name="Settings.OpenFolder"><value>Open data folder</value></data>
+  <data name="Tray.NewFromClipboard"><value>New from clipboard</value></data>
+  <data name="Ctx.Edit"><value>Edit</value></data>
+  <data name="Ctx.Copy"><value>Copy content</value></data>
+  <data name="Settings.AbbrBlacklist"><value>Disable abbreviations in these processes</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>Process names separated by semicolons, e.g. cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>Export backup</value></data>
+  <data name="Msg.Exported"><value>Backup exported</value></data>
+  <data name="Settings.ImportBackup"><value>Import backup</value></data>
+  <data name="Msg.ImportConfirm"><value>Importing will overwrite the current library. Continue?</value></data>
+  <data name="Msg.ImportInvalid"><value>Not a valid backup file</value></data>
+  <data name="Msg.Imported"><value>Backup imported</value></data>
+  <data name="Search.CreateNew"><value>Create “{0}”</value></data>
+  <data name="Search.Hint.New"><value>New</value></data>
+  <data name="Search.Hint.Edit"><value>Edit</value></data>
+  <data name="Settings.SectionSummon"><value>Summon</value></data>
+  <data name="Settings.PanelPlacement"><value>Panel position</value></data>
+  <data name="Settings.PlaceWindow"><value>Follow active window</value></data>
+  <data name="Settings.PlaceCaret"><value>Follow text caret</value></data>
+  <data name="Settings.PlaceFixed"><value>Remember last position</value></data>
+  <data name="Settings.SectionOutput"><value>Output</value></data>
+  <data name="Settings.SectionAbbr"><value>Abbreviations</value></data>
+  <data name="Settings.SectionData"><value>Data</value></data>
+  <data name="Settings.SectionGeneral"><value>General</value></data>
+  <data name="Manager.Color"><value>Color</value></data>
+  <data name="Manager.DuplicateCategory"><value>A category with that name already exists</value></data>
+  <data name="Manager.SaveFailed"><value>Save failed: the data folder may be locked or not writable. Please try again.</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>Delete category “{0}”? Its snippets will be removed too.</value></data>
+  <data name="Dialog.OK"><value>OK</value></data>
+  <data name="Dialog.Cancel"><value>Cancel</value></data>
+  <data name="Search.Recents"><value>Recent</value></data>
+  <data name="Search.Favorites"><value>Favorites</value></data>
+  <data name="Search.KeepOpen"><value>Keep open (send several)</value></data>
+  <data name="Dialog.FillVariables"><value>Fill in variables</value></data>
+  <data name="Settings.AutoSend"><value>Press Enter after pasting</value></data>
+  <data name="Settings.ClickToSend"><value>Single-click to send</value></data>
+  <data name="Settings.ClickToSendHint"><value>In the search panel, a single click sends the snippet; by default you double-click or press Enter.</value></data>
+  <data name="Settings.Output"><value>Output method</value></data>
+  <data name="Settings.OutputPaste"><value>Paste into the active app</value></data>
+  <data name="Settings.OutputClipboard"><value>Copy to clipboard only</value></data>
+  <data name="Settings.Hotkey"><value>Hotkey</value></data>
+  <data name="Settings.SummonMode"><value>Summon by</value></data>
+  <data name="Settings.SummonModeHotkey"><value>Key combo</value></data>
+  <data name="Settings.SummonModeTap"><value>Tap a modifier</value></data>
+  <data name="Settings.SummonTapDouble"><value>Double-tap (else single)</value></data>
+  <data name="Settings.SummonTapHint"><value>Click here and press a modifier (e.g. Right Ctrl); tapping it then summons the panel. Press Delete to clear. (A lone modifier can't be a normal hotkey, so it's detected by tap.)</value></data>
+  <data name="Settings.DataFolder"><value>Data folder</value></data>
+  <data name="Settings.Language"><value>Language</value></data>
+  <data name="Settings.AbbrEnabled"><value>Enable abbreviations</value></data>
+  <data name="Settings.AbbrPrefix"><value>Trigger prefix</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>Prepended to every abbreviation (default ;). In the Manager type only the abbreviation itself (e.g. qm) — it triggers on prefix+abbr (e.g. ;qm). Leave empty for no prefix; a prefix keeps ordinary typing from triggering.</value></data>
+  <data name="Settings.RestoreClipboard"><value>Keep my clipboard intact</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Pasting briefly uses the clipboard, then restores whatever you had copied before — it's left as it was.</value></data>
+  <data name="Settings.FollowSystem"><value>Follow system</value></data>
+  <data name="Msg.HotkeyTaken"><value>Hotkey is in use, please change it</value></data>
+  <data name="Msg.ConflictFiles"><value>Sync conflict files detected</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>Data folder unavailable (a removable or network drive may be disconnected). Started with an empty library for now — re-point it in Settings, or reconnect and relaunch.</value></data>
+  <data name="Search.Hint.Nav"><value>Navigate</value></data>
+  <data name="Search.Hint.Send"><value>Send</value></data>
+  <data name="Search.Hint.Close"><value>Close</value></data>
+  <data name="Search.Hint.SwitchCat"><value>Category</value></data>
+  <data name="Search.Empty.Title"><value>No snippets yet</value></data>
+  <data name="Search.Empty.Sub"><value>Open Manager from the tray menu to add your first snippet</value></data>
+  <data name="Search.NoMatch"><value>No snippets match “{0}”</value></data>
+  <data name="Search.NoMatch.Sub"><value>Try another keyword, or pinyin / initials / an abbreviation</value></data>
+  <data name="Search.Count"><value>{0} results</value></data>
+  <data name="Settings.HotkeyHint"><value>Click, then press a key; ordinary keys need Ctrl / Alt / Shift / Win, function keys F1–F24 can be used alone</value></data>
+  <data name="Settings.HotkeyPrompt"><value>Press keys… (Esc to cancel)</value></data>
+  <data name="Settings.Portable"><value>Portable mode</value></data>
+  <data name="Settings.PortableHint"><value>Keeps data in a Data folder next to the app — travels on a USB stick, leaves nothing on the host. The toggle creates the marker for you; takes effect after a restart, and needs the app in a writable location.</value></data>
+  <data name="Settings.PortableRestart"><value>Portable mode switched — restart to apply. Move your text library with Export / Import backup.</value></data>
+  <data name="Settings.PortableFailed"><value>Can't write next to the app (it may be in a read-only location like Program Files). Portable mode needs the app in a writable place, such as a USB stick.</value></data>
+  <data name="Settings.CheckUpdates"><value>Check for updates on startup</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>When on, contacts GitHub once at startup to check for a newer version — the only time the app goes online; everything else stays offline.</value></data>
+  <data name="Settings.CheckNow"><value>Check now</value></data>
+  <data name="Msg.UpdateAvailable"><value>Version {0} is available — click to download.</value></data>
+  <data name="Msg.UpToDate"><value>You're on the latest version.</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>Couldn't check for updates. Try again later.</value></data>
+</root>

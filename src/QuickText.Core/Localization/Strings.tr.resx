@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>Yöneticiyi Aç</value></data>
+  <data name="Tray.OpenSearch"><value>Aramayı Aç</value></data>
+  <data name="Tray.Settings"><value>Ayarlar</value></data>
+  <data name="Tray.Autostart"><value>Windows ile başlat</value></data>
+  <data name="Tray.Exit"><value>Çıkış</value></data>
+  <data name="Search.Placeholder"><value>Metin ara…</value></data>
+  <data name="Manager.Categories"><value>Kategoriler</value></data>
+  <data name="Manager.Snippets"><value>Metinler</value></data>
+  <data name="Manager.Name"><value>Ad</value></data>
+  <data name="Manager.Abbr"><value>Kısaltma</value></data>
+  <data name="Manager.Body"><value>İçerik</value></data>
+  <data name="Manager.Add"><value>Ekle</value></data>
+  <data name="Manager.Delete"><value>Sil</value></data>
+  <data name="Manager.Save"><value>Kaydet</value></data>
+  <data name="Manager.Rename"><value>Yeniden adlandır</value></data>
+  <data name="Manager.NewCategory"><value>Yeni kategori</value></data>
+  <data name="Manager.RenameCategory"><value>Kategoriyi yeniden adlandır</value></data>
+  <data name="Manager.CategoryName"><value>Kategori adı</value></data>
+  <data name="Manager.NewCategoryName"><value>Yeni kategori</value></data>
+  <data name="Manager.Wrap"><value>Satırları kaydır</value></data>
+  <data name="Manager.OutputMode"><value>Çıktı</value></data>
+  <data name="Manager.OutputModeHint"><value>Bu metnin nasıl gönderileceği; “Genel ayarı izle”, Ayarlar'daki çıktı yöntemini kullanır.</value></data>
+  <data name="Manager.Output.Default"><value>Genel ayarı izle</value></data>
+  <data name="Manager.Output.Paste"><value>Yapıştır</value></data>
+  <data name="Manager.Output.PasteEnter"><value>Yapıştır + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>Yalnızca kopyala</value></data>
+  <data name="Manager.AbbrConflict"><value>“{0}” ile yinelenen kısaltma — yalnızca biri çalışır</value></data>
+  <data name="Manager.Trash"><value>Çöp Kutusu</value></data>
+  <data name="Manager.MoveTo"><value>Kategoriye taşı</value></data>
+  <data name="Manager.DeleteSelected"><value>Seçilenleri sil ({0})</value></data>
+  <data name="Manager.UsageStat"><value>{0} kez kullanıldı · son {1}</value></data>
+  <data name="Manager.NeverUsed"><value>Hiç kullanılmadı</value></data>
+  <data name="Trash.Restore"><value>Geri yükle</value></data>
+  <data name="Trash.DeleteForever"><value>Kalıcı olarak sil</value></data>
+  <data name="Trash.Empty"><value>Çöp kutusunu boşalt</value></data>
+  <data name="Trash.Close"><value>Kapat</value></data>
+  <data name="Trash.EmptyState"><value>Çöp kutusu boş</value></data>
+  <data name="Trash.Hint"><value>Silinen metinler burada {0} gün tutulur, ardından otomatik kaldırılır. Geri yükleme, onları özgün kategorisine koyar (gerekirse yeniden oluşturulur).</value></data>
+  <data name="Trash.EmptyConfirm"><value>Çöp kutusu boşaltılsın mı? Tüm metinler kurtarılamaz olacak.</value></data>
+  <data name="Tray.PauseAbbr"><value>Genişletmeyi duraklat</value></data>
+  <data name="Tray.ResumeAbbr"><value>Genişletmeyi sürdür</value></data>
+  <data name="Tray.PausedTip"><value>kısaltma genişletme duraklatıldı</value></data>
+  <data name="Settings.CaptureHotkey"><value>Yakalama kısayolu</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>Panodaki metni sessizce yeni bir metin olarak kaydeder. Tıklayıp bir tuş bileşimine basın; Delete temizler (boş = devre dışı).</value></data>
+  <data name="Settings.OpenBackups"><value>Yedek klasörünü aç</value></data>
+  <data name="Settings.AutoBackupHint"><value>Veri klasörü her gün bu makineye zip olarak yedeklenir (en yeni 10 tutulur); yedek zip'i “Yedeği içe aktar” ile geri yüklenir.</value></data>
+  <data name="Msg.Captured"><value>Metin kaydedildi: {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>Yinelenen kısaltmalar (her biri için yalnızca biri çalışır): {0}. Bunları Yönetici'de düzeltin.</value></data>
+  <data name="Msg.CaptureEmpty"><value>Panoda metin yok</value></data>
+  <data name="Manager.UseVars"><value>{variable} yer tutucularını etkinleştir</value></data>
+  <data name="Manager.UseVarsHint"><value>İşaretliyken {variable}, {clipboard}, {date} ve {cursor} belirteçleri gönderimde işlenir; işaretsizse içerik olduğu gibi gönderilir ({…} içeren kod/betikler için idealdir).</value></data>
+  <data name="Manager.Image"><value>Resim</value></data>
+  <data name="Manager.FromClipboard"><value>Panodan</value></data>
+  <data name="Manager.FromFile"><value>Dosya seç</value></data>
+  <data name="Manager.RemoveImage"><value>Kaldır</value></data>
+  <data name="Manager.Saved"><value>✓ Kaydedildi</value></data>
+  <data name="Manager.NewSnippetName"><value>Yeni metin</value></data>
+  <data name="Manager.Filter"><value>Süz…</value></data>
+  <data name="Manager.Duplicate"><value>Çoğalt</value></data>
+  <data name="Manager.DuplicateAbbr"><value>“{0}” kısaltması zaten “{1}” tarafından kullanılıyor — genişletme belirsiz olur</value></data>
+  <data name="Msg.FirstRunHint"><value>Paneli açmak için {0} tuşuna basın</value></data>
+  <data name="Settings.OpenFolder"><value>Veri klasörünü aç</value></data>
+  <data name="Tray.NewFromClipboard"><value>Panodan yeni</value></data>
+  <data name="Ctx.Edit"><value>Düzenle</value></data>
+  <data name="Ctx.Copy"><value>İçeriği kopyala</value></data>
+  <data name="Settings.AbbrBlacklist"><value>Bu işlemlerde kısaltmaları devre dışı bırak</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>İşlem adları noktalı virgülle ayrılır, örn. cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>Yedeği dışa aktar</value></data>
+  <data name="Msg.Exported"><value>Yedek dışa aktarıldı</value></data>
+  <data name="Settings.ImportBackup"><value>Yedeği içe aktar</value></data>
+  <data name="Msg.ImportConfirm"><value>İçe aktarma geçerli kitaplığın üzerine yazar. Devam edilsin mi?</value></data>
+  <data name="Msg.ImportInvalid"><value>Geçerli bir yedek dosyası değil</value></data>
+  <data name="Msg.Imported"><value>Yedek içe aktarıldı</value></data>
+  <data name="Search.CreateNew"><value>“{0}” oluştur</value></data>
+  <data name="Search.Hint.New"><value>Yeni</value></data>
+  <data name="Search.Hint.Edit"><value>Düzenle</value></data>
+  <data name="Settings.SectionSummon"><value>Çağırma</value></data>
+  <data name="Settings.PanelPlacement"><value>Panel konumu</value></data>
+  <data name="Settings.PlaceWindow"><value>Etkin pencereyi izle</value></data>
+  <data name="Settings.PlaceCaret"><value>Metin imlecini izle</value></data>
+  <data name="Settings.PlaceFixed"><value>Son konumu hatırla</value></data>
+  <data name="Settings.SectionOutput"><value>Çıktı</value></data>
+  <data name="Settings.SectionAbbr"><value>Kısaltmalar</value></data>
+  <data name="Settings.SectionData"><value>Veri</value></data>
+  <data name="Settings.SectionGeneral"><value>Genel</value></data>
+  <data name="Manager.Color"><value>Renk</value></data>
+  <data name="Manager.DuplicateCategory"><value>Bu ada sahip bir kategori zaten var</value></data>
+  <data name="Manager.SaveFailed"><value>Kaydetme başarısız: veri klasörü kilitli veya yazılamıyor olabilir. Lütfen tekrar deneyin.</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>“{0}” kategorisi silinsin mi? İçindeki metinler de kaldırılır.</value></data>
+  <data name="Dialog.OK"><value>Tamam</value></data>
+  <data name="Dialog.Cancel"><value>İptal</value></data>
+  <data name="Search.Recents"><value>Son kullanılanlar</value></data>
+  <data name="Search.Favorites"><value>Sık kullanılanlar</value></data>
+  <data name="Search.KeepOpen"><value>Açık tut (birkaç tane gönder)</value></data>
+  <data name="Dialog.FillVariables"><value>Değişkenleri doldur</value></data>
+  <data name="Settings.AutoSend"><value>Yapıştırdıktan sonra Enter'a bas</value></data>
+  <data name="Settings.ClickToSend"><value>Göndermek için tek tıkla</value></data>
+  <data name="Settings.ClickToSendHint"><value>Arama panelinde tek tıklama metni gönderir; varsayılan olarak çift tıklar veya Enter'a basarsınız.</value></data>
+  <data name="Settings.Output"><value>Çıktı yöntemi</value></data>
+  <data name="Settings.OutputPaste"><value>Etkin uygulamaya yapıştır</value></data>
+  <data name="Settings.OutputClipboard"><value>Yalnızca panoya kopyala</value></data>
+  <data name="Settings.Hotkey"><value>Kısayol tuşu</value></data>
+  <data name="Settings.SummonMode"><value>Çağırma yöntemi</value></data>
+  <data name="Settings.SummonModeHotkey"><value>Tuş bileşimi</value></data>
+  <data name="Settings.SummonModeTap"><value>Bir değiştirici tuşa dokun</value></data>
+  <data name="Settings.SummonTapDouble"><value>Çift dokunuş (yoksa tek)</value></data>
+  <data name="Settings.SummonTapHint"><value>Buraya tıklayıp bir değiştirici tuşa basın (örn. Sağ Ctrl); ona dokununca panel açılır. Temizlemek için Delete'e basın. (Tek başına bir değiştirici tuş normal kısayol olamaz, bu yüzden dokunuşla algılanır.)</value></data>
+  <data name="Settings.DataFolder"><value>Veri klasörü</value></data>
+  <data name="Settings.Language"><value>Dil</value></data>
+  <data name="Settings.AbbrEnabled"><value>Kısaltmaları etkinleştir</value></data>
+  <data name="Settings.AbbrPrefix"><value>Tetikleme ön eki</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>Her kısaltmanın önüne eklenir (varsayılan ;). Yönetici'de yalnızca kısaltmanın kendisini yazın (örn. qm) — ön ek+kısaltma ile tetiklenir (örn. ;qm). Ön ek istemiyorsanız boş bırakın; ön ek, normal yazarken yanlışlıkla tetiklenmeyi önler.</value></data>
+  <data name="Settings.RestoreClipboard"><value>Panomu olduğu gibi koru</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Yapıştırma panoyu kısa süre kullanır, ardından daha önce kopyaladığınız içeriği geri yükler — olduğu gibi bırakılır.</value></data>
+  <data name="Settings.FollowSystem"><value>Sistemi izle</value></data>
+  <data name="Msg.HotkeyTaken"><value>Kısayol kullanımda, lütfen değiştirin</value></data>
+  <data name="Msg.ConflictFiles"><value>Eşitleme çakışma dosyaları algılandı</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>Veri klasörü kullanılamıyor (çıkarılabilir veya ağ sürücüsü bağlı olmayabilir). Şimdilik boş bir kitaplıkla başlatıldı — Ayarlar'dan yeniden yönlendirin ya da yeniden bağlanıp uygulamayı yeniden başlatın.</value></data>
+  <data name="Search.Hint.Nav"><value>Gezin</value></data>
+  <data name="Search.Hint.Send"><value>Gönder</value></data>
+  <data name="Search.Hint.Close"><value>Kapat</value></data>
+  <data name="Search.Hint.SwitchCat"><value>Kategori</value></data>
+  <data name="Search.Empty.Title"><value>Henüz metin yok</value></data>
+  <data name="Search.Empty.Sub"><value>İlk metninizi eklemek için sistem tepsisi menüsünden Yönetici'yi açın</value></data>
+  <data name="Search.NoMatch"><value>“{0}” ile eşleşen metin yok</value></data>
+  <data name="Search.NoMatch.Sub"><value>Başka bir anahtar sözcük ya da pinyin / baş harfler / bir kısaltma deneyin</value></data>
+  <data name="Search.Count"><value>{0} sonuç</value></data>
+  <data name="Settings.HotkeyHint"><value>Tıklayıp bir tuşa basın; sıradan tuşlar Ctrl / Alt / Shift / Win gerektirir, F1–F24 işlev tuşları tek başına kullanılabilir</value></data>
+  <data name="Settings.HotkeyPrompt"><value>Tuşlara basın… (iptal için Esc)</value></data>
+  <data name="Settings.Portable"><value>Taşınabilir mod</value></data>
+  <data name="Settings.PortableHint"><value>Verileri uygulamanın yanındaki bir Data klasöründe tutar — USB belleğinizde taşınır, ana makinede iz bırakmaz. İşaretçi dosyasını sizin için oluşturur; yeniden başlatınca etkinleşir ve uygulamanın yazılabilir bir konumda olmasını gerektirir.</value></data>
+  <data name="Settings.PortableRestart"><value>Taşınabilir mod değiştirildi — uygulamak için yeniden başlatın. Metin kitaplığınızı Yedeği dışa/içe aktar ile taşıyın.</value></data>
+  <data name="Settings.PortableFailed"><value>Uygulamanın yanına yazılamıyor (Program Files gibi salt okunur bir konumda olabilir). Taşınabilir mod, uygulamanın USB bellek gibi yazılabilir bir yerde olmasını gerektirir.</value></data>
+  <data name="Settings.CheckUpdates"><value>Başlangıçta güncellemeleri denetle</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Açıkken, başlangıçta bir kez GitHub'a bağlanarak yeni sürüm olup olmadığını denetler — uygulamanın çevrimiçi olduğu tek an budur; gerisi hep çevrimdışı çalışır.</value></data>
+  <data name="Settings.CheckNow"><value>Şimdi denetle</value></data>
+  <data name="Msg.UpdateAvailable"><value>{0} sürümü mevcut — indirmek için tıklayın.</value></data>
+  <data name="Msg.UpToDate"><value>En son sürümü kullanıyorsunuz.</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>Güncellemeler denetlenemedi. Daha sonra tekrar deneyin.</value></data>
+</root>

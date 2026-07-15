@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>فتح المدير</value></data>
+  <data name="Tray.OpenSearch"><value>فتح البحث</value></data>
+  <data name="Tray.Settings"><value>الإعدادات</value></data>
+  <data name="Tray.Autostart"><value>التشغيل مع Windows</value></data>
+  <data name="Tray.Exit"><value>خروج</value></data>
+  <data name="Search.Placeholder"><value>البحث في المقتطفات…</value></data>
+  <data name="Manager.Categories"><value>الفئات</value></data>
+  <data name="Manager.Snippets"><value>المقتطفات</value></data>
+  <data name="Manager.Name"><value>الاسم</value></data>
+  <data name="Manager.Abbr"><value>الاختصار</value></data>
+  <data name="Manager.Body"><value>المحتوى</value></data>
+  <data name="Manager.Add"><value>إضافة</value></data>
+  <data name="Manager.Delete"><value>حذف</value></data>
+  <data name="Manager.Save"><value>حفظ</value></data>
+  <data name="Manager.Rename"><value>إعادة تسمية</value></data>
+  <data name="Manager.NewCategory"><value>فئة جديدة</value></data>
+  <data name="Manager.RenameCategory"><value>إعادة تسمية الفئة</value></data>
+  <data name="Manager.CategoryName"><value>اسم الفئة</value></data>
+  <data name="Manager.NewCategoryName"><value>فئة جديدة</value></data>
+  <data name="Manager.Wrap"><value>التفاف الأسطر</value></data>
+  <data name="Manager.OutputMode"><value>الإخراج</value></data>
+  <data name="Manager.OutputModeHint"><value>طريقة إرسال هذا المقتطف؛ يستخدم ”اتّباع العام“ وضع الإخراج من الإعدادات.</value></data>
+  <data name="Manager.Output.Default"><value>اتّباع العام</value></data>
+  <data name="Manager.Output.Paste"><value>لصق</value></data>
+  <data name="Manager.Output.PasteEnter"><value>لصق + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>نسخ فقط</value></data>
+  <data name="Manager.AbbrConflict"><value>اختصار مكرر لـ ”{0}“ — لن يعمل سوى واحد</value></data>
+  <data name="Manager.Trash"><value>المهملات</value></data>
+  <data name="Manager.MoveTo"><value>نقل إلى فئة</value></data>
+  <data name="Manager.DeleteSelected"><value>حذف المحدد ({0})</value></data>
+  <data name="Manager.UsageStat"><value>استُخدم {0} مرة · آخر مرة {1}</value></data>
+  <data name="Manager.NeverUsed"><value>لم يُستخدم قط</value></data>
+  <data name="Trash.Restore"><value>استعادة</value></data>
+  <data name="Trash.DeleteForever"><value>حذف نهائي</value></data>
+  <data name="Trash.Empty"><value>إفراغ المهملات</value></data>
+  <data name="Trash.Close"><value>إغلاق</value></data>
+  <data name="Trash.EmptyState"><value>المهملات فارغة</value></data>
+  <data name="Trash.Hint"><value>تُحفظ المقتطفات المحذوفة هنا لمدة {0} يوم، ثم تُزال تلقائيًا. تعيدها الاستعادة إلى فئتها الأصلية (تُنشأ من جديد عند الحاجة).</value></data>
+  <data name="Trash.EmptyConfirm"><value>إفراغ المهملات؟ لن يمكن استرجاع أي مقتطف.</value></data>
+  <data name="Tray.PauseAbbr"><value>إيقاف التوسيع مؤقتًا</value></data>
+  <data name="Tray.ResumeAbbr"><value>استئناف التوسيع</value></data>
+  <data name="Tray.PausedTip"><value>توسيع الاختصارات متوقف مؤقتًا</value></data>
+  <data name="Settings.CaptureHotkey"><value>مفتاح الالتقاط</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>يحفظ نص الحافظة الحالي كمقتطف جديد بصمت. انقر، ثم اضغط تركيبة مفاتيح؛ يمسحها Delete (فارغ = معطّل).</value></data>
+  <data name="Settings.OpenBackups"><value>فتح مجلد النسخ الاحتياطية</value></data>
+  <data name="Settings.AutoBackupHint"><value>يُضغط مجلد البيانات إلى zip على هذا الجهاز يوميًا (يُحتفظ بأحدث 10)؛ يستعيدها ملف zip عبر ”استيراد نسخة احتياطية“.</value></data>
+  <data name="Msg.Captured"><value>تم حفظ المقتطف: {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>اختصارات مكررة (يعمل واحد فقط لكلٍّ): {0}. صحّحها في المدير.</value></data>
+  <data name="Msg.CaptureEmpty"><value>لا يوجد نص في الحافظة</value></data>
+  <data name="Manager.UseVars"><value>تفعيل عناصر {variable} النائبة</value></data>
+  <data name="Manager.UseVarsHint"><value>عند التحديد، تُعالَج الرموز {variable} و{clipboard} و{date} و{cursor} عند الإرسال؛ وعند إلغائه، يُرسل المحتوى حرفيًا (الأفضل للأكواد/السكربتات التي تحوي {…} حرفية).</value></data>
+  <data name="Manager.Image"><value>صورة</value></data>
+  <data name="Manager.FromClipboard"><value>من الحافظة</value></data>
+  <data name="Manager.FromFile"><value>اختيار ملف</value></data>
+  <data name="Manager.RemoveImage"><value>إزالة</value></data>
+  <data name="Manager.Saved"><value>✓ تم الحفظ</value></data>
+  <data name="Manager.NewSnippetName"><value>مقتطف جديد</value></data>
+  <data name="Manager.Filter"><value>تصفية…</value></data>
+  <data name="Manager.Duplicate"><value>تكرار</value></data>
+  <data name="Manager.DuplicateAbbr"><value>الاختصار ”{0}“ مُستخدم بالفعل في ”{1}“ — سيكون التوسيع مبهمًا</value></data>
+  <data name="Msg.FirstRunHint"><value>اضغط {0} لفتح اللوحة</value></data>
+  <data name="Settings.OpenFolder"><value>فتح مجلد البيانات</value></data>
+  <data name="Tray.NewFromClipboard"><value>جديد من الحافظة</value></data>
+  <data name="Ctx.Edit"><value>تحرير</value></data>
+  <data name="Ctx.Copy"><value>نسخ المحتوى</value></data>
+  <data name="Settings.AbbrBlacklist"><value>تعطيل الاختصارات في هذه العمليات</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>أسماء العمليات مفصولة بفواصل منقوطة، مثل cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>تصدير نسخة احتياطية</value></data>
+  <data name="Msg.Exported"><value>تم تصدير النسخة الاحتياطية</value></data>
+  <data name="Settings.ImportBackup"><value>استيراد نسخة احتياطية</value></data>
+  <data name="Msg.ImportConfirm"><value>سيؤدي الاستيراد إلى استبدال المكتبة الحالية. متابعة؟</value></data>
+  <data name="Msg.ImportInvalid"><value>ملف النسخة الاحتياطية غير صالح</value></data>
+  <data name="Msg.Imported"><value>تم استيراد النسخة الاحتياطية</value></data>
+  <data name="Search.CreateNew"><value>إنشاء ”{0}“</value></data>
+  <data name="Search.Hint.New"><value>جديد</value></data>
+  <data name="Search.Hint.Edit"><value>تحرير</value></data>
+  <data name="Settings.SectionSummon"><value>الاستدعاء</value></data>
+  <data name="Settings.PanelPlacement"><value>موضع اللوحة</value></data>
+  <data name="Settings.PlaceWindow"><value>اتّباع النافذة النشطة</value></data>
+  <data name="Settings.PlaceCaret"><value>اتّباع مؤشر النص</value></data>
+  <data name="Settings.PlaceFixed"><value>تذكّر آخر موضع</value></data>
+  <data name="Settings.SectionOutput"><value>الإخراج</value></data>
+  <data name="Settings.SectionAbbr"><value>الاختصارات</value></data>
+  <data name="Settings.SectionData"><value>البيانات</value></data>
+  <data name="Settings.SectionGeneral"><value>عام</value></data>
+  <data name="Manager.Color"><value>اللون</value></data>
+  <data name="Manager.DuplicateCategory"><value>توجد فئة بهذا الاسم بالفعل</value></data>
+  <data name="Manager.SaveFailed"><value>فشل الحفظ: قد يكون مجلد البيانات مقفلًا أو غير قابل للكتابة. يرجى المحاولة مرة أخرى.</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>حذف الفئة ”{0}“؟ ستُحذف مقتطفاتها أيضًا.</value></data>
+  <data name="Dialog.OK"><value>موافق</value></data>
+  <data name="Dialog.Cancel"><value>إلغاء</value></data>
+  <data name="Search.Recents"><value>الأخيرة</value></data>
+  <data name="Search.Favorites"><value>المفضلة</value></data>
+  <data name="Search.KeepOpen"><value>إبقاؤها مفتوحة (إرسال عدة)</value></data>
+  <data name="Dialog.FillVariables"><value>تعبئة المتغيرات</value></data>
+  <data name="Settings.AutoSend"><value>الضغط على Enter بعد اللصق</value></data>
+  <data name="Settings.ClickToSend"><value>نقرة واحدة للإرسال</value></data>
+  <data name="Settings.ClickToSendHint"><value>في لوحة البحث، تُرسل نقرة واحدة المقتطف؛ افتراضيًا تنقر نقرًا مزدوجًا أو تضغط Enter.</value></data>
+  <data name="Settings.Output"><value>طريقة الإخراج</value></data>
+  <data name="Settings.OutputPaste"><value>اللصق في التطبيق النشط</value></data>
+  <data name="Settings.OutputClipboard"><value>النسخ إلى الحافظة فقط</value></data>
+  <data name="Settings.Hotkey"><value>مفتاح الاختصار</value></data>
+  <data name="Settings.SummonMode"><value>الاستدعاء عبر</value></data>
+  <data name="Settings.SummonModeHotkey"><value>تركيبة مفاتيح</value></data>
+  <data name="Settings.SummonModeTap"><value>نقر مفتاح تعديل</value></data>
+  <data name="Settings.SummonTapDouble"><value>نقرة مزدوجة (وإلا فردية)</value></data>
+  <data name="Settings.SummonTapHint"><value>انقر هنا واضغط مفتاح تعديل (مثل Ctrl الأيمن)؛ نقره بعدها يستدعي اللوحة. اضغط Delete للمسح. (مفتاح التعديل وحده لا يصلح اختصارًا عاديًا، لذا يُكتشف بالنقر.)</value></data>
+  <data name="Settings.DataFolder"><value>مجلد البيانات</value></data>
+  <data name="Settings.Language"><value>اللغة</value></data>
+  <data name="Settings.AbbrEnabled"><value>تفعيل الاختصارات</value></data>
+  <data name="Settings.AbbrPrefix"><value>بادئة التشغيل</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>تُضاف قبل كل اختصار (الافتراضي ;). في المدير اكتب الاختصار نفسه فقط (مثل qm) — يعمل ببادئة+اختصار (مثل ;qm). اتركها فارغة لعدم وجود بادئة؛ تمنع البادئة الكتابة العادية من تشغيله.</value></data>
+  <data name="Settings.RestoreClipboard"><value>إبقاء الحافظة كما هي</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>يستخدم اللصق الحافظة للحظة، ثم يستعيد ما نسخته سابقًا — تبقى كما كانت.</value></data>
+  <data name="Settings.FollowSystem"><value>اتّباع النظام</value></data>
+  <data name="Msg.HotkeyTaken"><value>مفتاح الاختصار مُستخدم، يرجى تغييره</value></data>
+  <data name="Msg.ConflictFiles"><value>تم اكتشاف ملفات تعارض المزامنة</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>مجلد البيانات غير متاح (قد يكون قرص قابل للإزالة أو قرص شبكة غير متصل). بدأنا بمكتبة فارغة مؤقتًا — أعد توجيهه في الإعدادات، أو أعد التوصيل وأعد التشغيل.</value></data>
+  <data name="Search.Hint.Nav"><value>تنقّل</value></data>
+  <data name="Search.Hint.Send"><value>إرسال</value></data>
+  <data name="Search.Hint.Close"><value>إغلاق</value></data>
+  <data name="Search.Hint.SwitchCat"><value>الفئة</value></data>
+  <data name="Search.Empty.Title"><value>لا مقتطفات بعد</value></data>
+  <data name="Search.Empty.Sub"><value>افتح المدير من قائمة شريط النظام لإضافة أول مقتطف</value></data>
+  <data name="Search.NoMatch"><value>لا مقتطفات تطابق ”{0}“</value></data>
+  <data name="Search.NoMatch.Sub"><value>جرّب كلمة مفتاحية أخرى، أو البينيين / الأحرف الأولى / اختصارًا</value></data>
+  <data name="Search.Count"><value>{0} نتيجة</value></data>
+  <data name="Settings.HotkeyHint"><value>انقر، ثم اضغط مفتاحًا؛ تحتاج المفاتيح العادية إلى Ctrl / Alt / Shift / Win، أما مفاتيح الوظائف F1–F24 فيمكن استخدامها بمفردها</value></data>
+  <data name="Settings.HotkeyPrompt"><value>اضغط المفاتيح… (Esc للإلغاء)</value></data>
+  <data name="Settings.Portable"><value>الوضع المحمول</value></data>
+  <data name="Settings.PortableHint"><value>يحفظ البيانات في مجلد Data بجوار التطبيق — ينتقل على ذاكرة USB ولا يترك شيئًا على الجهاز المضيف. ينشئ المفتاح العلامة نيابةً عنك؛ يسري بعد إعادة التشغيل، ويتطلب وجود التطبيق في مكان قابل للكتابة.</value></data>
+  <data name="Settings.PortableRestart"><value>تم تبديل الوضع المحمول — أعد التشغيل للتطبيق. انقل مكتبة نصوصك عبر تصدير / استيراد نسخة احتياطية.</value></data>
+  <data name="Settings.PortableFailed"><value>تعذّرت الكتابة بجوار التطبيق (قد يكون في موقع للقراءة فقط مثل Program Files). يتطلب الوضع المحمول وجود التطبيق في مكان قابل للكتابة، مثل ذاكرة USB.</value></data>
+  <data name="Settings.CheckUpdates"><value>التحقق من التحديثات عند بدء التشغيل</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>عند التفعيل، يتصل بـ GitHub مرة واحدة عند بدء التشغيل للتحقق من وجود إصدار أحدث — وهي المرة الوحيدة التي يتصل فيها التطبيق بالإنترنت؛ وكل ما عداها يعمل دون اتصال.</value></data>
+  <data name="Settings.CheckNow"><value>تحقق الآن</value></data>
+  <data name="Msg.UpdateAvailable"><value>الإصدار {0} متوفّر — انقر للتنزيل.</value></data>
+  <data name="Msg.UpToDate"><value>أنت تستخدم أحدث إصدار.</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>تعذّر التحقق من التحديثات. حاول مرة أخرى لاحقًا.</value></data>
+</root>

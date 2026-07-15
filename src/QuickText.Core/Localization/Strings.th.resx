@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>เปิดตัวจัดการ</value></data>
+  <data name="Tray.OpenSearch"><value>เปิดการค้นหา</value></data>
+  <data name="Tray.Settings"><value>การตั้งค่า</value></data>
+  <data name="Tray.Autostart"><value>เปิดพร้อม Windows</value></data>
+  <data name="Tray.Exit"><value>ออก</value></data>
+  <data name="Search.Placeholder"><value>ค้นหาข้อความ…</value></data>
+  <data name="Manager.Categories"><value>หมวดหมู่</value></data>
+  <data name="Manager.Snippets"><value>ข้อความ</value></data>
+  <data name="Manager.Name"><value>ชื่อ</value></data>
+  <data name="Manager.Abbr"><value>ตัวย่อ</value></data>
+  <data name="Manager.Body"><value>เนื้อหา</value></data>
+  <data name="Manager.Add"><value>เพิ่ม</value></data>
+  <data name="Manager.Delete"><value>ลบ</value></data>
+  <data name="Manager.Save"><value>บันทึก</value></data>
+  <data name="Manager.Rename"><value>เปลี่ยนชื่อ</value></data>
+  <data name="Manager.NewCategory"><value>หมวดหมู่ใหม่</value></data>
+  <data name="Manager.RenameCategory"><value>เปลี่ยนชื่อหมวดหมู่</value></data>
+  <data name="Manager.CategoryName"><value>ชื่อหมวดหมู่</value></data>
+  <data name="Manager.NewCategoryName"><value>หมวดหมู่ใหม่</value></data>
+  <data name="Manager.Wrap"><value>ตัดบรรทัด</value></data>
+  <data name="Manager.OutputMode"><value>การส่งออก</value></data>
+  <data name="Manager.OutputModeHint"><value>วิธีส่งข้อความนี้ ตัวเลือก "ตามค่าส่วนกลาง" จะใช้โหมดการส่งออกจากการตั้งค่า</value></data>
+  <data name="Manager.Output.Default"><value>ตามค่าส่วนกลาง</value></data>
+  <data name="Manager.Output.Paste"><value>วาง</value></data>
+  <data name="Manager.Output.PasteEnter"><value>วาง + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>คัดลอกอย่างเดียว</value></data>
+  <data name="Manager.AbbrConflict"><value>ตัวย่อซ้ำกับ "{0}" — จะทำงานได้เพียงรายการเดียว</value></data>
+  <data name="Manager.Trash"><value>ถังขยะ</value></data>
+  <data name="Manager.MoveTo"><value>ย้ายไปหมวดหมู่</value></data>
+  <data name="Manager.DeleteSelected"><value>ลบที่เลือก ({0})</value></data>
+  <data name="Manager.UsageStat"><value>ใช้ {0} ครั้ง · ล่าสุด {1}</value></data>
+  <data name="Manager.NeverUsed"><value>ยังไม่เคยใช้</value></data>
+  <data name="Trash.Restore"><value>กู้คืน</value></data>
+  <data name="Trash.DeleteForever"><value>ลบถาวร</value></data>
+  <data name="Trash.Empty"><value>ล้างถังขยะ</value></data>
+  <data name="Trash.Close"><value>ปิด</value></data>
+  <data name="Trash.EmptyState"><value>ถังขยะว่างเปล่า</value></data>
+  <data name="Trash.Hint"><value>ข้อความที่ลบจะเก็บไว้ที่นี่ {0} วัน แล้วลบออกอัตโนมัติ การกู้คืนจะนำกลับไปยังหมวดหมู่เดิม (สร้างใหม่หากจำเป็น)</value></data>
+  <data name="Trash.EmptyConfirm"><value>ล้างถังขยะหรือไม่ ข้อความทั้งหมดจะกู้คืนไม่ได้</value></data>
+  <data name="Tray.PauseAbbr"><value>หยุดการขยายชั่วคราว</value></data>
+  <data name="Tray.ResumeAbbr"><value>ทำการขยายต่อ</value></data>
+  <data name="Tray.PausedTip"><value>หยุดการขยายตัวย่อชั่วคราวแล้ว</value></data>
+  <data name="Settings.CaptureHotkey"><value>ปุ่มลัดจับข้อความ</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>บันทึกข้อความในคลิปบอร์ดเป็นข้อความใหม่แบบเงียบ ๆ คลิกแล้วกดปุ่มผสม กด Delete เพื่อล้าง (ว่าง = ปิดใช้งาน)</value></data>
+  <data name="Settings.OpenBackups"><value>เปิดโฟลเดอร์สำรองข้อมูล</value></data>
+  <data name="Settings.AutoBackupHint"><value>โฟลเดอร์ข้อมูลจะถูกบีบอัดเก็บในเครื่องนี้ทุกวัน (เก็บ 10 ไฟล์ล่าสุด) กู้คืนไฟล์ zip ได้ผ่าน "นำเข้าข้อมูลสำรอง"</value></data>
+  <data name="Msg.Captured"><value>บันทึกข้อความแล้ว: {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>ตัวย่อซ้ำกัน (แต่ละชุดทำงานได้อันเดียว): {0} แก้ไขได้ในตัวจัดการ</value></data>
+  <data name="Msg.CaptureEmpty"><value>ไม่มีข้อความในคลิปบอร์ด</value></data>
+  <data name="Manager.UseVars"><value>เปิดใช้ตัวแทน {variable}</value></data>
+  <data name="Manager.UseVarsHint"><value>เมื่อเลือก โทเคน {variable}, {clipboard}, {date} และ {cursor} จะถูกประมวลผลตอนส่ง หากไม่เลือก เนื้อหาจะถูกส่งตามตัวอักษร (เหมาะกับโค้ด/สคริปต์ที่มี {…} จริง)</value></data>
+  <data name="Manager.Image"><value>รูปภาพ</value></data>
+  <data name="Manager.FromClipboard"><value>จากคลิปบอร์ด</value></data>
+  <data name="Manager.FromFile"><value>เลือกไฟล์</value></data>
+  <data name="Manager.RemoveImage"><value>ลบออก</value></data>
+  <data name="Manager.Saved"><value>✓ บันทึกแล้ว</value></data>
+  <data name="Manager.NewSnippetName"><value>ข้อความใหม่</value></data>
+  <data name="Manager.Filter"><value>กรอง…</value></data>
+  <data name="Manager.Duplicate"><value>ทำสำเนา</value></data>
+  <data name="Manager.DuplicateAbbr"><value>ตัวย่อ "{0}" ถูกใช้โดย "{1}" แล้ว — การขยายจะกำกวม</value></data>
+  <data name="Msg.FirstRunHint"><value>กด {0} เพื่อเปิดแผง</value></data>
+  <data name="Settings.OpenFolder"><value>เปิดโฟลเดอร์ข้อมูล</value></data>
+  <data name="Tray.NewFromClipboard"><value>สร้างใหม่จากคลิปบอร์ด</value></data>
+  <data name="Ctx.Edit"><value>แก้ไข</value></data>
+  <data name="Ctx.Copy"><value>คัดลอกเนื้อหา</value></data>
+  <data name="Settings.AbbrBlacklist"><value>ปิดตัวย่อในโปรแกรมเหล่านี้</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>ชื่อโปรเซสคั่นด้วยเครื่องหมายอัฒภาค เช่น cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>ส่งออกข้อมูลสำรอง</value></data>
+  <data name="Msg.Exported"><value>ส่งออกข้อมูลสำรองแล้ว</value></data>
+  <data name="Settings.ImportBackup"><value>นำเข้าข้อมูลสำรอง</value></data>
+  <data name="Msg.ImportConfirm"><value>การนำเข้าจะเขียนทับคลังปัจจุบัน ดำเนินการต่อหรือไม่</value></data>
+  <data name="Msg.ImportInvalid"><value>ไม่ใช่ไฟล์สำรองที่ถูกต้อง</value></data>
+  <data name="Msg.Imported"><value>นำเข้าข้อมูลสำรองแล้ว</value></data>
+  <data name="Search.CreateNew"><value>สร้าง "{0}"</value></data>
+  <data name="Search.Hint.New"><value>ใหม่</value></data>
+  <data name="Search.Hint.Edit"><value>แก้ไข</value></data>
+  <data name="Settings.SectionSummon"><value>การเรียกแผง</value></data>
+  <data name="Settings.PanelPlacement"><value>ตำแหน่งแผง</value></data>
+  <data name="Settings.PlaceWindow"><value>ตามหน้าต่างที่ใช้งาน</value></data>
+  <data name="Settings.PlaceCaret"><value>ตามเคอร์เซอร์ข้อความ</value></data>
+  <data name="Settings.PlaceFixed"><value>จำตำแหน่งล่าสุด</value></data>
+  <data name="Settings.SectionOutput"><value>การส่งออก</value></data>
+  <data name="Settings.SectionAbbr"><value>ตัวย่อ</value></data>
+  <data name="Settings.SectionData"><value>ข้อมูล</value></data>
+  <data name="Settings.SectionGeneral"><value>ทั่วไป</value></data>
+  <data name="Manager.Color"><value>สี</value></data>
+  <data name="Manager.DuplicateCategory"><value>มีหมวดหมู่ชื่อนี้อยู่แล้ว</value></data>
+  <data name="Manager.SaveFailed"><value>บันทึกไม่สำเร็จ: โฟลเดอร์ข้อมูลอาจถูกล็อกหรือเขียนไม่ได้ กรุณาลองใหม่</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>ลบหมวดหมู่ "{0}" หรือไม่ ข้อความในหมวดนี้จะถูกลบด้วย</value></data>
+  <data name="Dialog.OK"><value>ตกลง</value></data>
+  <data name="Dialog.Cancel"><value>ยกเลิก</value></data>
+  <data name="Search.Recents"><value>ล่าสุด</value></data>
+  <data name="Search.Favorites"><value>รายการโปรด</value></data>
+  <data name="Search.KeepOpen"><value>เปิดค้างไว้ (ส่งหลายรายการ)</value></data>
+  <data name="Dialog.FillVariables"><value>กรอกตัวแปร</value></data>
+  <data name="Settings.AutoSend"><value>กด Enter หลังวาง</value></data>
+  <data name="Settings.ClickToSend"><value>คลิกเดียวเพื่อส่ง</value></data>
+  <data name="Settings.ClickToSendHint"><value>ในแผงค้นหา คลิกเดียวเพื่อส่งข้อความ ค่าเริ่มต้นคือดับเบิลคลิกหรือกด Enter</value></data>
+  <data name="Settings.Output"><value>วิธีส่งออก</value></data>
+  <data name="Settings.OutputPaste"><value>วางลงในแอปที่ใช้งาน</value></data>
+  <data name="Settings.OutputClipboard"><value>คัดลอกไปคลิปบอร์ดอย่างเดียว</value></data>
+  <data name="Settings.Hotkey"><value>ปุ่มลัด</value></data>
+  <data name="Settings.SummonMode"><value>เรียกโดย</value></data>
+  <data name="Settings.SummonModeHotkey"><value>ปุ่มผสม</value></data>
+  <data name="Settings.SummonModeTap"><value>แตะปุ่มปรับแต่ง</value></data>
+  <data name="Settings.SummonTapDouble"><value>แตะสองครั้ง (มิฉะนั้นครั้งเดียว)</value></data>
+  <data name="Settings.SummonTapHint"><value>คลิกที่นี่แล้วกดปุ่มปรับแต่ง (เช่น Ctrl ขวา) จากนั้นแตะปุ่มนั้นเพื่อเรียกแผง กด Delete เพื่อล้าง (ปุ่มปรับแต่งเดี่ยวใช้เป็นปุ่มลัดปกติไม่ได้ จึงตรวจจับด้วยการแตะ)</value></data>
+  <data name="Settings.DataFolder"><value>โฟลเดอร์ข้อมูล</value></data>
+  <data name="Settings.Language"><value>ภาษา</value></data>
+  <data name="Settings.AbbrEnabled"><value>เปิดใช้ตัวย่อ</value></data>
+  <data name="Settings.AbbrPrefix"><value>คำนำหน้าทริกเกอร์</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>เติมหน้าตัวย่อทุกอัน (ค่าเริ่มต้น ;) ในตัวจัดการพิมพ์เฉพาะตัวย่อ (เช่น qm) — จะทำงานเมื่อพิมพ์คำนำหน้า+ตัวย่อ (เช่น ;qm) เว้นว่างเพื่อไม่ใช้คำนำหน้า คำนำหน้าช่วยกันการพิมพ์ปกติไม่ให้ทริกเกอร์</value></data>
+  <data name="Settings.RestoreClipboard"><value>คงคลิปบอร์ดของฉันไว้</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>การวางจะใช้คลิปบอร์ดชั่วครู่ แล้วคืนค่าสิ่งที่คุณคัดลอกไว้ก่อนหน้า — เหมือนเดิมทุกอย่าง</value></data>
+  <data name="Settings.FollowSystem"><value>ตามระบบ</value></data>
+  <data name="Msg.HotkeyTaken"><value>ปุ่มลัดถูกใช้งานอยู่ กรุณาเปลี่ยน</value></data>
+  <data name="Msg.ConflictFiles"><value>พบไฟล์ที่ขัดแย้งจากการซิงค์</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>ไม่สามารถเข้าถึงโฟลเดอร์ข้อมูล (ไดรฟ์แบบถอดได้หรือไดรฟ์เครือข่ายอาจถูกตัดการเชื่อมต่อ) เริ่มด้วยคลังว่างไปก่อน — กำหนดใหม่ในการตั้งค่า หรือเชื่อมต่อใหม่แล้วเปิดโปรแกรมอีกครั้ง</value></data>
+  <data name="Search.Hint.Nav"><value>เลื่อน</value></data>
+  <data name="Search.Hint.Send"><value>ส่ง</value></data>
+  <data name="Search.Hint.Close"><value>ปิด</value></data>
+  <data name="Search.Hint.SwitchCat"><value>หมวดหมู่</value></data>
+  <data name="Search.Empty.Title"><value>ยังไม่มีข้อความ</value></data>
+  <data name="Search.Empty.Sub"><value>เปิดตัวจัดการจากเมนูถาดระบบเพื่อเพิ่มข้อความแรกของคุณ</value></data>
+  <data name="Search.NoMatch"><value>ไม่มีข้อความที่ตรงกับ "{0}"</value></data>
+  <data name="Search.NoMatch.Sub"><value>ลองคำค้นอื่น หรือพินอิน / อักษรตัวแรก / ตัวย่อ</value></data>
+  <data name="Search.Count"><value>{0} รายการ</value></data>
+  <data name="Settings.HotkeyHint"><value>คลิกแล้วกดปุ่ม ปุ่มทั่วไปต้องใช้ร่วมกับ Ctrl / Alt / Shift / Win ส่วนปุ่มฟังก์ชัน F1–F24 ใช้เดี่ยวได้</value></data>
+  <data name="Settings.HotkeyPrompt"><value>กดปุ่ม… (Esc เพื่อยกเลิก)</value></data>
+  <data name="Settings.Portable"><value>โหมดพกพา</value></data>
+  <data name="Settings.PortableHint"><value>เก็บข้อมูลในโฟลเดอร์ Data ข้างแอป — พกพาไปกับ USB ได้ ไม่ทิ้งอะไรไว้ในเครื่อง สวิตช์จะสร้างไฟล์เครื่องหมายให้ มีผลหลังรีสตาร์ต และต้องวางแอปในตำแหน่งที่เขียนได้</value></data>
+  <data name="Settings.PortableRestart"><value>สลับโหมดพกพาแล้ว — รีสตาร์ตเพื่อใช้งาน ย้ายคลังข้อความของคุณด้วยการส่งออก / นำเข้าข้อมูลสำรอง</value></data>
+  <data name="Settings.PortableFailed"><value>เขียนข้างแอปไม่ได้ (อาจอยู่ในตำแหน่งอ่านอย่างเดียว เช่น Program Files) โหมดพกพาต้องวางแอปในตำแหน่งที่เขียนได้ เช่น USB</value></data>
+  <data name="Settings.CheckUpdates"><value>ตรวจหาอัปเดตเมื่อเริ่มโปรแกรม</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>เมื่อเปิด จะเชื่อมต่อ GitHub หนึ่งครั้งตอนเริ่มโปรแกรมเพื่อตรวจหาเวอร์ชันใหม่ — เป็นการออนไลน์เพียงครั้งเดียวของแอป ส่วนที่เหลือทำงานออฟไลน์เสมอ</value></data>
+  <data name="Settings.CheckNow"><value>ตรวจสอบตอนนี้</value></data>
+  <data name="Msg.UpdateAvailable"><value>มีเวอร์ชัน {0} แล้ว — คลิกเพื่อดาวน์โหลด</value></data>
+  <data name="Msg.UpToDate"><value>คุณใช้เวอร์ชันล่าสุดอยู่แล้ว</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>ตรวจหาอัปเดตไม่สำเร็จ โปรดลองใหม่ภายหลัง</value></data>
+</root>

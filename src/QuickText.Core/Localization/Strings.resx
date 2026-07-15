@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!--
+    Microsoft ResX Schema
+
+    Version 2.0
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
+    associated with the data types.
+
+    Example:
+
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+
+    There are any number of "resheader" rows that contain simple
+    name/value pairs.
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    a TypeConverter to be able to represent this object cleanly as a
+    string. Classes that don't support this are serialized and
+    stored with the mimetype set.
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
+    extensible. For a given mimetype the value must be set accordingly:
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed below.
+
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>打开管理</value></data>
+  <data name="Tray.OpenSearch"><value>打开搜索</value></data>
+  <data name="Tray.Settings"><value>设置</value></data>
+  <data name="Tray.Autostart"><value>开机自启</value></data>
+  <data name="Tray.Exit"><value>退出</value></data>
+  <data name="Search.Placeholder"><value>搜索…</value></data>
+  <data name="Manager.Categories"><value>分类</value></data>
+  <data name="Manager.Snippets"><value>文本</value></data>
+  <data name="Manager.Name"><value>名称</value></data>
+  <data name="Manager.Abbr"><value>缩写</value></data>
+  <data name="Manager.Body"><value>正文</value></data>
+  <data name="Manager.Add"><value>新增</value></data>
+  <data name="Manager.Delete"><value>删除</value></data>
+  <data name="Manager.Save"><value>保存</value></data>
+  <data name="Manager.Rename"><value>重命名</value></data>
+  <data name="Manager.NewCategory"><value>新建分类</value></data>
+  <data name="Manager.RenameCategory"><value>重命名分类</value></data>
+  <data name="Manager.CategoryName"><value>分类名称</value></data>
+  <data name="Manager.NewCategoryName"><value>新分类</value></data>
+  <data name="Manager.Wrap"><value>自动换行</value></data>
+  <data name="Manager.OutputMode"><value>输出方式</value></data>
+  <data name="Manager.OutputModeHint"><value>此条目的发送行为；「跟随全局」使用设置里的输出方式。</value></data>
+  <data name="Manager.Output.Default"><value>跟随全局</value></data>
+  <data name="Manager.Output.Paste"><value>直接粘贴</value></data>
+  <data name="Manager.Output.PasteEnter"><value>粘贴并回车</value></data>
+  <data name="Manager.Output.Copy"><value>仅复制</value></data>
+  <data name="Manager.AbbrConflict"><value>与「{0}」的缩写重复，仅一条会生效</value></data>
+  <data name="Manager.Trash"><value>回收站</value></data>
+  <data name="Manager.MoveTo"><value>移动到分类</value></data>
+  <data name="Manager.DeleteSelected"><value>删除所选（{0} 条）</value></data>
+  <data name="Manager.UsageStat"><value>已使用 {0} 次 · 最近 {1}</value></data>
+  <data name="Manager.NeverUsed"><value>从未使用</value></data>
+  <data name="Trash.Restore"><value>恢复</value></data>
+  <data name="Trash.DeleteForever"><value>彻底删除</value></data>
+  <data name="Trash.Empty"><value>清空</value></data>
+  <data name="Trash.Close"><value>关闭</value></data>
+  <data name="Trash.EmptyState"><value>回收站是空的</value></data>
+  <data name="Trash.Hint"><value>删除的条目在这里保留 {0} 天，之后自动清除。恢复会放回原分类（不存在则重建）。</value></data>
+  <data name="Trash.EmptyConfirm"><value>确定清空回收站？所有条目将无法恢复。</value></data>
+  <data name="Tray.PauseAbbr"><value>暂停缩写展开</value></data>
+  <data name="Tray.ResumeAbbr"><value>恢复缩写展开</value></data>
+  <data name="Tray.PausedTip"><value>缩写展开已暂停</value></data>
+  <data name="Settings.CaptureHotkey"><value>快速采集热键</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>按下即把当前剪贴板文本静默存为新条目。点击后按组合键设置；按 Delete 清除（留空 = 停用）。</value></data>
+  <data name="Settings.OpenBackups"><value>打开备份文件夹</value></data>
+  <data name="Settings.AutoBackupHint"><value>每天自动把数据文件夹打包备份到本机（保留最近 10 份）；备份 zip 可用「导入备份」直接恢复。</value></data>
+  <data name="Msg.Captured"><value>已保存条目：{0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>缩写重复（每个仅一条生效）：{0}。请在管理器中修改。</value></data>
+  <data name="Msg.CaptureEmpty"><value>剪贴板中没有文本</value></data>
+  <data name="Manager.UseVars"><value>启用 {变量} 占位符</value></data>
+  <data name="Manager.UseVarsHint"><value>勾选后，发送时处理 {变量}、{剪贴板}、{日期}、{光标} 等占位符；不勾选则正文按原样输出（适合存放含 {…} 的代码/脚本）。</value></data>
+  <data name="Manager.Image"><value>图片</value></data>
+  <data name="Manager.FromClipboard"><value>从剪贴板</value></data>
+  <data name="Manager.FromFile"><value>选择文件</value></data>
+  <data name="Manager.RemoveImage"><value>移除</value></data>
+  <data name="Manager.Saved"><value>✓ 已保存</value></data>
+  <data name="Manager.NewSnippetName"><value>新文本</value></data>
+  <data name="Manager.Filter"><value>筛选…</value></data>
+  <data name="Manager.Duplicate"><value>复制一份</value></data>
+  <data name="Manager.DuplicateAbbr"><value>缩写「{0}」已被「{1}」使用，展开时会有歧义</value></data>
+  <data name="Msg.FirstRunHint"><value>按 {0} 呼出面板</value></data>
+  <data name="Settings.OpenFolder"><value>打开数据文件夹</value></data>
+  <data name="Tray.NewFromClipboard"><value>从剪贴板新建</value></data>
+  <data name="Ctx.Edit"><value>编辑此条</value></data>
+  <data name="Ctx.Copy"><value>复制内容</value></data>
+  <data name="Settings.AbbrBlacklist"><value>在这些进程中禁用缩写</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>进程名以分号分隔，如：cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>导出备份</value></data>
+  <data name="Msg.Exported"><value>备份已导出</value></data>
+  <data name="Settings.ImportBackup"><value>导入备份</value></data>
+  <data name="Msg.ImportConfirm"><value>导入将覆盖当前文本库，确定继续？</value></data>
+  <data name="Msg.ImportInvalid"><value>不是有效的备份文件</value></data>
+  <data name="Msg.Imported"><value>备份已导入</value></data>
+  <data name="Search.CreateNew"><value>创建「{0}」</value></data>
+  <data name="Search.Hint.New"><value>新建</value></data>
+  <data name="Search.Hint.Edit"><value>编辑</value></data>
+  <data name="Settings.SectionSummon"><value>呼出</value></data>
+  <data name="Settings.PanelPlacement"><value>面板位置</value></data>
+  <data name="Settings.PlaceWindow"><value>跟随活动窗口</value></data>
+  <data name="Settings.PlaceCaret"><value>跟随文本光标</value></data>
+  <data name="Settings.PlaceFixed"><value>记住上次位置</value></data>
+  <data name="Settings.SectionOutput"><value>输出</value></data>
+  <data name="Settings.SectionAbbr"><value>缩写</value></data>
+  <data name="Settings.SectionData"><value>数据</value></data>
+  <data name="Settings.SectionGeneral"><value>通用</value></data>
+  <data name="Manager.Color"><value>颜色</value></data>
+  <data name="Manager.DuplicateCategory"><value>已存在同名分类</value></data>
+  <data name="Manager.SaveFailed"><value>保存失败：数据文件夹可能被占用或不可写，请稍后再试。</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>删除分类「{0}」？其中的文本会一并删除。</value></data>
+  <data name="Dialog.OK"><value>确定</value></data>
+  <data name="Dialog.Cancel"><value>取消</value></data>
+  <data name="Search.Recents"><value>最近常用</value></data>
+  <data name="Search.Favorites"><value>收藏</value></data>
+  <data name="Search.KeepOpen"><value>固定面板（连发多条）</value></data>
+  <data name="Dialog.FillVariables"><value>填写变量</value></data>
+  <data name="Settings.AutoSend"><value>粘贴后自动回车</value></data>
+  <data name="Settings.ClickToSend"><value>单击即发送</value></data>
+  <data name="Settings.ClickToSendHint"><value>在搜索面板里，单击一条就直接发送；默认是双击或回车才发送。</value></data>
+  <data name="Settings.Output"><value>输出方式</value></data>
+  <data name="Settings.OutputPaste"><value>直接粘贴到当前位置</value></data>
+  <data name="Settings.OutputClipboard"><value>仅复制到剪贴板</value></data>
+  <data name="Settings.Hotkey"><value>呼出热键</value></data>
+  <data name="Settings.SummonMode"><value>呼出方式</value></data>
+  <data name="Settings.SummonModeHotkey"><value>组合键</value></data>
+  <data name="Settings.SummonModeTap"><value>连按修饰键</value></data>
+  <data name="Settings.SummonTapDouble"><value>双击（否则单击一次）</value></data>
+  <data name="Settings.SummonTapHint"><value>点这里按一下修饰键（如右 Ctrl），之后连按它就能呼出面板。按 Delete 清除。（单个修饰键无法用普通热键，故用连按检测）</value></data>
+  <data name="Settings.DataFolder"><value>数据文件夹</value></data>
+  <data name="Settings.Language"><value>界面语言</value></data>
+  <data name="Settings.AbbrEnabled"><value>启用缩写</value></data>
+  <data name="Settings.AbbrPrefix"><value>触发前缀</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>自动加在每个缩写前面（默认 ;）。你在管理器里只填缩写本身（如 qm），实际触发是「前缀+缩写」（如 ;qm）。留空则不加前缀 —— 前缀能避免正常打字误触发。</value></data>
+  <data name="Settings.RestoreClipboard"><value>保留原剪贴板内容</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>粘贴时会临时占用剪贴板；完成后自动还原成你之前复制的内容，不覆盖它。</value></data>
+  <data name="Settings.FollowSystem"><value>跟随系统</value></data>
+  <data name="Msg.HotkeyTaken"><value>热键被占用，请更换</value></data>
+  <data name="Msg.ConflictFiles"><value>检测到同步冲突文件</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>数据文件夹不可用（可能是移动盘未插入或网络盘离线），已暂时以空库启动。请在设置中重新指定，或接回后重启。</value></data>
+  <data name="Search.Hint.Nav"><value>选择</value></data>
+  <data name="Search.Hint.Send"><value>发送</value></data>
+  <data name="Search.Hint.Close"><value>关闭</value></data>
+  <data name="Search.Hint.SwitchCat"><value>切分类</value></data>
+  <data name="Search.Empty.Title"><value>还没有内容</value></data>
+  <data name="Search.Empty.Sub"><value>在托盘菜单打开「管理器」添加你的第一条文本</value></data>
+  <data name="Search.NoMatch"><value>没有匹配「{0}」的内容</value></data>
+  <data name="Search.NoMatch.Sub"><value>换个关键词，或用拼音 / 首字母 / 缩写试试</value></data>
+  <data name="Search.Count"><value>{0} 条</value></data>
+  <data name="Settings.HotkeyHint"><value>点击后按下按键；普通键需配合 Ctrl / Alt / Shift / Win，功能键 F1–F24 可单独用</value></data>
+  <data name="Settings.HotkeyPrompt"><value>按下快捷键…（Esc 取消）</value></data>
+  <data name="Settings.Portable"><value>便携模式</value></data>
+  <data name="Settings.PortableHint"><value>数据放在程序旁的 Data 夹，随 U 盘走、宿主机零残留；开关会自动建标记文件，重启后生效，需把程序放在可写位置。</value></data>
+  <data name="Settings.PortableRestart"><value>已切换便携模式，重启后生效。文本库可用「导出 / 导入备份」搬到新位置。</value></data>
+  <data name="Settings.PortableFailed"><value>无法写入程序所在目录（可能装在 Program Files 等只读位置）。便携模式需把程序放到可写位置，如 U 盘。</value></data>
+  <data name="Settings.CheckUpdates"><value>启动时检查更新</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>开启后仅在启动时联网访问 GitHub 检查新版本——这是本应用唯一的联网操作，其余功能始终离线。</value></data>
+  <data name="Settings.CheckNow"><value>立即检查</value></data>
+  <data name="Msg.UpdateAvailable"><value>发现新版本 {0}，点击前往下载。</value></data>
+  <data name="Msg.UpToDate"><value>已是最新版本。</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>检查更新失败，请稍后重试。</value></data>
+</root>

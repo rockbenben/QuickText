@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>Открыть менеджер</value></data>
+  <data name="Tray.OpenSearch"><value>Открыть поиск</value></data>
+  <data name="Tray.Settings"><value>Настройки</value></data>
+  <data name="Tray.Autostart"><value>Запускать с Windows</value></data>
+  <data name="Tray.Exit"><value>Выход</value></data>
+  <data name="Search.Placeholder"><value>Поиск фрагментов…</value></data>
+  <data name="Manager.Categories"><value>Категории</value></data>
+  <data name="Manager.Snippets"><value>Фрагменты</value></data>
+  <data name="Manager.Name"><value>Название</value></data>
+  <data name="Manager.Abbr"><value>Сокращение</value></data>
+  <data name="Manager.Body"><value>Текст</value></data>
+  <data name="Manager.Add"><value>Добавить</value></data>
+  <data name="Manager.Delete"><value>Удалить</value></data>
+  <data name="Manager.Save"><value>Сохранить</value></data>
+  <data name="Manager.Rename"><value>Переименовать</value></data>
+  <data name="Manager.NewCategory"><value>Новая категория</value></data>
+  <data name="Manager.RenameCategory"><value>Переименовать категорию</value></data>
+  <data name="Manager.CategoryName"><value>Название категории</value></data>
+  <data name="Manager.NewCategoryName"><value>Новая категория</value></data>
+  <data name="Manager.Wrap"><value>Перенос строк</value></data>
+  <data name="Manager.OutputMode"><value>Вывод</value></data>
+  <data name="Manager.OutputModeHint"><value>Способ отправки фрагмента; «Как в общих» использует режим вывода из настроек.</value></data>
+  <data name="Manager.Output.Default"><value>Как в общих</value></data>
+  <data name="Manager.Output.Paste"><value>Вставка</value></data>
+  <data name="Manager.Output.PasteEnter"><value>Вставка + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>Только копировать</value></data>
+  <data name="Manager.AbbrConflict"><value>Дублирует сокращение «{0}» — сработает только одно</value></data>
+  <data name="Manager.Trash"><value>Корзина</value></data>
+  <data name="Manager.MoveTo"><value>Переместить в категорию</value></data>
+  <data name="Manager.DeleteSelected"><value>Удалить выбранные ({0})</value></data>
+  <data name="Manager.UsageStat"><value>Использован {0} раз · последний {1}</value></data>
+  <data name="Manager.NeverUsed"><value>Не использовался</value></data>
+  <data name="Trash.Restore"><value>Восстановить</value></data>
+  <data name="Trash.DeleteForever"><value>Удалить навсегда</value></data>
+  <data name="Trash.Empty"><value>Очистить корзину</value></data>
+  <data name="Trash.Close"><value>Закрыть</value></data>
+  <data name="Trash.EmptyState"><value>Корзина пуста</value></data>
+  <data name="Trash.Hint"><value>Удалённые фрагменты хранятся здесь {0} дн., затем удаляются автоматически. При восстановлении возвращаются в исходную категорию (создаётся заново при необходимости).</value></data>
+  <data name="Trash.EmptyConfirm"><value>Очистить корзину? Все фрагменты будут безвозвратно удалены.</value></data>
+  <data name="Tray.PauseAbbr"><value>Приостановить подстановку</value></data>
+  <data name="Tray.ResumeAbbr"><value>Возобновить подстановку</value></data>
+  <data name="Tray.PausedTip"><value>подстановка сокращений приостановлена</value></data>
+  <data name="Settings.CaptureHotkey"><value>Клавиша захвата</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>Без запроса сохраняет текст из буфера обмена как новый фрагмент. Нажмите и задайте сочетание; Delete очищает (пусто = выключено).</value></data>
+  <data name="Settings.OpenBackups"><value>Открыть папку резервных копий</value></data>
+  <data name="Settings.AutoBackupHint"><value>Папка данных ежедневно архивируется на этот компьютер (хранятся последние 10); zip восстанавливается через «Импорт копии».</value></data>
+  <data name="Msg.Captured"><value>Фрагмент сохранён: {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>Повторяющиеся сокращения (срабатывает только одно): {0}. Исправьте их в менеджере.</value></data>
+  <data name="Msg.CaptureEmpty"><value>В буфере обмена нет текста</value></data>
+  <data name="Manager.UseVars"><value>Включить плейсхолдеры {variable}</value></data>
+  <data name="Manager.UseVarsHint"><value>Если включено, при отправке обрабатываются токены {variable}, {clipboard}, {date} и {cursor}; иначе текст отправляется как есть (лучше для кода/скриптов с литеральными {…}).</value></data>
+  <data name="Manager.Image"><value>Изображение</value></data>
+  <data name="Manager.FromClipboard"><value>Из буфера обмена</value></data>
+  <data name="Manager.FromFile"><value>Выбрать файл</value></data>
+  <data name="Manager.RemoveImage"><value>Убрать</value></data>
+  <data name="Manager.Saved"><value>✓ Сохранено</value></data>
+  <data name="Manager.NewSnippetName"><value>Новый фрагмент</value></data>
+  <data name="Manager.Filter"><value>Фильтр…</value></data>
+  <data name="Manager.Duplicate"><value>Дублировать</value></data>
+  <data name="Manager.DuplicateAbbr"><value>Сокращение «{0}» уже используется в «{1}» — подстановка будет неоднозначной</value></data>
+  <data name="Msg.FirstRunHint"><value>Нажмите {0}, чтобы открыть панель</value></data>
+  <data name="Settings.OpenFolder"><value>Открыть папку данных</value></data>
+  <data name="Tray.NewFromClipboard"><value>Создать из буфера обмена</value></data>
+  <data name="Ctx.Edit"><value>Изменить</value></data>
+  <data name="Ctx.Copy"><value>Копировать содержимое</value></data>
+  <data name="Settings.AbbrBlacklist"><value>Отключить сокращения в этих процессах</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>Имена процессов через точку с запятой, напр. cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>Экспорт копии</value></data>
+  <data name="Msg.Exported"><value>Резервная копия экспортирована</value></data>
+  <data name="Settings.ImportBackup"><value>Импорт копии</value></data>
+  <data name="Msg.ImportConfirm"><value>Импорт перезапишет текущую библиотеку. Продолжить?</value></data>
+  <data name="Msg.ImportInvalid"><value>Недействительный файл резервной копии</value></data>
+  <data name="Msg.Imported"><value>Резервная копия импортирована</value></data>
+  <data name="Search.CreateNew"><value>Создать «{0}»</value></data>
+  <data name="Search.Hint.New"><value>Создать</value></data>
+  <data name="Search.Hint.Edit"><value>Изменить</value></data>
+  <data name="Settings.SectionSummon"><value>Вызов</value></data>
+  <data name="Settings.PanelPlacement"><value>Положение панели</value></data>
+  <data name="Settings.PlaceWindow"><value>За активным окном</value></data>
+  <data name="Settings.PlaceCaret"><value>За курсором ввода</value></data>
+  <data name="Settings.PlaceFixed"><value>Запоминать положение</value></data>
+  <data name="Settings.SectionOutput"><value>Вывод</value></data>
+  <data name="Settings.SectionAbbr"><value>Сокращения</value></data>
+  <data name="Settings.SectionData"><value>Данные</value></data>
+  <data name="Settings.SectionGeneral"><value>Общие</value></data>
+  <data name="Manager.Color"><value>Цвет</value></data>
+  <data name="Manager.DuplicateCategory"><value>Категория с таким названием уже существует</value></data>
+  <data name="Manager.SaveFailed"><value>Не удалось сохранить: папка данных занята или недоступна для записи. Повторите попытку.</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>Удалить категорию «{0}»? Её фрагменты тоже будут удалены.</value></data>
+  <data name="Dialog.OK"><value>ОК</value></data>
+  <data name="Dialog.Cancel"><value>Отмена</value></data>
+  <data name="Search.Recents"><value>Недавние</value></data>
+  <data name="Search.Favorites"><value>Избранное</value></data>
+  <data name="Search.KeepOpen"><value>Не закрывать (отправить несколько)</value></data>
+  <data name="Dialog.FillVariables"><value>Заполните переменные</value></data>
+  <data name="Settings.AutoSend"><value>Нажимать Enter после вставки</value></data>
+  <data name="Settings.ClickToSend"><value>Отправка одним щелчком</value></data>
+  <data name="Settings.ClickToSendHint"><value>В панели поиска один щелчок отправляет фрагмент; по умолчанию — двойной щелчок или Enter.</value></data>
+  <data name="Settings.Output"><value>Способ вывода</value></data>
+  <data name="Settings.OutputPaste"><value>Вставлять в активное приложение</value></data>
+  <data name="Settings.OutputClipboard"><value>Только копировать в буфер обмена</value></data>
+  <data name="Settings.Hotkey"><value>Горячая клавиша</value></data>
+  <data name="Settings.SummonMode"><value>Способ вызова</value></data>
+  <data name="Settings.SummonModeHotkey"><value>Сочетание клавиш</value></data>
+  <data name="Settings.SummonModeTap"><value>Нажатие модификатора</value></data>
+  <data name="Settings.SummonTapDouble"><value>Двойное нажатие (иначе одиночное)</value></data>
+  <data name="Settings.SummonTapHint"><value>Щёлкните здесь и нажмите модификатор (напр. правый Ctrl); его нажатие вызовет панель. Delete очищает. (Одиночный модификатор не может быть обычной клавишей, поэтому распознаётся по нажатию.)</value></data>
+  <data name="Settings.DataFolder"><value>Папка данных</value></data>
+  <data name="Settings.Language"><value>Язык</value></data>
+  <data name="Settings.AbbrEnabled"><value>Включить сокращения</value></data>
+  <data name="Settings.AbbrPrefix"><value>Префикс срабатывания</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>Добавляется перед каждым сокращением (по умолчанию ;). В менеджере вводите только само сокращение (напр. qm) — срабатывает префикс+сокращение (напр. ;qm). Оставьте пустым, чтобы без префикса; префикс не даёт срабатывать при обычном вводе.</value></data>
+  <data name="Settings.RestoreClipboard"><value>Сохранять мой буфер обмена</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Вставка ненадолго использует буфер обмена, затем возвращает то, что было скопировано раньше — он остаётся прежним.</value></data>
+  <data name="Settings.FollowSystem"><value>Как в системе</value></data>
+  <data name="Msg.HotkeyTaken"><value>Горячая клавиша занята, выберите другую</value></data>
+  <data name="Msg.ConflictFiles"><value>Обнаружены файлы конфликтов синхронизации</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>Папка данных недоступна (возможно, отключён съёмный или сетевой диск). Пока запущено с пустой библиотекой — укажите её заново в настройках или подключите диск и перезапустите.</value></data>
+  <data name="Search.Hint.Nav"><value>Навигация</value></data>
+  <data name="Search.Hint.Send"><value>Отправить</value></data>
+  <data name="Search.Hint.Close"><value>Закрыть</value></data>
+  <data name="Search.Hint.SwitchCat"><value>Категория</value></data>
+  <data name="Search.Empty.Title"><value>Пока нет фрагментов</value></data>
+  <data name="Search.Empty.Sub"><value>Откройте менеджер из меню в трее, чтобы добавить первый фрагмент</value></data>
+  <data name="Search.NoMatch"><value>Нет фрагментов по запросу «{0}»</value></data>
+  <data name="Search.NoMatch.Sub"><value>Попробуйте другое слово, пиньинь, инициалы или сокращение</value></data>
+  <data name="Search.Count"><value>Результатов: {0}</value></data>
+  <data name="Settings.HotkeyHint"><value>Щёлкните и нажмите клавишу; обычным клавишам нужны Ctrl / Alt / Shift / Win, функциональные F1–F24 можно использовать отдельно</value></data>
+  <data name="Settings.HotkeyPrompt"><value>Нажмите клавиши… (Esc — отмена)</value></data>
+  <data name="Settings.Portable"><value>Переносной режим</value></data>
+  <data name="Settings.PortableHint"><value>Хранит данные в папке Data рядом с приложением — берётся с собой на USB-накопителе, ничего не оставляет на компьютере. Переключатель создаёт маркер; действует после перезапуска и требует, чтобы приложение было в папке с правом записи.</value></data>
+  <data name="Settings.PortableRestart"><value>Переносной режим переключён — перезапустите для применения. Перенесите библиотеку через Экспорт / Импорт копии.</value></data>
+  <data name="Settings.PortableFailed"><value>Не удаётся записать рядом с приложением (возможно, оно в папке только для чтения, например Program Files). Переносному режиму нужно, чтобы приложение было в папке с правом записи, например на USB-накопителе.</value></data>
+  <data name="Settings.CheckUpdates"><value>Проверять обновления при запуске</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Если включено, при запуске один раз подключается к GitHub для проверки новой версии — это единственный выход приложения в интернет; всё остальное работает офлайн.</value></data>
+  <data name="Settings.CheckNow"><value>Проверить сейчас</value></data>
+  <data name="Msg.UpdateAvailable"><value>Доступна версия {0} — нажмите, чтобы скачать.</value></data>
+  <data name="Msg.UpToDate"><value>У вас последняя версия.</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>Не удалось проверить обновления. Повторите попытку позже.</value></data>
+</root>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>開啟管理</value></data>
+  <data name="Tray.OpenSearch"><value>開啟搜尋</value></data>
+  <data name="Tray.Settings"><value>設定</value></data>
+  <data name="Tray.Autostart"><value>開機自動啟動</value></data>
+  <data name="Tray.Exit"><value>結束</value></data>
+  <data name="Search.Placeholder"><value>搜尋…</value></data>
+  <data name="Manager.Categories"><value>分類</value></data>
+  <data name="Manager.Snippets"><value>文字</value></data>
+  <data name="Manager.Name"><value>名稱</value></data>
+  <data name="Manager.Abbr"><value>縮寫</value></data>
+  <data name="Manager.Body"><value>內文</value></data>
+  <data name="Manager.Add"><value>新增</value></data>
+  <data name="Manager.Delete"><value>刪除</value></data>
+  <data name="Manager.Save"><value>儲存</value></data>
+  <data name="Manager.Rename"><value>重新命名</value></data>
+  <data name="Manager.NewCategory"><value>新增分類</value></data>
+  <data name="Manager.RenameCategory"><value>重新命名分類</value></data>
+  <data name="Manager.CategoryName"><value>分類名稱</value></data>
+  <data name="Manager.NewCategoryName"><value>新分類</value></data>
+  <data name="Manager.Wrap"><value>自動換行</value></data>
+  <data name="Manager.OutputMode"><value>輸出方式</value></data>
+  <data name="Manager.OutputModeHint"><value>此條目的傳送行為；「跟隨全域」使用設定中的輸出方式。</value></data>
+  <data name="Manager.Output.Default"><value>跟隨全域</value></data>
+  <data name="Manager.Output.Paste"><value>直接貼上</value></data>
+  <data name="Manager.Output.PasteEnter"><value>貼上並送出</value></data>
+  <data name="Manager.Output.Copy"><value>僅複製</value></data>
+  <data name="Manager.AbbrConflict"><value>與「{0}」的縮寫重複，僅一條會生效</value></data>
+  <data name="Manager.Trash"><value>回收站</value></data>
+  <data name="Manager.MoveTo"><value>移動到分類</value></data>
+  <data name="Manager.DeleteSelected"><value>刪除所選（{0} 條）</value></data>
+  <data name="Manager.UsageStat"><value>已使用 {0} 次 · 最近 {1}</value></data>
+  <data name="Manager.NeverUsed"><value>從未使用</value></data>
+  <data name="Trash.Restore"><value>還原</value></data>
+  <data name="Trash.DeleteForever"><value>徹底刪除</value></data>
+  <data name="Trash.Empty"><value>清空</value></data>
+  <data name="Trash.Close"><value>關閉</value></data>
+  <data name="Trash.EmptyState"><value>回收站是空的</value></data>
+  <data name="Trash.Hint"><value>刪除的條目在這裡保留 {0} 天，之後自動清除。還原會放回原分類（不存在則重建）。</value></data>
+  <data name="Trash.EmptyConfirm"><value>確定清空回收站？所有條目將無法還原。</value></data>
+  <data name="Tray.PauseAbbr"><value>暫停縮寫展開</value></data>
+  <data name="Tray.ResumeAbbr"><value>恢復縮寫展開</value></data>
+  <data name="Tray.PausedTip"><value>縮寫展開已暫停</value></data>
+  <data name="Settings.CaptureHotkey"><value>快速擷取熱鍵</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>按下即把目前剪貼簿文字靜默存為新條目。點擊後按組合鍵設定；按 Delete 清除（留空 = 停用）。</value></data>
+  <data name="Settings.OpenBackups"><value>開啟備份資料夾</value></data>
+  <data name="Settings.AutoBackupHint"><value>每天自動把資料夾打包備份到本機（保留最近 10 份）；備份 zip 可用「匯入備份」直接還原。</value></data>
+  <data name="Msg.Captured"><value>已儲存條目：{0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>縮寫重複（每個僅一條生效）：{0}。請在管理器中修改。</value></data>
+  <data name="Msg.CaptureEmpty"><value>剪貼簿中沒有文字</value></data>
+  <data name="Manager.UseVars"><value>啟用 {變數} 佔位符</value></data>
+  <data name="Manager.UseVarsHint"><value>勾選後，傳送時處理 {變數}、{clipboard}、{date}、{cursor} 等佔位符；未勾選則內文按原樣輸出（適合存放含 {…} 的程式碼／指令碼）。</value></data>
+  <data name="Manager.Image"><value>圖片</value></data>
+  <data name="Manager.FromClipboard"><value>從剪貼簿</value></data>
+  <data name="Manager.FromFile"><value>選擇檔案</value></data>
+  <data name="Manager.RemoveImage"><value>移除</value></data>
+  <data name="Manager.Saved"><value>✓ 已儲存</value></data>
+  <data name="Manager.NewSnippetName"><value>新文字</value></data>
+  <data name="Manager.Filter"><value>篩選…</value></data>
+  <data name="Manager.Duplicate"><value>複製一份</value></data>
+  <data name="Manager.DuplicateAbbr"><value>縮寫「{0}」已被「{1}」使用，展開時會有歧義</value></data>
+  <data name="Msg.FirstRunHint"><value>按 {0} 呼出面板</value></data>
+  <data name="Settings.OpenFolder"><value>開啟資料夾</value></data>
+  <data name="Tray.NewFromClipboard"><value>從剪貼簿新增</value></data>
+  <data name="Ctx.Edit"><value>編輯此條</value></data>
+  <data name="Ctx.Copy"><value>複製內容</value></data>
+  <data name="Settings.AbbrBlacklist"><value>在這些處理程序中停用縮寫</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>處理程序名稱以分號分隔，如：cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>匯出備份</value></data>
+  <data name="Msg.Exported"><value>備份已匯出</value></data>
+  <data name="Settings.ImportBackup"><value>匯入備份</value></data>
+  <data name="Msg.ImportConfirm"><value>匯入將覆蓋目前文字庫，確定繼續？</value></data>
+  <data name="Msg.ImportInvalid"><value>不是有效的備份檔案</value></data>
+  <data name="Msg.Imported"><value>備份已匯入</value></data>
+  <data name="Search.CreateNew"><value>建立「{0}」</value></data>
+  <data name="Search.Hint.New"><value>新增</value></data>
+  <data name="Search.Hint.Edit"><value>編輯</value></data>
+  <data name="Settings.SectionSummon"><value>呼出</value></data>
+  <data name="Settings.PanelPlacement"><value>面板位置</value></data>
+  <data name="Settings.PlaceWindow"><value>跟隨作用中視窗</value></data>
+  <data name="Settings.PlaceCaret"><value>跟隨文字游標</value></data>
+  <data name="Settings.PlaceFixed"><value>記住上次位置</value></data>
+  <data name="Settings.SectionOutput"><value>輸出</value></data>
+  <data name="Settings.SectionAbbr"><value>縮寫</value></data>
+  <data name="Settings.SectionData"><value>資料</value></data>
+  <data name="Settings.SectionGeneral"><value>一般</value></data>
+  <data name="Manager.Color"><value>顏色</value></data>
+  <data name="Manager.DuplicateCategory"><value>已存在同名分類</value></data>
+  <data name="Manager.SaveFailed"><value>儲存失敗：資料夾可能被佔用或不可寫入，請稍後再試。</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>刪除分類「{0}」？其中的文字會一併刪除。</value></data>
+  <data name="Dialog.OK"><value>確定</value></data>
+  <data name="Dialog.Cancel"><value>取消</value></data>
+  <data name="Search.Recents"><value>最近常用</value></data>
+  <data name="Search.Favorites"><value>收藏</value></data>
+  <data name="Search.KeepOpen"><value>釘選面板（連發多條）</value></data>
+  <data name="Dialog.FillVariables"><value>填寫變數</value></data>
+  <data name="Settings.AutoSend"><value>貼上後自動按 Enter</value></data>
+  <data name="Settings.ClickToSend"><value>單擊即發送</value></data>
+  <data name="Settings.ClickToSendHint"><value>在搜尋面板裡，單擊一條就直接發送；預設是雙擊或 Enter 才發送。</value></data>
+  <data name="Settings.Output"><value>輸出方式</value></data>
+  <data name="Settings.OutputPaste"><value>直接貼上到目前位置</value></data>
+  <data name="Settings.OutputClipboard"><value>僅複製到剪貼簿</value></data>
+  <data name="Settings.Hotkey"><value>呼出熱鍵</value></data>
+  <data name="Settings.SummonMode"><value>呼出方式</value></data>
+  <data name="Settings.SummonModeHotkey"><value>組合鍵</value></data>
+  <data name="Settings.SummonModeTap"><value>連按修飾鍵</value></data>
+  <data name="Settings.SummonTapDouble"><value>雙擊（否則單擊一次）</value></data>
+  <data name="Settings.SummonTapHint"><value>點這裡按一下修飾鍵（如右 Ctrl），之後連按它就能呼出面板。按 Delete 清除。（單個修飾鍵無法用普通熱鍵，故用連按偵測）</value></data>
+  <data name="Settings.DataFolder"><value>資料夾</value></data>
+  <data name="Settings.Language"><value>介面語言</value></data>
+  <data name="Settings.AbbrEnabled"><value>啟用縮寫</value></data>
+  <data name="Settings.AbbrPrefix"><value>觸發前綴</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>自動加在每個縮寫前面（預設 ;）。你在管理器裡只填縮寫本身（如 qm），實際觸發是「前綴+縮寫」（如 ;qm）。留空則不加前綴 —— 前綴能避免正常打字誤觸發。</value></data>
+  <data name="Settings.RestoreClipboard"><value>保留原剪貼簿內容</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>貼上時會暫時佔用剪貼簿；完成後自動還原成你之前複製的內容，不覆蓋它。</value></data>
+  <data name="Settings.FollowSystem"><value>跟隨系統</value></data>
+  <data name="Msg.HotkeyTaken"><value>熱鍵已被佔用，請更換</value></data>
+  <data name="Msg.ConflictFiles"><value>偵測到同步衝突檔案</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>資料夾無法存取（可能是行動碟未插入或網路磁碟離線），已暫時以空庫啟動。請在設定中重新指定，或接回後重新啟動。</value></data>
+  <data name="Search.Hint.Nav"><value>選擇</value></data>
+  <data name="Search.Hint.Send"><value>發送</value></data>
+  <data name="Search.Hint.Close"><value>關閉</value></data>
+  <data name="Search.Hint.SwitchCat"><value>切分類</value></data>
+  <data name="Search.Empty.Title"><value>還沒有內容</value></data>
+  <data name="Search.Empty.Sub"><value>在系統匣選單開啟「管理器」新增第一條文字</value></data>
+  <data name="Search.NoMatch"><value>沒有符合「{0}」的內容</value></data>
+  <data name="Search.NoMatch.Sub"><value>換個關鍵字，或用拼音 / 首字母 / 縮寫試試</value></data>
+  <data name="Search.Count"><value>{0} 條</value></data>
+  <data name="Settings.HotkeyHint"><value>點擊後按下按鍵；一般鍵需配合 Ctrl / Alt / Shift / Win，功能鍵 F1–F24 可單獨使用</value></data>
+  <data name="Settings.HotkeyPrompt"><value>按下快捷鍵…（Esc 取消）</value></data>
+  <data name="Settings.Portable"><value>便攜模式</value></data>
+  <data name="Settings.PortableHint"><value>資料放在程式旁的 Data 夾，隨 USB 隨身碟走、主機零殘留；開關會自動建立標記檔，重啟後生效，需把程式放在可寫入位置。</value></data>
+  <data name="Settings.PortableRestart"><value>已切換便攜模式，重啟後生效。文字庫可用「匯出 / 匯入備份」搬到新位置。</value></data>
+  <data name="Settings.PortableFailed"><value>無法寫入程式所在目錄（可能裝在 Program Files 等唯讀位置）。便攜模式需把程式放到可寫入位置，如 USB 隨身碟。</value></data>
+  <data name="Settings.CheckUpdates"><value>啟動時檢查更新</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>開啟後僅在啟動時連線 GitHub 檢查新版本——這是本應用唯一的連線操作，其餘功能始終離線。</value></data>
+  <data name="Settings.CheckNow"><value>立即檢查</value></data>
+  <data name="Msg.UpdateAvailable"><value>發現新版本 {0}，點擊前往下載。</value></data>
+  <data name="Msg.UpToDate"><value>已是最新版本。</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>檢查更新失敗，請稍後再試。</value></data>
+</root>

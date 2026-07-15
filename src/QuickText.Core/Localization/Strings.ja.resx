@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>管理を開く</value></data>
+  <data name="Tray.OpenSearch"><value>検索を開く</value></data>
+  <data name="Tray.Settings"><value>設定</value></data>
+  <data name="Tray.Autostart"><value>スタートアップ</value></data>
+  <data name="Tray.Exit"><value>終了</value></data>
+  <data name="Search.Placeholder"><value>検索…</value></data>
+  <data name="Manager.Categories"><value>分類</value></data>
+  <data name="Manager.Snippets"><value>テキスト</value></data>
+  <data name="Manager.Name"><value>名称</value></data>
+  <data name="Manager.Abbr"><value>略語</value></data>
+  <data name="Manager.Body"><value>本文</value></data>
+  <data name="Manager.Add"><value>追加</value></data>
+  <data name="Manager.Delete"><value>削除</value></data>
+  <data name="Manager.Save"><value>保存</value></data>
+  <data name="Manager.Rename"><value>名前を変更</value></data>
+  <data name="Manager.NewCategory"><value>新規カテゴリ</value></data>
+  <data name="Manager.RenameCategory"><value>カテゴリ名を変更</value></data>
+  <data name="Manager.CategoryName"><value>カテゴリ名</value></data>
+  <data name="Manager.NewCategoryName"><value>新規カテゴリ</value></data>
+  <data name="Manager.Wrap"><value>折り返し</value></data>
+  <data name="Manager.OutputMode"><value>出力方法</value></data>
+  <data name="Manager.OutputModeHint"><value>このスニペットの送信方法。「全体設定に従う」は設定の出力方法を使います。</value></data>
+  <data name="Manager.Output.Default"><value>全体設定に従う</value></data>
+  <data name="Manager.Output.Paste"><value>貼り付け</value></data>
+  <data name="Manager.Output.PasteEnter"><value>貼り付けて送信</value></data>
+  <data name="Manager.Output.Copy"><value>コピーのみ</value></data>
+  <data name="Manager.AbbrConflict"><value>「{0}」と略語が重複しています（片方のみ有効）</value></data>
+  <data name="Manager.Trash"><value>ごみ箱</value></data>
+  <data name="Manager.MoveTo"><value>カテゴリへ移動</value></data>
+  <data name="Manager.DeleteSelected"><value>選択項目を削除（{0} 件）</value></data>
+  <data name="Manager.UsageStat"><value>{0} 回使用 · 最終 {1}</value></data>
+  <data name="Manager.NeverUsed"><value>未使用</value></data>
+  <data name="Trash.Restore"><value>復元</value></data>
+  <data name="Trash.DeleteForever"><value>完全に削除</value></data>
+  <data name="Trash.Empty"><value>空にする</value></data>
+  <data name="Trash.Close"><value>閉じる</value></data>
+  <data name="Trash.EmptyState"><value>ごみ箱は空です</value></data>
+  <data name="Trash.Hint"><value>削除した項目は {0} 日間ここに保管され、その後自動的に消去されます。復元すると元のカテゴリに戻ります（無ければ再作成）。</value></data>
+  <data name="Trash.EmptyConfirm"><value>ごみ箱を空にしますか？すべての項目が復元不能になります。</value></data>
+  <data name="Tray.PauseAbbr"><value>展開を一時停止</value></data>
+  <data name="Tray.ResumeAbbr"><value>展開を再開</value></data>
+  <data name="Tray.PausedTip"><value>略語展開は一時停止中</value></data>
+  <data name="Settings.CaptureHotkey"><value>クイック取り込みホットキー</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>押すとクリップボードのテキストを新しいスニペットとして保存します。クリック後にキーを押して設定、Delete でクリア（空 = 無効）。</value></data>
+  <data name="Settings.OpenBackups"><value>バックアップフォルダーを開く</value></data>
+  <data name="Settings.AutoBackupHint"><value>データフォルダーを毎日この PC に zip バックアップします（最新 10 件保持）。バックアップ zip は「バックアップを読み込む」で復元できます。</value></data>
+  <data name="Msg.Captured"><value>スニペットを保存しました：{0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>略語が重複しています（各 1 件のみ有効）：{0}。マネージャーで修正してください。</value></data>
+  <data name="Msg.CaptureEmpty"><value>クリップボードにテキストがありません</value></data>
+  <data name="Manager.UseVars"><value>{変数} プレースホルダーを有効にする</value></data>
+  <data name="Manager.UseVarsHint"><value>オンにすると送信時に {変数}・{clipboard}・{date}・{cursor} を展開します。オフの場合は本文をそのまま送信します（{…} を含むコード／スクリプトの保存に最適）。</value></data>
+  <data name="Manager.Image"><value>画像</value></data>
+  <data name="Manager.FromClipboard"><value>クリップボードから</value></data>
+  <data name="Manager.FromFile"><value>ファイルを選択</value></data>
+  <data name="Manager.RemoveImage"><value>削除</value></data>
+  <data name="Manager.Saved"><value>✓ 保存しました</value></data>
+  <data name="Manager.NewSnippetName"><value>新規スニペット</value></data>
+  <data name="Manager.Filter"><value>絞り込み…</value></data>
+  <data name="Manager.Duplicate"><value>複製</value></data>
+  <data name="Manager.DuplicateAbbr"><value>略語「{0}」は「{1}」で既に使用されています。展開が曖昧になります</value></data>
+  <data name="Msg.FirstRunHint"><value>{0} でパネルを呼び出せます</value></data>
+  <data name="Settings.OpenFolder"><value>データフォルダーを開く</value></data>
+  <data name="Tray.NewFromClipboard"><value>クリップボードから新規</value></data>
+  <data name="Ctx.Edit"><value>この項目を編集</value></data>
+  <data name="Ctx.Copy"><value>内容をコピー</value></data>
+  <data name="Settings.AbbrBlacklist"><value>これらのプロセスで略語を無効化</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>プロセス名をセミコロンで区切る（例：cmd.exe; putty.exe）</value></data>
+  <data name="Settings.ExportBackup"><value>バックアップを書き出す</value></data>
+  <data name="Msg.Exported"><value>バックアップを書き出しました</value></data>
+  <data name="Settings.ImportBackup"><value>バックアップを読み込む</value></data>
+  <data name="Msg.ImportConfirm"><value>読み込むと現在のライブラリを上書きします。続行しますか？</value></data>
+  <data name="Msg.ImportInvalid"><value>有効なバックアップファイルではありません</value></data>
+  <data name="Msg.Imported"><value>バックアップを読み込みました</value></data>
+  <data name="Search.CreateNew"><value>「{0}」を作成</value></data>
+  <data name="Search.Hint.New"><value>新規</value></data>
+  <data name="Search.Hint.Edit"><value>編集</value></data>
+  <data name="Settings.SectionSummon"><value>呼び出し</value></data>
+  <data name="Settings.PanelPlacement"><value>パネル位置</value></data>
+  <data name="Settings.PlaceWindow"><value>アクティブウィンドウに追従</value></data>
+  <data name="Settings.PlaceCaret"><value>キャレットに追従</value></data>
+  <data name="Settings.PlaceFixed"><value>前回の位置を記憶</value></data>
+  <data name="Settings.SectionOutput"><value>出力</value></data>
+  <data name="Settings.SectionAbbr"><value>略語</value></data>
+  <data name="Settings.SectionData"><value>データ</value></data>
+  <data name="Settings.SectionGeneral"><value>一般</value></data>
+  <data name="Manager.Color"><value>色</value></data>
+  <data name="Manager.DuplicateCategory"><value>同名のカテゴリが既にあります</value></data>
+  <data name="Manager.SaveFailed"><value>保存に失敗しました：データフォルダーが使用中か書き込み不可の可能性があります。しばらくして再試行してください。</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>カテゴリ「{0}」を削除しますか？中のスニペットも削除されます。</value></data>
+  <data name="Dialog.OK"><value>OK</value></data>
+  <data name="Dialog.Cancel"><value>キャンセル</value></data>
+  <data name="Search.Recents"><value>よく使う</value></data>
+  <data name="Search.Favorites"><value>お気に入り</value></data>
+  <data name="Search.KeepOpen"><value>パネルを固定（連続送信）</value></data>
+  <data name="Dialog.FillVariables"><value>変数を入力</value></data>
+  <data name="Settings.AutoSend"><value>貼り付け後にEnterを押す</value></data>
+  <data name="Settings.ClickToSend"><value>クリックで送信</value></data>
+  <data name="Settings.ClickToSendHint"><value>検索パネルで 1 回クリックするとそのまま送信します。既定はダブルクリックまたは Enter です。</value></data>
+  <data name="Settings.Output"><value>出力方法</value></data>
+  <data name="Settings.OutputPaste"><value>アクティブなアプリに貼り付け</value></data>
+  <data name="Settings.OutputClipboard"><value>クリップボードにコピーのみ</value></data>
+  <data name="Settings.Hotkey"><value>呼び出しキー</value></data>
+  <data name="Settings.SummonMode"><value>呼び出し方法</value></data>
+  <data name="Settings.SummonModeHotkey"><value>組み合わせキー</value></data>
+  <data name="Settings.SummonModeTap"><value>修飾キー連打</value></data>
+  <data name="Settings.SummonTapDouble"><value>ダブルタップ（既定はシングル）</value></data>
+  <data name="Settings.SummonTapHint"><value>ここをクリックして修飾キー（例：右 Ctrl）を押してください。以後そのキーを連打すると呼び出せます。Delete で解除。（単独の修飾キーは通常のホットキーにできないため連打で検出します）</value></data>
+  <data name="Settings.DataFolder"><value>データフォルダー</value></data>
+  <data name="Settings.Language"><value>言語</value></data>
+  <data name="Settings.AbbrEnabled"><value>略語を有効化</value></data>
+  <data name="Settings.AbbrPrefix"><value>トリガー接頭辞</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>すべての略語の前に自動で付きます（既定 ;）。マネージャーでは略語そのもの（例：qm）だけ入力してください。実際のトリガーは「接頭辞＋略語」（例：;qm）です。空にすると接頭辞なし。接頭辞は通常入力での誤爆を防ぎます。</value></data>
+  <data name="Settings.RestoreClipboard"><value>元のクリップボードを保持</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>貼り付け時にクリップボードを一時的に使い、その後あなたが以前コピーした内容に戻します。クリップボードはそのまま保たれます。</value></data>
+  <data name="Settings.FollowSystem"><value>システムに従う</value></data>
+  <data name="Msg.HotkeyTaken"><value>ホットキーが使用中です。変更してください</value></data>
+  <data name="Msg.ConflictFiles"><value>同期の競合ファイルを検出</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>データフォルダーにアクセスできません（リムーバブル／ネットワークドライブが未接続の可能性）。一時的に空のライブラリで起動しました。設定で指定し直すか、接続し直して再起動してください。</value></data>
+  <data name="Search.Hint.Nav"><value>選択</value></data>
+  <data name="Search.Hint.Send"><value>送信</value></data>
+  <data name="Search.Hint.Close"><value>閉じる</value></data>
+  <data name="Search.Hint.SwitchCat"><value>カテゴリ</value></data>
+  <data name="Search.Empty.Title"><value>スニペットがありません</value></data>
+  <data name="Search.Empty.Sub"><value>トレイメニューから「マネージャー」を開いて最初のスニペットを追加</value></data>
+  <data name="Search.NoMatch"><value>「{0}」に一致するスニペットがありません</value></data>
+  <data name="Search.NoMatch.Sub"><value>別のキーワード、またはピンイン / 頭文字 / 略語をお試しください</value></data>
+  <data name="Search.Count"><value>{0} 件</value></data>
+  <data name="Settings.HotkeyHint"><value>クリックしてキーを押してください。通常キーは Ctrl / Alt / Shift / Win と併用、ファンクションキー F1–F24 は単独で使えます</value></data>
+  <data name="Settings.HotkeyPrompt"><value>キーを押してください…（Esc でキャンセル）</value></data>
+  <data name="Settings.Portable"><value>ポータブルモード</value></data>
+  <data name="Settings.PortableHint"><value>データを実行ファイル横の Data フォルダーに保存し、USB メモリで持ち運べてホストに痕跡を残しません。切り替えでマーカーを自動作成し、再起動後に有効。書き込み可能な場所に置く必要があります。</value></data>
+  <data name="Settings.PortableRestart"><value>ポータブルモードを切り替えました。再起動後に有効です。テキストライブラリは「バックアップのエクスポート / インポート」で移動できます。</value></data>
+  <data name="Settings.PortableFailed"><value>実行ファイルの場所に書き込めません（Program Files など読み取り専用の可能性）。ポータブルモードには書き込み可能な場所（USB メモリなど）が必要です。</value></data>
+  <data name="Settings.CheckUpdates"><value>起動時に更新を確認</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>オンにすると起動時に一度だけ GitHub へ接続して新しいバージョンを確認します。ネットワークに接続するのはこのときだけで、他の機能は常にオフラインで動作します。</value></data>
+  <data name="Settings.CheckNow"><value>今すぐ確認</value></data>
+  <data name="Msg.UpdateAvailable"><value>新しいバージョン {0} があります。クリックしてダウンロード。</value></data>
+  <data name="Msg.UpToDate"><value>最新バージョンです。</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>更新を確認できませんでした。後でもう一度お試しください。</value></data>
+</root>

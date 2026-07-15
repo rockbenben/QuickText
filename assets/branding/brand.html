@@ -1,0 +1,192 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>QuickText — Brand & Logo</title>
+<style>
+  :root{
+    --sans:-apple-system,"Segoe UI",system-ui,"PingFang SC","Microsoft YaHei",sans-serif;
+    --mono:"Cascadia Code","Cascadia Mono",ui-monospace,Consolas,monospace;
+    --ink:#0F1719; --ink-2:#141F1D; --surface:#182523; --surface-2:#1E2C2A;
+    --mint:#3DC2A0; --mint-lo:#5FE0C0; --amber:#F2B457; --paper:#E7EFEC; --slate:#8A9A96;
+    --line:rgba(255,255,255,.09); --line-2:rgba(255,255,255,.16);
+    --maxw:1060px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--paper);font-family:var(--sans);line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:radial-gradient(1000px 420px at 88% -10%, rgba(61,194,160,.14), transparent 62%);
+    background-attachment:fixed}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  section{padding:66px 0;border-top:1px solid var(--line)}
+  section:first-of-type{border-top:0}
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.26em;text-transform:uppercase;color:var(--mint);
+    margin:0 0 14px;display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:20px;height:1px;background:var(--mint)}
+  h2{font-weight:800;font-size:clamp(1.5rem,3.3vw,2.2rem);margin:0 0 8px;letter-spacing:-.02em;text-wrap:balance}
+  .lede{color:var(--slate);max-width:60ch;margin:0 0 28px}
+
+  header{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);background:rgba(15,23,25,.72);border-bottom:1px solid var(--line)}
+  .bar{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:12px}
+  .bar svg{width:28px;height:28px;display:block}
+  .bar .nm{font-weight:800;font-size:1.05rem;letter-spacing:-.01em;display:flex;align-items:center}
+  .bar .nm i{width:2px;height:1.05em;background:var(--mint);margin-left:3px;border-radius:1px}
+  .bar .spacer{flex:1}
+  .bar .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--slate)}
+
+  .hero{padding-top:58px}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center}
+  .mark-xl{width:128px;height:128px;filter:drop-shadow(0 18px 30px -14px rgba(0,0,0,.55))}
+  .wm{display:flex;align-items:center;font-weight:800;font-size:clamp(3rem,8vw,5.4rem);letter-spacing:-.03em;margin:22px 0 2px;line-height:1}
+  .wm .cur{width:.5rem;height:.86em;background:var(--mint);margin-left:.12em;border-radius:2px;box-shadow:0 0 18px rgba(61,194,160,.6)}
+  .roman{font-family:var(--mono);font-size:.8rem;letter-spacing:.28em;text-transform:uppercase;color:var(--slate)}
+  .tagline{font-size:clamp(1.15rem,2.5vw,1.5rem);font-weight:700;margin:24px 0 4px}
+  .tagline-sub{color:var(--slate);max-width:46ch;margin:0}
+  .stage{aspect-ratio:1;border:1px solid var(--line-2);border-radius:22px;display:grid;place-items:center;
+    background:linear-gradient(150deg,var(--surface),var(--ink-2));box-shadow:0 18px 44px -22px rgba(0,0,0,.7)}
+  .stage svg{width:50%;height:50%}
+
+  /* palette hero */
+  .palette{max-width:600px;background:linear-gradient(180deg,#182523,#131E1C);border:1px solid var(--line);
+    border-radius:16px;box-shadow:0 22px 60px -28px rgba(0,0,0,.8),inset 0 1px 0 rgba(95,224,192,.16);overflow:hidden}
+  .pin{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line)}
+  .pin .lens{color:var(--mint);font-size:1.15rem}
+  .pin .q{font-family:var(--mono);font-size:1.15rem;display:flex;align-items:center}
+  .pin .cur{width:2px;height:1.25rem;background:var(--mint);margin-left:1px;box-shadow:0 0 10px rgba(61,194,160,.8)}
+  @media (prefers-reduced-motion: no-preference){.cur.bl{animation:bl 1.05s steps(1) infinite}}
+  @keyframes bl{50%{opacity:0}}
+  .rows{padding:8px}
+  .row{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:11px;position:relative}
+  .row.on{background:rgba(61,194,160,.12)}
+  .row.on::before{content:"";position:absolute;left:3px;top:11px;bottom:11px;width:3px;border-radius:3px;background:var(--mint)}
+  .row .nm{font-weight:700;font-size:.98rem;min-width:5.4em}
+  .row .bd{font-family:var(--mono);font-size:.82rem;color:rgba(231,239,236,.55);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .row .kc{font-family:var(--mono);font-size:.78rem;color:var(--amber);border:1px solid rgba(242,179,87,.5);border-radius:7px;padding:2px 8px;box-shadow:0 2px 0 rgba(242,179,87,.22)}
+  .hints{display:flex;gap:20px;padding:13px 18px;border-top:1px solid var(--line);font-family:var(--mono);font-size:.74rem;color:var(--slate)}
+  .hints b{color:rgba(231,239,236,.82);font-weight:400;background:rgba(255,255,255,.07);border-radius:5px;padding:1px 7px;margin-right:5px}
+  .flow{display:grid;grid-template-columns:1fr 1fr;gap:34px;align-items:center}
+  .flow ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:16px}
+  .flow li{display:flex;gap:14px}
+  .flow .n{font-family:var(--mono);color:var(--mint);font-size:.78rem;padding-top:3px}
+  .flow .t{font-weight:700;margin:0}
+  .flow .d{margin:2px 0 0;color:var(--slate);font-size:.92rem}
+
+  .vgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+  .v{border:1px solid var(--line);border-radius:15px;background:var(--surface);padding:22px;display:flex;flex-direction:column;align-items:center;gap:15px}
+  .v .cap{font-family:var(--mono);font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:var(--slate)}
+  .v.lite{background:#EAF0EE}.v.lite .cap{color:#5a6a66}
+  .v.dark{background:#0C1112}
+  .tile{width:82px;height:82px}
+  .fav{display:flex;align-items:flex-end;gap:14px}
+  .lockh{display:flex;align-items:center;gap:11px}
+  .lockh svg{width:38px;height:38px}
+  .lockh .nm{font-weight:800;font-size:1.4rem;letter-spacing:-.02em;display:flex;align-items:center}
+  .lockh .nm i{width:2px;height:1.05em;background:var(--mint);margin-left:3px}
+
+  .tok{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  .sw{display:flex;flex-direction:column;gap:11px}
+  .cc{display:flex;align-items:center;gap:14px}
+  .cc .dot{width:42px;height:42px;border-radius:11px;border:1px solid var(--line);flex:none}
+  .cc .info{display:flex;flex-direction:column;line-height:1.35}
+  .cc .zh{font-weight:700}
+  .cc .hx{font-family:var(--mono);font-size:.78rem;color:var(--slate)}
+  .tspec{display:flex;flex-direction:column;gap:20px}
+  .ts .lbl{font-family:var(--mono);font-size:.63rem;letter-spacing:.14em;text-transform:uppercase;color:var(--slate);margin-bottom:6px}
+  .ts .wmx{font-weight:800;font-size:2rem;letter-spacing:-.03em}
+  .ts .mn{font-family:var(--mono);font-size:1rem}
+
+  footer{padding:36px 0 60px;color:var(--slate);font-size:.85rem;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);letter-spacing:.03em}
+  @media (max-width:820px){.hero-grid,.flow,.tok{grid-template-columns:1fr}.stage{max-width:300px}.vgrid{grid-template-columns:1fr 1fr}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="qg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#57DFB8"/><stop offset="1" stop-color="#22997C"/></linearGradient>
+    <symbol id="mark" viewBox="0 0 64 64">
+      <rect x="5" y="5" width="54" height="54" rx="15" fill="url(#qg)"/>
+      <rect x="5.75" y="5.75" width="52.5" height="52.5" rx="14.25" fill="none" stroke="rgba(255,255,255,.22)" stroke-width="1.5"/>
+      <rect x="15" y="27" width="17" height="11" rx="3.5" fill="#F2B457"/>
+      <g fill="#0F1D19"><rect x="37" y="19" width="5" height="27" rx="2.5"/><rect x="32.5" y="19" width="14" height="3" rx="1.5"/><rect x="32.5" y="43" width="14" height="3" rx="1.5"/></g>
+    </symbol>
+    <symbol id="mark-mono" viewBox="0 0 64 64">
+      <rect x="5" y="5" width="54" height="54" rx="15" fill="none" stroke="currentColor" stroke-width="2.4"/>
+      <rect x="15" y="27" width="17" height="11" rx="3.5" fill="currentColor" fill-opacity=".5"/>
+      <g fill="currentColor"><rect x="37" y="19" width="5" height="27" rx="2.5"/><rect x="32.5" y="19" width="14" height="3" rx="1.5"/><rect x="32.5" y="43" width="14" height="3" rx="1.5"/></g>
+    </symbol>
+  </defs>
+</svg>
+
+<header><div class="bar">
+  <svg><use href="#mark"/></svg><span class="nm">QuickText<i></i></span>
+  <span class="spacer"></span><span class="tag">Brand / Identity</span>
+</div></header>
+
+<main>
+  <section class="hero wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow">常用文本 · 拼音直呼</p>
+        <svg class="mark-xl"><use href="#mark"/></svg>
+        <div class="wm">QuickText<span class="cur"></span></div>
+        <div class="roman">Windows · 托盘常驻</div>
+        <p class="tagline">Your text, a keystroke away.</p>
+        <p class="tagline-sub">敲几个拼音，存好的常用文本就落到光标处。不用记缩写，越用越顺手。</p>
+      </div>
+      <div class="stage"><svg><use href="#mark"/></svg></div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <p class="eyebrow">核心动作</p>
+    <h2>像命令面板一样，呼出你的文字</h2>
+    <p class="lede">全部魔法在一次呼吸里：热键呼出面板，敲两三个拼音字母，回车 —— 文本落在你正在打字的地方。</p>
+    <div class="flow">
+      <div class="palette" role="img" aria-label="示意：输入拼音 hf，命中「回复模板」，回车贴到光标处">
+        <div class="pin"><span class="lens">⌕</span><span class="q">hf<span class="cur bl"></span></span></div>
+        <div class="rows">
+          <div class="row on"><span class="nm">回复模板</span><span class="bd">你好，这是我常用的一段话…</span><span class="kc">↵</span></div>
+          <div class="row"><span class="nm">邮箱</span><span class="bd">your.name@example.com</span></div>
+          <div class="row"><span class="nm">签名</span><span class="bd">此致 敬礼 {姓名}</span></div>
+        </div>
+        <div class="hints"><span><b>↑↓</b>选择</span><span><b>↵</b>贴到光标</span><span><b>esc</b>关闭</span></div>
+      </div>
+      <ol>
+        <li><span class="n">01</span><div><p class="t">呼出</p><p class="d">全局热键唤起面板，跟随当前窗口 / 光标出现。</p></div></li>
+        <li><span class="n">02</span><div><p class="t">直呼</p><p class="d">拼音、首字母、缩写、正文全文 —— 怎么记得住怎么搜。</p></div></li>
+        <li><span class="n">03</span><div><p class="t">落位</p><p class="d">直接粘贴到光标处，或只复制到剪贴板，随你。</p></div></li>
+        <li><span class="n">04</span><div><p class="t">自有</p><p class="d">数据是你自己文件夹里的明文文件，放进任意网盘即同步。</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <p class="eyebrow">标识系统</p>
+    <h2>光标即标志</h2>
+    <p class="lede">一块玉色方片上，一个文字插入光标 I 落在一段刚贴出的琥珀色文字旁 —— “text▮”。就是这工具做的事：把文字放到光标上。16px 也读得出。</p>
+    <div class="vgrid">
+      <div class="v"><svg class="tile"><use href="#mark"/></svg><span class="cap">主标 / App 图标</span></div>
+      <div class="v dark"><div class="fav"><svg width="48" height="48"><use href="#mark"/></svg><svg width="32" height="32"><use href="#mark"/></svg><svg width="16" height="16"><use href="#mark"/></svg></div><span class="cap">Favicon 48/32/16</span></div>
+      <div class="v lite"><svg class="tile" style="color:#12201C"><use href="#mark-mono"/></svg><span class="cap">单色 · 深（浅底）</span></div>
+      <div class="v dark"><svg class="tile" style="color:#E7EFEC"><use href="#mark-mono"/></svg><span class="cap">单色 · 反白（深底）</span></div>
+      <div class="v" style="grid-column:span 4;flex-direction:row;justify-content:center;gap:22px"><div class="lockh"><svg><use href="#mark"/></svg><span class="nm">QuickText<i></i></span></div><span class="cap">横向锁版（字标带光标）</span></div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <p class="eyebrow">色彩与字体</p>
+    <h2>薄暮终端：青、琥珀、墨</h2>
+    <p class="lede">刻意避开「近黑配一抹荧光」：不是一个荧光绿孤零零地打在黑上，而是青（应用主色 #3DC2A0）与琥珀双声部，落在偏青的墨底上。字体走无衬线字标 × Cascadia 等宽 —— 你的正文，被键入召唤。</p>
+    <div class="tok">
+      <div class="sw">
+        <div class="cc"><span class="dot" style="background:linear-gradient(150deg,#57DFB8,#22997C)"></span><span class="info"><span class="zh">青 Mint</span><span class="hx">#3DC2A0 · 主色 / 活动光标</span></span></div>
+        <div class="cc"><span class="dot" style="background:#F2B457"></span><span class="info"><span class="zh">琥珀 Amber</span><span class="hx">#F2B457 · 键位 / 落定文字</span></span></div>
+        <div class="cc"><span class="dot" style="background:#0F1719"></span><span class="info"><span class="zh">墨 Ink</span><span class="hx">#0F1719 · 偏青的近黑底色</span></span></div>
+        <div class="cc"><span class="dot" style="background:#8A9A96"></span><span class="info"><span class="zh">灰 Slate</span><span class="hx">#8A9A96 · 次要文字（偏青）</span></span></div>
+      </div>
+      <div class="tspec">
+        <div class="ts"><div class="lbl">Wordmark · 无衬线 · 800</div><div class="wmx">QuickText</div></div>
+        <div class="ts"><div class="lbl">Mono · Cascadia Code（拼音 / 键位 / 提示）</div><div class="mn">hf → 回复模板 · ↵ esc · #3DC2A0</div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap"><span>QuickText · 常用文本快捷输入 · Windows</span><span>青 · 琥珀 · 墨</span></footer>

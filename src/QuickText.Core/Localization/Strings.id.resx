@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>Buka Pengelola</value></data>
+  <data name="Tray.OpenSearch"><value>Buka Pencarian</value></data>
+  <data name="Tray.Settings"><value>Pengaturan</value></data>
+  <data name="Tray.Autostart"><value>Mulai bersama Windows</value></data>
+  <data name="Tray.Exit"><value>Keluar</value></data>
+  <data name="Search.Placeholder"><value>Cari snippet…</value></data>
+  <data name="Manager.Categories"><value>Kategori</value></data>
+  <data name="Manager.Snippets"><value>Snippet</value></data>
+  <data name="Manager.Name"><value>Nama</value></data>
+  <data name="Manager.Abbr"><value>Singkatan</value></data>
+  <data name="Manager.Body"><value>Isi</value></data>
+  <data name="Manager.Add"><value>Tambah</value></data>
+  <data name="Manager.Delete"><value>Hapus</value></data>
+  <data name="Manager.Save"><value>Simpan</value></data>
+  <data name="Manager.Rename"><value>Ganti nama</value></data>
+  <data name="Manager.NewCategory"><value>Kategori baru</value></data>
+  <data name="Manager.RenameCategory"><value>Ganti nama kategori</value></data>
+  <data name="Manager.CategoryName"><value>Nama kategori</value></data>
+  <data name="Manager.NewCategoryName"><value>Kategori baru</value></data>
+  <data name="Manager.Wrap"><value>Bungkus baris</value></data>
+  <data name="Manager.OutputMode"><value>Keluaran</value></data>
+  <data name="Manager.OutputModeHint"><value>Cara snippet ini dikirim; “Ikuti global” memakai mode keluaran dari Pengaturan.</value></data>
+  <data name="Manager.Output.Default"><value>Ikuti global</value></data>
+  <data name="Manager.Output.Paste"><value>Tempel</value></data>
+  <data name="Manager.Output.PasteEnter"><value>Tempel + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>Salin saja</value></data>
+  <data name="Manager.AbbrConflict"><value>Singkatan sama dengan “{0}” — hanya satu yang aktif</value></data>
+  <data name="Manager.Trash"><value>Sampah</value></data>
+  <data name="Manager.MoveTo"><value>Pindah ke kategori</value></data>
+  <data name="Manager.DeleteSelected"><value>Hapus terpilih ({0})</value></data>
+  <data name="Manager.UsageStat"><value>Dipakai {0} kali · terakhir {1}</value></data>
+  <data name="Manager.NeverUsed"><value>Belum pernah dipakai</value></data>
+  <data name="Trash.Restore"><value>Pulihkan</value></data>
+  <data name="Trash.DeleteForever"><value>Hapus permanen</value></data>
+  <data name="Trash.Empty"><value>Kosongkan sampah</value></data>
+  <data name="Trash.Close"><value>Tutup</value></data>
+  <data name="Trash.EmptyState"><value>Sampah kosong</value></data>
+  <data name="Trash.Hint"><value>Snippet yang dihapus disimpan di sini selama {0} hari, lalu terhapus otomatis. Memulihkan mengembalikannya ke kategori asal (dibuat ulang jika perlu).</value></data>
+  <data name="Trash.EmptyConfirm"><value>Kosongkan sampah? Semua snippet tidak bisa dipulihkan.</value></data>
+  <data name="Tray.PauseAbbr"><value>Jeda perluasan</value></data>
+  <data name="Tray.ResumeAbbr"><value>Lanjutkan perluasan</value></data>
+  <data name="Tray.PausedTip"><value>perluasan singkatan dijeda</value></data>
+  <data name="Settings.CaptureHotkey"><value>Tombol pintas tangkap</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>Menyimpan teks clipboard saat ini sebagai snippet baru secara diam-diam. Klik, lalu tekan kombinasi; Delete menghapusnya (kosong = nonaktif).</value></data>
+  <data name="Settings.OpenBackups"><value>Buka folder cadangan</value></data>
+  <data name="Settings.AutoBackupHint"><value>Folder data di-zip ke komputer ini setiap hari (10 terbaru disimpan); zip cadangan dipulihkan lewat “Impor cadangan”.</value></data>
+  <data name="Msg.Captured"><value>Snippet disimpan: {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>Singkatan ganda (hanya satu yang aktif per singkatan): {0}. Perbaiki di Pengelola.</value></data>
+  <data name="Msg.CaptureEmpty"><value>Tidak ada teks di clipboard</value></data>
+  <data name="Manager.UseVars"><value>Aktifkan placeholder {variable}</value></data>
+  <data name="Manager.UseVarsHint"><value>Jika dicentang, token {variable}, {clipboard}, {date} dan {cursor} diproses saat dikirim; jika tidak, isi dikirim apa adanya (cocok untuk kode/skrip yang memuat {…} literal).</value></data>
+  <data name="Manager.Image"><value>Gambar</value></data>
+  <data name="Manager.FromClipboard"><value>Dari clipboard</value></data>
+  <data name="Manager.FromFile"><value>Pilih berkas</value></data>
+  <data name="Manager.RemoveImage"><value>Hapus</value></data>
+  <data name="Manager.Saved"><value>✓ Tersimpan</value></data>
+  <data name="Manager.NewSnippetName"><value>Snippet baru</value></data>
+  <data name="Manager.Filter"><value>Saring…</value></data>
+  <data name="Manager.Duplicate"><value>Gandakan</value></data>
+  <data name="Manager.DuplicateAbbr"><value>Singkatan “{0}” sudah dipakai oleh “{1}” — perluasan jadi ambigu</value></data>
+  <data name="Msg.FirstRunHint"><value>Tekan {0} untuk membuka panel</value></data>
+  <data name="Settings.OpenFolder"><value>Buka folder data</value></data>
+  <data name="Tray.NewFromClipboard"><value>Baru dari clipboard</value></data>
+  <data name="Ctx.Edit"><value>Edit</value></data>
+  <data name="Ctx.Copy"><value>Salin konten</value></data>
+  <data name="Settings.AbbrBlacklist"><value>Nonaktifkan singkatan di proses ini</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>Nama proses dipisah titik koma, mis. cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>Ekspor cadangan</value></data>
+  <data name="Msg.Exported"><value>Cadangan diekspor</value></data>
+  <data name="Settings.ImportBackup"><value>Impor cadangan</value></data>
+  <data name="Msg.ImportConfirm"><value>Mengimpor akan menimpa pustaka saat ini. Lanjutkan?</value></data>
+  <data name="Msg.ImportInvalid"><value>Bukan berkas cadangan yang valid</value></data>
+  <data name="Msg.Imported"><value>Cadangan diimpor</value></data>
+  <data name="Search.CreateNew"><value>Buat “{0}”</value></data>
+  <data name="Search.Hint.New"><value>Baru</value></data>
+  <data name="Search.Hint.Edit"><value>Edit</value></data>
+  <data name="Settings.SectionSummon"><value>Panggil</value></data>
+  <data name="Settings.PanelPlacement"><value>Posisi panel</value></data>
+  <data name="Settings.PlaceWindow"><value>Ikuti jendela aktif</value></data>
+  <data name="Settings.PlaceCaret"><value>Ikuti kursor teks</value></data>
+  <data name="Settings.PlaceFixed"><value>Ingat posisi terakhir</value></data>
+  <data name="Settings.SectionOutput"><value>Keluaran</value></data>
+  <data name="Settings.SectionAbbr"><value>Singkatan</value></data>
+  <data name="Settings.SectionData"><value>Data</value></data>
+  <data name="Settings.SectionGeneral"><value>Umum</value></data>
+  <data name="Manager.Color"><value>Warna</value></data>
+  <data name="Manager.DuplicateCategory"><value>Kategori dengan nama itu sudah ada</value></data>
+  <data name="Manager.SaveFailed"><value>Gagal menyimpan: folder data mungkin terkunci atau tidak bisa ditulis. Coba lagi.</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>Hapus kategori “{0}”? Snippet di dalamnya juga akan terhapus.</value></data>
+  <data name="Dialog.OK"><value>OK</value></data>
+  <data name="Dialog.Cancel"><value>Batal</value></data>
+  <data name="Search.Recents"><value>Terbaru</value></data>
+  <data name="Search.Favorites"><value>Favorit</value></data>
+  <data name="Search.KeepOpen"><value>Biarkan terbuka (kirim beberapa)</value></data>
+  <data name="Dialog.FillVariables"><value>Isi variabel</value></data>
+  <data name="Settings.AutoSend"><value>Tekan Enter setelah menempel</value></data>
+  <data name="Settings.ClickToSend"><value>Klik sekali untuk kirim</value></data>
+  <data name="Settings.ClickToSendHint"><value>Di panel pencarian, klik sekali langsung mengirim snippet; secara default Anda klik ganda atau tekan Enter.</value></data>
+  <data name="Settings.Output"><value>Metode keluaran</value></data>
+  <data name="Settings.OutputPaste"><value>Tempel ke aplikasi aktif</value></data>
+  <data name="Settings.OutputClipboard"><value>Salin ke clipboard saja</value></data>
+  <data name="Settings.Hotkey"><value>Tombol pintas</value></data>
+  <data name="Settings.SummonMode"><value>Panggil dengan</value></data>
+  <data name="Settings.SummonModeHotkey"><value>Kombinasi tombol</value></data>
+  <data name="Settings.SummonModeTap"><value>Ketuk tombol pengubah</value></data>
+  <data name="Settings.SummonTapDouble"><value>Ketuk ganda (jika tidak, sekali)</value></data>
+  <data name="Settings.SummonTapHint"><value>Klik di sini dan tekan tombol pengubah (mis. Ctrl kanan); mengetuknya lalu memanggil panel. Tekan Delete untuk menghapus. (Tombol pengubah tunggal tak bisa jadi tombol pintas biasa, jadi dideteksi lewat ketukan.)</value></data>
+  <data name="Settings.DataFolder"><value>Folder data</value></data>
+  <data name="Settings.Language"><value>Bahasa</value></data>
+  <data name="Settings.AbbrEnabled"><value>Aktifkan singkatan</value></data>
+  <data name="Settings.AbbrPrefix"><value>Awalan pemicu</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>Ditambahkan di depan setiap singkatan (default ;). Di Pengelola ketik singkatannya saja (mis. qm) — terpicu oleh awalan+singkatan (mis. ;qm). Kosongkan untuk tanpa awalan; awalan mencegah pengetikan biasa memicunya.</value></data>
+  <data name="Settings.RestoreClipboard"><value>Jaga clipboard tetap utuh</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Menempel sesaat memakai clipboard, lalu memulihkan apa pun yang tadi Anda salin — dibiarkan seperti semula.</value></data>
+  <data name="Settings.FollowSystem"><value>Ikuti sistem</value></data>
+  <data name="Msg.HotkeyTaken"><value>Tombol pintas sedang dipakai, silakan ganti</value></data>
+  <data name="Msg.ConflictFiles"><value>Berkas konflik sinkronisasi terdeteksi</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>Folder data tidak tersedia (drive lepasan atau jaringan mungkin terputus). Dimulai dengan pustaka kosong untuk sekarang — arahkan ulang di Pengaturan, atau sambungkan lagi lalu jalankan ulang.</value></data>
+  <data name="Search.Hint.Nav"><value>Navigasi</value></data>
+  <data name="Search.Hint.Send"><value>Kirim</value></data>
+  <data name="Search.Hint.Close"><value>Tutup</value></data>
+  <data name="Search.Hint.SwitchCat"><value>Kategori</value></data>
+  <data name="Search.Empty.Title"><value>Belum ada snippet</value></data>
+  <data name="Search.Empty.Sub"><value>Buka Pengelola dari menu tray untuk menambah snippet pertama Anda</value></data>
+  <data name="Search.NoMatch"><value>Tidak ada snippet cocok dengan “{0}”</value></data>
+  <data name="Search.NoMatch.Sub"><value>Coba kata kunci lain, atau pinyin / inisial / singkatan</value></data>
+  <data name="Search.Count"><value>{0} hasil</value></data>
+  <data name="Settings.HotkeyHint"><value>Klik, lalu tekan tombol; tombol biasa perlu Ctrl / Alt / Shift / Win, tombol fungsi F1–F24 bisa dipakai sendiri</value></data>
+  <data name="Settings.HotkeyPrompt"><value>Tekan tombol… (Esc untuk batal)</value></data>
+  <data name="Settings.Portable"><value>Mode portabel</value></data>
+  <data name="Settings.PortableHint"><value>Menyimpan data di folder Data di samping aplikasi — bisa dibawa di USB, tak meninggalkan apa pun di host. Sakelar ini membuat penanda untuk Anda; berlaku setelah mulai ulang, dan butuh aplikasi di lokasi yang bisa ditulis.</value></data>
+  <data name="Settings.PortableRestart"><value>Mode portabel diubah — mulai ulang untuk menerapkan. Pindahkan pustaka teks Anda dengan Ekspor / Impor cadangan.</value></data>
+  <data name="Settings.PortableFailed"><value>Tidak bisa menulis di samping aplikasi (mungkin di lokasi baca-saja seperti Program Files). Mode portabel butuh aplikasi di tempat yang bisa ditulis, seperti USB.</value></data>
+  <data name="Settings.CheckUpdates"><value>Periksa pembaruan saat mulai</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Jika aktif, terhubung ke GitHub sekali saat mulai untuk memeriksa versi baru — satu-satunya saat aplikasi daring; selebihnya selalu luring.</value></data>
+  <data name="Settings.CheckNow"><value>Periksa sekarang</value></data>
+  <data name="Msg.UpdateAvailable"><value>Versi {0} tersedia — klik untuk mengunduh.</value></data>
+  <data name="Msg.UpToDate"><value>Anda memakai versi terbaru.</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>Gagal memeriksa pembaruan. Coba lagi nanti.</value></data>
+</root>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>ম্যানেজার খুলুন</value></data>
+  <data name="Tray.OpenSearch"><value>সার্চ খুলুন</value></data>
+  <data name="Tray.Settings"><value>সেটিংস</value></data>
+  <data name="Tray.Autostart"><value>Windows-এর সাথে চালু করুন</value></data>
+  <data name="Tray.Exit"><value>প্রস্থান</value></data>
+  <data name="Search.Placeholder"><value>স্নিপেট খুঁজুন…</value></data>
+  <data name="Manager.Categories"><value>বিভাগ</value></data>
+  <data name="Manager.Snippets"><value>স্নিপেট</value></data>
+  <data name="Manager.Name"><value>নাম</value></data>
+  <data name="Manager.Abbr"><value>সংক্ষিপ্ত রূপ</value></data>
+  <data name="Manager.Body"><value>বিষয়বস্তু</value></data>
+  <data name="Manager.Add"><value>যোগ করুন</value></data>
+  <data name="Manager.Delete"><value>মুছুন</value></data>
+  <data name="Manager.Save"><value>সংরক্ষণ</value></data>
+  <data name="Manager.Rename"><value>নাম বদলান</value></data>
+  <data name="Manager.NewCategory"><value>নতুন বিভাগ</value></data>
+  <data name="Manager.RenameCategory"><value>বিভাগের নাম বদলান</value></data>
+  <data name="Manager.CategoryName"><value>বিভাগের নাম</value></data>
+  <data name="Manager.NewCategoryName"><value>নতুন বিভাগ</value></data>
+  <data name="Manager.Wrap"><value>লাইন মোড়ান</value></data>
+  <data name="Manager.OutputMode"><value>আউটপুট</value></data>
+  <data name="Manager.OutputModeHint"><value>এই স্নিপেটটি কীভাবে পাঠানো হবে; “গ্লোবাল অনুসরণ” সেটিংস থেকে আউটপুট মোড ব্যবহার করে।</value></data>
+  <data name="Manager.Output.Default"><value>গ্লোবাল অনুসরণ</value></data>
+  <data name="Manager.Output.Paste"><value>পেস্ট</value></data>
+  <data name="Manager.Output.PasteEnter"><value>পেস্ট + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>শুধু কপি</value></data>
+  <data name="Manager.AbbrConflict"><value>“{0}”-এর সংক্ষিপ্ত রূপ ডুপ্লিকেট — শুধু একটি কাজ করবে</value></data>
+  <data name="Manager.Trash"><value>ট্র্যাশ</value></data>
+  <data name="Manager.MoveTo"><value>বিভাগে সরান</value></data>
+  <data name="Manager.DeleteSelected"><value>নির্বাচিত মুছুন ({0})</value></data>
+  <data name="Manager.UsageStat"><value>{0} বার ব্যবহৃত · সর্বশেষ {1}</value></data>
+  <data name="Manager.NeverUsed"><value>কখনো ব্যবহৃত হয়নি</value></data>
+  <data name="Trash.Restore"><value>পুনরুদ্ধার</value></data>
+  <data name="Trash.DeleteForever"><value>স্থায়ীভাবে মুছুন</value></data>
+  <data name="Trash.Empty"><value>ট্র্যাশ খালি করুন</value></data>
+  <data name="Trash.Close"><value>বন্ধ</value></data>
+  <data name="Trash.EmptyState"><value>ট্র্যাশ খালি</value></data>
+  <data name="Trash.Hint"><value>মুছে ফেলা স্নিপেট এখানে {0} দিন রাখা হয়, তারপর স্বয়ংক্রিয়ভাবে সরানো হয়। পুনরুদ্ধার করলে সেগুলো মূল বিভাগে ফিরে যায় (প্রয়োজনে পুনরায় তৈরি হয়)।</value></data>
+  <data name="Trash.EmptyConfirm"><value>ট্র্যাশ খালি করবেন? সব স্নিপেট আর ফিরে পাওয়া যাবে না।</value></data>
+  <data name="Tray.PauseAbbr"><value>সম্প্রসারণ থামান</value></data>
+  <data name="Tray.ResumeAbbr"><value>সম্প্রসারণ চালু করুন</value></data>
+  <data name="Tray.PausedTip"><value>সংক্ষিপ্ত রূপ সম্প্রসারণ থামানো</value></data>
+  <data name="Settings.CaptureHotkey"><value>ক্যাপচার হটকি</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>বর্তমান ক্লিপবোর্ডের টেক্সট নীরবে নতুন স্নিপেট হিসেবে সংরক্ষণ করে। ক্লিক করে একটি কম্বিনেশন চাপুন; Delete মুছে দেয় (খালি = নিষ্ক্রিয়)।</value></data>
+  <data name="Settings.OpenBackups"><value>ব্যাকআপ ফোল্ডার খুলুন</value></data>
+  <data name="Settings.AutoBackupHint"><value>ডেটা ফোল্ডার প্রতিদিন এই মেশিনে zip করা হয় (সর্বশেষ ১০টি রাখা হয়); একটি ব্যাকআপ zip “ব্যাকআপ আমদানি” দিয়ে পুনরুদ্ধার হয়।</value></data>
+  <data name="Msg.Captured"><value>স্নিপেট সংরক্ষিত: {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>ডুপ্লিকেট সংক্ষিপ্ত রূপ (প্রতিটির শুধু একটি কাজ করে): {0}। ম্যানেজারে ঠিক করুন।</value></data>
+  <data name="Msg.CaptureEmpty"><value>ক্লিপবোর্ডে কোনো টেক্সট নেই</value></data>
+  <data name="Manager.UseVars"><value>{variable} প্লেসহোল্ডার সক্রিয় করুন</value></data>
+  <data name="Manager.UseVarsHint"><value>চেক করা থাকলে {variable}, {clipboard}, {date} ও {cursor} টোকেন পাঠানোর সময় প্রক্রিয়া হয়; চেক না থাকলে বিষয়বস্তু হুবহু পাঠানো হয় (আক্ষরিক {…} থাকা কোড/স্ক্রিপ্টের জন্য উত্তম)।</value></data>
+  <data name="Manager.Image"><value>ছবি</value></data>
+  <data name="Manager.FromClipboard"><value>ক্লিপবোর্ড থেকে</value></data>
+  <data name="Manager.FromFile"><value>ফাইল নির্বাচন করুন</value></data>
+  <data name="Manager.RemoveImage"><value>সরান</value></data>
+  <data name="Manager.Saved"><value>✓ সংরক্ষিত</value></data>
+  <data name="Manager.NewSnippetName"><value>নতুন স্নিপেট</value></data>
+  <data name="Manager.Filter"><value>ফিল্টার…</value></data>
+  <data name="Manager.Duplicate"><value>নকল করুন</value></data>
+  <data name="Manager.DuplicateAbbr"><value>সংক্ষিপ্ত রূপ “{0}” ইতিমধ্যে “{1}” ব্যবহার করছে — সম্প্রসারণ অস্পষ্ট হবে</value></data>
+  <data name="Msg.FirstRunHint"><value>প্যানেল খুলতে {0} চাপুন</value></data>
+  <data name="Settings.OpenFolder"><value>ডেটা ফোল্ডার খুলুন</value></data>
+  <data name="Tray.NewFromClipboard"><value>ক্লিপবোর্ড থেকে নতুন</value></data>
+  <data name="Ctx.Edit"><value>সম্পাদনা</value></data>
+  <data name="Ctx.Copy"><value>বিষয়বস্তু কপি করুন</value></data>
+  <data name="Settings.AbbrBlacklist"><value>এই প্রসেসগুলোতে সংক্ষিপ্ত রূপ নিষ্ক্রিয় করুন</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>সেমিকোলন দিয়ে আলাদা করা প্রসেসের নাম, যেমন cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>ব্যাকআপ রপ্তানি</value></data>
+  <data name="Msg.Exported"><value>ব্যাকআপ রপ্তানি হয়েছে</value></data>
+  <data name="Settings.ImportBackup"><value>ব্যাকআপ আমদানি</value></data>
+  <data name="Msg.ImportConfirm"><value>আমদানি করলে বর্তমান লাইব্রেরি প্রতিস্থাপিত হবে। চালিয়ে যাবেন?</value></data>
+  <data name="Msg.ImportInvalid"><value>বৈধ ব্যাকআপ ফাইল নয়</value></data>
+  <data name="Msg.Imported"><value>ব্যাকআপ আমদানি হয়েছে</value></data>
+  <data name="Search.CreateNew"><value>“{0}” তৈরি করুন</value></data>
+  <data name="Search.Hint.New"><value>নতুন</value></data>
+  <data name="Search.Hint.Edit"><value>সম্পাদনা</value></data>
+  <data name="Settings.SectionSummon"><value>আহ্বান</value></data>
+  <data name="Settings.PanelPlacement"><value>প্যানেলের অবস্থান</value></data>
+  <data name="Settings.PlaceWindow"><value>সক্রিয় উইন্ডো অনুসরণ করুন</value></data>
+  <data name="Settings.PlaceCaret"><value>টেক্সট ক্যারেট অনুসরণ করুন</value></data>
+  <data name="Settings.PlaceFixed"><value>সর্বশেষ অবস্থান মনে রাখুন</value></data>
+  <data name="Settings.SectionOutput"><value>আউটপুট</value></data>
+  <data name="Settings.SectionAbbr"><value>সংক্ষিপ্ত রূপ</value></data>
+  <data name="Settings.SectionData"><value>ডেটা</value></data>
+  <data name="Settings.SectionGeneral"><value>সাধারণ</value></data>
+  <data name="Manager.Color"><value>রঙ</value></data>
+  <data name="Manager.DuplicateCategory"><value>সেই নামের একটি বিভাগ ইতিমধ্যে আছে</value></data>
+  <data name="Manager.SaveFailed"><value>সংরক্ষণ ব্যর্থ: ডেটা ফোল্ডার লক করা বা লেখার অযোগ্য হতে পারে। আবার চেষ্টা করুন।</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>“{0}” বিভাগ মুছবেন? এর স্নিপেটগুলোও মুছে যাবে।</value></data>
+  <data name="Dialog.OK"><value>ঠিক আছে</value></data>
+  <data name="Dialog.Cancel"><value>বাতিল</value></data>
+  <data name="Search.Recents"><value>সাম্প্রতিক</value></data>
+  <data name="Search.Favorites"><value>পছন্দসমূহ</value></data>
+  <data name="Search.KeepOpen"><value>খোলা রাখুন (কয়েকটি পাঠান)</value></data>
+  <data name="Dialog.FillVariables"><value>ভেরিয়েবল পূরণ করুন</value></data>
+  <data name="Settings.AutoSend"><value>পেস্টের পর Enter চাপুন</value></data>
+  <data name="Settings.ClickToSend"><value>পাঠাতে একবার ক্লিক করুন</value></data>
+  <data name="Settings.ClickToSendHint"><value>সার্চ প্যানেলে একটি ক্লিকে স্নিপেট পাঠানো হয়; ডিফল্টে ডাবল-ক্লিক বা Enter চাপুন।</value></data>
+  <data name="Settings.Output"><value>আউটপুট পদ্ধতি</value></data>
+  <data name="Settings.OutputPaste"><value>সক্রিয় অ্যাপে পেস্ট করুন</value></data>
+  <data name="Settings.OutputClipboard"><value>শুধু ক্লিপবোর্ডে কপি করুন</value></data>
+  <data name="Settings.Hotkey"><value>হটকি</value></data>
+  <data name="Settings.SummonMode"><value>আহ্বানের উপায়</value></data>
+  <data name="Settings.SummonModeHotkey"><value>কী কম্বো</value></data>
+  <data name="Settings.SummonModeTap"><value>মডিফায়ার ট্যাপ করুন</value></data>
+  <data name="Settings.SummonTapDouble"><value>ডাবল-ট্যাপ (নয়তো একবার)</value></data>
+  <data name="Settings.SummonTapHint"><value>এখানে ক্লিক করে একটি মডিফায়ার চাপুন (যেমন ডান Ctrl); সেটি ট্যাপ করলে প্যানেল আসবে। মুছতে Delete চাপুন। (একক মডিফায়ার সাধারণ হটকি হতে পারে না, তাই ট্যাপ দিয়ে শনাক্ত হয়।)</value></data>
+  <data name="Settings.DataFolder"><value>ডেটা ফোল্ডার</value></data>
+  <data name="Settings.Language"><value>ভাষা</value></data>
+  <data name="Settings.AbbrEnabled"><value>সংক্ষিপ্ত রূপ সক্রিয় করুন</value></data>
+  <data name="Settings.AbbrPrefix"><value>ট্রিগার প্রিফিক্স</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>প্রতিটি সংক্ষিপ্ত রূপের আগে যুক্ত হয় (ডিফল্ট ;)। ম্যানেজারে শুধু সংক্ষিপ্ত রূপটি লিখুন (যেমন qm) — এটি প্রিফিক্স+সংক্ষিপ্ত রূপে ট্রিগার হয় (যেমন ;qm)। প্রিফিক্স ছাড়া চাইলে খালি রাখুন; প্রিফিক্স সাধারণ টাইপিং থেকে ট্রিগার এড়ায়।</value></data>
+  <data name="Settings.RestoreClipboard"><value>আমার ক্লিপবোর্ড অক্ষত রাখুন</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>পেস্ট করার সময় ক্ষণিকের জন্য ক্লিপবোর্ড ব্যবহার হয়, তারপর আপনার আগের কপি করা জিনিস ফিরিয়ে দেয় — যেমন ছিল তেমনই থাকে।</value></data>
+  <data name="Settings.FollowSystem"><value>সিস্টেম অনুসরণ করুন</value></data>
+  <data name="Msg.HotkeyTaken"><value>হটকি ব্যবহৃত হচ্ছে, অনুগ্রহ করে বদলান</value></data>
+  <data name="Msg.ConflictFiles"><value>সিঙ্ক কনফ্লিক্ট ফাইল শনাক্ত হয়েছে</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>ডেটা ফোল্ডার অনুপলব্ধ (একটি অপসারণযোগ্য বা নেটওয়ার্ক ড্রাইভ সংযোগ বিচ্ছিন্ন হতে পারে)। আপাতত খালি লাইব্রেরি নিয়ে শুরু হয়েছে — সেটিংসে পুনরায় নির্দেশ করুন, বা পুনঃসংযোগ করে আবার চালু করুন।</value></data>
+  <data name="Search.Hint.Nav"><value>নেভিগেট</value></data>
+  <data name="Search.Hint.Send"><value>পাঠান</value></data>
+  <data name="Search.Hint.Close"><value>বন্ধ</value></data>
+  <data name="Search.Hint.SwitchCat"><value>বিভাগ</value></data>
+  <data name="Search.Empty.Title"><value>এখনো কোনো স্নিপেট নেই</value></data>
+  <data name="Search.Empty.Sub"><value>প্রথম স্নিপেট যোগ করতে ট্রে মেনু থেকে ম্যানেজার খুলুন</value></data>
+  <data name="Search.NoMatch"><value>“{0}”-এর সাথে কোনো স্নিপেট মেলে না</value></data>
+  <data name="Search.NoMatch.Sub"><value>অন্য কীওয়ার্ড, বা পিনয়িন / আদ্যক্ষর / সংক্ষিপ্ত রূপ চেষ্টা করুন</value></data>
+  <data name="Search.Count"><value>{0}টি ফলাফল</value></data>
+  <data name="Settings.HotkeyHint"><value>ক্লিক করে একটি কী চাপুন; সাধারণ কী-এর জন্য Ctrl / Alt / Shift / Win দরকার, ফাংশন কী F1–F24 একা ব্যবহার করা যায়</value></data>
+  <data name="Settings.HotkeyPrompt"><value>কী চাপুন… (বাতিলে Esc)</value></data>
+  <data name="Settings.Portable"><value>পোর্টেবল মোড</value></data>
+  <data name="Settings.PortableHint"><value>অ্যাপের পাশে একটি Data ফোল্ডারে ডেটা রাখে — USB স্টিকে বহনযোগ্য, হোস্টে কিছু রাখে না। টগলটি আপনার জন্য মার্কার তৈরি করে; পুনরায় চালু করার পর কার্যকর হয়, এবং অ্যাপটি লেখার-যোগ্য স্থানে থাকা দরকার।</value></data>
+  <data name="Settings.PortableRestart"><value>পোর্টেবল মোড বদলানো হয়েছে — প্রয়োগে পুনরায় চালু করুন। ব্যাকআপ রপ্তানি / আমদানি দিয়ে আপনার টেক্সট লাইব্রেরি সরান।</value></data>
+  <data name="Settings.PortableFailed"><value>অ্যাপের পাশে লেখা যাচ্ছে না (এটি Program Files-এর মতো শুধু-পঠনযোগ্য স্থানে থাকতে পারে)। পোর্টেবল মোডের জন্য অ্যাপটি একটি লেখার-যোগ্য স্থানে থাকা দরকার, যেমন একটি USB স্টিক।</value></data>
+  <data name="Settings.CheckUpdates"><value>চালু হওয়ার সময় আপডেট দেখুন</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>চালু থাকলে শুরুর সময় একবার GitHub-এ সংযোগ করে নতুন সংস্করণ আছে কিনা দেখে — অ্যাপটি কেবল তখনই ইন্টারনেট ব্যবহার করে, বাকি সব সময় অফলাইনে চলে।</value></data>
+  <data name="Settings.CheckNow"><value>এখনই দেখুন</value></data>
+  <data name="Msg.UpdateAvailable"><value>সংস্করণ {0} উপলব্ধ — ডাউনলোড করতে ক্লিক করুন।</value></data>
+  <data name="Msg.UpToDate"><value>আপনি সর্বশেষ সংস্করণে আছেন।</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>আপডেট দেখা যায়নি। পরে আবার চেষ্টা করুন।</value></data>
+</root>

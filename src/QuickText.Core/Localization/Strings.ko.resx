@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>관리자 열기</value></data>
+  <data name="Tray.OpenSearch"><value>검색 열기</value></data>
+  <data name="Tray.Settings"><value>설정</value></data>
+  <data name="Tray.Autostart"><value>Windows 시작 시 실행</value></data>
+  <data name="Tray.Exit"><value>종료</value></data>
+  <data name="Search.Placeholder"><value>스니펫 검색…</value></data>
+  <data name="Manager.Categories"><value>카테고리</value></data>
+  <data name="Manager.Snippets"><value>스니펫</value></data>
+  <data name="Manager.Name"><value>이름</value></data>
+  <data name="Manager.Abbr"><value>약어</value></data>
+  <data name="Manager.Body"><value>본문</value></data>
+  <data name="Manager.Add"><value>추가</value></data>
+  <data name="Manager.Delete"><value>삭제</value></data>
+  <data name="Manager.Save"><value>저장</value></data>
+  <data name="Manager.Rename"><value>이름 바꾸기</value></data>
+  <data name="Manager.NewCategory"><value>새 카테고리</value></data>
+  <data name="Manager.RenameCategory"><value>카테고리 이름 바꾸기</value></data>
+  <data name="Manager.CategoryName"><value>카테고리 이름</value></data>
+  <data name="Manager.NewCategoryName"><value>새 카테고리</value></data>
+  <data name="Manager.Wrap"><value>자동 줄 바꿈</value></data>
+  <data name="Manager.OutputMode"><value>출력</value></data>
+  <data name="Manager.OutputModeHint"><value>이 스니펫을 보내는 방식입니다. “전역 설정 따름”은 설정의 출력 모드를 사용합니다.</value></data>
+  <data name="Manager.Output.Default"><value>전역 설정 따름</value></data>
+  <data name="Manager.Output.Paste"><value>붙여넣기</value></data>
+  <data name="Manager.Output.PasteEnter"><value>붙여넣기 + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>복사만</value></data>
+  <data name="Manager.AbbrConflict"><value>“{0}”와 중복된 약어 — 하나만 실행됩니다</value></data>
+  <data name="Manager.Trash"><value>휴지통</value></data>
+  <data name="Manager.MoveTo"><value>카테고리로 이동</value></data>
+  <data name="Manager.DeleteSelected"><value>선택 삭제 ({0})</value></data>
+  <data name="Manager.UsageStat"><value>{0}회 사용 · 마지막 {1}</value></data>
+  <data name="Manager.NeverUsed"><value>사용한 적 없음</value></data>
+  <data name="Trash.Restore"><value>복원</value></data>
+  <data name="Trash.DeleteForever"><value>영구 삭제</value></data>
+  <data name="Trash.Empty"><value>휴지통 비우기</value></data>
+  <data name="Trash.Close"><value>닫기</value></data>
+  <data name="Trash.EmptyState"><value>휴지통이 비어 있음</value></data>
+  <data name="Trash.Hint"><value>삭제된 스니펫은 여기에 {0}일 동안 보관된 후 자동으로 제거됩니다. 복원하면 원래 카테고리로 되돌아갑니다(필요하면 다시 생성됩니다).</value></data>
+  <data name="Trash.EmptyConfirm"><value>휴지통을 비울까요? 모든 스니펫을 복구할 수 없습니다.</value></data>
+  <data name="Tray.PauseAbbr"><value>확장 일시 중지</value></data>
+  <data name="Tray.ResumeAbbr"><value>확장 다시 시작</value></data>
+  <data name="Tray.PausedTip"><value>약어 확장이 일시 중지됨</value></data>
+  <data name="Settings.CaptureHotkey"><value>캡처 단축키</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>현재 클립보드 텍스트를 새 스니펫으로 조용히 저장합니다. 클릭한 다음 조합 키를 누르세요. Delete로 지웁니다(비어 있음 = 사용 안 함).</value></data>
+  <data name="Settings.OpenBackups"><value>백업 폴더 열기</value></data>
+  <data name="Settings.AutoBackupHint"><value>데이터 폴더가 매일 이 컴퓨터에 zip으로 백업됩니다(최신 10개 보관). 백업 zip은 “백업 가져오기”로 복원합니다.</value></data>
+  <data name="Msg.Captured"><value>스니펫 저장됨: {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>중복 약어(각각 하나만 실행): {0}. 관리자에서 수정하세요.</value></data>
+  <data name="Msg.CaptureEmpty"><value>클립보드에 텍스트가 없습니다</value></data>
+  <data name="Manager.UseVars"><value>{variable} 자리 표시자 사용</value></data>
+  <data name="Manager.UseVarsHint"><value>선택하면 보낼 때 {variable}, {clipboard}, {date}, {cursor} 토큰이 처리됩니다. 선택 해제하면 본문이 그대로 전송됩니다(리터럴 {…}가 포함된 코드/스크립트에 적합).</value></data>
+  <data name="Manager.Image"><value>이미지</value></data>
+  <data name="Manager.FromClipboard"><value>클립보드에서</value></data>
+  <data name="Manager.FromFile"><value>파일 선택</value></data>
+  <data name="Manager.RemoveImage"><value>제거</value></data>
+  <data name="Manager.Saved"><value>✓ 저장됨</value></data>
+  <data name="Manager.NewSnippetName"><value>새 스니펫</value></data>
+  <data name="Manager.Filter"><value>필터…</value></data>
+  <data name="Manager.Duplicate"><value>복제</value></data>
+  <data name="Manager.DuplicateAbbr"><value>약어 “{0}”은(는) 이미 “{1}”에서 사용 중입니다 — 확장이 모호해집니다</value></data>
+  <data name="Msg.FirstRunHint"><value>{0}을(를) 눌러 패널을 여세요</value></data>
+  <data name="Settings.OpenFolder"><value>데이터 폴더 열기</value></data>
+  <data name="Tray.NewFromClipboard"><value>클립보드에서 새로 만들기</value></data>
+  <data name="Ctx.Edit"><value>편집</value></data>
+  <data name="Ctx.Copy"><value>내용 복사</value></data>
+  <data name="Settings.AbbrBlacklist"><value>이 프로세스에서 약어 사용 안 함</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>세미콜론으로 구분된 프로세스 이름, 예: cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>백업 내보내기</value></data>
+  <data name="Msg.Exported"><value>백업을 내보냈습니다</value></data>
+  <data name="Settings.ImportBackup"><value>백업 가져오기</value></data>
+  <data name="Msg.ImportConfirm"><value>가져오면 현재 라이브러리를 덮어씁니다. 계속할까요?</value></data>
+  <data name="Msg.ImportInvalid"><value>올바른 백업 파일이 아닙니다</value></data>
+  <data name="Msg.Imported"><value>백업을 가져왔습니다</value></data>
+  <data name="Search.CreateNew"><value>“{0}” 만들기</value></data>
+  <data name="Search.Hint.New"><value>새로 만들기</value></data>
+  <data name="Search.Hint.Edit"><value>편집</value></data>
+  <data name="Settings.SectionSummon"><value>호출</value></data>
+  <data name="Settings.PanelPlacement"><value>패널 위치</value></data>
+  <data name="Settings.PlaceWindow"><value>활성 창 따라가기</value></data>
+  <data name="Settings.PlaceCaret"><value>텍스트 커서 따라가기</value></data>
+  <data name="Settings.PlaceFixed"><value>마지막 위치 기억</value></data>
+  <data name="Settings.SectionOutput"><value>출력</value></data>
+  <data name="Settings.SectionAbbr"><value>약어</value></data>
+  <data name="Settings.SectionData"><value>데이터</value></data>
+  <data name="Settings.SectionGeneral"><value>일반</value></data>
+  <data name="Manager.Color"><value>색상</value></data>
+  <data name="Manager.DuplicateCategory"><value>같은 이름의 카테고리가 이미 있습니다</value></data>
+  <data name="Manager.SaveFailed"><value>저장 실패: 데이터 폴더가 잠겨 있거나 쓸 수 없습니다. 다시 시도하세요.</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>카테고리 “{0}”을(를) 삭제할까요? 해당 스니펫도 함께 제거됩니다.</value></data>
+  <data name="Dialog.OK"><value>확인</value></data>
+  <data name="Dialog.Cancel"><value>취소</value></data>
+  <data name="Search.Recents"><value>최근</value></data>
+  <data name="Search.Favorites"><value>즐겨찾기</value></data>
+  <data name="Search.KeepOpen"><value>계속 열어두기(여러 개 보내기)</value></data>
+  <data name="Dialog.FillVariables"><value>변수 입력</value></data>
+  <data name="Settings.AutoSend"><value>붙여넣은 후 Enter 누르기</value></data>
+  <data name="Settings.ClickToSend"><value>한 번 클릭으로 보내기</value></data>
+  <data name="Settings.ClickToSendHint"><value>검색 패널에서 한 번 클릭으로 스니펫을 보냅니다. 기본값은 두 번 클릭 또는 Enter입니다.</value></data>
+  <data name="Settings.Output"><value>출력 방식</value></data>
+  <data name="Settings.OutputPaste"><value>활성 앱에 붙여넣기</value></data>
+  <data name="Settings.OutputClipboard"><value>클립보드에만 복사</value></data>
+  <data name="Settings.Hotkey"><value>단축키</value></data>
+  <data name="Settings.SummonMode"><value>호출 방식</value></data>
+  <data name="Settings.SummonModeHotkey"><value>키 조합</value></data>
+  <data name="Settings.SummonModeTap"><value>한정 키 탭</value></data>
+  <data name="Settings.SummonTapDouble"><value>두 번 탭(아니면 한 번)</value></data>
+  <data name="Settings.SummonTapHint"><value>여기를 클릭하고 한정 키를 누르세요(예: 오른쪽 Ctrl). 이 키를 탭하면 패널이 호출됩니다. Delete를 눌러 지웁니다. (단독 한정 키는 일반 단축키가 될 수 없어 탭으로 감지합니다.)</value></data>
+  <data name="Settings.DataFolder"><value>데이터 폴더</value></data>
+  <data name="Settings.Language"><value>언어</value></data>
+  <data name="Settings.AbbrEnabled"><value>약어 사용</value></data>
+  <data name="Settings.AbbrPrefix"><value>트리거 접두사</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>모든 약어 앞에 붙습니다(기본값 ;). 관리자에서는 약어 자체만 입력하세요(예: qm) — 접두사+약어로 실행됩니다(예: ;qm). 접두사를 비워 두면 접두사 없이 사용하며, 접두사는 일반 입력이 실행되지 않도록 합니다.</value></data>
+  <data name="Settings.RestoreClipboard"><value>클립보드 유지</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>붙여넣기는 클립보드를 잠깐 사용한 후 이전에 복사해 둔 내용을 그대로 복원합니다.</value></data>
+  <data name="Settings.FollowSystem"><value>시스템 따름</value></data>
+  <data name="Msg.HotkeyTaken"><value>단축키가 사용 중입니다. 변경하세요</value></data>
+  <data name="Msg.ConflictFiles"><value>동기화 충돌 파일이 감지됨</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>데이터 폴더를 사용할 수 없습니다(이동식 또는 네트워크 드라이브가 연결이 끊겼을 수 있습니다). 지금은 빈 라이브러리로 시작했습니다 — 설정에서 다시 지정하거나 다시 연결한 후 재실행하세요.</value></data>
+  <data name="Search.Hint.Nav"><value>이동</value></data>
+  <data name="Search.Hint.Send"><value>보내기</value></data>
+  <data name="Search.Hint.Close"><value>닫기</value></data>
+  <data name="Search.Hint.SwitchCat"><value>카테고리</value></data>
+  <data name="Search.Empty.Title"><value>아직 스니펫이 없습니다</value></data>
+  <data name="Search.Empty.Sub"><value>트레이 메뉴에서 관리자를 열어 첫 스니펫을 추가하세요</value></data>
+  <data name="Search.NoMatch"><value>“{0}”과(와) 일치하는 스니펫이 없습니다</value></data>
+  <data name="Search.NoMatch.Sub"><value>다른 키워드나 병음 / 초성 / 약어로 시도하세요</value></data>
+  <data name="Search.Count"><value>결과 {0}개</value></data>
+  <data name="Settings.HotkeyHint"><value>클릭한 다음 키를 누르세요. 일반 키에는 Ctrl / Alt / Shift / Win이 필요하며, 기능 키 F1–F24는 단독으로 사용할 수 있습니다</value></data>
+  <data name="Settings.HotkeyPrompt"><value>키를 누르세요… (취소하려면 Esc)</value></data>
+  <data name="Settings.Portable"><value>휴대용 모드</value></data>
+  <data name="Settings.PortableHint"><value>데이터를 앱 옆의 Data\ 폴더에 보관합니다 — USB에 담아 이동하며 호스트에는 아무것도 남기지 않습니다. 토글이 마커를 생성하며, 다시 시작한 후 적용되고 앱이 쓰기 가능한 위치에 있어야 합니다.</value></data>
+  <data name="Settings.PortableRestart"><value>휴대용 모드가 전환되었습니다 — 적용하려면 다시 시작하세요. 백업 내보내기 / 가져오기로 텍스트 라이브러리를 옮기세요.</value></data>
+  <data name="Settings.PortableFailed"><value>앱 옆에 쓸 수 없습니다(Program Files 같은 읽기 전용 위치일 수 있습니다). 휴대용 모드는 USB 같은 쓰기 가능한 위치에 앱이 있어야 합니다.</value></data>
+  <data name="Settings.CheckUpdates"><value>시작 시 업데이트 확인</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>켜면 시작할 때 한 번 GitHub에 연결해 새 버전을 확인합니다. 이때만 인터넷에 연결하며 나머지 기능은 항상 오프라인으로 작동합니다.</value></data>
+  <data name="Settings.CheckNow"><value>지금 확인</value></data>
+  <data name="Msg.UpdateAvailable"><value>새 버전 {0}이(가) 있습니다. 클릭하여 다운로드하세요.</value></data>
+  <data name="Msg.UpToDate"><value>최신 버전입니다.</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>업데이트를 확인하지 못했습니다. 나중에 다시 시도하세요.</value></data>
+</root>

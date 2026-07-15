@@ -1,0 +1,197 @@
+<Window x:Class="QuickText.App.Ui.ManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:app="clr-namespace:QuickText.App"
+        Title="{Binding [App.Name], Source={x:Static app:LocProxy.Instance}}"
+        Height="600" Width="880" MinWidth="680" MinHeight="440"
+        Background="{StaticResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="272"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- sidebar: categories over snippets, one soft panel -->
+        <Border Grid.Column="0" Background="{StaticResource Brush.Panel}"
+                BorderBrush="{StaticResource Brush.Divider}" BorderThickness="0,0,1,0">
+            <Grid Margin="14,16,12,14">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- categories -->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ContentControl Grid.Column="0" VerticalAlignment="Center" Margin="4,0,0,0"
+                                    Style="{StaticResource SetHeader}"
+                                    Content="{Binding [Manager.Categories], Source={x:Static app:LocProxy.Instance}}"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Button Style="{StaticResource GhostIconButton}" Content="&#xE710;" Click="OnAddCategory"
+                                ToolTip="{Binding [Manager.Add], Source={x:Static app:LocProxy.Instance}}"/>
+                        <Button Style="{StaticResource GhostIconButton}" Content="&#xE70F;" Click="OnRenameCategory"
+                                ToolTip="{Binding [Manager.Rename], Source={x:Static app:LocProxy.Instance}}"/>
+                        <Button Style="{StaticResource GhostIconButton}" Content="&#xE738;" Click="OnDeleteCategory"
+                                ToolTip="{Binding [Manager.Delete], Source={x:Static app:LocProxy.Instance}}"/>
+                        <Button Style="{StaticResource GhostIconButton}" Content="&#xE81C;" Click="OnOpenTrash"
+                                ToolTip="{Binding [Manager.Trash], Source={x:Static app:LocProxy.Instance}}"/>
+                    </StackPanel>
+                </Grid>
+                <ListBox Grid.Row="1" x:Name="Categories" ItemTemplate="{StaticResource CategoryRowTemplate}"
+                         MaxHeight="176" Margin="0,6,0,0" AllowDrop="True"
+                         PreviewMouseLeftButtonDown="OnListPressed" PreviewMouseMove="OnListMove" Drop="OnCategoriesDrop"
+                         Background="Transparent" BorderThickness="0" ItemContainerStyle="{StaticResource DarkListItem}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="OnCategorySelected"/>
+
+                <!-- category color -->
+                <WrapPanel Grid.Row="2" Margin="6,10,0,2">
+                    <TextBlock Style="{StaticResource FieldLabel}" Margin="0,0,9,0" VerticalAlignment="Center"
+                               Text="{Binding [Manager.Color], Source={x:Static app:LocProxy.Instance}}"/>
+                    <Button Style="{StaticResource ColorSwatch}" Background="Transparent" Tag="" Click="OnCategoryColor"/>
+                    <Button Style="{StaticResource ColorSwatch}" Background="#3DC2A0" Tag="#3DC2A0" Click="OnCategoryColor"/>
+                    <Button Style="{StaticResource ColorSwatch}" Background="#5B9BD5" Tag="#5B9BD5" Click="OnCategoryColor"/>
+                    <Button Style="{StaticResource ColorSwatch}" Background="#A98CE8" Tag="#A98CE8" Click="OnCategoryColor"/>
+                    <Button Style="{StaticResource ColorSwatch}" Background="#FF8A5B" Tag="#FF8A5B" Click="OnCategoryColor"/>
+                    <Button Style="{StaticResource ColorSwatch}" Background="#E8C264" Tag="#E8C264" Click="OnCategoryColor"/>
+                    <Button Style="{StaticResource ColorSwatch}" Background="#E87AA8" Tag="#E87AA8" Click="OnCategoryColor"/>
+                </WrapPanel>
+
+                <!-- snippets -->
+                <Grid Grid.Row="3" Margin="0,18,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ContentControl Grid.Column="0" VerticalAlignment="Center" Margin="4,0,0,0"
+                                    Style="{StaticResource SetHeader}"
+                                    Content="{Binding [Manager.Snippets], Source={x:Static app:LocProxy.Instance}}"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <Button Style="{StaticResource GhostIconButton}" Content="&#xE710;" Click="OnAddSnippet"
+                                ToolTip="{Binding [Manager.Add], Source={x:Static app:LocProxy.Instance}}"/>
+                        <Button Style="{StaticResource GhostIconButton}" Content="&#xE8C8;" Click="OnDuplicateSnippet"
+                                ToolTip="{Binding [Manager.Duplicate], Source={x:Static app:LocProxy.Instance}}"/>
+                        <Button Style="{StaticResource GhostIconButton}" Content="&#xE738;" Click="OnDeleteSnippet"
+                                ToolTip="{Binding [Manager.Delete], Source={x:Static app:LocProxy.Instance}}"/>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Row="4" Margin="0,8,0,0">
+                    <TextBox x:Name="FilterBox" Style="{StaticResource DarkTextBox}" FontSize="12" Padding="8,5"
+                             TextChanged="OnFilterChanged"/>
+                    <TextBlock Text="{Binding [Manager.Filter], Source={x:Static app:LocProxy.Instance}}"
+                               FontSize="12" Margin="10,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False"
+                               Foreground="{StaticResource Brush.TextFaint}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=FilterBox}" Value="">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+                <ListBox Grid.Row="5" x:Name="Snippets" DisplayMemberPath="Name" Margin="0,6,0,0" AllowDrop="True"
+                         SelectionMode="Extended" ContextMenuOpening="OnSnippetsMenuOpening"
+                         PreviewMouseLeftButtonDown="OnListPressed" PreviewMouseMove="OnListMove" Drop="OnSnippetsDrop"
+                         Background="Transparent" BorderThickness="0" ItemContainerStyle="{StaticResource DarkListItem}"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="OnSnippetSelected"/>
+            </Grid>
+        </Border>
+
+        <!-- editor · elevated work surface, matching the Settings cards -->
+        <Border Grid.Column="1" Style="{StaticResource SetCard}" Margin="20,20,20,20">
+        <Grid x:Name="EditorPane">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Style="{StaticResource FieldLabel}"
+                       Text="{Binding [Manager.Name], Source={x:Static app:LocProxy.Instance}}"/>
+            <TextBox Grid.Row="1" x:Name="SnippetName" Style="{StaticResource DarkTextBox}" FontSize="14"
+                     LostFocus="OnNameLostFocus"/>
+
+            <TextBlock Grid.Row="2" Style="{StaticResource FieldLabel}" Margin="2,18,0,6"
+                       Text="{Binding [Manager.Abbr], Source={x:Static app:LocProxy.Instance}}"/>
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
+                <TextBlock x:Name="AbbrPrefixText" VerticalAlignment="Center" Margin="0,0,3,0"
+                           FontFamily="{StaticResource Font.Mono}" FontSize="14" Foreground="{StaticResource Brush.TextMuted}"
+                           ToolTip="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"/>
+                <TextBox x:Name="Abbr" Style="{StaticResource DarkTextBox}" Width="180"
+                         FontFamily="{StaticResource Font.Mono}" TextChanged="OnAbbrChanged"/>
+                <TextBlock x:Name="AbbrConflict" VerticalAlignment="Center" Margin="12,0,0,0"
+                           FontSize="12.5" Foreground="#F2777A" Visibility="Collapsed"/>
+            </StackPanel>
+
+            <DockPanel Grid.Row="4" Margin="2,18,0,6" LastChildFill="False">
+                <TextBlock DockPanel.Dock="Left" Style="{StaticResource FieldLabel}" Margin="0"
+                           Text="{Binding [Manager.Body], Source={x:Static app:LocProxy.Instance}}"/>
+                <CheckBox DockPanel.Dock="Right" x:Name="WrapToggle" Style="{StaticResource DarkCheckBox}"
+                          Checked="OnWrapToggled" Unchecked="OnWrapToggled"
+                          Content="{Binding [Manager.Wrap], Source={x:Static app:LocProxy.Instance}}"/>
+            </DockPanel>
+            <TextBox Grid.Row="5" x:Name="Body" Style="{StaticResource DarkTextBox}" MinHeight="90"
+                     AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                     VerticalContentAlignment="Top"
+                     FontFamily="{StaticResource Font.Mono}" FontSize="13"/>
+
+            <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="2,12,0,0">
+                <CheckBox x:Name="UseVars" Style="{StaticResource DarkCheckBox}" VerticalAlignment="Center"
+                          Content="{Binding [Manager.UseVars], Source={x:Static app:LocProxy.Instance}}"
+                          ToolTip="{Binding [Manager.UseVarsHint], Source={x:Static app:LocProxy.Instance}}"/>
+                <TextBlock VerticalAlignment="Center" Margin="28,0,8,0" FontSize="13"
+                           Foreground="{StaticResource Brush.TextMuted}"
+                           Text="{Binding [Manager.OutputMode], Source={x:Static app:LocProxy.Instance}}"/>
+                <ComboBox x:Name="OutputMode" Width="140" VerticalAlignment="Center" Style="{StaticResource DarkComboBox}"
+                          ToolTip="{Binding [Manager.OutputModeHint], Source={x:Static app:LocProxy.Instance}}"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="7" Orientation="Horizontal" Margin="0,14,0,0">
+                <Border Width="72" Height="72" CornerRadius="8" Background="{StaticResource Brush.InputBg}"
+                        BorderBrush="{StaticResource Brush.InputBorder}" BorderThickness="1">
+                    <Image x:Name="SnippetImage" Stretch="Uniform" Margin="4"/>
+                </Border>
+                <StackPanel VerticalAlignment="Center" Margin="14,0,0,0">
+                    <TextBlock Style="{StaticResource FieldLabel}" Margin="0,0,0,6"
+                               Text="{Binding [Manager.Image], Source={x:Static app:LocProxy.Instance}}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Click="OnImageFromClipboard"
+                                Content="{Binding [Manager.FromClipboard], Source={x:Static app:LocProxy.Instance}}"/>
+                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageFromFile"
+                                Content="{Binding [Manager.FromFile], Source={x:Static app:LocProxy.Instance}}"/>
+                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageRemove"
+                                Content="{Binding [Manager.RemoveImage], Source={x:Static app:LocProxy.Instance}}"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock Grid.Row="8" x:Name="UsageStat" HorizontalAlignment="Left" VerticalAlignment="Center"
+                       Margin="2,16,0,0" FontSize="12" Foreground="{StaticResource Brush.TextFaint}"/>
+            <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+                <TextBlock x:Name="SavedHint" VerticalAlignment="Center" Margin="0,0,14,0" Opacity="0"
+                           FontFamily="{StaticResource Font.Ui}" FontSize="13" Foreground="{StaticResource Brush.Accent}"
+                           Text="{Binding [Manager.Saved], Source={x:Static app:LocProxy.Instance}}"/>
+                <Button MinWidth="100" Padding="18,8" Style="{StaticResource DarkButtonPrimary}" Click="OnSave"
+                        Content="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}}"/>
+            </StackPanel>
+        </Grid>
+        </Border>
+    </Grid>
+</Window>

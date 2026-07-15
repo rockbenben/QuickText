@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>Ouvrir le gestionnaire</value></data>
+  <data name="Tray.OpenSearch"><value>Ouvrir la recherche</value></data>
+  <data name="Tray.Settings"><value>Paramètres</value></data>
+  <data name="Tray.Autostart"><value>Démarrer avec Windows</value></data>
+  <data name="Tray.Exit"><value>Quitter</value></data>
+  <data name="Search.Placeholder"><value>Rechercher des extraits…</value></data>
+  <data name="Manager.Categories"><value>Catégories</value></data>
+  <data name="Manager.Snippets"><value>Extraits</value></data>
+  <data name="Manager.Name"><value>Nom</value></data>
+  <data name="Manager.Abbr"><value>Abréviation</value></data>
+  <data name="Manager.Body"><value>Contenu</value></data>
+  <data name="Manager.Add"><value>Ajouter</value></data>
+  <data name="Manager.Delete"><value>Supprimer</value></data>
+  <data name="Manager.Save"><value>Enregistrer</value></data>
+  <data name="Manager.Rename"><value>Renommer</value></data>
+  <data name="Manager.NewCategory"><value>Nouvelle catégorie</value></data>
+  <data name="Manager.RenameCategory"><value>Renommer la catégorie</value></data>
+  <data name="Manager.CategoryName"><value>Nom de la catégorie</value></data>
+  <data name="Manager.NewCategoryName"><value>Nouvelle catégorie</value></data>
+  <data name="Manager.Wrap"><value>Retour à la ligne</value></data>
+  <data name="Manager.OutputMode"><value>Sortie</value></data>
+  <data name="Manager.OutputModeHint"><value>Mode d'envoi de cet extrait ; « Suivre les réglages globaux » utilise la sortie définie dans les Paramètres.</value></data>
+  <data name="Manager.Output.Default"><value>Suivre les réglages globaux</value></data>
+  <data name="Manager.Output.Paste"><value>Coller</value></data>
+  <data name="Manager.Output.PasteEnter"><value>Coller + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>Copier seulement</value></data>
+  <data name="Manager.AbbrConflict"><value>Abréviation identique à « {0} » — une seule sera déclenchée</value></data>
+  <data name="Manager.Trash"><value>Corbeille</value></data>
+  <data name="Manager.MoveTo"><value>Déplacer vers une catégorie</value></data>
+  <data name="Manager.DeleteSelected"><value>Supprimer la sélection ({0})</value></data>
+  <data name="Manager.UsageStat"><value>Utilisé {0} fois · dernier {1}</value></data>
+  <data name="Manager.NeverUsed"><value>Jamais utilisé</value></data>
+  <data name="Trash.Restore"><value>Restaurer</value></data>
+  <data name="Trash.DeleteForever"><value>Supprimer définitivement</value></data>
+  <data name="Trash.Empty"><value>Vider la corbeille</value></data>
+  <data name="Trash.Close"><value>Fermer</value></data>
+  <data name="Trash.EmptyState"><value>La corbeille est vide</value></data>
+  <data name="Trash.Hint"><value>Les extraits supprimés sont conservés ici pendant {0} jours, puis retirés automatiquement. La restauration les replace dans leur catégorie d'origine (recréée si nécessaire).</value></data>
+  <data name="Trash.EmptyConfirm"><value>Vider la corbeille ? Tous les extraits seront irrécupérables.</value></data>
+  <data name="Tray.PauseAbbr"><value>Suspendre l'expansion</value></data>
+  <data name="Tray.ResumeAbbr"><value>Reprendre l'expansion</value></data>
+  <data name="Tray.PausedTip"><value>expansion des abréviations suspendue</value></data>
+  <data name="Settings.CaptureHotkey"><value>Raccourci de capture</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>Enregistre discrètement le texte du presse-papiers comme nouvel extrait. Cliquez, puis appuyez sur une combinaison ; Delete l'efface (vide = désactivé).</value></data>
+  <data name="Settings.OpenBackups"><value>Ouvrir le dossier des sauvegardes</value></data>
+  <data name="Settings.AutoBackupHint"><value>Le dossier de données est compressé sur cette machine chaque jour (10 plus récents conservés) ; un zip de sauvegarde se restaure via « Importer une sauvegarde ».</value></data>
+  <data name="Msg.Captured"><value>Extrait enregistré : {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>Abréviations en double (une seule se déclenche à chaque fois) : {0}. Corrigez-les dans le gestionnaire.</value></data>
+  <data name="Msg.CaptureEmpty"><value>Aucun texte dans le presse-papiers</value></data>
+  <data name="Manager.UseVars"><value>Activer les espaces réservés {variable}</value></data>
+  <data name="Manager.UseVarsHint"><value>Si coché, les jetons {variable}, {clipboard}, {date} et {cursor} sont traités à l'envoi ; sinon, le contenu est envoyé tel quel (idéal pour du code/script contenant des {…} littéraux).</value></data>
+  <data name="Manager.Image"><value>Image</value></data>
+  <data name="Manager.FromClipboard"><value>Depuis le presse-papiers</value></data>
+  <data name="Manager.FromFile"><value>Choisir un fichier</value></data>
+  <data name="Manager.RemoveImage"><value>Retirer</value></data>
+  <data name="Manager.Saved"><value>✓ Enregistré</value></data>
+  <data name="Manager.NewSnippetName"><value>Nouvel extrait</value></data>
+  <data name="Manager.Filter"><value>Filtrer…</value></data>
+  <data name="Manager.Duplicate"><value>Dupliquer</value></data>
+  <data name="Manager.DuplicateAbbr"><value>Abréviation « {0} » déjà utilisée par « {1} » — l'expansion serait ambiguë</value></data>
+  <data name="Msg.FirstRunHint"><value>Appuyez sur {0} pour ouvrir le panneau</value></data>
+  <data name="Settings.OpenFolder"><value>Ouvrir le dossier de données</value></data>
+  <data name="Tray.NewFromClipboard"><value>Nouveau depuis le presse-papiers</value></data>
+  <data name="Ctx.Edit"><value>Modifier</value></data>
+  <data name="Ctx.Copy"><value>Copier le contenu</value></data>
+  <data name="Settings.AbbrBlacklist"><value>Désactiver les abréviations dans ces processus</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>Noms de processus séparés par des points-virgules, ex. cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>Exporter une sauvegarde</value></data>
+  <data name="Msg.Exported"><value>Sauvegarde exportée</value></data>
+  <data name="Settings.ImportBackup"><value>Importer une sauvegarde</value></data>
+  <data name="Msg.ImportConfirm"><value>L'importation écrasera la bibliothèque actuelle. Continuer ?</value></data>
+  <data name="Msg.ImportInvalid"><value>Fichier de sauvegarde non valide</value></data>
+  <data name="Msg.Imported"><value>Sauvegarde importée</value></data>
+  <data name="Search.CreateNew"><value>Créer « {0} »</value></data>
+  <data name="Search.Hint.New"><value>Nouveau</value></data>
+  <data name="Search.Hint.Edit"><value>Modifier</value></data>
+  <data name="Settings.SectionSummon"><value>Appel</value></data>
+  <data name="Settings.PanelPlacement"><value>Position du panneau</value></data>
+  <data name="Settings.PlaceWindow"><value>Suivre la fenêtre active</value></data>
+  <data name="Settings.PlaceCaret"><value>Suivre le curseur de texte</value></data>
+  <data name="Settings.PlaceFixed"><value>Mémoriser la dernière position</value></data>
+  <data name="Settings.SectionOutput"><value>Sortie</value></data>
+  <data name="Settings.SectionAbbr"><value>Abréviations</value></data>
+  <data name="Settings.SectionData"><value>Données</value></data>
+  <data name="Settings.SectionGeneral"><value>Général</value></data>
+  <data name="Manager.Color"><value>Couleur</value></data>
+  <data name="Manager.DuplicateCategory"><value>Une catégorie portant ce nom existe déjà</value></data>
+  <data name="Manager.SaveFailed"><value>Échec de l'enregistrement : le dossier de données est peut-être verrouillé ou en lecture seule. Veuillez réessayer.</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>Supprimer la catégorie « {0} » ? Ses extraits seront également supprimés.</value></data>
+  <data name="Dialog.OK"><value>OK</value></data>
+  <data name="Dialog.Cancel"><value>Annuler</value></data>
+  <data name="Search.Recents"><value>Récents</value></data>
+  <data name="Search.Favorites"><value>Favoris</value></data>
+  <data name="Search.KeepOpen"><value>Garder ouvert (envoyer plusieurs)</value></data>
+  <data name="Dialog.FillVariables"><value>Renseigner les variables</value></data>
+  <data name="Settings.AutoSend"><value>Appuyer sur Enter après le collage</value></data>
+  <data name="Settings.ClickToSend"><value>Envoyer d'un seul clic</value></data>
+  <data name="Settings.ClickToSendHint"><value>Dans le panneau de recherche, un simple clic envoie l'extrait ; par défaut, il faut double-cliquer ou appuyer sur Enter.</value></data>
+  <data name="Settings.Output"><value>Méthode de sortie</value></data>
+  <data name="Settings.OutputPaste"><value>Coller dans l'application active</value></data>
+  <data name="Settings.OutputClipboard"><value>Copier uniquement dans le presse-papiers</value></data>
+  <data name="Settings.Hotkey"><value>Raccourci</value></data>
+  <data name="Settings.SummonMode"><value>Mode d'appel</value></data>
+  <data name="Settings.SummonModeHotkey"><value>Combinaison de touches</value></data>
+  <data name="Settings.SummonModeTap"><value>Appuyer sur un modificateur</value></data>
+  <data name="Settings.SummonTapDouble"><value>Double appui (sinon simple)</value></data>
+  <data name="Settings.SummonTapHint"><value>Cliquez ici et appuyez sur un modificateur (ex. Ctrl droit) ; l'appuyer ensuite fait apparaître le panneau. Appuyez sur Delete pour effacer. (Un modificateur seul ne peut pas être un raccourci normal, il est détecté par appui.)</value></data>
+  <data name="Settings.DataFolder"><value>Dossier de données</value></data>
+  <data name="Settings.Language"><value>Langue</value></data>
+  <data name="Settings.AbbrEnabled"><value>Activer les abréviations</value></data>
+  <data name="Settings.AbbrPrefix"><value>Préfixe de déclenchement</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>Ajouté devant chaque abréviation (par défaut ;). Dans le gestionnaire, saisissez seulement l'abréviation (ex. qm) — elle se déclenche sur préfixe+abréviation (ex. ;qm). Laissez vide pour aucun préfixe ; un préfixe évite les déclenchements lors d'une saisie normale.</value></data>
+  <data name="Settings.RestoreClipboard"><value>Conserver mon presse-papiers intact</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Le collage utilise brièvement le presse-papiers, puis restaure ce que vous aviez copié — il reste inchangé.</value></data>
+  <data name="Settings.FollowSystem"><value>Suivre le système</value></data>
+  <data name="Msg.HotkeyTaken"><value>Ce raccourci est déjà utilisé, veuillez le modifier</value></data>
+  <data name="Msg.ConflictFiles"><value>Fichiers de conflit de synchronisation détectés</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>Dossier de données indisponible (un lecteur amovible ou réseau est peut-être déconnecté). Démarré avec une bibliothèque vide pour l'instant — redéfinissez-le dans les Paramètres, ou reconnectez et relancez.</value></data>
+  <data name="Search.Hint.Nav"><value>Naviguer</value></data>
+  <data name="Search.Hint.Send"><value>Envoyer</value></data>
+  <data name="Search.Hint.Close"><value>Fermer</value></data>
+  <data name="Search.Hint.SwitchCat"><value>Catégorie</value></data>
+  <data name="Search.Empty.Title"><value>Aucun extrait pour l'instant</value></data>
+  <data name="Search.Empty.Sub"><value>Ouvrez le gestionnaire depuis le menu de la barre d'état pour ajouter votre premier extrait</value></data>
+  <data name="Search.NoMatch"><value>Aucun extrait ne correspond à « {0} »</value></data>
+  <data name="Search.NoMatch.Sub"><value>Essayez un autre mot-clé, ou pinyin / initiales / une abréviation</value></data>
+  <data name="Search.Count"><value>{0} résultats</value></data>
+  <data name="Settings.HotkeyHint"><value>Cliquez, puis appuyez sur une touche ; les touches ordinaires nécessitent Ctrl / Alt / Shift / Win, les touches de fonction F1–F24 peuvent être utilisées seules</value></data>
+  <data name="Settings.HotkeyPrompt"><value>Appuyez sur des touches… (Esc pour annuler)</value></data>
+  <data name="Settings.Portable"><value>Mode portable</value></data>
+  <data name="Settings.PortableHint"><value>Conserve les données dans un dossier Data à côté de l'application — se transporte sur une clé USB, ne laisse rien sur l'hôte. Le bouton crée le marqueur pour vous ; prend effet après un redémarrage et nécessite l'application dans un emplacement inscriptible.</value></data>
+  <data name="Settings.PortableRestart"><value>Mode portable modifié — redémarrez pour appliquer. Déplacez votre bibliothèque de texte avec Exporter / Importer une sauvegarde.</value></data>
+  <data name="Settings.PortableFailed"><value>Impossible d'écrire à côté de l'application (elle est peut-être dans un emplacement en lecture seule comme Program Files). Le mode portable nécessite l'application dans un emplacement inscriptible, comme une clé USB.</value></data>
+  <data name="Settings.CheckUpdates"><value>Vérifier les mises à jour au démarrage</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Si activé, se connecte à GitHub une fois au démarrage pour vérifier s'il existe une nouvelle version — le seul moment où l'application accède à Internet ; le reste fonctionne hors ligne.</value></data>
+  <data name="Settings.CheckNow"><value>Vérifier maintenant</value></data>
+  <data name="Msg.UpdateAvailable"><value>Version {0} disponible — cliquez pour télécharger.</value></data>
+  <data name="Msg.UpToDate"><value>Vous avez la dernière version.</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>Impossible de vérifier les mises à jour. Réessayez plus tard.</value></data>
+</root>

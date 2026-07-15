@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App.Name"><value>QuickText</value></data>
+  <data name="Tray.OpenManager"><value>Verwaltung öffnen</value></data>
+  <data name="Tray.OpenSearch"><value>Suche öffnen</value></data>
+  <data name="Tray.Settings"><value>Einstellungen</value></data>
+  <data name="Tray.Autostart"><value>Mit Windows starten</value></data>
+  <data name="Tray.Exit"><value>Beenden</value></data>
+  <data name="Search.Placeholder"><value>Textbausteine suchen…</value></data>
+  <data name="Manager.Categories"><value>Kategorien</value></data>
+  <data name="Manager.Snippets"><value>Textbausteine</value></data>
+  <data name="Manager.Name"><value>Name</value></data>
+  <data name="Manager.Abbr"><value>Kürzel</value></data>
+  <data name="Manager.Body"><value>Inhalt</value></data>
+  <data name="Manager.Add"><value>Hinzufügen</value></data>
+  <data name="Manager.Delete"><value>Löschen</value></data>
+  <data name="Manager.Save"><value>Speichern</value></data>
+  <data name="Manager.Rename"><value>Umbenennen</value></data>
+  <data name="Manager.NewCategory"><value>Neue Kategorie</value></data>
+  <data name="Manager.RenameCategory"><value>Kategorie umbenennen</value></data>
+  <data name="Manager.CategoryName"><value>Kategoriename</value></data>
+  <data name="Manager.NewCategoryName"><value>Neue Kategorie</value></data>
+  <data name="Manager.Wrap"><value>Zeilenumbruch</value></data>
+  <data name="Manager.OutputMode"><value>Ausgabe</value></data>
+  <data name="Manager.OutputModeHint"><value>Wie dieser Baustein gesendet wird; „Global folgen“ nutzt die Ausgabeart aus den Einstellungen.</value></data>
+  <data name="Manager.Output.Default"><value>Global folgen</value></data>
+  <data name="Manager.Output.Paste"><value>Einfügen</value></data>
+  <data name="Manager.Output.PasteEnter"><value>Einfügen + Enter</value></data>
+  <data name="Manager.Output.Copy"><value>Nur kopieren</value></data>
+  <data name="Manager.AbbrConflict"><value>Kürzel doppelt mit „{0}“ – nur eines wird ausgelöst</value></data>
+  <data name="Manager.Trash"><value>Papierkorb</value></data>
+  <data name="Manager.MoveTo"><value>In Kategorie verschieben</value></data>
+  <data name="Manager.DeleteSelected"><value>Auswahl löschen ({0})</value></data>
+  <data name="Manager.UsageStat"><value>{0}× verwendet · zuletzt {1}</value></data>
+  <data name="Manager.NeverUsed"><value>Nie verwendet</value></data>
+  <data name="Trash.Restore"><value>Wiederherstellen</value></data>
+  <data name="Trash.DeleteForever"><value>Endgültig löschen</value></data>
+  <data name="Trash.Empty"><value>Papierkorb leeren</value></data>
+  <data name="Trash.Close"><value>Schließen</value></data>
+  <data name="Trash.EmptyState"><value>Papierkorb ist leer</value></data>
+  <data name="Trash.Hint"><value>Gelöschte Bausteine bleiben {0} Tage hier und werden dann automatisch entfernt. Beim Wiederherstellen landen sie in ihrer ursprünglichen Kategorie (bei Bedarf neu angelegt).</value></data>
+  <data name="Trash.EmptyConfirm"><value>Papierkorb leeren? Alle Bausteine sind dann unwiderruflich verloren.</value></data>
+  <data name="Tray.PauseAbbr"><value>Erweiterung pausieren</value></data>
+  <data name="Tray.ResumeAbbr"><value>Erweiterung fortsetzen</value></data>
+  <data name="Tray.PausedTip"><value>Kürzel-Erweiterung pausiert</value></data>
+  <data name="Settings.CaptureHotkey"><value>Aufnahme-Hotkey</value></data>
+  <data name="Settings.CaptureHotkeyHint"><value>Speichert den aktuellen Zwischenablagetext still als neuen Baustein. Klicken, dann Tastenkombination drücken; Delete löscht sie (leer = deaktiviert).</value></data>
+  <data name="Settings.OpenBackups"><value>Backup-Ordner öffnen</value></data>
+  <data name="Settings.AutoBackupHint"><value>Der Datenordner wird täglich lokal als ZIP gesichert (neueste 10 bleiben); ein Backup-ZIP wird über „Backup importieren“ wiederhergestellt.</value></data>
+  <data name="Msg.Captured"><value>Baustein gespeichert: {0}</value></data>
+  <data name="Msg.AbbrConflicts"><value>Doppelte Kürzel (je nur eines löst aus): {0}. In der Verwaltung korrigieren.</value></data>
+  <data name="Msg.CaptureEmpty"><value>Kein Text in der Zwischenablage</value></data>
+  <data name="Manager.UseVars"><value>{variable}-Platzhalter aktivieren</value></data>
+  <data name="Manager.UseVarsHint"><value>Aktiviert werden {variable}, {clipboard}, {date} und {cursor} beim Senden verarbeitet; deaktiviert wird der Inhalt wörtlich gesendet (ideal für Code/Skripte mit echten {…}).</value></data>
+  <data name="Manager.Image"><value>Bild</value></data>
+  <data name="Manager.FromClipboard"><value>Aus Zwischenablage</value></data>
+  <data name="Manager.FromFile"><value>Datei wählen</value></data>
+  <data name="Manager.RemoveImage"><value>Entfernen</value></data>
+  <data name="Manager.Saved"><value>✓ Gespeichert</value></data>
+  <data name="Manager.NewSnippetName"><value>Neuer Baustein</value></data>
+  <data name="Manager.Filter"><value>Filtern…</value></data>
+  <data name="Manager.Duplicate"><value>Duplizieren</value></data>
+  <data name="Manager.DuplicateAbbr"><value>Kürzel „{0}“ wird bereits von „{1}“ verwendet – die Erweiterung wäre mehrdeutig</value></data>
+  <data name="Msg.FirstRunHint"><value>{0} drücken, um das Panel zu öffnen</value></data>
+  <data name="Settings.OpenFolder"><value>Datenordner öffnen</value></data>
+  <data name="Tray.NewFromClipboard"><value>Neu aus Zwischenablage</value></data>
+  <data name="Ctx.Edit"><value>Bearbeiten</value></data>
+  <data name="Ctx.Copy"><value>Inhalt kopieren</value></data>
+  <data name="Settings.AbbrBlacklist"><value>Kürzel in diesen Prozessen deaktivieren</value></data>
+  <data name="Settings.AbbrBlacklistHint"><value>Prozessnamen durch Semikolon getrennt, z. B. cmd.exe; putty.exe</value></data>
+  <data name="Settings.ExportBackup"><value>Backup exportieren</value></data>
+  <data name="Msg.Exported"><value>Backup exportiert</value></data>
+  <data name="Settings.ImportBackup"><value>Backup importieren</value></data>
+  <data name="Msg.ImportConfirm"><value>Der Import überschreibt die aktuelle Bibliothek. Fortfahren?</value></data>
+  <data name="Msg.ImportInvalid"><value>Keine gültige Backup-Datei</value></data>
+  <data name="Msg.Imported"><value>Backup importiert</value></data>
+  <data name="Search.CreateNew"><value>„{0}“ erstellen</value></data>
+  <data name="Search.Hint.New"><value>Neu</value></data>
+  <data name="Search.Hint.Edit"><value>Bearbeiten</value></data>
+  <data name="Settings.SectionSummon"><value>Aufrufen</value></data>
+  <data name="Settings.PanelPlacement"><value>Panel-Position</value></data>
+  <data name="Settings.PlaceWindow"><value>Aktivem Fenster folgen</value></data>
+  <data name="Settings.PlaceCaret"><value>Textcursor folgen</value></data>
+  <data name="Settings.PlaceFixed"><value>Letzte Position merken</value></data>
+  <data name="Settings.SectionOutput"><value>Ausgabe</value></data>
+  <data name="Settings.SectionAbbr"><value>Kürzel</value></data>
+  <data name="Settings.SectionData"><value>Daten</value></data>
+  <data name="Settings.SectionGeneral"><value>Allgemein</value></data>
+  <data name="Manager.Color"><value>Farbe</value></data>
+  <data name="Manager.DuplicateCategory"><value>Eine Kategorie mit diesem Namen existiert bereits</value></data>
+  <data name="Manager.SaveFailed"><value>Speichern fehlgeschlagen: Der Datenordner ist evtl. gesperrt oder schreibgeschützt. Bitte erneut versuchen.</value></data>
+  <data name="Manager.DeleteCategoryConfirm"><value>Kategorie „{0}“ löschen? Ihre Bausteine werden ebenfalls entfernt.</value></data>
+  <data name="Dialog.OK"><value>OK</value></data>
+  <data name="Dialog.Cancel"><value>Abbrechen</value></data>
+  <data name="Search.Recents"><value>Zuletzt</value></data>
+  <data name="Search.Favorites"><value>Favoriten</value></data>
+  <data name="Search.KeepOpen"><value>Offen lassen (mehrere senden)</value></data>
+  <data name="Dialog.FillVariables"><value>Variablen ausfüllen</value></data>
+  <data name="Settings.AutoSend"><value>Nach dem Einfügen Enter drücken</value></data>
+  <data name="Settings.ClickToSend"><value>Mit einem Klick senden</value></data>
+  <data name="Settings.ClickToSendHint"><value>Im Suchfenster sendet ein einzelner Klick den Baustein; standardmäßig per Doppelklick oder Enter.</value></data>
+  <data name="Settings.Output"><value>Ausgabeart</value></data>
+  <data name="Settings.OutputPaste"><value>In die aktive App einfügen</value></data>
+  <data name="Settings.OutputClipboard"><value>Nur in die Zwischenablage kopieren</value></data>
+  <data name="Settings.Hotkey"><value>Hotkey</value></data>
+  <data name="Settings.SummonMode"><value>Aufrufen per</value></data>
+  <data name="Settings.SummonModeHotkey"><value>Tastenkombination</value></data>
+  <data name="Settings.SummonModeTap"><value>Modifiertaste antippen</value></data>
+  <data name="Settings.SummonTapDouble"><value>Doppelt antippen (sonst einfach)</value></data>
+  <data name="Settings.SummonTapHint"><value>Hier klicken und eine Modifiertaste drücken (z. B. rechte Ctrl); durch Antippen wird dann das Panel aufgerufen. Delete löscht. (Eine einzelne Modifiertaste kann kein normaler Hotkey sein, daher die Antipp-Erkennung.)</value></data>
+  <data name="Settings.DataFolder"><value>Datenordner</value></data>
+  <data name="Settings.Language"><value>Sprache</value></data>
+  <data name="Settings.AbbrEnabled"><value>Kürzel aktivieren</value></data>
+  <data name="Settings.AbbrPrefix"><value>Auslöse-Präfix</value></data>
+  <data name="Settings.AbbrPrefixHint"><value>Wird jedem Kürzel vorangestellt (Standard ;). In der Verwaltung nur das Kürzel selbst eingeben (z. B. qm) – ausgelöst wird per Präfix+Kürzel (z. B. ;qm). Leer lassen für kein Präfix; ein Präfix verhindert versehentliches Auslösen beim normalen Tippen.</value></data>
+  <data name="Settings.RestoreClipboard"><value>Zwischenablage unverändert lassen</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Beim Einfügen wird die Zwischenablage kurz genutzt und danach der vorherige Inhalt wiederhergestellt – sie bleibt unverändert.</value></data>
+  <data name="Settings.FollowSystem"><value>System folgen</value></data>
+  <data name="Msg.HotkeyTaken"><value>Hotkey bereits belegt, bitte ändern</value></data>
+  <data name="Msg.ConflictFiles"><value>Synchronisierungs-Konfliktdateien erkannt</value></data>
+  <data name="Msg.DataFolderUnavailable"><value>Datenordner nicht verfügbar (evtl. ist ein Wechsel- oder Netzlaufwerk getrennt). Vorerst mit leerer Bibliothek gestartet – in den Einstellungen neu zuweisen oder Laufwerk verbinden und neu starten.</value></data>
+  <data name="Search.Hint.Nav"><value>Navigieren</value></data>
+  <data name="Search.Hint.Send"><value>Senden</value></data>
+  <data name="Search.Hint.Close"><value>Schließen</value></data>
+  <data name="Search.Hint.SwitchCat"><value>Kategorie</value></data>
+  <data name="Search.Empty.Title"><value>Noch keine Bausteine</value></data>
+  <data name="Search.Empty.Sub"><value>Verwaltung im Infobereich öffnen, um den ersten Baustein anzulegen</value></data>
+  <data name="Search.NoMatch"><value>Keine Bausteine passen zu „{0}“</value></data>
+  <data name="Search.NoMatch.Sub"><value>Anderes Stichwort versuchen, oder Pinyin / Initialen / ein Kürzel</value></data>
+  <data name="Search.Count"><value>{0} Treffer</value></data>
+  <data name="Settings.HotkeyHint"><value>Klicken, dann Taste drücken; normale Tasten brauchen Ctrl / Alt / Shift / Win, Funktionstasten F1–F24 gehen allein</value></data>
+  <data name="Settings.HotkeyPrompt"><value>Tasten drücken… (Esc zum Abbrechen)</value></data>
+  <data name="Settings.Portable"><value>Portabler Modus</value></data>
+  <data name="Settings.PortableHint"><value>Speichert Daten in einem Data-Ordner neben der App – wandert auf dem USB-Stick mit und hinterlässt nichts auf dem Rechner. Der Schalter legt die Markierung an; wirkt nach einem Neustart und erfordert die App an einem schreibbaren Ort.</value></data>
+  <data name="Settings.PortableRestart"><value>Portabler Modus umgeschaltet – Neustart zum Übernehmen. Textbibliothek per Backup exportieren / importieren verschieben.</value></data>
+  <data name="Settings.PortableFailed"><value>Schreiben neben der App nicht möglich (evtl. an einem schreibgeschützten Ort wie Program Files). Der portable Modus erfordert die App an einem schreibbaren Ort, etwa auf einem USB-Stick.</value></data>
+  <data name="Settings.CheckUpdates"><value>Beim Start nach Updates suchen</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Wenn aktiviert, verbindet sich die App beim Start einmal mit GitHub, um nach einer neueren Version zu suchen — das einzige Mal, dass sie online geht; alles andere bleibt offline.</value></data>
+  <data name="Settings.CheckNow"><value>Jetzt suchen</value></data>
+  <data name="Msg.UpdateAvailable"><value>Version {0} verfügbar – zum Herunterladen klicken.</value></data>
+  <data name="Msg.UpToDate"><value>Sie verwenden die neueste Version.</value></data>
+  <data name="Msg.UpdateCheckFailed"><value>Update-Suche fehlgeschlagen. Bitte später erneut versuchen.</value></data>
+</root>

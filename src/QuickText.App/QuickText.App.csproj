@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\QuickText.Core\QuickText.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Brand icon lives once under assets/branding; linked in as the tray/window resource. -->
+    <Resource Include="..\..\assets\branding\quicktext.ico" Link="Assets\quicktext.ico" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>QuickText</AssemblyName>
+    <ApplicationIcon>..\..\assets\branding\quicktext.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <!-- Product metadata (shows in the exe's file properties + the Settings version stamp). CI
+       overrides Version from the git tag on a v* release (dotnet publish -p:Version=...). -->
+  <PropertyGroup>
+    <Version>1.0.0</Version>
+    <Product>QuickText</Product>
+    <Authors>rockbenben</Authors>
+    <Company>rockbenben</Company>
+    <Description>Tray-resident Windows snippet manager and text expander — recall stored text or images by a few pinyin keystrokes or an abbreviation, pasted at the cursor.</Description>
+    <Copyright>Copyright © 2026 rockbenben</Copyright>
+    <PackageProjectUrl>https://github.com/rockbenben/QuickText</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/rockbenben/QuickText</RepositoryUrl>
+  </PropertyGroup>
+
+</Project>
