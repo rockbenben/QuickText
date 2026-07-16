@@ -80,6 +80,7 @@ Haz doble clic en **`QuickText.exe`**; vive en la **bandeja del sistema** (sin b
 Los marcadores de posición son un **interruptor por fragmento**: marca "**Activar marcadores {variable}**" en el editor del Gestor y los tokens de abajo se resuelven al enviar; **sin marcar (por defecto), el cuerpo se envía literalmente** —el código, los scripts y el JSON llenos de `{...}` literales nunca se interpretan mal ni piden datos.
 
 > Al actualizar: los marcadores solían estar siempre activos. El primer arranque tras actualizar marca automáticamente el interruptor de los **fragmentos existentes** cuyo cuerpo contiene `{...}`, para que nada cambie de comportamiento; desmárcalo en el Gestor para los que en realidad son código.
+> Además: `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` ahora son **nombres reservados de fecha** — `{date:xyz}` se interpreta como un formato de fecha, ya no como "una variable llamada date con valor predeterminado xyz"; renombra las variables que usaban estos nombres.
 
 Cuando están activados, estos marcadores se resuelven al enviar:
 
@@ -90,7 +91,7 @@ Cuando están activados, estos marcadores se resuelven al enviar:
 | `{env\|dev\|test\|prod}` | Variable con **opciones**: el cuadro muestra un desplegable (la primera opción hace también de valor por defecto; se admite escritura libre) |
 | `{clipboard}` | Inserta el contenido actual del portapapeles |
 | `{cursor}` | Deja el cursor en este punto tras pegar (también suprime el Enter automático) |
-| `{date}` `{time}` `{datetime}` | Inserta la fecha/hora actual; admite desplazamientos como `{date+7}` (7 días después). Los alias chinos `{日期}` / `{时间}` / `{日期时间}` también funcionan |
+| `{date}` `{time}` `{datetime}` | Inserta la fecha/hora actual; admite desplazamientos como `{date+7}` (7 días después) y formatos personalizados como `{date:yyyy-MM-dd}` / `{time:HH:mm:ss}`, combinables con desplazamientos: `{date+7:MM-dd}`. Los alias chinos `{日期}` / `{时间}` / `{日期时间}` también funcionan |
 | `{uuid}` `{random}` | Valores aleatorios: un UUID / 6 dígitos, nuevos en cada aparición |
 | `{snippet:name}` | **Inserta el cuerpo de otro fragmento** (3 niveles de profundidad, a prueba de ciclos): mantén las firmas compartidas en un solo sitio |
 
@@ -136,7 +137,7 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 
 - **Invocación**: tecla rápida global — una **combinación de teclas** (las teclas de función funcionan como tecla única) o **una/dos pulsaciones de un modificador** (p. ej. `Ctrl` derecho), **elige una**; el panel sigue la ventana activa / el cursor de texto / la posición recordada; los botones de la fila superior saltan a **Nuevo / Gestor / Ajustes**; fíjalo para enviar varios seguidos; arrastra y redimensiona con tamaño recordado.
 - **Búsqueda**: nombre / pinyin / iniciales / abreviatura / cuerpo, resaltados; **empates resueltos por frecuencia de uso (frecency)**; `@categoría palabras clave` limita la búsqueda a una categoría (`@categoría` a secas la navega).
-- **Contenido**: texto plano (varias líneas, caracteres especiales, emoji sin pérdidas), marcadores de posición (valores por defecto / desplegables de opciones / anidamiento de fragmentos / uuid / aleatorio, **opcional por fragmento**), **imágenes** (desde el portapapeles o un archivo, pegadas como imagen al enviar; **las imágenes también pueden tener abreviaturas**: escribe la abreviatura, obtén la imagen).
+- **Contenido**: texto plano (varias líneas, caracteres especiales, emoji sin pérdidas), marcadores de posición (valores por defecto / desplegables de opciones / anidamiento de fragmentos / formatos de fecha personalizados / uuid / aleatorio, **opcional por fragmento**), **imágenes** (desde el portapapeles o un archivo, pegadas como imagen al enviar; **las imágenes también pueden tener abreviaturas**: escribe la abreviatura, obtén la imagen).
 - **Abreviaturas**: activadas por terminador, cuadro de variables, deshacer con una pulsación, corrección de erratas con Retroceso, sin distinción de mayúsculas, el clic rompe el token, aviso de duplicados, lista negra por aplicación, **pausa desde la bandeja con un clic**.
 - **Salida**: pegar directamente / solo copiar; Enter automático opcional, restaurar portapapeles, envío con un solo clic; **anulación de salida por fragmento**; tecla de captura (portapapeles → fragmento con una pulsación).
 - **Gestor**: 7 colores de categoría, reordenar / mover arrastrando, **mover / eliminar por lotes con selección múltiple** (selecciona con Ctrl / Shift y luego clic derecho), deshacer borrado, **papelera (restauración de 30 días, con vista previa del cuerpo)**, aviso de abreviatura duplicada, estadísticas de uso, modo sin ajuste de línea para código, confirmación de guardado.

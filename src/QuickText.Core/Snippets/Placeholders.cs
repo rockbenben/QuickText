@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace QuickText.Core.Snippets;
@@ -8,7 +9,8 @@ namespace QuickText.Core.Snippets;
 /// plus special tokens <c>{剪贴板}</c>/<c>{clipboard}</c> (current clipboard),
 /// <c>{光标}</c>/<c>{cursor}</c>, <c>{uuid}</c>, <c>{随机数}</c>/<c>{random}</c> (6 digits),
 /// and date/time: <c>{日期}</c>/<c>{date}</c>, <c>{时间}</c>/<c>{time}</c>,
-/// <c>{日期时间}</c>/<c>{datetime}</c>, with day offsets like <c>{日期+7}</c>.
+/// <c>{日期时间}</c>/<c>{datetime}</c>, with day offsets like <c>{日期+7}</c> and custom
+/// formats like <c>{日期:yyyy年M月d日}</c> (combinable: <c>{日期+7:M月d日}</c>).
 /// </summary>
 public static class Placeholders
 {
@@ -36,28 +38,98 @@ public static class Placeholders
         string.Equals(name, "光标", StringComparison.OrdinalIgnoreCase) ||
         string.Equals(name, "cursor", StringComparison.OrdinalIgnoreCase);
 
-    /// <summary>Resolve a date/time token (optionally with a ±N day offset), or null if it isn't one.</summary>
-    public static string? ResolveDateTime(string name, DateTime now)
+    /// <summary>Resolve a date/time token — optionally with a ±N day offset and/or a custom
+    /// .NET format (<c>{日期+7:M月d日}</c>) — or null if it isn't one / the format is invalid.
+    /// <paramref name="culture"/> defaults to <see cref="CultureInfo.CurrentUICulture"/>; the
+    /// UI layer passes the interface language so <c>{日期:dddd}</c> yields the weekday name
+    /// in the UI's language.</summary>
+    public static string? ResolveDateTime(string name, DateTime now, CultureInfo? culture = null)
+        => TryParseDateToken(name, out var def, out var format, out var offsetDays)
+            ? FormatDate(now, offsetDays, string.IsNullOrWhiteSpace(format) ? def : format!, culture)
+            : null;
+
+    /// <summary>Is this a date/time token by NAME (offset/format stripped), regardless of format
+    /// validity? Keeps a bad-format date token out of the variable prompt (a null from
+    /// <see cref="ResolveDateTime"/> alone would fall through to the variable pipeline).</summary>
+    private static bool IsDateTimeToken(string name) => TryParseDateToken(name, out _, out _, out _);
+
+    /// <summary>Parse <c>名字[±N][:格式]</c>. Everything after the FIRST ':' is the format string
+    /// (it may itself contain ':', as in HH:mm:ss); the day offset sits left of the colon.</summary>
+    private static bool TryParseDateToken(string name, out string defaultFormat, out string? customFormat, out int offsetDays)
     {
-        // A date/time token is short ("日期时间+9999" etc.). Bail on anything far longer before
-        // touching the DayOffset regex — its two whitespace-matching quantifiers backtrack
-        // O(n²) on a long internal whitespace run (a pathological token would hang the UI).
-        if (name.Length > 64) return null;
+        defaultFormat = ""; customFormat = null; offsetDays = 0;
+        // Absolute cap on the whole token: no real format string comes anywhere close.
+        if (name.Length > 256) return false;
         var n = name.Trim();
-        int offsetDays = 0;
+        int colon = n.IndexOf(':');
+        if (colon >= 0) { customFormat = n[(colon + 1)..]; n = n[..colon].Trim(); }
+        // Guard the NAME side only (the format is excluded — literal-heavy formats easily pass
+        // 64 chars) before the DayOffset regex: its two whitespace-matching quantifiers
+        // backtrack O(n²) on a long internal whitespace run (a pathological token would hang
+        // the UI).
+        if (n.Length > 64) return false;
         var m = DayOffset.Match(n);
         if (m.Success && int.TryParse(m.Groups[2].Value, out var off)) { n = m.Groups[1].Value.Trim(); offsetDays = off; }
 
-        var d = now.AddDays(offsetDays);
-        if (Eq(n, "日期") || Eq(n, "date")) return d.ToString("yyyy-MM-dd");
-        if (Eq(n, "时间") || Eq(n, "time")) return d.ToString("HH:mm");
-        if (Eq(n, "日期时间") || Eq(n, "datetime") || Eq(n, "now")) return d.ToString("yyyy-MM-dd HH:mm");
-        return null;
+        if (Eq(n, "日期") || Eq(n, "date")) defaultFormat = "yyyy-MM-dd";
+        else if (Eq(n, "时间") || Eq(n, "time")) defaultFormat = "HH:mm";
+        else if (Eq(n, "日期时间") || Eq(n, "datetime") || Eq(n, "now")) defaultFormat = "yyyy-MM-dd HH:mm";
+        else return false;
+        return true;
 
         static bool Eq(string a, string b) => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
     }
 
-    private static bool IsDateTime(string name) => ResolveDateTime(name, DateTime.Now) != null;
+    /// <summary>Format with WYSIWYG semantics: ':' and '/' outside quotes are literal characters
+    /// (not the culture's separator placeholders — fi-FI would render ':' as '.'), a single-char
+    /// format is custom (to .NET a lone char is a STANDARD specifier: "m" = MonthDay pattern),
+    /// and the calendar is always Gregorian so formatted and default outputs never disagree on
+    /// the year (th-TH's default calendar is Buddhist: 2569 vs 2026). Weekday/month NAMES still
+    /// follow <paramref name="culture"/>. Null on any bad input — callers keep the token literal.</summary>
+    private static string? FormatDate(DateTime now, int offsetDays, string format, CultureInfo? culture)
+    {
+        var f = EscapeSeparators(format);
+        if (f.Length == 1) f = "%" + f;
+        try
+        {
+            // AddDays inside the try: a huge offset near DateTime.MaxValue throws too.
+            return now.AddDays(offsetDays).ToString(f, WithGregorian(culture ?? CultureInfo.CurrentUICulture));
+        }
+        catch (FormatException) { return null; }
+        catch (ArgumentOutOfRangeException) { return null; }
+    }
+
+    /// <summary>Quote-aware: wrap ':' and '/' that sit OUTSIDE '…'/"…" quoted sections (and not
+    /// behind a '\' escape) in quotes, so .NET emits them verbatim instead of substituting the
+    /// culture's time/date separator.</summary>
+    private static string EscapeSeparators(string format)
+    {
+        if (format.IndexOf(':') < 0 && format.IndexOf('/') < 0) return format;
+        var sb = new System.Text.StringBuilder(format.Length + 8);
+        char quote = '\0';
+        for (int i = 0; i < format.Length; i++)
+        {
+            char c = format[i];
+            if (quote != '\0') { sb.Append(c); if (c == quote) quote = '\0'; continue; }
+            if (c == '\'' || c == '"') { quote = c; sb.Append(c); continue; }
+            if (c == '\\' && i + 1 < format.Length) { sb.Append(c).Append(format[++i]); continue; }
+            if (c == ':' || c == '/') { sb.Append('\'').Append(c).Append('\''); continue; }
+            sb.Append(c);
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>The culture with its calendar forced to Gregorian (names/digits untouched).
+    /// Falls back to invariant in the theoretical case of a culture with no Gregorian calendar.</summary>
+    private static CultureInfo WithGregorian(CultureInfo culture)
+    {
+        if (culture.DateTimeFormat.Calendar is GregorianCalendar) return culture;
+        var greg = culture.OptionalCalendars.OfType<GregorianCalendar>().FirstOrDefault();
+        if (greg == null) return CultureInfo.InvariantCulture;
+        var clone = (CultureInfo)culture.Clone();
+        clone.DateTimeFormat.Calendar = greg;
+        return clone;
+    }
 
     private static bool IsUuid(string name) => string.Equals(name, "uuid", StringComparison.OrdinalIgnoreCase);
 
@@ -66,7 +138,7 @@ public static class Placeholders
         string.Equals(name, "random", StringComparison.OrdinalIgnoreCase);
 
     private static bool IsSpecial(string name) =>
-        IsClipboard(name) || IsCursor(name) || IsDateTime(name) || IsUuid(name) || IsRandom(name)
+        IsClipboard(name) || IsCursor(name) || IsDateTimeToken(name) || IsUuid(name) || IsRandom(name)
         || TryNestedName(name, out _);   // an unresolved {片段:x} must not prompt as a variable "片段"
 
     /// <summary>Is this token a {片段:名称}/{snippet:name} reference? Outputs the referenced name.</summary>
@@ -184,18 +256,22 @@ public static class Placeholders
     /// "the user wants to keep typing here", e.g. to suppress auto-send).
     /// </summary>
     public static (string Text, int CaretFromEnd, bool HasCursor) FillWithCaret(
-        string body, IReadOnlyDictionary<string, string>? values, string clipboard = "")
+        string body, IReadOnlyDictionary<string, string>? values, string clipboard = "",
+        DateTime? now = null, CultureInfo? culture = null)
     {
         if (string.IsNullOrEmpty(body)) return (body ?? "", 0, false);
+        // ONE stamp shared by both halves — two DateTime.Now reads straddling a minute or
+        // midnight boundary would paste two different times in a single snippet.
+        var stamp = now ?? DateTime.Now;
 
         Match? cursor = null;
         foreach (Match m in Token.Matches(body))
             if (IsCursor(m.Groups[1].Value.Trim())) { cursor = m; break; }
 
-        if (cursor == null) return (Fill(body, values, clipboard), 0, false);
+        if (cursor == null) return (Fill(body, values, clipboard, stamp, culture), 0, false);
 
-        var before = Fill(body.Substring(0, cursor.Index), values, clipboard);
-        var after = Fill(body.Substring(cursor.Index + cursor.Length), values, clipboard);
+        var before = Fill(body.Substring(0, cursor.Index), values, clipboard, stamp, culture);
+        var after = Fill(body.Substring(cursor.Index + cursor.Length), values, clipboard, stamp, culture);
         // A CRLF line break is a SINGLE caret stop in the target app even though it's two
         // chars — count it once so the Left-key walk doesn't overshoot the marker by one per
         // line on multi-line snippets (the paste itself keeps the original text unchanged).
@@ -204,7 +280,8 @@ public static class Placeholders
     }
 
     /// <summary>Substitute all tokens. Clipboard/cursor/date-time resolve automatically; unknown variables are left as-is.</summary>
-    public static string Fill(string body, IReadOnlyDictionary<string, string>? values, string clipboard = "", DateTime? now = null)
+    public static string Fill(string body, IReadOnlyDictionary<string, string>? values, string clipboard = "",
+        DateTime? now = null, CultureInfo? culture = null)
     {
         if (string.IsNullOrEmpty(body)) return body ?? "";
         var stamp = now ?? DateTime.Now;
@@ -215,7 +292,9 @@ public static class Placeholders
             if (IsClipboard(raw)) return clipboard ?? "";
             if (IsUuid(raw)) return Guid.NewGuid().ToString();          // fresh per occurrence
             if (IsRandom(raw)) return Random.Shared.Next(100000, 1000000).ToString();
-            if (ResolveDateTime(raw, stamp) is { } dt) return dt;
+            if (TryParseDateToken(raw, out var def, out var fmt, out var off))   // single parse: resolve, or
+                return FormatDate(stamp, off, string.IsNullOrWhiteSpace(fmt) ? def : fmt!, culture)
+                    ?? m.Value;                          // bad format / out of range: stay literal
             if (TryNestedName(raw, out _)) return m.Value;   // unresolved reference stays literal
             var spec = ParseSpec(raw);
             if (spec.Name.Length == 0) return m.Value;       // {:x}/{|a|b}: never prompted, so stay literal

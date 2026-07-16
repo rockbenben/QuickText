@@ -80,6 +80,7 @@ Dê um duplo clique em **`QuickText.exe`**; ele fica na **bandeja do sistema** (
 Os espaços reservados são um **interruptor por trecho**: marque "**Ativar espaços reservados {variable}**" no editor do Gerenciador e os tokens abaixo são resolvidos no envio; **deixado desmarcado (o padrão), o corpo é enviado literalmente** — código, scripts e JSON cheios de `{...}` literais nunca são mal interpretados nem geram perguntas.
 
 > Ao atualizar: os espaços reservados costumavam estar sempre ativos. A primeira execução após a atualização marca automaticamente o interruptor para os **trechos existentes** cujo corpo contém `{...}`, de modo que nada muda de comportamento; desmarque-o no Gerenciador para os que realmente são código.
+> Além disso: `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` agora são **nomes reservados de data** — `{date:xyz}` é lido como um formato de data, e não mais como "uma variável chamada date com valor padrão xyz"; renomeie as variáveis que usavam esses nomes.
 
 Quando ativados, estes espaços reservados são resolvidos no envio:
 
@@ -90,7 +91,7 @@ Quando ativados, estes espaços reservados são resolvidos no envio:
 | `{env\|dev\|test\|prod}` | Variável com **opções** — a solicitação mostra um menu suspenso (a primeira opção também serve de padrão; digitar livremente continua permitido) |
 | `{clipboard}` | Insere o conteúdo atual da área de transferência |
 | `{cursor}` | Deixa o cursor neste ponto após colar (também suprime o Enter automático) |
-| `{date}` `{time}` `{datetime}` | Insere a data/hora atual; suporta deslocamentos como `{date+7}` (7 dias à frente). Os apelidos em chinês `{日期}` / `{时间}` / `{日期时间}` também funcionam |
+| `{date}` `{time}` `{datetime}` | Insere a data/hora atual; suporta deslocamentos como `{date+7}` (7 dias à frente) e formatos personalizados como `{date:yyyy-MM-dd}` / `{time:HH:mm:ss}`, combináveis com deslocamentos: `{date+7:MM-dd}`. Os apelidos em chinês `{日期}` / `{时间}` / `{日期时间}` também funcionam |
 | `{uuid}` `{random}` | Valores aleatórios: um UUID / 6 dígitos, novos a cada ocorrência |
 | `{snippet:name}` | **Insere o corpo de outro trecho** (até 3 níveis de profundidade, sem ciclos) — mantenha assinaturas compartilhadas num só lugar |
 
@@ -136,7 +137,7 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 
 - **Invocação**: tecla de atalho global — uma **combinação de teclas** (as teclas de função funcionam como tecla única) ou **toque simples/duplo num modificador** (por exemplo `Ctrl` direito), **escolha um**; o painel segue a janela ativa / o cursor de texto / a posição lembrada; os botões da linha superior levam a **Novo / Gerenciador / Configurações**; fixe-o para enviar vários em sequência; arraste e redimensione com o tamanho lembrado.
 - **Busca**: nome / pinyin / iniciais / abreviação / corpo, com destaque; **empates resolvidos por frequência de uso (frecency)**; `@categoria palavras-chave` limita a busca a uma categoria (apenas `@categoria` navega por ela).
-- **Conteúdo**: texto simples (múltiplas linhas, caracteres especiais, emoji sem perdas), espaços reservados (padrões / menus de opções / trechos aninhados / uuid / random — **ativados por trecho**), **imagens** (da área de transferência ou de arquivo, coladas como imagem ao enviar; **imagens também podem ter abreviações** — digite a abreviação, receba a imagem).
+- **Conteúdo**: texto simples (múltiplas linhas, caracteres especiais, emoji sem perdas), espaços reservados (padrões / menus de opções / trechos aninhados / formatos de data personalizados / uuid / random — **ativados por trecho**), **imagens** (da área de transferência ou de arquivo, coladas como imagem ao enviar; **imagens também podem ter abreviações** — digite a abreviação, receba a imagem).
 - **Abreviações**: acionadas por terminador, solicitação de variáveis, desfazer com uma tecla, correção de erro de digitação com Backspace, sem diferenciar maiúsculas, o clique quebra o token, aviso de duplicidade, lista de bloqueio por aplicativo, **pausa na bandeja com um clique**.
 - **Saída**: colar diretamente / apenas copiar; Enter automático opcional, restaurar a área de transferência, envio com clique único; **substituição de saída por trecho**; tecla de captura (área de transferência → trecho num só toque).
 - **Gerenciador**: 7 cores de categoria, reordenar / mover arrastando, **seleção múltipla para mover / excluir em lote** (selecione com Ctrl / Shift e clique com o botão direito), desfazer exclusão, **lixeira (restauração por 30 dias, com prévia do corpo)**, aviso de abreviação duplicada, estatísticas de uso, modo sem quebra de linha para código, retorno de salvamento.

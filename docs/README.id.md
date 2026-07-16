@@ -80,6 +80,7 @@ Klik ganda **`QuickText.exe`**; ia tinggal di **system tray** (tanpa tombol task
 Placeholder adalah **saklar per snippet**: centang "**Aktifkan placeholder {variable}**" di editor Manager dan token di bawah akan diselesaikan saat dikirim; **jika tidak dicentang (default), isi dikirim apa adanya** — kode, skrip, dan JSON yang penuh dengan `{...}` literal tak pernah salah diurai atau ditanyakan.
 
 > Saat memperbarui: dahulu placeholder selalu aktif. Peluncuran pertama setelah pembaruan otomatis mencentang saklar untuk **snippet yang sudah ada** yang isinya mengandung `{...}`, sehingga tidak ada perilaku yang berubah; hapus centang di Manager untuk yang sebenarnya berupa kode.
+> Selain itu: `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` kini menjadi **nama tanggal yang dicadangkan** — `{date:xyz}` dibaca sebagai format tanggal, bukan lagi "variabel bernama date dengan nilai bawaan xyz"; ganti nama variabel yang memakai nama-nama ini.
 
 Saat diaktifkan, placeholder berikut diselesaikan saat dikirim:
 
@@ -90,7 +91,7 @@ Saat diaktifkan, placeholder berikut diselesaikan saat dikirim:
 | `{env\|dev\|test\|prod}` | Variabel dengan **pilihan** — prompt menampilkan dropdown (opsi pertama sekaligus menjadi default; ketik bebas tetap diizinkan) |
 | `{clipboard}` | Menyisipkan isi clipboard saat ini |
 | `{cursor}` | Meninggalkan kursor di titik ini setelah menempel (juga menekan auto-Enter) |
-| `{date}` `{time}` `{datetime}` | Menyisipkan tanggal/waktu saat ini; mendukung offset seperti `{date+7}` (7 hari ke depan). Alias bahasa Tionghoa `{日期}` / `{时间}` / `{日期时间}` juga berlaku |
+| `{date}` `{time}` `{datetime}` | Menyisipkan tanggal/waktu saat ini; mendukung offset seperti `{date+7}` (7 hari ke depan) serta format kustom seperti `{date:yyyy-MM-dd}` / `{time:HH:mm:ss}`, dapat digabung dengan offset: `{date+7:MM-dd}`. Alias bahasa Tionghoa `{日期}` / `{时间}` / `{日期时间}` juga berlaku |
 | `{uuid}` `{random}` | Nilai acak: sebuah UUID / 6 digit, baru setiap kemunculan |
 | `{snippet:name}` | **Menyisipkan isi snippet lain** (sedalam 3 tingkat, aman dari siklus) — simpan tanda tangan bersama di satu tempat |
 
@@ -136,7 +137,7 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 
 - **Pemanggilan**: hotkey global — sebuah **kombinasi tombol** (tombol fungsi bekerja sebagai satu tombol) atau **ketuk sekali/dua kali sebuah modifier** (mis. Ctrl kanan), **pilih satu**; panel mengikuti jendela aktif / kursor teks / posisi yang diingat; tombol baris atas melompat ke **Baru / Manager / Pengaturan**; sematkan untuk mengirim beberapa berturut-turut; seret & ubah ukuran dengan ukuran yang diingat.
 - **Pencarian**: nama / pinyin / inisial / singkatan / isi, disorot; **seri diputus berdasarkan frekuensi pemakaian (frecency)**; `@category keywords` mempersempit pencarian ke satu kategori (`@category` telanjang menelusurinya).
-- **Konten**: teks polos (multi-baris, karakter khusus, emoji tanpa kehilangan), placeholder (default / dropdown opsi / snippet bersarang / uuid / random — **dipilih per snippet**), **gambar** (dari clipboard atau file, ditempel sebagai gambar saat dikirim; **gambar bisa punya singkatan juga** — ketik singkatannya, dapatkan gambarnya).
+- **Konten**: teks polos (multi-baris, karakter khusus, emoji tanpa kehilangan), placeholder (default / dropdown opsi / snippet bersarang / format tanggal kustom / uuid / random — **dipilih per snippet**), **gambar** (dari clipboard atau file, ditempel sebagai gambar saat dikirim; **gambar bisa punya singkatan juga** — ketik singkatannya, dapatkan gambarnya).
 - **Singkatan**: dipicu terminator, prompt variabel, batalkan sekali tekan, koreksi salah ketik dengan Backspace, tidak peka huruf besar/kecil, klik memecah token, peringatan duplikat, daftar hitam per aplikasi, **jeda tray sekali klik**.
 - **Output**: tempel langsung / salin saja; auto-Enter opsional, pulihkan clipboard, kirim klik tunggal; **penimpaan output per snippet**; hotkey tangkap (clipboard → snippet dalam satu tekan).
 - **Manager**: 7 warna kategori, seret susun ulang / pindah, **pilih banyak untuk pindah / hapus massal** (pilih dengan Ctrl / Shift, lalu klik kanan), batalkan penghapusan, **tempat sampah (pulihkan 30 hari, dengan pratinjau isi)**, peringatan singkatan duplikat, statistik pemakaian, mode tanpa bungkus untuk kode, umpan balik penyimpanan.

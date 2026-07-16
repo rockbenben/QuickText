@@ -80,6 +80,7 @@ Doppelklicke **`QuickText.exe`**; es lebt im **System-Infobereich** (keine Taskl
 Platzhalter sind ein **Schalter pro Snippet**: Setze im Manager-Editor den Haken bei „**{variable}-Platzhalter aktivieren**“, und die Tokens unten werden beim Senden aufgelöst; **bleibt der Haken deaktiviert (der Standard), wird der Text wortwörtlich gesendet** — Code, Skripte und JSON voller wörtlicher `{...}` werden nie falsch interpretiert oder abgefragt.
 
 > Beim Upgrade: Platzhalter waren früher immer aktiv. Der erste Start nach dem Upgrade setzt den Haken automatisch für **vorhandene Snippets**, deren Text `{...}` enthält, sodass sich am Verhalten nichts ändert; entferne den Haken im Manager für die, die tatsächlich Code sind.
+> Außerdem: `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` sind jetzt **reservierte Datumsnamen** — `{date:xyz}` wird als Datumsformat gelesen, nicht mehr als „eine Variable namens date mit Standardwert xyz"; benenne Variablen um, die diese Namen verwendet haben.
 
 Wenn aktiviert, werden diese Platzhalter beim Senden aufgelöst:
 
@@ -90,7 +91,7 @@ Wenn aktiviert, werden diese Platzhalter beim Senden aufgelöst:
 | `{env\|dev\|test\|prod}` | Variable mit **Optionen** — der Dialog zeigt ein Dropdown (die erste Option dient zugleich als Standard; freies Tippen bleibt möglich) |
 | `{clipboard}` | Fügt den aktuellen Inhalt der Zwischenablage ein |
 | `{cursor}` | Lässt den Cursor nach dem Einfügen an dieser Stelle (unterdrückt außerdem das automatische Enter) |
-| `{date}` `{time}` `{datetime}` | Fügt das aktuelle Datum/die Uhrzeit ein; unterstützt Verschiebungen wie `{date+7}` (7 Tage in der Zukunft). Chinesische Aliase `{日期}` / `{时间}` / `{日期时间}` funktionieren ebenfalls |
+| `{date}` `{time}` `{datetime}` | Fügt das aktuelle Datum/die Uhrzeit ein; unterstützt Verschiebungen wie `{date+7}` (7 Tage in der Zukunft) sowie eigene Formate wie `{date:yyyy-MM-dd}` / `{time:HH:mm:ss}`, kombinierbar mit Verschiebungen: `{date+7:MM-dd}`. Chinesische Aliase `{日期}` / `{时间}` / `{日期时间}` funktionieren ebenfalls |
 | `{uuid}` `{random}` | Zufallswerte: eine UUID / 6 Ziffern, pro Vorkommen neu |
 | `{snippet:name}` | **Bindet den Text eines anderen Snippets ein** (3 Ebenen tief, zyklussicher) — halte gemeinsame Signaturen an einem Ort |
 
@@ -136,7 +137,7 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 
 - **Aufrufen**: globaler Hotkey — eine **Tastenkombination** (Funktionstasten funktionieren als Einzeltaste) oder **einfaches/doppeltes Tippen einer Modifikatortaste** (z. B. rechte Ctrl), **eine wählen**; das Panel folgt dem aktiven Fenster / dem Textcursor / der gemerkten Position; die Schaltflächen oben springen zu **Neu / Manager / Einstellungen**; anheften, um mehrere hintereinander zu senden; ziehen & Größe ändern mit gemerkter Größe.
 - **Suche**: Name / Pinyin / Initialen / Kürzel / Text, hervorgehoben; **Gleichstände nach Nutzungshäufigkeit (Frecency) aufgelöst**; `@category keywords` grenzt die Suche auf eine Kategorie ein (bloßes `@category` durchblättert sie).
-- **Inhalt**: Klartext (mehrzeilig, Sonderzeichen, Emojis verlustfrei), Platzhalter (Standardwerte / Options-Dropdowns / Snippet-Verschachtelung / uuid / random — **pro Snippet aktivierbar**), **Bilder** (aus Zwischenablage oder Datei, beim Senden als Bild eingefügt; **Bilder können ebenfalls Kürzel haben** — tippe das Kürzel, erhalte das Bild).
+- **Inhalt**: Klartext (mehrzeilig, Sonderzeichen, Emojis verlustfrei), Platzhalter (Standardwerte / Options-Dropdowns / Snippet-Verschachtelung / eigene Datumsformate / uuid / random — **pro Snippet aktivierbar**), **Bilder** (aus Zwischenablage oder Datei, beim Senden als Bild eingefügt; **Bilder können ebenfalls Kürzel haben** — tippe das Kürzel, erhalte das Bild).
 - **Kürzel**: durch Abschlusszeichen ausgelöst, Variablen-Abfrage, Rückgängig mit einem Tastendruck, Tippfehlerkorrektur per Rücktaste, ohne Groß-/Kleinschreibung, Klick trennt das Token, Duplikat-Warnung, App-Sperrliste, **Ein-Klick-Pause im Infobereich**.
 - **Ausgabe**: direkt einfügen / nur kopieren; optional automatisches Enter, Zwischenablage wiederherstellen, Senden per Einfachklick; **Ausgabe-Überschreibung pro Snippet**; Erfassungs-Hotkey (Zwischenablage → Snippet mit einem Tastendruck).
 - **Manager**: 7 Kategoriefarben, Ziehen zum Umsortieren / Verschieben, **Mehrfachauswahl für Stapel-Verschieben / -Löschen** (Ctrl / Shift auswählen, dann Rechtsklick), Löschen rückgängig, **Papierkorb (30-Tage-Wiederherstellung, mit Textvorschau)**, Duplikat-Kürzel-Warnung, Nutzungsstatistik, Zeilenumbruch-aus-Modus für Code, Speicher-Rückmeldung.

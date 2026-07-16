@@ -80,6 +80,7 @@ Fai doppio clic su **`QuickText.exe`**; vive nella **barra delle applicazioni** 
 I segnaposto sono un **interruttore per singolo snippet**: spunta "**Abilita segnaposto {variabile}**" nell'editor del Gestore e i token qui sotto vengono risolti all'invio; **lasciato non spuntato (l'impostazione predefinita), il corpo viene inviato alla lettera** — codice, script e JSON pieni di `{...}` letterali non vengono mai interpretati per errore né generano richieste.
 
 > In aggiornamento: i segnaposto erano sempre attivi. Il primo avvio dopo l'aggiornamento spunta automaticamente l'interruttore per gli **snippet esistenti** il cui corpo contiene `{...}`, così nulla cambia comportamento; togli la spunta nel Gestore per quelli che sono effettivamente codice.
+> Inoltre: `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` sono ora **nomi riservati di data** — `{date:xyz}` viene letto come formato di data, non più come "una variabile chiamata date con valore predefinito xyz"; rinomina le variabili che usavano questi nomi.
 
 Quando abilitati, questi segnaposto vengono risolti all'invio:
 
@@ -90,7 +91,7 @@ Quando abilitati, questi segnaposto vengono risolti all'invio:
 | `{env\|dev\|test\|prod}` | Variabile con **opzioni** — la richiesta mostra un menu a discesa (la prima opzione funge anche da predefinita; la digitazione libera è comunque consentita) |
 | `{clipboard}` | Inserisce il contenuto attuale degli appunti |
 | `{cursor}` | Lascia il cursore in questo punto dopo l'incolla (elimina anche l'Invio automatico) |
-| `{date}` `{time}` `{datetime}` | Inserisce la data/ora attuale; supporta scostamenti come `{date+7}` (7 giorni dopo). Funzionano anche gli alias cinesi `{日期}` / `{时间}` / `{日期时间}` |
+| `{date}` `{time}` `{datetime}` | Inserisce la data/ora attuale; supporta scostamenti come `{date+7}` (7 giorni dopo) e formati personalizzati come `{date:yyyy-MM-dd}` / `{time:HH:mm:ss}`, combinabili con gli scostamenti: `{date+7:MM-dd}`. Funzionano anche gli alias cinesi `{日期}` / `{时间}` / `{日期时间}` |
 | `{uuid}` `{random}` | Valori casuali: un UUID / 6 cifre, nuovi a ogni occorrenza |
 | `{snippet:name}` | **Incorpora inline il corpo di un altro snippet** (fino a 3 livelli di profondità, a prova di ciclo) — tieni le firme condivise in un unico posto |
 
@@ -136,7 +137,7 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 
 - **Richiamo**: scorciatoia globale — una **combinazione di tasti** (i tasti funzione funzionano come singolo tasto) o **tocco singolo/doppio di un modificatore** (es. Ctrl destro), **scegline uno**; il pannello segue la finestra attiva / il cursore di testo / la posizione memorizzata; i pulsanti della riga superiore vanno a **Nuovo / Gestore / Impostazioni**; fissalo per inviarne diversi di fila; trascina e ridimensiona con dimensione memorizzata.
 - **Ricerca**: nome / pinyin / iniziali / abbreviazione / corpo, evidenziati; **parità risolta dalla frequenza d'uso (frecency)**; `@categoria parole chiave` restringe la ricerca a una categoria (il solo `@categoria` la sfoglia).
-- **Contenuto**: testo semplice (multiriga, caratteri speciali, emoji senza perdite), segnaposto (valori predefiniti / menu a discesa di opzioni / annidamento di snippet / uuid / random — **attivabili per singolo snippet**), **immagini** (dagli appunti o da file, incollate come immagine all'invio; **anche le immagini possono avere abbreviazioni** — digita l'abbreviazione, ottieni l'immagine).
+- **Contenuto**: testo semplice (multiriga, caratteri speciali, emoji senza perdite), segnaposto (valori predefiniti / menu a discesa di opzioni / annidamento di snippet / formati data personalizzati / uuid / random — **attivabili per singolo snippet**), **immagini** (dagli appunti o da file, incollate come immagine all'invio; **anche le immagini possono avere abbreviazioni** — digita l'abbreviazione, ottieni l'immagine).
 - **Abbreviazioni**: attivazione con terminatore, richiesta variabili, annullamento con una pressione, correzione errori con Backspace, senza distinzione maiuscole/minuscole, il clic interrompe il token, avviso di duplicati, lista di esclusione per app, **sospensione a un clic dalla barra delle applicazioni**.
 - **Output**: incolla direttamente / solo copia; Invio automatico opzionale, ripristino appunti, invio con singolo clic; **sovrascrittura output per singolo snippet**; scorciatoia di cattura (appunti → snippet con una pressione).
 - **Gestore**: 7 colori di categoria, trascinamento per riordinare / spostare, **spostamento / eliminazione in blocco multiselezione** (selezione con Ctrl / Shift, poi clic destro), annullamento eliminazione, **cestino (ripristino a 30 giorni, con anteprima del corpo)**, avviso di abbreviazioni duplicate, statistiche d'uso, modalità senza a capo per il codice, riscontro al salvataggio.

@@ -80,6 +80,7 @@ Double-cliquez sur **`QuickText.exe`** ; il réside dans la **zone de notificati
 Les espaces réservés sont un **interrupteur par fragment** : cochez « **Activer les espaces réservés {variable}** » dans l'éditeur du Gestionnaire et les jetons ci-dessous sont résolus à l'envoi ; **laissé décoché (par défaut), le corps est envoyé tel quel** — le code, les scripts et le JSON pleins de `{...}` littéraux ne sont jamais mal interprétés ni source d'invite.
 
 > Mise à niveau : les espaces réservés étaient auparavant toujours actifs. Le premier lancement après la mise à niveau coche automatiquement l'interrupteur pour les **fragments existants** dont le corps contient `{...}`, de sorte que rien ne change dans le comportement ; décochez-le dans le Gestionnaire pour ceux qui sont réellement du code.
+> De plus : `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` sont désormais des **noms réservés de date** — `{date:xyz}` est interprété comme un format de date, et non plus comme « une variable nommée date avec la valeur par défaut xyz » ; renommez les variables qui utilisaient ces noms.
 
 Une fois activés, ces espaces réservés sont résolus à l'envoi :
 
@@ -90,7 +91,7 @@ Une fois activés, ces espaces réservés sont résolus à l'envoi :
 | `{env\|dev\|test\|prod}` | Variable avec des **options** — l'invite affiche une liste déroulante (la première option sert aussi de valeur par défaut ; la saisie libre reste autorisée) |
 | `{clipboard}` | Insère le contenu actuel du presse-papiers |
 | `{cursor}` | Laisse le curseur à cet endroit après le collage (supprime aussi l'Entrée automatique) |
-| `{date}` `{time}` `{datetime}` | Insère la date/l'heure actuelle ; prend en charge les décalages comme `{date+7}` (dans 7 jours). Les alias chinois `{日期}` / `{时间}` / `{日期时间}` fonctionnent aussi |
+| `{date}` `{time}` `{datetime}` | Insère la date/l'heure actuelle ; prend en charge les décalages comme `{date+7}` (dans 7 jours) et des formats personnalisés comme `{date:yyyy-MM-dd}` / `{time:HH:mm:ss}`, combinables avec un décalage : `{date+7:MM-dd}`. Les alias chinois `{日期}` / `{时间}` / `{日期时间}` fonctionnent aussi |
 | `{uuid}` `{random}` | Valeurs aléatoires : un UUID / 6 chiffres, régénérées à chaque occurrence |
 | `{snippet:name}` | **Insère le corps d'un autre fragment** (jusqu'à 3 niveaux de profondeur, sans risque de boucle) — gardez les signatures partagées à un seul endroit |
 
@@ -136,7 +137,7 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 
 - **Appel** : raccourci global — une **combinaison de touches** (les touches de fonction fonctionnent comme une seule touche) ou **tapotement simple/double d'un modificateur** (par ex. Ctrl droit), **au choix** ; le panneau suit la fenêtre active / le curseur de texte / la position mémorisée ; les boutons de la rangée supérieure sautent vers **Nouveau / Gestionnaire / Réglages** ; épinglez-le pour en envoyer plusieurs à la suite ; déplaçable et redimensionnable avec taille mémorisée.
 - **Recherche** : nom / pinyin / initiales / abréviation / corps, surlignés ; **ex æquo départagés par la fréquence d'usage (frecency)** ; `@catégorie mots-clés` restreint la recherche à une catégorie (`@catégorie` seul la parcourt).
-- **Contenu** : texte brut (multiligne, caractères spéciaux, emoji sans perte), espaces réservés (valeurs par défaut / listes déroulantes d'options / imbrication de fragments / uuid / random — **activation par fragment**), **images** (depuis le presse-papiers ou un fichier, collées comme image à l'envoi ; **les images peuvent aussi avoir des abréviations** — tapez l'abréviation, obtenez l'image).
+- **Contenu** : texte brut (multiligne, caractères spéciaux, emoji sans perte), espaces réservés (valeurs par défaut / listes déroulantes d'options / imbrication de fragments / formats de date personnalisés / uuid / random — **activation par fragment**), **images** (depuis le presse-papiers ou un fichier, collées comme image à l'envoi ; **les images peuvent aussi avoir des abréviations** — tapez l'abréviation, obtenez l'image).
 - **Abréviations** : déclenchées par une touche de fin, invite de variables, annulation en une frappe, correction de faute par Retour arrière, insensible à la casse, un clic rompt le jeton, avertissement de doublon, liste noire par application, **suspension en un clic depuis la zone de notification**.
 - **Sortie** : coller directement / copier uniquement ; en option Entrée automatique, restaurer le presse-papiers, envoi au simple clic ; **remplacement de sortie par fragment** ; raccourci de capture (presse-papiers → fragment en une frappe).
 - **Gestionnaire** : 7 couleurs de catégorie, réorganisation / déplacement par glisser, **déplacement / suppression par lot en sélection multiple** (sélection Ctrl / Shift, puis clic droit), annulation de suppression, **corbeille (restauration sous 30 jours, avec aperçu du corps)**, avertissement de doublon d'abréviation, statistiques d'usage, mode sans retour à la ligne pour le code, retour après enregistrement.

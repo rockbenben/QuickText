@@ -1,3 +1,4 @@
+using System.Globalization;
 using QuickText.Core.Snippets;
 
 namespace QuickText.Core.Tests;
@@ -273,4 +274,149 @@ public class PlaceholdersTests
         Assert.Equal(0, caret);
         Assert.False(hasCursor);
     }
+
+    // ---- {日期:格式} custom date formats ----
+    // Format tests pass InvariantCulture explicitly: the default culture on a Buddhist/Hijri
+    // calendar system (th-TH / ar-SA) yields a different year, and tests must not drift with
+    // the host machine's regional settings.
+
+    [Fact]
+    public void Date_custom_format_applies()
+    {
+        var now = new DateTime(2026, 7, 16, 14, 3, 27);
+        var inv = CultureInfo.InvariantCulture;
+        Assert.Equal("2026年7月16日", Placeholders.ResolveDateTime("日期:yyyy年M月d日", now, inv));
+        Assert.Equal("14:03:27", Placeholders.ResolveDateTime("时间:HH:mm:ss", now, inv));   // ':' inside the format survives
+        Assert.Equal("2026/07/16", Placeholders.ResolveDateTime("date:yyyy/MM/dd", now, inv));   // english alias, '/' literal
+    }
+
+    // ':' and '/' in a .NET custom format are CULTURE SEPARATOR placeholders (fi-FI renders ':'
+    // as '.'), which would make the README's own {time:HH:mm:ss} example wrong on such UIs.
+    // The engine must treat them as WYSIWYG literals.
+    [Fact]
+    public void Date_format_separators_are_literal_regardless_of_culture()
+    {
+        var now = new DateTime(2026, 7, 16, 14, 3, 27);
+        Assert.Equal("14:03:27", Placeholders.ResolveDateTime("时间:HH:mm:ss", now, CultureInfo.GetCultureInfo("fi-FI")));
+        Assert.Equal("2026/07/16", Placeholders.ResolveDateTime("日期:yyyy/MM/dd", now, CultureInfo.GetCultureInfo("de-DE")));
+    }
+
+    // A ':' INSIDE a quoted literal is already literal — the separator escaping must not
+    // double-wrap it and corrupt the quoted section.
+    [Fact]
+    public void Date_format_quoted_sections_survive_escaping()
+    {
+        var now = new DateTime(2026, 7, 16, 14, 3, 0);
+        Assert.Equal("时刻: 14:03",
+            Placeholders.ResolveDateTime("时间:'时刻: 'HH:mm", now, CultureInfo.GetCultureInfo("fi-FI")));
+    }
+
+    // 'yyyy' follows the culture's CALENDAR: th-TH default is Buddhist (2569, not 2026), and a
+    // mixed snippet would paste two different years. Both the formatted and the default path
+    // must force Gregorian.
+    [Fact]
+    public void Date_format_always_uses_gregorian_calendar()
+    {
+        var now = new DateTime(2026, 7, 16);
+        var th = CultureInfo.GetCultureInfo("th-TH");
+        Assert.Equal("2026-07-16", Placeholders.ResolveDateTime("日期:yyyy-MM-dd", now, th));
+        Assert.Equal("2026-07-16", Placeholders.ResolveDateTime("日期", now, th));   // default path too
+    }
+
+    // A lone char is a STANDARD format specifier to .NET ("m" = MonthDay pattern, "H" throws) —
+    // the engine must prefix '%' so it reads as the custom specifier the user meant.
+    [Fact]
+    public void Date_single_char_format_is_custom_not_standard()
+    {
+        var now = new DateTime(2026, 7, 16, 14, 3, 0);
+        var inv = CultureInfo.InvariantCulture;
+        Assert.Equal("3", Placeholders.ResolveDateTime("时间:m", now, inv));
+        Assert.Equal("14", Placeholders.ResolveDateTime("时间:H", now, inv));
+    }
+
+    // The length guard must measure the NAME side only: a literal-heavy format easily exceeds
+    // 64 chars and must still resolve (not fall through to a bogus "日期" variable prompt).
+    [Fact]
+    public void Date_long_literal_heavy_format_still_resolves()
+    {
+        var literal = "截止日期为下述时间，请尽快处理并回复确认邮件" + new string('！', 50);
+        var token = "日期:'" + literal + "'yyyy-MM-dd";
+        Assert.True(token.Length > 64);
+        Assert.Equal(literal + "2026-07-16",
+            Placeholders.ResolveDateTime(token, new DateTime(2026, 7, 16), CultureInfo.InvariantCulture));
+        Assert.False(Placeholders.HasVariables("{" + token + "}"));
+    }
+
+    // AddDays past DateTime.MaxValue throws ArgumentOutOfRangeException (as can bounded
+    // calendars) — it must degrade to a literal token, never crash the paste.
+    [Fact]
+    public void Date_out_of_range_offset_stays_literal_not_crash()
+    {
+        var nearMax = DateTime.MaxValue.AddDays(-10);
+        Assert.Null(Placeholders.ResolveDateTime("日期+9999:yyyy-MM-dd", nearMax));
+        Assert.Equal("{日期+9999:yyyy-MM-dd}", Placeholders.Fill("{日期+9999:yyyy-MM-dd}", null, now: nearMax));
+    }
+
+    // FillWithCaret is THE production path: it must forward now/culture and stamp ONE time for
+    // both halves, or a paste straddling a minute boundary shows two different times.
+    [Fact]
+    public void FillWithCaret_uses_single_timestamp_and_forwards_culture()
+    {
+        var now = new DateTime(2026, 7, 16, 14, 3, 27);
+        var (text, _, _) = Placeholders.FillWithCaret("{日期时间}{光标}{日期时间}", null, "", now, CultureInfo.InvariantCulture);
+        Assert.Equal("2026-07-16 14:032026-07-16 14:03", text);
+        var (weekday, _, _) = Placeholders.FillWithCaret("{日期:dddd}{光标}", null, "", now, CultureInfo.GetCultureInfo("zh-CN"));
+        Assert.Equal("星期四", weekday);
+    }
+
+    [Fact]
+    public void Date_offset_combines_with_format()
+    {
+        var now = new DateTime(2026, 7, 16);
+        var inv = CultureInfo.InvariantCulture;
+        Assert.Equal("7月23日", Placeholders.ResolveDateTime("日期+7:M月d日", now, inv));
+        Assert.Equal("2026-07-15", Placeholders.ResolveDateTime("日期-1:yyyy-MM-dd", now, inv));
+    }
+
+    [Fact]
+    public void Date_empty_format_falls_back_to_default()
+        => Assert.Equal("2026-07-16", Placeholders.ResolveDateTime("日期:", new DateTime(2026, 7, 16)));
+
+    [Fact]
+    public void Date_invalid_format_stays_literal_in_fill()
+    {
+        // An unbalanced quote throws FormatException → the whole token stays literal; nothing
+        // is eaten, nothing prompts. (Unknown LETTERS don't throw: custom-format semantics copy
+        // them unchanged — {日期:Q} renders "Q", consistently with {date:TBD} → "TBD".)
+        var filled = Placeholders.Fill("截止：{日期:'未闭合}", null, now: new DateTime(2026, 7, 16));
+        Assert.Equal("截止：{日期:'未闭合}", filled);
+        Assert.Equal("Q", Placeholders.ResolveDateTime("日期:Q", new DateTime(2026, 7, 16), CultureInfo.InvariantCulture));
+    }
+
+    [Fact]
+    public void Date_format_token_is_not_a_user_variable()
+        => Assert.False(Placeholders.HasVariables("{日期:yyyy年M月d日} {日期:Q} {date+3:MM-dd}"));
+
+    [Fact]
+    public void Date_default_output_unchanged_without_format()
+    {
+        var now = new DateTime(2026, 7, 16, 14, 3, 0);
+        Assert.Equal("2026-07-16", Placeholders.ResolveDateTime("日期", now));
+        Assert.Equal("14:03", Placeholders.ResolveDateTime("时间", now));
+        Assert.Equal("2026-07-16 14:03", Placeholders.ResolveDateTime("日期时间+0", now));
+    }
+
+    [Fact]
+    public void Date_format_weekday_follows_culture()
+    {
+        var now = new DateTime(2026, 7, 16);   // a Thursday
+        Assert.Equal("星期四", Placeholders.ResolveDateTime("日期:dddd", now, CultureInfo.GetCultureInfo("zh-CN")));
+        Assert.Equal("Thursday", Placeholders.ResolveDateTime("日期:dddd", now, CultureInfo.GetCultureInfo("en-US")));
+    }
+
+    [Fact]
+    public void Fill_applies_date_format()
+        => Assert.Equal("今天是7月16日",
+            Placeholders.Fill("今天是{日期:M月d日}", null, now: new DateTime(2026, 7, 16),
+                culture: CultureInfo.InvariantCulture));
 }

@@ -80,6 +80,7 @@ Double-click **`QuickText.exe`**; it lives in the **system tray** (no taskbar bu
 Placeholders are a **per-snippet switch**: tick "**Enable {variable} placeholders**" in the Manager editor and the tokens below are resolved on send; **left unticked (the default), the body is sent verbatim** — code, scripts and JSON full of literal `{...}` are never misparsed or prompted on.
 
 > Upgrading: placeholders used to be always-on. The first launch after upgrading automatically ticks the switch for **existing snippets** whose body contains `{...}`, so nothing changes behavior; untick it in the Manager for the ones that are actually code.
+> Also: `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` are now **reserved date names** — `{date:xyz}` is read as a date format, no longer as "a variable named date with default xyz"; rename any variables that used these names.
 
 When enabled, these placeholders are resolved on send:
 
@@ -90,7 +91,7 @@ When enabled, these placeholders are resolved on send:
 | `{env\|dev\|test\|prod}` | Variable with **options** — the prompt shows a dropdown (first option doubles as the default; free typing still allowed) |
 | `{clipboard}` | Inserts the current clipboard contents |
 | `{cursor}` | Leaves the caret at this spot after pasting (also suppresses auto-Enter) |
-| `{date}` `{time}` `{datetime}` | Inserts the current date/time; supports offsets like `{date+7}` (7 days out). Chinese aliases `{日期}` / `{时间}` / `{日期时间}` also work |
+| `{date}` `{time}` `{datetime}` | Inserts the current date/time; supports offsets like `{date+7}` (7 days out) and custom formats like `{date:MMM d, yyyy}` / `{time:HH:mm:ss}`, combinable with offsets: `{date+7:MM-dd}`. Formats are WYSIWYG (`:` `/` output verbatim, always Gregorian), and `{date:dddd}` names the weekday in the interface language. Chinese aliases `{日期}` / `{时间}` / `{日期时间}` also work |
 | `{uuid}` `{random}` | Random values: a UUID / 6 digits, fresh per occurrence |
 | `{snippet:name}` | **Inlines another snippet's body** (3 levels deep, cycle-safe) — keep shared signatures in one place |
 
@@ -136,7 +137,7 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 
 - **Summon**: global hotkey — a **key combo** (function keys work as a single key) or **single/double-tap a modifier** (e.g. right Ctrl), **pick one**; panel follows active window / text caret / remembered position; top-row buttons jump to **New / Manager / Settings**; pin it to send several in a row; drag & resize with remembered size.
 - **Search**: name / pinyin / initials / abbreviation / body, highlighted; **ties broken by usage frequency (frecency)**; `@category keywords` scopes the search to one category (bare `@category` browses it).
-- **Content**: plain text (multi-line, special chars, emoji lossless), placeholders (defaults / option dropdowns / snippet nesting / uuid / random — **opt-in per snippet**), **images** (from clipboard or file, pasted as an image on send; **images can have abbreviations too** — type the abbr, get the image).
+- **Content**: plain text (multi-line, special chars, emoji lossless), placeholders (defaults / option dropdowns / snippet nesting / custom date formats / uuid / random — **opt-in per snippet**), **images** (from clipboard or file, pasted as an image on send; **images can have abbreviations too** — type the abbr, get the image).
 - **Abbreviations**: terminator-triggered, variable prompt, one-press undo, Backspace typo-correction, case-insensitive, click breaks the token, duplicate warning, per-app blacklist, **one-click tray pause**.
 - **Output**: paste directly / copy only; optional auto-Enter, restore clipboard, single-click send; **per-snippet output override**; capture hotkey (clipboard → snippet in one press).
 - **Manager**: 7 category colors, drag reorder / move, **multi-select batch move / delete** (Ctrl / Shift select, then right-click), undo delete, **trash (30-day restore, with body preview)**, duplicate-abbr warning, usage stats, no-wrap mode for code, save feedback.

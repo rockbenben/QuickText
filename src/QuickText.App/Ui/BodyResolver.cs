@@ -37,7 +37,9 @@ public static class BodyResolver
         if (Placeholders.UsesClipboard(body))
             try { if (Clipboard.ContainsText()) clip = Clipboard.GetText(); } catch { }
 
-        var (text, caret, hasCursor) = Placeholders.FillWithCaret(body, values, clip);
+        // Interface-language culture so {日期:dddd} names the weekday in the UI's language.
+        var (text, caret, hasCursor) = Placeholders.FillWithCaret(body, values, clip,
+            culture: QuickText.Core.Localization.LocalizationService.Instance.Culture);
         text = Placeholders.UnprotectBraces(text);   // restore verbatim nested bodies' literal {…}
         return new Resolved(text, caret, hasCursor, prompted);
     }
