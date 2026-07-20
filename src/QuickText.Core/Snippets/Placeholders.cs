@@ -10,7 +10,12 @@ namespace QuickText.Core.Snippets;
 /// <c>{光标}</c>/<c>{cursor}</c>, <c>{uuid}</c>, <c>{随机数}</c>/<c>{random}</c> (6 digits),
 /// and date/time: <c>{日期}</c>/<c>{date}</c>, <c>{时间}</c>/<c>{time}</c>,
 /// <c>{日期时间}</c>/<c>{datetime}</c>, with day offsets like <c>{日期+7}</c> and custom
-/// formats like <c>{日期:yyyy年M月d日}</c> (combinable: <c>{日期+7:M月d日}</c>).
+/// formats like <c>{日期=yyyy年M月d日}</c> (combinable: <c>{日期+7=M月d日}</c>).
+/// <para>The custom format is introduced by '=', NOT ':': ':' already means "variable default"
+/// (<c>{姓名:张三}</c>), so a colon here would silently steal every existing <c>{日期:2026-01-01}</c>
+/// — a prefilled date FIELD, one of this app's most common uses — and paste a garbled format of
+/// it instead of prompting. '=' appears in neither the default nor the option syntax, so the two
+/// forms can't collide.</para>
 /// </summary>
 public static class Placeholders
 {
@@ -39,34 +44,47 @@ public static class Placeholders
         string.Equals(name, "cursor", StringComparison.OrdinalIgnoreCase);
 
     /// <summary>Resolve a date/time token — optionally with a ±N day offset and/or a custom
-    /// .NET format (<c>{日期+7:M月d日}</c>) — or null if it isn't one / the format is invalid.
+    /// .NET format (<c>{日期+7=M月d日}</c>) — or null if it isn't one / the format is invalid.
     /// <paramref name="culture"/> defaults to <see cref="CultureInfo.CurrentUICulture"/>; the
-    /// UI layer passes the interface language so <c>{日期:dddd}</c> yields the weekday name
+    /// UI layer passes the interface language so <c>{日期=dddd}</c> yields the weekday name
     /// in the UI's language.</summary>
     public static string? ResolveDateTime(string name, DateTime now, CultureInfo? culture = null)
-        => TryParseDateToken(name, out var def, out var format, out var offsetDays)
-            ? FormatDate(now, offsetDays, string.IsNullOrWhiteSpace(format) ? def : format!, culture)
-            : null;
+        => TryResolveDateToken(name, now, culture, out var text) ? text : null;
+
+    /// <summary>The one place a date token is turned into text — shared by <see cref="ResolveDateTime"/>
+    /// and <see cref="Fill"/> so the tested path IS the pasting path. Returns whether the token is a
+    /// date token AT ALL (that's what separates "not mine, try the variable pipeline" from "mine, but
+    /// the format is bad"); <paramref name="text"/> is null in the latter case, so <see cref="Fill"/>
+    /// can keep the token literal instead of pasting a wrong date.</summary>
+    private static bool TryResolveDateToken(string name, DateTime now, CultureInfo? culture, out string? text)
+    {
+        text = null;
+        if (!TryParseDateToken(name, out var def, out var format, out var offsetDays)) return false;
+        text = FormatDate(now, offsetDays, string.IsNullOrWhiteSpace(format) ? def : format!, culture);
+        return true;
+    }
 
     /// <summary>Is this a date/time token by NAME (offset/format stripped), regardless of format
     /// validity? Keeps a bad-format date token out of the variable prompt (a null from
     /// <see cref="ResolveDateTime"/> alone would fall through to the variable pipeline).</summary>
     private static bool IsDateTimeToken(string name) => TryParseDateToken(name, out _, out _, out _);
 
-    /// <summary>Parse <c>名字[±N][:格式]</c>. Everything after the FIRST ':' is the format string
-    /// (it may itself contain ':', as in HH:mm:ss); the day offset sits left of the colon.</summary>
+    /// <summary>Parse <c>名字[±N][=格式]</c>. Everything after the FIRST '=' is the format string
+    /// (it may itself contain '=', ':' and '/', as in HH:mm:ss); the day offset sits left of it.</summary>
     private static bool TryParseDateToken(string name, out string defaultFormat, out string? customFormat, out int offsetDays)
     {
         defaultFormat = ""; customFormat = null; offsetDays = 0;
-        // Absolute cap on the whole token: no real format string comes anywhere close.
-        if (name.Length > 256) return false;
         var n = name.Trim();
-        int colon = n.IndexOf(':');
-        if (colon >= 0) { customFormat = n[(colon + 1)..]; n = n[..colon].Trim(); }
+        int sep = n.IndexOf('=');
+        // Both sides are trimmed: the format side too, so `{日期 = yyyy}` written for readability
+        // doesn't paste a leading space (a genuinely wanted space is quotable: `{日期=' 'yyyy}`).
+        if (sep >= 0) { customFormat = n[(sep + 1)..].Trim(); n = n[..sep].Trim(); }
         // Guard the NAME side only (the format is excluded — literal-heavy formats easily pass
         // 64 chars) before the DayOffset regex: its two whitespace-matching quantifiers
         // backtrack O(n²) on a long internal whitespace run (a pathological token would hang
-        // the UI).
+        // the UI). No cap on the format side: a rejection there would make the token fall
+        // through to the VARIABLE pipeline, prompting for a bogus field whose "default" is the
+        // raw format string. Formatting is linear, so an absurd format is merely slow to fail.
         if (n.Length > 64) return false;
         var m = DayOffset.Match(n);
         if (m.Success && int.TryParse(m.Groups[2].Value, out var off)) { n = m.Groups[1].Value.Trim(); offsetDays = off; }
@@ -292,9 +310,8 @@ public static class Placeholders
             if (IsClipboard(raw)) return clipboard ?? "";
             if (IsUuid(raw)) return Guid.NewGuid().ToString();          // fresh per occurrence
             if (IsRandom(raw)) return Random.Shared.Next(100000, 1000000).ToString();
-            if (TryParseDateToken(raw, out var def, out var fmt, out var off))   // single parse: resolve, or
-                return FormatDate(stamp, off, string.IsNullOrWhiteSpace(fmt) ? def : fmt!, culture)
-                    ?? m.Value;                          // bad format / out of range: stay literal
+            if (TryResolveDateToken(raw, stamp, culture, out var date))
+                return date ?? m.Value;                  // bad format / out of range: stay literal
             if (TryNestedName(raw, out _)) return m.Value;   // unresolved reference stays literal
             var spec = ParseSpec(raw);
             if (spec.Name.Length == 0) return m.Value;       // {:x}/{|a|b}: never prompted, so stay literal
