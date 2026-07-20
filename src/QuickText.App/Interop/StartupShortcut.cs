@@ -26,6 +26,7 @@ internal static class StartupShortcut
         try
         {
             link.SetPath(exe);
+            link.SetArguments(Autostart.Flag);   // marks the login launch as silent (no search panel)
             link.SetWorkingDirectory(System.IO.Path.GetDirectoryName(exe) ?? "");
             link.SetDescription("QuickText");
             ((IPersistFile)link).Save(LinkPath, false);

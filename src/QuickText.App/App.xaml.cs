@@ -57,9 +57,106 @@ public partial class App : Application
     private IntPtr _hotkeyHwnd;
     private System.Threading.Mutex? _instanceMutex;   // held for the app's lifetime
 
-    // Broadcast by a second launch so the running instance pops the search panel.
+    // Posted by a second launch so the running instance pops the search panel.
     private static readonly uint ShowPanelMsg =
         Interop.NativeMethods.RegisterWindowMessage("QuickText.ShowPanel.9C41");
+
+    /// <summary>Title of the hidden message window, so a second launch can FIND it (see
+    /// <see cref="HandOffToRunningInstance"/>). Never rendered — the window is 0-size, off-screen,
+    /// chrome-less and out of the taskbar.</summary>
+    private const string MessageWindowTitle = "QuickText.MessageWindow.9C41";
+
+    /// <summary>
+    /// Did Windows start us at login (as opposed to the user launching the exe)? Both the first-instance
+    /// and the hand-off path gate the search panel on this, so a login never pops it.
+    /// <para>The flag covers entries WE wrote. It can't cover the rest — an HKLM Run value, a Task
+    /// Scheduler logon task, a login script, a hand-made Startup shortcut under any name, or an entry
+    /// written by a build older than the flag — all of which launch us with no arguments and would
+    /// otherwise pop the panel over the desktop at every single boot, with no setting to stop it.
+    /// So fall back to a signal that doesn't care HOW we were started: did we come up together with
+    /// the session? Reading someone else's autostart entry (let alone rewriting it) can't answer that
+    /// and isn't ours to touch.</para>
+    /// </summary>
+    private static bool IsAutostartLaunch(StartupEventArgs e) =>
+        e.Args.Contains(Interop.Autostart.Flag, StringComparer.OrdinalIgnoreCase) || StartedWithSession();
+
+    /// <summary>
+    /// Did this process start alongside the user's shell, i.e. as part of logging in? Compared against
+    /// the shell (explorer.exe) of OUR session, since that is what "the session started" means — and
+    /// autostart mechanisms fire within seconds of it, in either order.
+    /// <para>The one-minute window is a deliberate trade: a slow boot can delay a login launch well past
+    /// the shell, and getting that wrong means the panel pops at EVERY boot forever. Getting it wrong the
+    /// other way — a user who launches QuickText by hand within a minute of logging in — costs one panel
+    /// that doesn't open, on one launch, and they can double-click again.</para>
+    /// </summary>
+    private static bool StartedWithSession()
+    {
+        try
+        {
+            var self = System.Diagnostics.Process.GetCurrentProcess();
+            DateTime? shellStart = null;
+            foreach (var p in System.Diagnostics.Process.GetProcessesByName("explorer"))
+                using (p)
+                {
+                    // Other sessions' shells are both inaccessible and irrelevant; several explorer.exe
+                    // can run in ours (file windows), so the EARLIEST is the shell itself.
+                    try
+                    {
+                        if (p.SessionId == self.SessionId && (shellStart == null || p.StartTime < shellStart))
+                            shellStart = p.StartTime;
+                    }
+                    catch { /* exited between enumeration and read, or access denied */ }
+                }
+            if (shellStart == null) return false;   // no shell (kiosk/服务器 session): assume manual
+            return Math.Abs((self.StartTime - shellStart.Value).TotalSeconds) < 60;
+        }
+        catch { return false; }   // never let this classification block startup
+    }
+
+    /// <summary>
+    /// Second launch: tell the instance that already owns the mutex to pop the search panel, then die.
+    /// Addressed to its message window BY NAME, not PostMessage(HWND_BROADCAST): a broadcast is
+    /// silently dropped before it ever reaches our hidden window (measured — a direct post to the very
+    /// same hwnd shows the panel, the broadcast does nothing), which is why double-clicking the exe of
+    /// a running instance appeared to do nothing at all. Polls briefly because the winner of the mutex
+    /// race creates that window a moment AFTER taking the mutex — without this, launching twice in
+    /// quick succession would find no window and drop the request. The wait is short and the poll
+    /// fast: this process has no UI, so every millisecond here is just a phantom entry sitting in the
+    /// task list, and the running instance creates that window immediately after taking the mutex
+    /// (CreateMessageWindow) — well before its slow startup work — so the poll rarely runs twice.
+    /// There is deliberately NO fallback: the only other channel is the broadcast that measurably
+    /// never arrives, so "trying" it would just be a slower way to give up.
+    /// </summary>
+    private static void HandOffToRunningInstance()
+    {
+        for (int i = 0; i < 20; i++)   // ~1s; the window exists within a few ms of the mutex
+        {
+            var hwnd = Interop.NativeMethods.FindWindow(null, MessageWindowTitle);
+            if (hwnd != IntPtr.Zero)
+            {
+                Interop.NativeMethods.PostMessage(hwnd, ShowPanelMsg, IntPtr.Zero, IntPtr.Zero);
+                return;
+            }
+            System.Threading.Thread.Sleep(50);
+        }
+    }
+
+    /// <summary>The hidden 0-size window that owns the global-hotkey message pump and, via its title,
+    /// is the address a second launch posts ShowPanelMsg to (see <see cref="HandOffToRunningInstance"/>).</summary>
+    private void CreateMessageWindow()
+    {
+        _hidden = new Window { Width = 0, Height = 0, WindowStyle = WindowStyle.None,
+            ShowInTaskbar = false, Left = -10000, Top = -10000, Title = MessageWindowTitle };
+        _hidden.Show();
+        _hidden.Hide();
+        _hotkeyHwnd = new WindowInteropHelper(_hidden).EnsureHandle();
+        HwndSource.FromHwnd(_hotkeyHwnd)!.AddHook(WndProc);
+        // Let the show-panel message through UIPI. Without it, an instance running elevated (a common
+        // setup for this app — pasting into an elevated window needs it) silently drops the request
+        // from a normal double-click, since the second launch is NOT elevated: "does nothing" again.
+        Interop.NativeMethods.ChangeWindowMessageFilterEx(
+            _hotkeyHwnd, ShowPanelMsg, Interop.NativeMethods.MSGFLT_ALLOW, IntPtr.Zero);
+    }
 
     protected override void OnStartup(StartupEventArgs e)
     {
@@ -116,10 +213,22 @@ public partial class App : Application
         _instanceMutex = new System.Threading.Mutex(true, "QuickText.SingleInstance.9C41", out bool isFirst);
         if (!isFirst)
         {
-            Interop.NativeMethods.PostMessage(Interop.NativeMethods.HWND_BROADCAST, ShowPanelMsg, IntPtr.Zero, IntPtr.Zero);
+            // An autostart launch that loses the race (the user's own Startup-folder shortcut on top
+            // of our entry, a login script, a second session) must stay silent — otherwise fixing the
+            // delivery would newly pop the panel over the desktop at every login, which is precisely
+            // what the flag exists to prevent.
+            if (!IsAutostartLaunch(e)) HandOffToRunningInstance();
             Shutdown();
             return;
         }
+
+        // FIRST thing after winning the mutex: the hidden window a second launch addresses. Everything
+        // below can be slow — the tray icon, watching a data folder that may be an offline share or a
+        // sleeping USB disk, scanning it for conflict files — and until this window exists, a second
+        // launch has nothing to find and its request is dropped, which reads to the user as the very
+        // "double-click does nothing" bug this messaging exists to fix. Posted messages just queue
+        // until the dispatcher runs (after OnStartup returns), so nothing is handled half-initialized.
+        CreateMessageWindow();
 
         _tray = (TaskbarIcon)FindResource("Tray");   // icon comes from IconSource (Assets/quicktext.ico)
         // Clicking the "new version available" balloon opens the release page. _updateUrl is armed
@@ -144,14 +253,6 @@ public partial class App : Application
 
         ApplyMenu();
         LocalizationService.Instance.PropertyChanged += (_, _) => Dispatcher.Invoke(ApplyMenu);
-
-        // hidden 0-size window to own the global hotkey message pump
-        _hidden = new Window { Width = 0, Height = 0, WindowStyle = WindowStyle.None,
-            ShowInTaskbar = false, Left = -10000, Top = -10000 };
-        _hidden.Show();
-        _hidden.Hide();
-        _hotkeyHwnd = new WindowInteropHelper(_hidden).EnsureHandle();
-        HwndSource.FromHwnd(_hotkeyHwnd)!.AddHook(WndProc);
 
         RegisterHotkey(_hotkeyHwnd);
         SetupTapHook();
@@ -182,6 +283,13 @@ public partial class App : Application
         // Opt-in, off by default (the ONLY network call the app ever makes): notify if GitHub has a
         // newer release. Fire-and-forget so a slow/absent network never delays the tray coming up.
         if (state.Settings.CheckUpdates) CheckForUpdatesAsync(manual: false);
+
+        // A hand-launched exe (double-click) opens search, same as double-clicking the tray or
+        // relaunching while we're already running — otherwise the app just "does nothing visible".
+        // Boot-time autostart stays silent, via the flag Autostart writes into its entry.
+        if (!IsAutostartLaunch(e))
+            Dispatcher.BeginInvoke(new Action(() => ShowSearch(toggle: false, captureTarget: false)),
+                System.Windows.Threading.DispatcherPriority.ApplicationIdle);
     }
 
     /// <summary>
@@ -309,7 +417,7 @@ public partial class App : Application
         if (!UseTapSummon(s)) return;   // same rule as the combo-hotkey gate — one predicate
         var vk = Core.Interop.ModifierTapKeys.VkOf(s.SummonTapKey)!.Value;   // non-null: UseTapSummon checked it
         _tapHook = new ModifierTapHook(vk, s.SummonTapDouble,
-            () => Dispatcher.BeginInvoke(new Action(ShowSearch)));
+            () => Dispatcher.BeginInvoke(new Action(() => ShowSearch())));
         _tapHook.Install();
     }
 
@@ -324,7 +432,7 @@ public partial class App : Application
             {
                 var def = HotkeyDefinition.Parse(settings.Hotkey);
                 _hotkey = new GlobalHotkey(hwnd, def);
-                _hotkey.Pressed += ShowSearch;
+                _hotkey.Pressed += () => ShowSearch();   // keyboard summon toggles
                 if (!_hotkey.TryRegister(out var err))
                     Balloon(err, BalloonIcon.Warning);
             }
@@ -358,7 +466,9 @@ public partial class App : Application
         else if (_captureHotkey != null && _captureHotkey.HandleMessage(msg, wParam)) handled = true;
         else if (msg == ShowPanelMsg && ShowPanelMsg != 0)
         {
-            ShowSearch();   // a second launch says "the user wants QuickText" — summon the panel
+            // A second launch says "the user wants QuickText" — activate and summon the panel.
+            // Never toggle here: double-clicking the exe must open search, not close an open panel.
+            ShowSearch(toggle: false, captureTarget: false);
             handled = true;
         }
         return IntPtr.Zero;
@@ -432,17 +542,29 @@ public partial class App : Application
         if (state.Settings.AbbrEnabled) _hook.Install();
     }
 
-    private void ShowSearch()
+    /// <summary>
+    /// Summon the search panel. <paramref name="toggle"/> is the launcher convention for the keyboard
+    /// triggers — press the hotkey again to dismiss. Every OTHER entry point (tray double-click, tray
+    /// menu, a second launch) is an explicit "show me the panel", so it forces the panel visible: for
+    /// those, toggling would answer a request to open with a close.
+    /// </summary>
+    /// <param name="captureTarget">False for a summon caused by LAUNCHING the exe (cold start, or a
+    /// second launch handed off to us): the foreground then is the Explorer window the user
+    /// double-clicked in, not a place to paste into. See SearchPanel.ShowForCurrentForeground.</param>
+    private void ShowSearch(bool toggle = true, bool captureTarget = true)
     {
-        // Launcher convention: the hotkey toggles — press again to dismiss.
-        if (_panel is { IsVisible: true }) { _panel.Hide(); return; }
+        if (toggle && _panel is { IsVisible: true }) { _panel.Hide(); return; }
         _panel ??= new SearchPanel();
-        _panel.ShowForCurrentForeground();
+        _panel.ShowForCurrentForeground(captureTarget);
     }
 
-    private void OnOpenSearch(object s, RoutedEventArgs e) => ShowSearch();
+    private void OnOpenSearch(object s, RoutedEventArgs e) => ShowSearch(toggle: false);
     private void OnOpenManager(object s, RoutedEventArgs e) => ShowSingleton(() => new ManagerWindow());
-    private void OnTrayDoubleClick(object s, RoutedEventArgs e) => ShowSingleton(() => new ManagerWindow());
+
+    /// <summary>Double-clicking the tray icon opens search — the app's primary action, and the same
+    /// thing double-clicking the exe of an already-running instance does. The Manager stays one click
+    /// away in the tray menu.</summary>
+    private void OnTrayDoubleClick(object s, RoutedEventArgs e) => ShowSearch(toggle: false);
 
     /// <summary>Save the current clipboard text as a new snippet in the first category; null if no text.</summary>
     /// <summary>Build a snippet from the clipboard (name = first line trimmed to a listable length,

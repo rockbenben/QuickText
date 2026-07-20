@@ -5,13 +5,22 @@ namespace QuickText.App.Interop;
 internal static class NativeMethods
 {
     public const int WM_HOTKEY = 0x0312;
-    public static readonly IntPtr HWND_BROADCAST = new(0xFFFF);
 
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     public static extern uint RegisterWindowMessage(string lpString);
 
     [DllImport("user32.dll")]
     public static extern bool PostMessage(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+    public static extern IntPtr FindWindow(string? lpClassName, string? lpWindowName);
+
+    public const uint MSGFLT_ALLOW = 1;
+
+    /// <summary>Per-window UIPI exemption: lets a LOWER-integrity process post the given message to
+    /// this window. Without it Windows silently drops such posts to an elevated process's windows.</summary>
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool ChangeWindowMessageFilterEx(IntPtr hWnd, uint msg, uint action, IntPtr pChangeFilterStruct);
 
     [DllImport("user32.dll", SetLastError = true)]
     public static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);

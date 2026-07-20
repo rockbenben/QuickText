@@ -92,9 +92,12 @@ public partial class SearchPanel : Window
         if (pid != 0 && pid != (uint)Environment.ProcessId) Hide();
     }
 
-    public void ShowForCurrentForeground()
+    /// <param name="captureTarget">False when the panel is opened BY a launch of the exe rather than
+    /// from a window the user was working in: there is no meaningful paste destination then, so the
+    /// send falls back to the clipboard instead of typing into the launcher's window.</param>
+    public void ShowForCurrentForeground(bool captureTarget = true)
     {
-        _target = NativeMethods.GetForegroundWindow();
+        _target = captureTarget ? NativeMethods.GetForegroundWindow() : IntPtr.Zero;
         Query.Text = "";
         Refresh();
         PositionAndSize();
@@ -641,9 +644,13 @@ public partial class SearchPanel : Window
         var settings = AppState.Current.Settings;
         var pinned = _pinned;
 
-        // Per-snippet output override beats the global settings ("" = follow global).
+        // Per-snippet output override beats the global settings ("" = follow global). No paste target
+        // (the panel was opened BY launching the app, so the "previous window" is just whatever the
+        // user double-clicked from — typically an Explorer window) degrades to copy: pasting there
+        // types into the file list or, worse, into an open rename box.
         var mode = sn.OutputMode ?? "";
-        bool copyOnly = mode == "copy" || (mode.Length == 0 && settings.CopyToClipboardOnly);
+        bool copyOnly = mode == "copy" || (mode.Length == 0 && settings.CopyToClipboardOnly)
+                        || _target == IntPtr.Zero;
 
         if (copyOnly)
         {
