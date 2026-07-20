@@ -22,13 +22,13 @@
 
 Allí donde **escribes lo mismo una y otra vez en Windows**. Vive en la bandeja y funciona en todos los campos de texto (ventanas de chat, formularios del navegador, editores, clientes de correo, sin atarse a una sola aplicación). Es un **gestor de fragmentos y expansor de texto en uno**, con búsqueda por pinyin, plantillas con variables e imágenes.
 
-| Quién | Qué guardan |
-|---|---|
-| **Soporte / comercio electrónico** | Respuestas predefinidas, respuestas estándar, textos promocionales, códigos QR o fotos de productos |
-| **Ventas / negocios** | Plantillas de correo, saludos de apertura, presupuestos, despedidas |
-| **Desarrolladores / operaciones** | Comandos, configuración, JSON, código base (`{...}` se emite literalmente, nunca se interpreta) |
-| **Oficina / rellenar formularios** | Correo, dirección, teléfono, números de identificación, plantillas de actas de reunión (te preguntan y recuerdan el último valor) |
-| **RR. HH. / administración / legal** | Avisos de incorporación, notificaciones estándar, avisos legales: local, sin conexión, apto para contenido sensible |
+| Quién                                | Qué guardan                                                                                                                       |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| **Soporte / comercio electrónico**   | Respuestas predefinidas, respuestas estándar, textos promocionales, códigos QR o fotos de productos                               |
+| **Ventas / negocios**                | Plantillas de correo, saludos de apertura, presupuestos, despedidas                                                               |
+| **Desarrolladores / operaciones**    | Comandos, configuración, JSON, código base (`{...}` se emite literalmente, nunca se interpreta)                                   |
+| **Oficina / rellenar formularios**   | Correo, dirección, teléfono, números de identificación, plantillas de actas de reunión (te preguntan y recuerdan el último valor) |
+| **RR. HH. / administración / legal** | Avisos de incorporación, notificaciones estándar, avisos legales: local, sin conexión, apto para contenido sensible               |
 
 ## Míralo en 30 segundos
 
@@ -45,10 +45,10 @@ En **cualquier lugar donde puedas escribir**: por ejemplo, necesitas tu correo e
 
 La misma biblioteca, tres maneras de sacar de ella; combínalas libremente:
 
-| Forma | Cómo se activa | Ideal para |
-|---|---|---|
-| 🔍 **Búsqueda en el panel** | `Ctrl+Shift+8` → escribe → Enter | Muchos fragmentos, uso ocasional, elegir navegando |
-| ⌨️ **Abreviatura en línea** | Escribe `;sig` y luego Espacio / Tab / Enter | Frases fijas de alta frecuencia, sin necesidad del panel |
+| Forma                          | Cómo se activa                                                       | Ideal para                                                         |
+| ------------------------------ | -------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| 🔍 **Búsqueda en el panel**    | `Ctrl+Shift+8` → escribe → Enter                                     | Muchos fragmentos, uso ocasional, elegir navegando                 |
+| ⌨️ **Abreviatura en línea**    | Escribe `;sig` y luego Espacio / Tab / Enter                         | Frases fijas de alta frecuencia, sin necesidad del panel           |
 | 🧩 **Plantilla con variables** | Saca un fragmento con `{variables}` por cualquiera de las anteriores | Correo / formularios: una plantilla, unas pocas palabras cambiadas |
 
 - **Imágenes también**: añádelas desde el portapapeles o un archivo, se pegan como imagen al enviar; las imágenes pueden tener abreviaturas, así que escribe la abreviatura y obtén la imagen (códigos QR, firmas con logo).
@@ -80,20 +80,19 @@ Haz doble clic en **`QuickText.exe`**; vive en la **bandeja del sistema** (sin b
 Los marcadores de posición son un **interruptor por fragmento**: marca "**Activar marcadores {variable}**" en el editor del Gestor y los tokens de abajo se resuelven al enviar; **sin marcar (por defecto), el cuerpo se envía literalmente** —el código, los scripts y el JSON llenos de `{...}` literales nunca se interpretan mal ni piden datos.
 
 > Al actualizar: los marcadores solían estar siempre activos. El primer arranque tras actualizar marca automáticamente el interruptor de los **fragmentos existentes** cuyo cuerpo contiene `{...}`, para que nada cambie de comportamiento; desmárcalo en el Gestor para los que en realidad son código.
-> Además: `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` ahora son **nombres reservados de fecha** — `{date:xyz}` se interpreta como un formato de fecha, ya no como "una variable llamada date con valor predeterminado xyz"; renombra las variables que usaban estos nombres.
 
 Cuando están activados, estos marcadores se resuelven al enviar:
 
-| Marcador | Qué hace |
-|---|---|
-| `{name}` (cualquier etiqueta) | **Te pide que lo rellenes** antes de pegar; **recuerda tu último valor** para que las repeticiones no vuelvan a preguntar |
-| `{name:John}` | Variable con un **valor por defecto**, precargado en el cuadro |
-| `{env\|dev\|test\|prod}` | Variable con **opciones**: el cuadro muestra un desplegable (la primera opción hace también de valor por defecto; se admite escritura libre) |
-| `{clipboard}` | Inserta el contenido actual del portapapeles |
-| `{cursor}` | Deja el cursor en este punto tras pegar (también suprime el Enter automático) |
-| `{date}` `{time}` `{datetime}` | Inserta la fecha/hora actual; admite desplazamientos como `{date+7}` (7 días después) y formatos personalizados como `{date:yyyy-MM-dd}` / `{time:HH:mm:ss}`, combinables con desplazamientos: `{date+7:MM-dd}`. Los alias chinos `{日期}` / `{时间}` / `{日期时间}` también funcionan |
-| `{uuid}` `{random}` | Valores aleatorios: un UUID / 6 dígitos, nuevos en cada aparición |
-| `{snippet:name}` | **Inserta el cuerpo de otro fragmento** (3 niveles de profundidad, a prueba de ciclos): mantén las firmas compartidas en un solo sitio |
+| Marcador                       | Qué hace                                                                                                                                                                                                                                                                               |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `{name}` (cualquier etiqueta)  | **Te pide que lo rellenes** antes de pegar; **recuerda tu último valor** para que las repeticiones no vuelvan a preguntar                                                                                                                                                              |
+| `{name:John}`                  | Variable con un **valor por defecto**, precargado en el cuadro                                                                                                                                                                                                                         |
+| `{env\|dev\|test\|prod}`       | Variable con **opciones**: el cuadro muestra un desplegable (la primera opción hace también de valor por defecto; se admite escritura libre)                                                                                                                                           |
+| `{clipboard}`                  | Inserta el contenido actual del portapapeles                                                                                                                                                                                                                                           |
+| `{cursor}`                     | Deja el cursor en este punto tras pegar (también suprime el Enter automático)                                                                                                                                                                                                          |
+| `{date}` `{time}` `{datetime}` | Inserta la fecha/hora actual; admite desplazamientos como `{date+7}` (7 días después) y formatos personalizados como `{date=yyyy-MM-dd}` / `{time=HH:mm:ss}`, combinables con desplazamientos: `{date+7=MM-dd}`. Los alias chinos `{日期}` / `{时间}` / `{日期时间}` también funcionan |
+| `{uuid}` `{random}`            | Valores aleatorios: un UUID / 6 dígitos, nuevos en cada aparición                                                                                                                                                                                                                      |
+| `{snippet:name}`               | **Inserta el cuerpo de otro fragmento** (3 niveles de profundidad, a prueba de ciclos): mantén las firmas compartidas en un solo sitio                                                                                                                                                 |
 
 Ejemplo: una firma `Best regards,\n{name}` (con los marcadores activados) → pide el nombre al enviar → pega la firma completa.
 
@@ -121,15 +120,15 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 
 ## Chuleta de teclado
 
-| Acción | Teclas |
-|---|---|
-| Invocar / cerrar panel | `Ctrl+Shift+8` (configurable) / `Esc` |
-| Seleccionar / cambiar de categoría / selección rápida | `↑↓` / `←→` / `Alt+1–9` |
-| Enviar | `Enter` o doble clic (un solo clic opcional) |
-| Marcar / desmarcar favorito | `Ctrl+D` |
-| Crear / editar en el panel | `Ctrl+N` / `Ctrl+E` |
-| Deshacer borrado (Gestor) | `Ctrl+Z` |
-| Abreviatura: activar / deshacer | escribe la abreviatura + Espacio·Tab·Enter / Retroceso tras expandir |
+| Acción                                                | Teclas                                                               |
+| ----------------------------------------------------- | -------------------------------------------------------------------- |
+| Invocar / cerrar panel                                | `Ctrl+Shift+8` (configurable) / `Esc`                                |
+| Seleccionar / cambiar de categoría / selección rápida | `↑↓` / `←→` / `Alt+1–9`                                              |
+| Enviar                                                | `Enter` o doble clic (un solo clic opcional)                         |
+| Marcar / desmarcar favorito                           | `Ctrl+D`                                                             |
+| Crear / editar en el panel                            | `Ctrl+N` / `Ctrl+E`                                                  |
+| Deshacer borrado (Gestor)                             | `Ctrl+Z`                                                             |
+| Abreviatura: activar / deshacer                       | escribe la abreviatura + Espacio·Tab·Enter / Retroceso tras expandir |
 
 ---
 
@@ -160,7 +159,7 @@ Carpeta de datos (por defecto `Documents\QuickText`, cambiable en Ajustes, puede
 - `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
 - **Escrituras atómicas** (`*.tmp` → `File.Replace`) para que una sincronización nunca lea un archivo a medio escribir; recarga en caliente con `FileSystemWatcher` (agrupada), con una protección contra la propia escritura.
 - El estado propio de la máquina se mantiene **fuera de la carpeta de sincronización**: los ajustes en `%APPDATA%\QuickText\settings.json`, los recuentos de uso / favoritos en `%APPDATA%\QuickText\usage.stats` (cambian en cada envío y entrarían en conflicto entre máquinas), las copias automáticas diarias en `%APPDATA%\QuickText\backups\`.
-- **Modo portátil** (sin rastro / USB): actívalo en **Ajustes → Datos → Modo portátil** — coloca un marcador `QuickText.portable` junto a `QuickText.exe` y **se aplica en el siguiente reinicio** (el primer arranque portátil lleva consigo tus ajustes y tu uso, así que no reconfiguras). Los ajustes, el uso, las copias de seguridad y la biblioteca por defecto pasan entonces a estar bajo `<carpeta del exe>\Data\` en lugar de `%APPDATA%` / Documents, y "iniciar con Windows" usa un acceso directo en la carpeta de Inicio en vez del registro, de modo que toda la herramienta viaja en una memoria USB sin dejar nada en el equipo anfitrión. La aplicación debe estar en una ubicación con permiso de escritura (una memoria USB, no `Program Files`); la **biblioteca de texto se mueve con Exportar / Importar copia de seguridad**. El inicio con Windows se registra por modo, así que vuelve a marcarlo en el nuevo modo tras cambiar si lo quieres. Déjalo desactivado para la disposición instalada de arriba (la opción correcta cuando la carpeta de datos es una unidad de sincronización).<br>*(Tiene que ser un archivo marcador, no un ajuste normal: decide dónde vive `settings.json` mismo; el interruptor solo surte efecto en el siguiente arranque, sin alterar nunca la sesión actual.)*
+- **Modo portátil** (sin rastro / USB): actívalo en **Ajustes → Datos → Modo portátil** — coloca un marcador `QuickText.portable` junto a `QuickText.exe` y **se aplica en el siguiente reinicio** (el primer arranque portátil lleva consigo tus ajustes y tu uso, así que no reconfiguras). Los ajustes, el uso, las copias de seguridad y la biblioteca por defecto pasan entonces a estar bajo `<carpeta del exe>\Data\` en lugar de `%APPDATA%` / Documents, y "iniciar con Windows" usa un acceso directo en la carpeta de Inicio en vez del registro, de modo que toda la herramienta viaja en una memoria USB sin dejar nada en el equipo anfitrión. La aplicación debe estar en una ubicación con permiso de escritura (una memoria USB, no `Program Files`); la **biblioteca de texto se mueve con Exportar / Importar copia de seguridad**. El inicio con Windows se registra por modo, así que vuelve a marcarlo en el nuevo modo tras cambiar si lo quieres. Déjalo desactivado para la disposición instalada de arriba (la opción correcta cuando la carpeta de datos es una unidad de sincronización).<br>_(Tiene que ser un archivo marcador, no un ajuste normal: decide dónde vive `settings.json` mismo; el interruptor solo surte efecto en el siguiente arranque, sin alterar nunca la sesión actual.)_
 
 ## Marca
 
@@ -170,11 +169,11 @@ Los recursos viven en `assets/branding/`: `quicktext-mark.svg` (principal), `qui
 
 Core puro (sin Win32, con pruebas unitarias) mantenido separado de Win32/UI.
 
-| Proyecto | Contenido |
-|---|---|
-| `src/QuickText.Core` | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 idiomas) |
-| `src/QuickText.App` | Interfaz WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (tema oscuro), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
-| `tests/QuickText.Core.Tests` | Pruebas unitarias de Core (xUnit) |
+| Proyecto                     | Contenido                                                                                                                                                                                                                   |
+| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/QuickText.Core`         | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 idiomas)                      |
+| `src/QuickText.App`          | Interfaz WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (tema oscuro), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
+| `tests/QuickText.Core.Tests` | Pruebas unitarias de Core (xUnit)                                                                                                                                                                                           |
 
 ## Compilar y ejecutar
 
@@ -196,7 +195,7 @@ Requiere el SDK de .NET 10. Solo Windows (tecla rápida global de Win32 / gancho
 
 Este es el proyecto n.º 023 del [Plan 365 de código abierto](https://github.com/rockbenben/365opensource).
 
-Una persona + IA, más de 300 proyectos de código abierto en un año. [Envía tu idea →](https://my.feishu.cn/share/base/form/shrcnI6y7rrmlSjbzkYXh6sjmzb)
+Una persona + IA, más de 300 proyectos de código abierto en un año. [Envía tu idea →](https://365.aishort.top/)
 
 ## Licencia
 

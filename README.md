@@ -22,13 +22,13 @@
 
 Wherever you **type the same thing over and over on Windows**. It lives in the tray and works in every input box (chat windows, browser forms, editors, mail clients — not tied to one app). It's a **snippet manager and text expander in one**, plus pinyin search, variable templates, and images.
 
-| Who | What they store |
-|---|---|
-| **Support / e-commerce** | Canned replies, standard answers, promo blurbs, QR codes or product shots |
-| **Sales / business** | Email templates, openers, quotes, sign-offs |
-| **Developers / ops** | Commands, config, JSON, boilerplate (`{...}` emitted verbatim, never parsed) |
-| **Office / form-filling** | Email, address, phone, ID numbers, meeting-note templates (prompt you, remember the last value) |
-| **HR / admin / legal** | Onboarding notices, standard notifications, disclaimers — local, offline, fit for sensitive content |
+| Who                       | What they store                                                                                     |
+| ------------------------- | --------------------------------------------------------------------------------------------------- |
+| **Support / e-commerce**  | Canned replies, standard answers, promo blurbs, QR codes or product shots                           |
+| **Sales / business**      | Email templates, openers, quotes, sign-offs                                                         |
+| **Developers / ops**      | Commands, config, JSON, boilerplate (`{...}` emitted verbatim, never parsed)                        |
+| **Office / form-filling** | Email, address, phone, ID numbers, meeting-note templates (prompt you, remember the last value)     |
+| **HR / admin / legal**    | Onboarding notices, standard notifications, disclaimers — local, offline, fit for sensitive content |
 
 ## See it in 30 seconds
 
@@ -45,11 +45,11 @@ In **any place you can type** — say you need your email in a chat box:
 
 Same library, three ways to pull from it; mix them freely:
 
-| Way | How to trigger | Best for |
-|---|---|---|
-| 🔍 **Panel search** | `Ctrl+Shift+8` → type → Enter | Many snippets, occasional use, browsing to pick |
-| ⌨️ **Inline abbreviation** | Just type `;sig` then Space / Tab / Enter | High-frequency fixed phrases, no panel needed |
-| 🧩 **Variable template** | Pull a snippet with `{variables}` via either of the above | Email / forms: one template, a few words changed |
+| Way                        | How to trigger                                            | Best for                                         |
+| -------------------------- | --------------------------------------------------------- | ------------------------------------------------ |
+| 🔍 **Panel search**        | `Ctrl+Shift+8` → type → Enter                             | Many snippets, occasional use, browsing to pick  |
+| ⌨️ **Inline abbreviation** | Just type `;sig` then Space / Tab / Enter                 | High-frequency fixed phrases, no panel needed    |
+| 🧩 **Variable template**   | Pull a snippet with `{variables}` via either of the above | Email / forms: one template, a few words changed |
 
 - **Images too**: add from clipboard or file, pasted as an image on send; images can have abbreviations, so type the abbr and get the picture (QR codes, logo signatures).
 - **Per-snippet output**: chat phrases auto-send after paste, code snippets never do — they don't interfere.
@@ -80,20 +80,19 @@ Double-click **`QuickText.exe`**; it lives in the **system tray** (no taskbar bu
 Placeholders are a **per-snippet switch**: tick "**Enable {variable} placeholders**" in the Manager editor and the tokens below are resolved on send; **left unticked (the default), the body is sent verbatim** — code, scripts and JSON full of literal `{...}` are never misparsed or prompted on.
 
 > Upgrading: placeholders used to be always-on. The first launch after upgrading automatically ticks the switch for **existing snippets** whose body contains `{...}`, so nothing changes behavior; untick it in the Manager for the ones that are actually code.
-> Also: `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` are now **reserved date names** — `{date:xyz}` is read as a date format, no longer as "a variable named date with default xyz"; rename any variables that used these names.
 
 When enabled, these placeholders are resolved on send:
 
-| Placeholder | What it does |
-|---|---|
-| `{name}` (any label) | **Prompts you to fill it in** before pasting; **remembers your last value** so repeats don’t re-ask |
-| `{name:John}` | Variable with a **default**, prefilled in the prompt |
-| `{env\|dev\|test\|prod}` | Variable with **options** — the prompt shows a dropdown (first option doubles as the default; free typing still allowed) |
-| `{clipboard}` | Inserts the current clipboard contents |
-| `{cursor}` | Leaves the caret at this spot after pasting (also suppresses auto-Enter) |
-| `{date}` `{time}` `{datetime}` | Inserts the current date/time; supports offsets like `{date+7}` (7 days out) and custom formats like `{date:MMM d, yyyy}` / `{time:HH:mm:ss}`, combinable with offsets: `{date+7:MM-dd}`. Formats are WYSIWYG (`:` `/` output verbatim, always Gregorian), and `{date:dddd}` names the weekday in the interface language. Chinese aliases `{日期}` / `{时间}` / `{日期时间}` also work |
-| `{uuid}` `{random}` | Random values: a UUID / 6 digits, fresh per occurrence |
-| `{snippet:name}` | **Inlines another snippet's body** (3 levels deep, cycle-safe) — keep shared signatures in one place |
+| Placeholder                    | What it does                                                                                                                                                                                                                                                                                                                                                                           |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `{name}` (any label)           | **Prompts you to fill it in** before pasting; **remembers your last value** so repeats don’t re-ask                                                                                                                                                                                                                                                                                    |
+| `{name:John}`                  | Variable with a **default**, prefilled in the prompt                                                                                                                                                                                                                                                                                                                                   |
+| `{env\|dev\|test\|prod}`       | Variable with **options** — the prompt shows a dropdown (first option doubles as the default; free typing still allowed)                                                                                                                                                                                                                                                               |
+| `{clipboard}`                  | Inserts the current clipboard contents                                                                                                                                                                                                                                                                                                                                                 |
+| `{cursor}`                     | Leaves the caret at this spot after pasting (also suppresses auto-Enter)                                                                                                                                                                                                                                                                                                               |
+| `{date}` `{time}` `{datetime}` | Inserts the current date/time; supports offsets like `{date+7}` (7 days out) and custom formats like `{date=MMM d, yyyy}` / `{time=HH:mm:ss}`, combinable with offsets: `{date+7=MM-dd}`. Formats are WYSIWYG (`:` `/` output verbatim, always Gregorian), and `{date=dddd}` names the weekday in the interface language. Chinese aliases `{日期}` / `{时间}` / `{日期时间}` also work |
+| `{uuid}` `{random}`            | Random values: a UUID / 6 digits, fresh per occurrence                                                                                                                                                                                                                                                                                                                                 |
+| `{snippet:name}`               | **Inlines another snippet's body** (3 levels deep, cycle-safe) — keep shared signatures in one place                                                                                                                                                                                                                                                                                   |
 
 Example: a signature `Best regards,\n{name}` (with placeholders enabled) → asks for the name on send → pastes the finished signature.
 
@@ -121,15 +120,15 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 
 ## Keyboard cheat-sheet
 
-| Action | Keys |
-|---|---|
-| Summon / close panel | `Ctrl+Shift+8` (configurable) / `Esc` |
-| Select / switch category / quick-pick | `↑↓` / `←→` / `Alt+1–9` |
-| Send | `Enter` or double-click (single-click optional) |
-| Favorite / unfavorite | `Ctrl+D` |
-| Create / edit in panel | `Ctrl+N` / `Ctrl+E` |
-| Undo delete (Manager) | `Ctrl+Z` |
-| Abbreviation: trigger / undo | type abbr + Space·Tab·Enter / Backspace after expanding |
+| Action                                | Keys                                                    |
+| ------------------------------------- | ------------------------------------------------------- |
+| Summon / close panel                  | `Ctrl+Shift+8` (configurable) / `Esc`                   |
+| Select / switch category / quick-pick | `↑↓` / `←→` / `Alt+1–9`                                 |
+| Send                                  | `Enter` or double-click (single-click optional)         |
+| Favorite / unfavorite                 | `Ctrl+D`                                                |
+| Create / edit in panel                | `Ctrl+N` / `Ctrl+E`                                     |
+| Undo delete (Manager)                 | `Ctrl+Z`                                                |
+| Abbreviation: trigger / undo          | type abbr + Space·Tab·Enter / Backspace after expanding |
 
 ---
 
@@ -160,7 +159,7 @@ Data folder (default `Documents\QuickText`, changeable in Settings, can point at
 - `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
 - **Atomic writes** (`*.tmp` → `File.Replace`) so a sync never reads a half-written file; `FileSystemWatcher` hot-reload (coalesced), with a self-write guard.
 - Machine-local state stays **out of the sync folder**: settings in `%APPDATA%\QuickText\settings.json`, usage counts / favorites in `%APPDATA%\QuickText\usage.stats` (they change on every send and would conflict across machines), daily auto-backups in `%APPDATA%\QuickText\backups\`.
-- **Portable mode** (trace-free / USB): turn it on under **Settings → Data → Portable mode** — it drops a `QuickText.portable` marker next to `QuickText.exe` and **applies on the next restart** (the first portable start carries your settings and usage across, so you don't reconfigure). Settings, usage, backups and the default library then live under `<exe folder>\Data\` instead of `%APPDATA%` / Documents, and "start with Windows" uses a Startup-folder shortcut rather than the registry — so the whole tool travels on a stick and leaves nothing on the host. The app must sit in a writable location (a USB stick, not `Program Files`); the **text library moves via Export / Import backup**. Start-with-Windows is tracked per mode, so re-tick it in the new mode after switching if you want it. Leave it off for the installed layout above (the right choice when the data folder is a sync drive).<br>*(It has to be a marker file, not a plain setting — it decides where `settings.json` itself lives; the switch only takes effect next start, never disturbing the current session.)*
+- **Portable mode** (trace-free / USB): turn it on under **Settings → Data → Portable mode** — it drops a `QuickText.portable` marker next to `QuickText.exe` and **applies on the next restart** (the first portable start carries your settings and usage across, so you don't reconfigure). Settings, usage, backups and the default library then live under `<exe folder>\Data\` instead of `%APPDATA%` / Documents, and "start with Windows" uses a Startup-folder shortcut rather than the registry — so the whole tool travels on a stick and leaves nothing on the host. The app must sit in a writable location (a USB stick, not `Program Files`); the **text library moves via Export / Import backup**. Start-with-Windows is tracked per mode, so re-tick it in the new mode after switching if you want it. Leave it off for the installed layout above (the right choice when the data folder is a sync drive).<br>_(It has to be a marker file, not a plain setting — it decides where `settings.json` itself lives; the switch only takes effect next start, never disturbing the current session.)_
 
 ## Brand
 
@@ -170,11 +169,11 @@ Assets live in `assets/branding/`: `quicktext-mark.svg` (primary), `quicktext-ma
 
 Pure Core (no Win32, unit-testable) kept separate from Win32/UI.
 
-| Project | Contents |
-|---|---|
-| `src/QuickText.Core` | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 languages) |
-| `src/QuickText.App` | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (dark theme), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
-| `tests/QuickText.Core.Tests` | Core unit tests (xUnit) |
+| Project                      | Contents                                                                                                                                                                                                             |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/QuickText.Core`         | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 languages)             |
+| `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (dark theme), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
+| `tests/QuickText.Core.Tests` | Core unit tests (xUnit)                                                                                                                                                                                              |
 
 ## Build & run
 
@@ -196,7 +195,7 @@ Requires the .NET 10 SDK. Windows only (Win32 global hotkey / keyboard hook / cl
 
 This is project #023 of the [365 Open Source Plan](https://github.com/rockbenben/365opensource).
 
-One person + AI, 300+ open-source projects in a year. [Submit your idea →](https://my.feishu.cn/share/base/form/shrcnI6y7rrmlSjbzkYXh6sjmzb)
+One person + AI, 300+ open-source projects in a year. [Submit your idea →](https://365.aishort.top/)
 
 ## License
 

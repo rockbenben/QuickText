@@ -22,13 +22,13 @@
 
 Onde quer que você **digite a mesma coisa repetidamente no Windows**. Ele fica na bandeja e funciona em todas as caixas de texto (janelas de chat, formulários do navegador, editores, clientes de e-mail — não está preso a um único aplicativo). É um **gerenciador de trechos e expansor de texto em um só**, além de busca por pinyin, modelos com variáveis e imagens.
 
-| Quem | O que armazena |
-|---|---|
-| **Suporte / e-commerce** | Respostas prontas, respostas padrão, textos promocionais, QR codes ou fotos de produtos |
-| **Vendas / negócios** | Modelos de e-mail, aberturas, orçamentos, despedidas |
-| **Desenvolvedores / ops** | Comandos, configurações, JSON, código base (`{...}` emitido literalmente, nunca interpretado) |
+| Quem                                          | O que armazena                                                                                                                 |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| **Suporte / e-commerce**                      | Respostas prontas, respostas padrão, textos promocionais, QR codes ou fotos de produtos                                        |
+| **Vendas / negócios**                         | Modelos de e-mail, aberturas, orçamentos, despedidas                                                                           |
+| **Desenvolvedores / ops**                     | Comandos, configurações, JSON, código base (`{...}` emitido literalmente, nunca interpretado)                                  |
 | **Escritório / preenchimento de formulários** | E-mail, endereço, telefone, números de documentos, modelos de atas de reunião (pedem os dados a você e lembram o último valor) |
-| **RH / administrativo / jurídico** | Avisos de integração, notificações padrão, isenções de responsabilidade — local, offline, adequado para conteúdo sensível |
+| **RH / administrativo / jurídico**            | Avisos de integração, notificações padrão, isenções de responsabilidade — local, offline, adequado para conteúdo sensível      |
 
 ## Veja funcionando em 30 segundos
 
@@ -45,10 +45,10 @@ Em **qualquer lugar onde você possa digitar** — digamos que você precise do 
 
 A mesma biblioteca, três formas de recorrer a ela; combine-as livremente:
 
-| Forma | Como acionar | Melhor para |
-|---|---|---|
-| 🔍 **Busca no painel** | `Ctrl+Shift+8` → digite → Enter | Muitos trechos, uso ocasional, navegar para escolher |
-| ⌨️ **Abreviação em linha** | Basta digitar `;sig` e depois Espaço / Tab / Enter | Frases fixas de alta frequência, sem precisar do painel |
+| Forma                       | Como acionar                                                           | Melhor para                                                 |
+| --------------------------- | ---------------------------------------------------------------------- | ----------------------------------------------------------- |
+| 🔍 **Busca no painel**      | `Ctrl+Shift+8` → digite → Enter                                        | Muitos trechos, uso ocasional, navegar para escolher        |
+| ⌨️ **Abreviação em linha**  | Basta digitar `;sig` e depois Espaço / Tab / Enter                     | Frases fixas de alta frequência, sem precisar do painel     |
 | 🧩 **Modelo com variáveis** | Recupere um trecho com `{variables}` por qualquer uma das formas acima | E-mail / formulários: um modelo, algumas palavras alteradas |
 
 - **Imagens também**: adicione da área de transferência ou de arquivo, coladas como imagem ao enviar; imagens podem ter abreviações, então digite a abreviação e receba a imagem (QR codes, assinaturas com logotipo).
@@ -80,20 +80,19 @@ Dê um duplo clique em **`QuickText.exe`**; ele fica na **bandeja do sistema** (
 Os espaços reservados são um **interruptor por trecho**: marque "**Ativar espaços reservados {variable}**" no editor do Gerenciador e os tokens abaixo são resolvidos no envio; **deixado desmarcado (o padrão), o corpo é enviado literalmente** — código, scripts e JSON cheios de `{...}` literais nunca são mal interpretados nem geram perguntas.
 
 > Ao atualizar: os espaços reservados costumavam estar sempre ativos. A primeira execução após a atualização marca automaticamente o interruptor para os **trechos existentes** cujo corpo contém `{...}`, de modo que nada muda de comportamento; desmarque-o no Gerenciador para os que realmente são código.
-> Além disso: `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` agora são **nomes reservados de data** — `{date:xyz}` é lido como um formato de data, e não mais como "uma variável chamada date com valor padrão xyz"; renomeie as variáveis que usavam esses nomes.
 
 Quando ativados, estes espaços reservados são resolvidos no envio:
 
-| Espaço reservado | O que faz |
-|---|---|
-| `{name}` (qualquer rótulo) | **Pede que você o preencha** antes de colar; **lembra o seu último valor** para que as repetições não perguntem de novo |
-| `{name:John}` | Variável com um **valor padrão**, já preenchido na solicitação |
-| `{env\|dev\|test\|prod}` | Variável com **opções** — a solicitação mostra um menu suspenso (a primeira opção também serve de padrão; digitar livremente continua permitido) |
-| `{clipboard}` | Insere o conteúdo atual da área de transferência |
-| `{cursor}` | Deixa o cursor neste ponto após colar (também suprime o Enter automático) |
-| `{date}` `{time}` `{datetime}` | Insere a data/hora atual; suporta deslocamentos como `{date+7}` (7 dias à frente) e formatos personalizados como `{date:yyyy-MM-dd}` / `{time:HH:mm:ss}`, combináveis com deslocamentos: `{date+7:MM-dd}`. Os apelidos em chinês `{日期}` / `{时间}` / `{日期时间}` também funcionam |
-| `{uuid}` `{random}` | Valores aleatórios: um UUID / 6 dígitos, novos a cada ocorrência |
-| `{snippet:name}` | **Insere o corpo de outro trecho** (até 3 níveis de profundidade, sem ciclos) — mantenha assinaturas compartilhadas num só lugar |
+| Espaço reservado               | O que faz                                                                                                                                                                                                                                                                            |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `{name}` (qualquer rótulo)     | **Pede que você o preencha** antes de colar; **lembra o seu último valor** para que as repetições não perguntem de novo                                                                                                                                                              |
+| `{name:John}`                  | Variável com um **valor padrão**, já preenchido na solicitação                                                                                                                                                                                                                       |
+| `{env\|dev\|test\|prod}`       | Variável com **opções** — a solicitação mostra um menu suspenso (a primeira opção também serve de padrão; digitar livremente continua permitido)                                                                                                                                     |
+| `{clipboard}`                  | Insere o conteúdo atual da área de transferência                                                                                                                                                                                                                                     |
+| `{cursor}`                     | Deixa o cursor neste ponto após colar (também suprime o Enter automático)                                                                                                                                                                                                            |
+| `{date}` `{time}` `{datetime}` | Insere a data/hora atual; suporta deslocamentos como `{date+7}` (7 dias à frente) e formatos personalizados como `{date=yyyy-MM-dd}` / `{time=HH:mm:ss}`, combináveis com deslocamentos: `{date+7=MM-dd}`. Os apelidos em chinês `{日期}` / `{时间}` / `{日期时间}` também funcionam |
+| `{uuid}` `{random}`            | Valores aleatórios: um UUID / 6 dígitos, novos a cada ocorrência                                                                                                                                                                                                                     |
+| `{snippet:name}`               | **Insere o corpo de outro trecho** (até 3 níveis de profundidade, sem ciclos) — mantenha assinaturas compartilhadas num só lugar                                                                                                                                                     |
 
 Exemplo: uma assinatura `Best regards,\n{name}` (com espaços reservados ativados) → pede o nome no envio → cola a assinatura finalizada.
 
@@ -121,15 +120,15 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 
 ## Referência rápida de teclado
 
-| Ação | Teclas |
-|---|---|
-| Invocar / fechar o painel | `Ctrl+Shift+8` (configurável) / `Esc` |
-| Selecionar / trocar de categoria / seleção rápida | `↑↓` / `←→` / `Alt+1–9` |
-| Enviar | `Enter` ou duplo clique (clique único opcional) |
-| Favoritar / desfavoritar | `Ctrl+D` |
-| Criar / editar no painel | `Ctrl+N` / `Ctrl+E` |
-| Desfazer exclusão (Gerenciador) | `Ctrl+Z` |
-| Abreviação: acionar / desfazer | digite a abrev + Espaço·Tab·Enter / Backspace após expandir |
+| Ação                                              | Teclas                                                      |
+| ------------------------------------------------- | ----------------------------------------------------------- |
+| Invocar / fechar o painel                         | `Ctrl+Shift+8` (configurável) / `Esc`                       |
+| Selecionar / trocar de categoria / seleção rápida | `↑↓` / `←→` / `Alt+1–9`                                     |
+| Enviar                                            | `Enter` ou duplo clique (clique único opcional)             |
+| Favoritar / desfavoritar                          | `Ctrl+D`                                                    |
+| Criar / editar no painel                          | `Ctrl+N` / `Ctrl+E`                                         |
+| Desfazer exclusão (Gerenciador)                   | `Ctrl+Z`                                                    |
+| Abreviação: acionar / desfazer                    | digite a abrev + Espaço·Tab·Enter / Backspace após expandir |
 
 ---
 
@@ -160,7 +159,7 @@ Pasta de dados (padrão `Documents\QuickText`, alterável em Configurações, po
 - `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
 - **Gravações atômicas** (`*.tmp` → `File.Replace`) para que uma sincronização nunca leia um arquivo escrito pela metade; recarga a quente com `FileSystemWatcher` (coalescida), com uma proteção contra a própria gravação.
 - O estado local da máquina permanece **fora da pasta de sincronização**: configurações em `%APPDATA%\QuickText\settings.json`, contagens de uso / favoritos em `%APPDATA%\QuickText\usage.stats` (mudam a cada envio e entrariam em conflito entre máquinas), backups automáticos diários em `%APPDATA%\QuickText\backups\`.
-- **Modo portátil** (sem rastros / USB): ative-o em **Configurações → Dados → Modo portátil** — ele deixa um marcador `QuickText.portable` ao lado de `QuickText.exe` e **passa a valer na próxima reinicialização** (a primeira execução portátil leva junto suas configurações e uso, então você não precisa reconfigurar). As configurações, o uso, os backups e a biblioteca padrão passam a ficar em `<exe folder>\Data\` em vez de `%APPDATA%` / Documents, e o "iniciar com o Windows" usa um atalho na pasta Inicializar em vez do registro — assim a ferramenta inteira viaja num pen drive e não deixa nada na máquina anfitriã. O aplicativo precisa ficar num local gravável (um pen drive, não `Program Files`); a **biblioteca de textos migra via Exportar / Importar backup**. O "iniciar com o Windows" é rastreado por modo, então marque-o de novo no novo modo após trocar, se quiser. Deixe-o desligado para o layout instalado acima (a escolha certa quando a pasta de dados é um drive de sincronização).<br>*(Precisa ser um arquivo marcador, não uma simples configuração — ele decide onde o próprio `settings.json` fica; o interruptor só passa a valer na próxima inicialização, nunca perturbando a sessão atual.)*
+- **Modo portátil** (sem rastros / USB): ative-o em **Configurações → Dados → Modo portátil** — ele deixa um marcador `QuickText.portable` ao lado de `QuickText.exe` e **passa a valer na próxima reinicialização** (a primeira execução portátil leva junto suas configurações e uso, então você não precisa reconfigurar). As configurações, o uso, os backups e a biblioteca padrão passam a ficar em `<exe folder>\Data\` em vez de `%APPDATA%` / Documents, e o "iniciar com o Windows" usa um atalho na pasta Inicializar em vez do registro — assim a ferramenta inteira viaja num pen drive e não deixa nada na máquina anfitriã. O aplicativo precisa ficar num local gravável (um pen drive, não `Program Files`); a **biblioteca de textos migra via Exportar / Importar backup**. O "iniciar com o Windows" é rastreado por modo, então marque-o de novo no novo modo após trocar, se quiser. Deixe-o desligado para o layout instalado acima (a escolha certa quando a pasta de dados é um drive de sincronização).<br>_(Precisa ser um arquivo marcador, não uma simples configuração — ele decide onde o próprio `settings.json` fica; o interruptor só passa a valer na próxima inicialização, nunca perturbando a sessão atual.)_
 
 ## Marca
 
@@ -170,11 +169,11 @@ Os recursos ficam em `assets/branding/`: `quicktext-mark.svg` (principal), `quic
 
 Núcleo puro (sem Win32, testável em unidade) mantido separado do Win32/UI.
 
-| Projeto | Conteúdo |
-|---|---|
-| `src/QuickText.Core` | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 idiomas) |
-| `src/QuickText.App` | UI em WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (tema escuro), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
-| `tests/QuickText.Core.Tests` | Testes de unidade do núcleo (xUnit) |
+| Projeto                      | Conteúdo                                                                                                                                                                                                                 |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/QuickText.Core`         | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 idiomas)                   |
+| `src/QuickText.App`          | UI em WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (tema escuro), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
+| `tests/QuickText.Core.Tests` | Testes de unidade do núcleo (xUnit)                                                                                                                                                                                      |
 
 ## Compilar e executar
 
@@ -196,7 +195,7 @@ Requer o SDK do .NET 10. Apenas Windows (tecla de atalho global / hook de teclad
 
 Este é o projeto nº 023 do [Plano 365 de código aberto](https://github.com/rockbenben/365opensource).
 
-Uma pessoa + IA, mais de 300 projetos de código aberto em um ano. [Envie sua ideia →](https://my.feishu.cn/share/base/form/shrcnI6y7rrmlSjbzkYXh6sjmzb)
+Uma pessoa + IA, mais de 300 projetos de código aberto em um ano. [Envie sua ideia →](https://365.aishort.top/)
 
 ## Licença
 

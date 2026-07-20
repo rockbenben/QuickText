@@ -22,13 +22,13 @@
 
 Partout où vous **tapez la même chose encore et encore sous Windows**. Il réside dans la zone de notification et fonctionne dans tous les champs de saisie (fenêtres de chat, formulaires de navigateur, éditeurs, clients de messagerie — sans être lié à une seule application). C'est un **gestionnaire de fragments et un expandeur de texte (text expander) en un**, avec en plus la recherche pinyin, les modèles à variables et les images.
 
-| Qui | Ce qu'ils enregistrent |
-|---|---|
-| **Support / e-commerce** | Réponses toutes faites, réponses standard, textes promotionnels, QR codes ou photos de produits |
-| **Ventes / affaires** | Modèles d'e-mail, phrases d'accroche, devis, formules de politesse |
-| **Développeurs / ops** | Commandes, config, JSON, code standard (`{...}` émis tel quel, jamais interprété) |
+| Qui                                     | Ce qu'ils enregistrent                                                                                                                            |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Support / e-commerce**                | Réponses toutes faites, réponses standard, textes promotionnels, QR codes ou photos de produits                                                   |
+| **Ventes / affaires**                   | Modèles d'e-mail, phrases d'accroche, devis, formules de politesse                                                                                |
+| **Développeurs / ops**                  | Commandes, config, JSON, code standard (`{...}` émis tel quel, jamais interprété)                                                                 |
 | **Bureau / remplissage de formulaires** | E-mail, adresse, téléphone, numéros de pièce d'identité, modèles de comptes rendus (vous invitent à saisir, se souviennent de la dernière valeur) |
-| **RH / administratif / juridique** | Notifications d'intégration, notifications standard, clauses de non-responsabilité — local, hors ligne, adapté au contenu sensible |
+| **RH / administratif / juridique**      | Notifications d'intégration, notifications standard, clauses de non-responsabilité — local, hors ligne, adapté au contenu sensible                |
 
 ## Le voir en 30 secondes
 
@@ -45,11 +45,11 @@ Dans **n'importe quel endroit où vous pouvez taper** — disons que vous avez b
 
 Même bibliothèque, trois façons de l'exploiter ; mélangez-les librement :
 
-| Façon | Comment déclencher | Idéal pour |
-|---|---|---|
-| 🔍 **Recherche par panneau** | `Ctrl+Shift+8` → taper → Entrée | Beaucoup de fragments, usage occasionnel, choisir en parcourant |
-| ⌨️ **Abréviation en ligne** | Tapez simplement `;sig` puis Espace / Tab / Entrée | Phrases fixes à haute fréquence, sans panneau |
-| 🧩 **Modèle à variables** | Récupérez un fragment avec `{variables}` par l'une des deux méthodes ci-dessus | E-mail / formulaires : un même modèle, quelques mots changés |
+| Façon                        | Comment déclencher                                                             | Idéal pour                                                      |
+| ---------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------- |
+| 🔍 **Recherche par panneau** | `Ctrl+Shift+8` → taper → Entrée                                                | Beaucoup de fragments, usage occasionnel, choisir en parcourant |
+| ⌨️ **Abréviation en ligne**  | Tapez simplement `;sig` puis Espace / Tab / Entrée                             | Phrases fixes à haute fréquence, sans panneau                   |
+| 🧩 **Modèle à variables**    | Récupérez un fragment avec `{variables}` par l'une des deux méthodes ci-dessus | E-mail / formulaires : un même modèle, quelques mots changés    |
 
 - **Les images aussi** : ajoutez depuis le presse-papiers ou un fichier, collées comme image à l'envoi ; les images peuvent avoir des abréviations, tapez donc l'abréviation et obtenez l'image (QR codes, signatures avec logo).
 - **Sortie par fragment** : les phrases de chat s'envoient automatiquement après le collage, les fragments de code jamais — ils ne se gênent pas.
@@ -80,20 +80,19 @@ Double-cliquez sur **`QuickText.exe`** ; il réside dans la **zone de notificati
 Les espaces réservés sont un **interrupteur par fragment** : cochez « **Activer les espaces réservés {variable}** » dans l'éditeur du Gestionnaire et les jetons ci-dessous sont résolus à l'envoi ; **laissé décoché (par défaut), le corps est envoyé tel quel** — le code, les scripts et le JSON pleins de `{...}` littéraux ne sont jamais mal interprétés ni source d'invite.
 
 > Mise à niveau : les espaces réservés étaient auparavant toujours actifs. Le premier lancement après la mise à niveau coche automatiquement l'interrupteur pour les **fragments existants** dont le corps contient `{...}`, de sorte que rien ne change dans le comportement ; décochez-le dans le Gestionnaire pour ceux qui sont réellement du code.
-> De plus : `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` sont désormais des **noms réservés de date** — `{date:xyz}` est interprété comme un format de date, et non plus comme « une variable nommée date avec la valeur par défaut xyz » ; renommez les variables qui utilisaient ces noms.
 
 Une fois activés, ces espaces réservés sont résolus à l'envoi :
 
-| Espace réservé | Ce qu'il fait |
-|---|---|
-| `{name}` (n'importe quel libellé) | **Vous invite à le remplir** avant le collage ; **se souvient de votre dernière valeur** pour ne pas redemander aux répétitions |
-| `{name:John}` | Variable avec une **valeur par défaut**, pré-remplie dans l'invite |
-| `{env\|dev\|test\|prod}` | Variable avec des **options** — l'invite affiche une liste déroulante (la première option sert aussi de valeur par défaut ; la saisie libre reste autorisée) |
-| `{clipboard}` | Insère le contenu actuel du presse-papiers |
-| `{cursor}` | Laisse le curseur à cet endroit après le collage (supprime aussi l'Entrée automatique) |
-| `{date}` `{time}` `{datetime}` | Insère la date/l'heure actuelle ; prend en charge les décalages comme `{date+7}` (dans 7 jours) et des formats personnalisés comme `{date:yyyy-MM-dd}` / `{time:HH:mm:ss}`, combinables avec un décalage : `{date+7:MM-dd}`. Les alias chinois `{日期}` / `{时间}` / `{日期时间}` fonctionnent aussi |
-| `{uuid}` `{random}` | Valeurs aléatoires : un UUID / 6 chiffres, régénérées à chaque occurrence |
-| `{snippet:name}` | **Insère le corps d'un autre fragment** (jusqu'à 3 niveaux de profondeur, sans risque de boucle) — gardez les signatures partagées à un seul endroit |
+| Espace réservé                    | Ce qu'il fait                                                                                                                                                                                                                                                                                        |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `{name}` (n'importe quel libellé) | **Vous invite à le remplir** avant le collage ; **se souvient de votre dernière valeur** pour ne pas redemander aux répétitions                                                                                                                                                                      |
+| `{name:John}`                     | Variable avec une **valeur par défaut**, pré-remplie dans l'invite                                                                                                                                                                                                                                   |
+| `{env\|dev\|test\|prod}`          | Variable avec des **options** — l'invite affiche une liste déroulante (la première option sert aussi de valeur par défaut ; la saisie libre reste autorisée)                                                                                                                                         |
+| `{clipboard}`                     | Insère le contenu actuel du presse-papiers                                                                                                                                                                                                                                                           |
+| `{cursor}`                        | Laisse le curseur à cet endroit après le collage (supprime aussi l'Entrée automatique)                                                                                                                                                                                                               |
+| `{date}` `{time}` `{datetime}`    | Insère la date/l'heure actuelle ; prend en charge les décalages comme `{date+7}` (dans 7 jours) et des formats personnalisés comme `{date=yyyy-MM-dd}` / `{time=HH:mm:ss}`, combinables avec un décalage : `{date+7=MM-dd}`. Les alias chinois `{日期}` / `{时间}` / `{日期时间}` fonctionnent aussi |
+| `{uuid}` `{random}`               | Valeurs aléatoires : un UUID / 6 chiffres, régénérées à chaque occurrence                                                                                                                                                                                                                            |
+| `{snippet:name}`                  | **Insère le corps d'un autre fragment** (jusqu'à 3 niveaux de profondeur, sans risque de boucle) — gardez les signatures partagées à un seul endroit                                                                                                                                                 |
 
 Exemple : une signature `Best regards,\n{name}` (avec espaces réservés activés) → demande le nom à l'envoi → colle la signature complète.
 
@@ -121,15 +120,15 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 
 ## Aide-mémoire clavier
 
-| Action | Touches |
-|---|---|
-| Appeler / fermer le panneau | `Ctrl+Shift+8` (configurable) / `Esc` |
-| Sélectionner / changer de catégorie / sélection rapide | `↑↓` / `←→` / `Alt+1–9` |
-| Envoyer | `Enter` ou double-clic (simple clic en option) |
-| Ajouter / retirer des favoris | `Ctrl+D` |
-| Créer / modifier dans le panneau | `Ctrl+N` / `Ctrl+E` |
-| Annuler la suppression (Gestionnaire) | `Ctrl+Z` |
-| Abréviation : déclencher / annuler | taper l'abréviation + Espace·Tab·Entrée / Retour arrière après le développement |
+| Action                                                 | Touches                                                                         |
+| ------------------------------------------------------ | ------------------------------------------------------------------------------- |
+| Appeler / fermer le panneau                            | `Ctrl+Shift+8` (configurable) / `Esc`                                           |
+| Sélectionner / changer de catégorie / sélection rapide | `↑↓` / `←→` / `Alt+1–9`                                                         |
+| Envoyer                                                | `Enter` ou double-clic (simple clic en option)                                  |
+| Ajouter / retirer des favoris                          | `Ctrl+D`                                                                        |
+| Créer / modifier dans le panneau                       | `Ctrl+N` / `Ctrl+E`                                                             |
+| Annuler la suppression (Gestionnaire)                  | `Ctrl+Z`                                                                        |
+| Abréviation : déclencher / annuler                     | taper l'abréviation + Espace·Tab·Entrée / Retour arrière après le développement |
 
 ---
 
@@ -160,7 +159,7 @@ Dossier de données (par défaut `Documents\QuickText`, modifiable dans les Rég
 - `Snippet` : `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
 - **Écritures atomiques** (`*.tmp` → `File.Replace`) pour qu'une synchronisation ne lise jamais un fichier écrit à moitié ; rechargement à chaud par `FileSystemWatcher` (fusionné), avec une garde contre les auto-écritures.
 - L'état local à la machine reste **hors du dossier de synchronisation** : réglages dans `%APPDATA%\QuickText\settings.json`, compteurs d'usage / favoris dans `%APPDATA%\QuickText\usage.stats` (ils changent à chaque envoi et entreraient en conflit d'une machine à l'autre), sauvegardes automatiques quotidiennes dans `%APPDATA%\QuickText\backups\`.
-- **Mode portable** (sans trace / USB) : activez-le sous **Réglages → Données → Mode portable** — il dépose un marqueur `QuickText.portable` à côté de `QuickText.exe` et **s'applique au prochain redémarrage** (le premier démarrage en mode portable transfère vos réglages et votre usage, vous n'avez donc pas à tout reconfigurer). Les réglages, l'usage, les sauvegardes et la bibliothèque par défaut résident alors sous **`<dossier de l'exe>\Data\`** au lieu de `%APPDATA%` / Documents, et « démarrer avec Windows » utilise un raccourci dans le dossier Démarrage plutôt que le registre — ainsi tout l'outil voyage sur une clé et ne laisse rien sur l'hôte. L'application doit se trouver dans un emplacement inscriptible (une clé USB, pas `Program Files`) ; la **bibliothèque de textes se déplace via Exporter / Importer une sauvegarde**. Le démarrage avec Windows est suivi par mode, donc recochez-le dans le nouveau mode après le changement si vous le voulez. Laissez-le désactivé pour la disposition installée ci-dessus (le bon choix quand le dossier de données est un lecteur de synchronisation).<br>*(Ce doit être un fichier marqueur, pas un simple réglage — il décide où se trouve `settings.json` lui-même ; le changement ne prend effet qu'au démarrage suivant, sans jamais perturber la session en cours.)*
+- **Mode portable** (sans trace / USB) : activez-le sous **Réglages → Données → Mode portable** — il dépose un marqueur `QuickText.portable` à côté de `QuickText.exe` et **s'applique au prochain redémarrage** (le premier démarrage en mode portable transfère vos réglages et votre usage, vous n'avez donc pas à tout reconfigurer). Les réglages, l'usage, les sauvegardes et la bibliothèque par défaut résident alors sous **`<dossier de l'exe>\Data\`** au lieu de `%APPDATA%` / Documents, et « démarrer avec Windows » utilise un raccourci dans le dossier Démarrage plutôt que le registre — ainsi tout l'outil voyage sur une clé et ne laisse rien sur l'hôte. L'application doit se trouver dans un emplacement inscriptible (une clé USB, pas `Program Files`) ; la **bibliothèque de textes se déplace via Exporter / Importer une sauvegarde**. Le démarrage avec Windows est suivi par mode, donc recochez-le dans le nouveau mode après le changement si vous le voulez. Laissez-le désactivé pour la disposition installée ci-dessus (le bon choix quand le dossier de données est un lecteur de synchronisation).<br>_(Ce doit être un fichier marqueur, pas un simple réglage — il décide où se trouve `settings.json` lui-même ; le changement ne prend effet qu'au démarrage suivant, sans jamais perturber la session en cours.)_
 
 ## Marque
 
@@ -170,11 +169,11 @@ Les ressources se trouvent dans `assets/branding/` : `quicktext-mark.svg` (princ
 
 Un Core pur (sans Win32, testable unitairement) tenu à l'écart de Win32/UI.
 
-| Projet | Contenu |
-|---|---|
-| `src/QuickText.Core` | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 langues) |
-| `src/QuickText.App` | Interface WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (thème sombre), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
-| `tests/QuickText.Core.Tests` | Tests unitaires du Core (xUnit) |
+| Projet                       | Contenu                                                                                                                                                                                                                       |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `src/QuickText.Core`         | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 langues)                        |
+| `src/QuickText.App`          | Interface WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (thème sombre), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
+| `tests/QuickText.Core.Tests` | Tests unitaires du Core (xUnit)                                                                                                                                                                                               |
 
 ## Compiler et exécuter
 
@@ -196,7 +195,7 @@ Nécessite le SDK .NET 10. Windows uniquement (raccourci global Win32 / hook cla
 
 Ceci est le projet n° 023 du [Plan 365 open source](https://github.com/rockbenben/365opensource).
 
-Une personne + l'IA, plus de 300 projets open source en un an. [Proposez votre idée →](https://my.feishu.cn/share/base/form/shrcnI6y7rrmlSjbzkYXh6sjmzb)
+Une personne + l'IA, plus de 300 projets open source en un an. [Proposez votre idée →](https://365.aishort.top/)
 
 ## Licence
 

@@ -22,13 +22,13 @@
 
 Überall, wo du **unter Windows immer wieder dasselbe tippst**. Es lebt im Infobereich und funktioniert in jedem Eingabefeld (Chat-Fenster, Browser-Formulare, Editoren, Mail-Programme — nicht an eine App gebunden). Es ist **Snippet-Manager und Textbaustein-Tool in einem**, dazu Pinyin-Suche, Variablenvorlagen und Bilder.
 
-| Wer | Was sie speichern |
-|---|---|
-| **Support / E-Commerce** | Standardantworten, Musterantworten, Werbetexte, QR-Codes oder Produktfotos |
-| **Vertrieb / Business** | E-Mail-Vorlagen, Gesprächseinstiege, Angebote, Grußformeln |
-| **Entwickler / Ops** | Befehle, Konfiguration, JSON, Boilerplate (`{...}` wird wortwörtlich ausgegeben, nie interpretiert) |
+| Wer                            | Was sie speichern                                                                                                      |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| **Support / E-Commerce**       | Standardantworten, Musterantworten, Werbetexte, QR-Codes oder Produktfotos                                             |
+| **Vertrieb / Business**        | E-Mail-Vorlagen, Gesprächseinstiege, Angebote, Grußformeln                                                             |
+| **Entwickler / Ops**           | Befehle, Konfiguration, JSON, Boilerplate (`{...}` wird wortwörtlich ausgegeben, nie interpretiert)                    |
 | **Büro / Formulare ausfüllen** | E-Mail, Adresse, Telefon, Ausweisnummern, Vorlagen für Besprechungsnotizen (fragen dich, merken sich den letzten Wert) |
-| **HR / Verwaltung / Recht** | Onboarding-Hinweise, Standardbenachrichtigungen, Haftungsausschlüsse — lokal, offline, geeignet für sensible Inhalte |
+| **HR / Verwaltung / Recht**    | Onboarding-Hinweise, Standardbenachrichtigungen, Haftungsausschlüsse — lokal, offline, geeignet für sensible Inhalte   |
 
 ## In 30 Sekunden erklärt
 
@@ -45,11 +45,11 @@ An **jedem Ort, an dem du tippen kannst** — sagen wir, du brauchst deine E-Mai
 
 Dieselbe Bibliothek, drei Wege, daraus abzurufen; kombiniere sie frei:
 
-| Weg | Wie ausgelöst | Am besten für |
-|---|---|---|
-| 🔍 **Panel-Suche** | `Ctrl+Shift+8` → tippen → Enter | Viele Snippets, gelegentliche Nutzung, Auswahl durch Blättern |
-| ⌨️ **Inline-Kürzel** | Tippe einfach `;sig`, dann Leertaste / Tab / Enter | Häufige feste Textbausteine, kein Panel nötig |
-| 🧩 **Variablenvorlage** | Rufe ein Snippet mit `{variables}` über einen der beiden Wege ab | E-Mail / Formulare: eine Vorlage, ein paar Wörter geändert |
+| Weg                     | Wie ausgelöst                                                    | Am besten für                                                 |
+| ----------------------- | ---------------------------------------------------------------- | ------------------------------------------------------------- |
+| 🔍 **Panel-Suche**      | `Ctrl+Shift+8` → tippen → Enter                                  | Viele Snippets, gelegentliche Nutzung, Auswahl durch Blättern |
+| ⌨️ **Inline-Kürzel**    | Tippe einfach `;sig`, dann Leertaste / Tab / Enter               | Häufige feste Textbausteine, kein Panel nötig                 |
+| 🧩 **Variablenvorlage** | Rufe ein Snippet mit `{variables}` über einen der beiden Wege ab | E-Mail / Formulare: eine Vorlage, ein paar Wörter geändert    |
 
 - **Auch Bilder**: aus Zwischenablage oder Datei hinzufügen, beim Senden als Bild eingefügt; Bilder können Kürzel haben, also tippe das Kürzel und erhalte das Bild (QR-Codes, Logo-Signaturen).
 - **Ausgabe pro Snippet**: Chat-Textbausteine werden nach dem Einfügen automatisch abgeschickt, Code-Snippets niemals — sie stören nicht.
@@ -80,20 +80,19 @@ Doppelklicke **`QuickText.exe`**; es lebt im **System-Infobereich** (keine Taskl
 Platzhalter sind ein **Schalter pro Snippet**: Setze im Manager-Editor den Haken bei „**{variable}-Platzhalter aktivieren**“, und die Tokens unten werden beim Senden aufgelöst; **bleibt der Haken deaktiviert (der Standard), wird der Text wortwörtlich gesendet** — Code, Skripte und JSON voller wörtlicher `{...}` werden nie falsch interpretiert oder abgefragt.
 
 > Beim Upgrade: Platzhalter waren früher immer aktiv. Der erste Start nach dem Upgrade setzt den Haken automatisch für **vorhandene Snippets**, deren Text `{...}` enthält, sodass sich am Verhalten nichts ändert; entferne den Haken im Manager für die, die tatsächlich Code sind.
-> Außerdem: `date` / `time` / `datetime` / `now` / `日期` / `时间` / `日期时间` sind jetzt **reservierte Datumsnamen** — `{date:xyz}` wird als Datumsformat gelesen, nicht mehr als „eine Variable namens date mit Standardwert xyz"; benenne Variablen um, die diese Namen verwendet haben.
 
 Wenn aktiviert, werden diese Platzhalter beim Senden aufgelöst:
 
-| Platzhalter | Was er tut |
-|---|---|
-| `{name}` (beliebige Beschriftung) | **Fordert dich vor dem Einfügen zum Ausfüllen auf**; **merkt sich deinen letzten Wert**, damit Wiederholungen nicht erneut fragen |
-| `{name:John}` | Variable mit einem **Standardwert**, im Dialog vorausgefüllt |
-| `{env\|dev\|test\|prod}` | Variable mit **Optionen** — der Dialog zeigt ein Dropdown (die erste Option dient zugleich als Standard; freies Tippen bleibt möglich) |
-| `{clipboard}` | Fügt den aktuellen Inhalt der Zwischenablage ein |
-| `{cursor}` | Lässt den Cursor nach dem Einfügen an dieser Stelle (unterdrückt außerdem das automatische Enter) |
-| `{date}` `{time}` `{datetime}` | Fügt das aktuelle Datum/die Uhrzeit ein; unterstützt Verschiebungen wie `{date+7}` (7 Tage in der Zukunft) sowie eigene Formate wie `{date:yyyy-MM-dd}` / `{time:HH:mm:ss}`, kombinierbar mit Verschiebungen: `{date+7:MM-dd}`. Chinesische Aliase `{日期}` / `{时间}` / `{日期时间}` funktionieren ebenfalls |
-| `{uuid}` `{random}` | Zufallswerte: eine UUID / 6 Ziffern, pro Vorkommen neu |
-| `{snippet:name}` | **Bindet den Text eines anderen Snippets ein** (3 Ebenen tief, zyklussicher) — halte gemeinsame Signaturen an einem Ort |
+| Platzhalter                       | Was er tut                                                                                                                                                                                                                                                                                                    |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `{name}` (beliebige Beschriftung) | **Fordert dich vor dem Einfügen zum Ausfüllen auf**; **merkt sich deinen letzten Wert**, damit Wiederholungen nicht erneut fragen                                                                                                                                                                             |
+| `{name:John}`                     | Variable mit einem **Standardwert**, im Dialog vorausgefüllt                                                                                                                                                                                                                                                  |
+| `{env\|dev\|test\|prod}`          | Variable mit **Optionen** — der Dialog zeigt ein Dropdown (die erste Option dient zugleich als Standard; freies Tippen bleibt möglich)                                                                                                                                                                        |
+| `{clipboard}`                     | Fügt den aktuellen Inhalt der Zwischenablage ein                                                                                                                                                                                                                                                              |
+| `{cursor}`                        | Lässt den Cursor nach dem Einfügen an dieser Stelle (unterdrückt außerdem das automatische Enter)                                                                                                                                                                                                             |
+| `{date}` `{time}` `{datetime}`    | Fügt das aktuelle Datum/die Uhrzeit ein; unterstützt Verschiebungen wie `{date+7}` (7 Tage in der Zukunft) sowie eigene Formate wie `{date=yyyy-MM-dd}` / `{time=HH:mm:ss}`, kombinierbar mit Verschiebungen: `{date+7=MM-dd}`. Chinesische Aliase `{日期}` / `{时间}` / `{日期时间}` funktionieren ebenfalls |
+| `{uuid}` `{random}`               | Zufallswerte: eine UUID / 6 Ziffern, pro Vorkommen neu                                                                                                                                                                                                                                                        |
+| `{snippet:name}`                  | **Bindet den Text eines anderen Snippets ein** (3 Ebenen tief, zyklussicher) — halte gemeinsame Signaturen an einem Ort                                                                                                                                                                                       |
 
 Beispiel: eine Signatur `Best regards,\n{name}` (mit aktivierten Platzhaltern) → fragt beim Senden nach dem Namen → fügt die fertige Signatur ein.
 
@@ -121,15 +120,15 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 
 ## Tastatur-Spickzettel
 
-| Aktion | Tasten |
-|---|---|
-| Panel aufrufen / schließen | `Ctrl+Shift+8` (konfigurierbar) / `Esc` |
-| Auswählen / Kategorie wechseln / Schnellauswahl | `↑↓` / `←→` / `Alt+1–9` |
-| Senden | `Enter` oder Doppelklick (Einfachklick optional) |
-| Favorit / kein Favorit | `Ctrl+D` |
-| Im Panel erstellen / bearbeiten | `Ctrl+N` / `Ctrl+E` |
-| Löschen rückgängig (Manager) | `Ctrl+Z` |
-| Kürzel: auslösen / rückgängig | Kürzel + Leertaste·Tab·Enter tippen / Rücktaste nach dem Expandieren |
+| Aktion                                          | Tasten                                                               |
+| ----------------------------------------------- | -------------------------------------------------------------------- |
+| Panel aufrufen / schließen                      | `Ctrl+Shift+8` (konfigurierbar) / `Esc`                              |
+| Auswählen / Kategorie wechseln / Schnellauswahl | `↑↓` / `←→` / `Alt+1–9`                                              |
+| Senden                                          | `Enter` oder Doppelklick (Einfachklick optional)                     |
+| Favorit / kein Favorit                          | `Ctrl+D`                                                             |
+| Im Panel erstellen / bearbeiten                 | `Ctrl+N` / `Ctrl+E`                                                  |
+| Löschen rückgängig (Manager)                    | `Ctrl+Z`                                                             |
+| Kürzel: auslösen / rückgängig                   | Kürzel + Leertaste·Tab·Enter tippen / Rücktaste nach dem Expandieren |
 
 ---
 
@@ -160,7 +159,7 @@ Datenordner (Standard `Documents\QuickText`, in den Einstellungen änderbar, kan
 - `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
 - **Atomare Schreibvorgänge** (`*.tmp` → `File.Replace`), damit eine Synchronisierung nie eine halb geschriebene Datei liest; `FileSystemWatcher`-Hot-Reload (gebündelt), mit einem Schutz gegen Selbst-Schreibvorgänge.
 - Maschinenlokaler Zustand bleibt **außerhalb des Synchronisierungsordners**: Einstellungen in `%APPDATA%\QuickText\settings.json`, Nutzungszähler / Favoriten in `%APPDATA%\QuickText\usage.stats` (sie ändern sich bei jedem Senden und würden zwischen Rechnern kollidieren), tägliche Auto-Backups in `%APPDATA%\QuickText\backups\`.
-- **Portabler Modus** (spurenfrei / USB): Aktiviere ihn unter **Einstellungen → Daten → Portabler Modus** — er legt eine `QuickText.portable`-Markierung neben `QuickText.exe` ab und **greift beim nächsten Neustart** (der erste portable Start überträgt deine Einstellungen und Nutzung mit, sodass du nicht neu konfigurieren musst). Einstellungen, Nutzung, Backups und die Standardbibliothek liegen dann unter `<exe folder>\Data\` statt in `%APPDATA%` / Documents, und „mit Windows starten“ verwendet eine Verknüpfung im Autostart-Ordner statt der Registry — so reist das ganze Tool auf einem Stick und hinterlässt nichts auf dem Host. Die App muss an einem beschreibbaren Ort liegen (ein USB-Stick, nicht `Program Files`); die **Textbibliothek wandert über Backup exportieren / importieren**. „Mit Windows starten“ wird pro Modus verfolgt, also hake es nach dem Wechsel im neuen Modus erneut an, falls du es möchtest. Lass es für das oben beschriebene installierte Layout aus (die richtige Wahl, wenn der Datenordner ein Synchronisierungslaufwerk ist).<br>*(Es muss eine Markierungsdatei sein, keine einfache Einstellung — sie entscheidet, wo `settings.json` selbst liegt; der Schalter greift erst beim nächsten Start und stört nie die laufende Sitzung.)*
+- **Portabler Modus** (spurenfrei / USB): Aktiviere ihn unter **Einstellungen → Daten → Portabler Modus** — er legt eine `QuickText.portable`-Markierung neben `QuickText.exe` ab und **greift beim nächsten Neustart** (der erste portable Start überträgt deine Einstellungen und Nutzung mit, sodass du nicht neu konfigurieren musst). Einstellungen, Nutzung, Backups und die Standardbibliothek liegen dann unter `<exe folder>\Data\` statt in `%APPDATA%` / Documents, und „mit Windows starten“ verwendet eine Verknüpfung im Autostart-Ordner statt der Registry — so reist das ganze Tool auf einem Stick und hinterlässt nichts auf dem Host. Die App muss an einem beschreibbaren Ort liegen (ein USB-Stick, nicht `Program Files`); die **Textbibliothek wandert über Backup exportieren / importieren**. „Mit Windows starten“ wird pro Modus verfolgt, also hake es nach dem Wechsel im neuen Modus erneut an, falls du es möchtest. Lass es für das oben beschriebene installierte Layout aus (die richtige Wahl, wenn der Datenordner ein Synchronisierungslaufwerk ist).<br>_(Es muss eine Markierungsdatei sein, keine einfache Einstellung — sie entscheidet, wo `settings.json` selbst liegt; der Schalter greift erst beim nächsten Start und stört nie die laufende Sitzung.)_
 
 ## Marke
 
@@ -170,11 +169,11 @@ Die Assets liegen in `assets/branding/`: `quicktext-mark.svg` (primär), `quickt
 
 Reiner Core (kein Win32, unit-testbar) getrennt von Win32/UI gehalten.
 
-| Projekt | Inhalt |
-|---|---|
-| `src/QuickText.Core` | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 Sprachen) |
-| `src/QuickText.App` | WPF-UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (dunkles Design), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
-| `tests/QuickText.Core.Tests` | Core-Unit-Tests (xUnit) |
+| Projekt                      | Inhalt                                                                                                                                                                                                                   |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `src/QuickText.Core`         | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 Sprachen)                  |
+| `src/QuickText.App`          | WPF-UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (dunkles Design), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
+| `tests/QuickText.Core.Tests` | Core-Unit-Tests (xUnit)                                                                                                                                                                                                  |
 
 ## Build & Ausführung
 
@@ -196,7 +195,7 @@ Erfordert das .NET 10 SDK. Nur Windows (Win32-Globaler-Hotkey / Tastatur-Hook / 
 
 Dies ist Projekt Nr. 023 des [365-Open-Source-Plans](https://github.com/rockbenben/365opensource).
 
-Eine Person + KI, über 300 Open-Source-Projekte in einem Jahr. [Reiche deine Idee ein →](https://my.feishu.cn/share/base/form/shrcnI6y7rrmlSjbzkYXh6sjmzb)
+Eine Person + KI, über 300 Open-Source-Projekte in einem Jahr. [Reiche deine Idee ein →](https://365.aishort.top/)
 
 ## Lizenz
 
