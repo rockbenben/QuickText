@@ -1,8 +1,8 @@
 <p align="left">
-  <img src="../assets/branding/quicktext-256.png" width="72" alt="QuickText">
+  <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../README.md) · [简体中文](../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · **Français** · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · **Français** · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
 
 # QuickText
 
@@ -15,6 +15,8 @@
 - WPF / .NET 10, exe portable en un seul fichier, **sans compte, hors ligne par défaut** — seule la vérification des mises à jour facultative contacte GitHub.
 - Les données sont du **JSON local** dans votre propre dossier — placez-le dans Dropbox / OneDrive / un NAS pour le synchroniser.
 - Thème sombre, **18 langues d'interface** (avec miroir de droite à gauche pour l'arabe), les réglages s'appliquent instantanément.
+
+**[⬇ Télécharger la dernière version](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable en un seul fichier. Non signé, donc SmartScreen avertit au premier lancement : **Informations complémentaires → Exécuter quand même**.
 
 ---
 
@@ -29,6 +31,8 @@ Partout où vous **tapez la même chose encore et encore sous Windows**. Il rés
 | **Développeurs / ops**                  | Commandes, config, JSON, code standard (`{...}` émis tel quel, jamais interprété)                                                                 |
 | **Bureau / remplissage de formulaires** | E-mail, adresse, téléphone, numéros de pièce d'identité, modèles de comptes rendus (vous invitent à saisir, se souviennent de la dernière valeur) |
 | **RH / administratif / juridique**      | Notifications d'intégration, notifications standard, clauses de non-responsabilité — local, hors ligne, adapté au contenu sensible                |
+
+> **Avant d'y mettre quoi que ce soit de sensible.** Les extraits sont enregistrés en **JSON en clair**, sans chiffrement et volontairement : vous pouvez ainsi les lire, les comparer et les modifier vous-même. Pour des modèles et des formules toutes faites sur une machine que vous seul utilisez, c'est très bien. Cela veut aussi dire qu'un numéro de pièce d'identité ou un mot de passe placé là est lisible par tout ce qui peut lire le fichier — y compris les autres programmes lancés sous votre compte, et le service de synchronisation si vous mettez le dossier dans Dropbox / OneDrive. Pour de vrais secrets, utilisez un gestionnaire de mots de passe et réservez QuickText au texte que vous laisseriez volontiers en évidence.
 
 ## Le voir en 30 secondes
 
@@ -58,7 +62,7 @@ Tous les détails sur les abréviations et les variables se trouvent dans **En d
 
 ---
 
-# En détail
+**En détail**
 
 ## Fonctionne dès l'installation
 
@@ -72,8 +76,12 @@ Double-cliquez sur **`QuickText.exe`** ; il réside dans la **zone de notificati
 ## Ajouter / modifier vos textes
 
 - **Zone de notification → Ouvrir le Gestionnaire** — l'éditeur complet : catégories à gauche, fragments à droite, éditeur en dessous. Ajouter/renommer/supprimer des catégories (avec une étiquette **7 couleurs**), modifier les fragments (nom, abréviation, corps, image). Glissez pour réordonner ou déplacer entre catégories ; `Ctrl+Z` annule une suppression.
-- **Zone de notification → Nouveau depuis le presse-papiers** — créez un nouveau fragment à partir du presse-papiers actuel et ouvrez-le dans le Gestionnaire pour le compléter (enregistré quand le Gestionnaire est enregistré/fermé).
+- **Zone de notification → Nouveau depuis le presse-papiers** — créez un nouveau fragment à partir du presse-papiers actuel et ouvrez-le dans le Gestionnaire pour le compléter (appuyez sur **Enregistrer** pour l'écrire sur le disque ; fermer le Gestionnaire demande s'il faut enregistrer ou abandonner).
 - **Créer dans le panneau** — tapez le texte dans le champ de recherche et appuyez sur `Ctrl+N` pour l'enregistrer comme nouveau fragment (ce texte devient le corps ; `@catégorie …` le classe dans cette catégorie) et sauter au Gestionnaire pour le compléter (`Ctrl+E` modifie celui qui est sélectionné).
+
+> **Texte long / code** : le bouton `⤢` au-dessus du corps l'ouvre dans un éditeur presque plein écran (ou appuyez sur `Ctrl+Shift+Enter` dans le corps) ; `Esc` ou « Terminé » met fin à l'édition ; si vous avez modifié quelque chose, il demande d'abord s'il faut enregistrer ou abandonner. Avec « Activer les espaces réservés {variable} » coché, les jetons sont **colorés selon leur type** — les variables en cyan, les jetons automatiques comme `{date}` en ambre, `{snippet:x}` en violet, `{cursor}` en cyan pointillé — tandis qu'un nom de fragment mal orthographié, un format de date invalide ou une accolade non fermée reçoit un **soulignement rouge ondulé** dont le survol révèle la raison. Tout cela se colle **tel quel** à l'envoi, ce qui n'était auparavant détectable qu'après avoir collé la mauvaise chose. Survoler un jeton de date affiche aussi un aperçu de sa valeur résolue. Pour du code, laissez la case décochée : la coloration est alors entièrement désactivée, si bien qu'un corps plein de `{}` reste silencieux, et la barre d'état indique juste combien de jetons seront produits tels quels. Également inclus : **Entrée conserve l'indentation** et **`Tab` indente toute une sélection multiligne**.
+>
+> La fenêtre agrandie **affiche toujours les numéros de ligne**, et son pied de page propose un sélecteur de **format de code** — JSON, YAML, XML, HTML, Markdown, SQL, Python, JavaScript/TypeScript, C#, Java, PowerShell, Shell et INI, 13 au total — qui colore la syntaxe du corps et s'en souvient par fragment. **Le texte stocké reste brut et ce qui est collé ne change pas.** La coloration des espaces réservés peint l'arrière-plan tandis que la coloration syntaxique teinte les caractères, si bien que les deux ne se contredisent jamais : un corps JSON contenant des `{variables}` montre à la fois sa structure et ses variables.
 
 ## Espaces réservés (un modèle, de nombreuses situations) · activation par fragment
 
@@ -139,7 +147,7 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 - **Contenu** : texte brut (multiligne, caractères spéciaux, emoji sans perte), espaces réservés (valeurs par défaut / listes déroulantes d'options / imbrication de fragments / formats de date personnalisés / uuid / random — **activation par fragment**), **images** (depuis le presse-papiers ou un fichier, collées comme image à l'envoi ; **les images peuvent aussi avoir des abréviations** — tapez l'abréviation, obtenez l'image).
 - **Abréviations** : déclenchées par une touche de fin, invite de variables, annulation en une frappe, correction de faute par Retour arrière, insensible à la casse, un clic rompt le jeton, avertissement de doublon, liste noire par application, **suspension en un clic depuis la zone de notification**.
 - **Sortie** : coller directement / copier uniquement ; en option Entrée automatique, restaurer le presse-papiers, envoi au simple clic ; **remplacement de sortie par fragment** ; raccourci de capture (presse-papiers → fragment en une frappe).
-- **Gestionnaire** : 7 couleurs de catégorie, réorganisation / déplacement par glisser, **déplacement / suppression par lot en sélection multiple** (sélection Ctrl / Shift, puis clic droit), annulation de suppression, **corbeille (restauration sous 30 jours, avec aperçu du corps)**, avertissement de doublon d'abréviation, statistiques d'usage, mode sans retour à la ligne pour le code, retour après enregistrement.
+- **Gestionnaire** : **éditeur de corps spacieux** (`⤢ Agrandir` l'ouvre dans sa propre fenêtre ; les modifications non enregistrées sont toujours confirmées : à la fermeture, et au passage à un autre élément), **coloration des espaces réservés** (colorée selon le type ; les références de fragment mortes / formats de date invalides / accolades non fermées sont soulignées en rouge ondulé avec la raison au survol ; rien n'est coloré quand les espaces réservés sont désactivés — la barre d'état l'indique à la place), **adapté au code** (la fenêtre agrandie affiche toujours les numéros de ligne et propose 13 formats de code pour la coloration syntaxique ; Entrée conserve l'indentation, `Tab` indente une sélection multiligne, mode sans retour à la ligne), 7 couleurs de catégorie, réorganisation / déplacement par glisser, **déplacement / suppression par lot en sélection multiple** (sélection Ctrl / Shift, puis clic droit), annulation de suppression, **corbeille (restauration sous 30 jours, avec aperçu du corps)**, avertissement de doublon d'abréviation, statistiques d'usage, retour après enregistrement.
 - **Données** : JSON local, rechargement à chaud (fusionne automatiquement les modifications externes / la synchronisation), avis de conflit de synchronisation, exporter / importer une sauvegarde, **sauvegarde automatique quotidienne (10 conservées)**, démarrer avec Windows.
 - **Localisation** : **18 langues d'interface** (chinois simplifié / traditionnel, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) avec **miroir de droite à gauche pour l'arabe**, changées en direct dans les Réglages.
 - **Robustesse** : instance unique (un second lancement appelle le panneau de recherche au lieu d'installer les hooks en double) ; la CI exécute les tests plus une vérification de fumée de fenêtre à chaque push et publie un exe en un seul fichier sur les étiquettes `v*`.
@@ -148,7 +156,7 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 
 Dossier de données (par défaut `Documents\QuickText`, modifiable dans les Réglages, peut pointer vers un lecteur de synchronisation) :
 
-```
+```text
 <dossier de données>/
   ├─ index.json        # ordre des catégories + nom de fichier et couleur de chaque catégorie
   ├─ <catégorie>.json   # les fragments de cette catégorie (Snippet[])
@@ -191,12 +199,10 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Nécessite le SDK .NET 10. Windows uniquement (raccourci global Win32 / hook clavier / presse-papiers).
 
-## À propos du Plan 365 open source
+## À propos du 365 Open Source Plan
 
-Ceci est le projet n° 023 du [Plan 365 open source](https://github.com/rockbenben/365opensource).
-
-Une personne + l'IA, plus de 300 projets open source en un an. [Proposez votre idée →](https://365.aishort.top/)
+Projet **#023** du [365 Open Source Plan](https://github.com/rockbenben/365opensource) — une personne + l'IA, plus de 300 projets open source en un an. [Proposez votre idée →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
 
 ## Licence
 
-[MIT License](../LICENSE) · Copyright © 2026 rockbenben. Libre d'utilisation, de modification et de distribution.
+[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Libre d'utilisation, de modification et de distribution.

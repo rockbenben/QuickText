@@ -1,8 +1,8 @@
 <p align="left">
-  <img src="../assets/branding/quicktext-256.png" width="72" alt="QuickText">
+  <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../README.md) · [简体中文](../README.zh.md) · **繁體中文** · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+[English](../../README.md) · [简体中文](../../README.zh.md) · **繁體中文** · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
 
 # QuickText
 
@@ -15,6 +15,8 @@
 - WPF / .NET 10，單一檔案免安裝可攜式 exe，**免帳號、預設不連網**——僅可選的「檢查更新」會存取 GitHub。
 - 資料是存在你自己資料夾裡的**本機 JSON**——放進 Dropbox / OneDrive / NAS 即可同步。
 - 深色主題、**18 種介面語言**（阿拉伯文支援由右至左鏡像），設定即時生效。
+
+**[⬇ 下載最新版](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64，單檔綠色版。程式未做程式碼簽章，首次執行 SmartScreen 會攔一下：點**其他資訊 → 仍要執行**。
 
 ---
 
@@ -29,6 +31,8 @@
 | **開發者／維運**     | 指令、設定、JSON、樣板（`{...}` 逐字輸出，絕不解析）                       |
 | **辦公室／填表**     | 電子郵件、地址、電話、證件號碼、會議記錄範本（提示你填寫，並記住上次的值） |
 | **人資／行政／法務** | 到職通知、標準公告、免責聲明——本機、離線，適合敏感內容                     |
+
+> **關於存放敏感內容。** 片段以**純文字 JSON** 儲存，刻意不加密——這樣你能自己讀、自己 diff、自己改。存模板與套話、且機器只有你在用，沒有問題。但也代表寫進去的身分證字號或密碼，任何能讀到該檔案的東西都讀得到——包含以你帳號執行的其他程式，以及你把資料夾放進雲端同步後的服務商。真正的機密請交給密碼管理器，QuickText 留給那些「擺在桌面上你也不介意」的文字。
 
 ## 30 秒看懂它
 
@@ -58,7 +62,7 @@
 
 ---
 
-# 細部說明
+**細部說明**
 
 ## 開箱即用
 
@@ -72,8 +76,12 @@
 ## 新增／編輯你的文字
 
 - **系統匣 → 開啟管理員** — 完整編輯器：左側分類、右側片語、下方編輯器。新增／重新命名／刪除分類（附 **7 色**標籤），編輯片語（名稱、縮寫、內文、圖片）。拖曳可重新排序或在分類間移動；`Ctrl+Z` 可還原刪除。
-- **系統匣 → 從剪貼簿新增** — 依目前剪貼簿內容建立新片語，並在管理員中開啟以完成（於管理員儲存／關閉時存檔）。
+- **系統匣 → 從剪貼簿新增** — 依目前剪貼簿內容建立新片語，並在管理員中開啟以完成（按**儲存**才會寫入磁碟；直接關閉管理員會先問你要儲存還是捨棄）。
 - **在面板中建立** — 在搜尋框輸入內容後按 `Ctrl+N` 存成新項目（這段文字即內文；`@分類 …` 會歸入該分類）並跳到管理員完成（`Ctrl+E` 編輯選取的項目）。
+
+> **長文字／程式碼**：內文上方的 `⤢` 按鈕會以近乎全螢幕的編輯器開啟它（或在內文中按 `Ctrl+Shift+Enter`）；按 `Esc` 或「完成」結束編輯；有變更時會先問你要儲存還是捨棄。勾選「啟用 {變數} 預留位置」後，權杖會**依種類上色**——變數為青色，`{date}` 這類自動權杖為琥珀色，`{snippet:x}` 為紫色，`{cursor}` 為青色虛線；而拼錯的片語名稱、無效的日期格式或未關閉的大括號則會出現**紅色波浪底線**，滑鼠停留即可看到原因。這些內容送出時都會**逐字**貼上——以往只有貼錯之後才會發現。將滑鼠停在日期權杖上，也能預覽其解析後的值。若是程式碼，就把核取方塊保持關閉：標示會完全停用，讓滿是 `{}` 的內文保持安靜，狀態列只會註明有多少個權杖會照原樣輸出。此外還包含：**Enter 會保留縮排**、**`Tab` 會將整段多行選取一併縮排**。
+>
+> 放大視窗**永遠顯示行號**，其頁尾提供**程式碼格式**選單——JSON、YAML、XML、HTML、Markdown、SQL、Python、JavaScript/TypeScript、C#、Java、PowerShell、Shell 與 INI，共 13 種——會為內文加上語法標示，並依片語各自記住。**儲存的文字仍是純文字，貼上的內容也不受影響。** 預留位置標示會為背景上色，語法標示則為文字本身上色，兩者互不干擾：含有 `{變數}` 的 JSON 內文可同時看出其結構與變數。
 
 ## 預留位置（一份範本，多種情境）· 逐片語自選啟用
 
@@ -139,7 +147,7 @@
 - **內容**：純文字（多行、特殊字元、表情符號無損）、預留位置（預設值／選項下拉／片語巢狀／日期自訂格式／uuid／random——**逐片語自選啟用**）、**圖片**（來自剪貼簿或檔案，送出時以圖片貼上；**圖片也能設縮寫**——打縮寫、得圖片）。
 - **縮寫**：以終止符觸發、變數提示、一鍵還原、Backspace 錯字更正、不分大小寫、點擊即中斷權杖、重複警告、逐應用程式黑名單、**系統匣一鍵暫停**。
 - **輸出**：直接貼上／僅複製；可選自動 Enter、還原剪貼簿、單擊送出；**逐片語輸出覆寫**；擷取熱鍵（剪貼簿 → 片語，一鍵完成）。
-- **管理員**：7 種分類顏色、拖曳重排／移動、**多選批次移動／刪除**（Ctrl／Shift 選取後按右鍵）、還原刪除、**回收桶（30 天內還原，附內文預覽）**、重複縮寫警告、使用統計、程式碼不換行模式、儲存回饋。
+- **管理員**：**寬敞的內文編輯器**（`⤢ 放大編輯` 開獨立視窗；有未儲存的變更一律先詢問 —— 關閉視窗時問，切換到其他項目時也問）、**預留位置標示**（依種類上色；失效的片語參照／無效的日期格式／未關閉的大括號會以紅色波浪底線標示，滑鼠停留可看原因；預留位置關閉時不會有任何標示，狀態列會改為說明），**對程式碼友善**（放大視窗永遠顯示行號，並提供 13 種程式碼格式供語法標示；Enter 會保留縮排、`Tab` 會將多行選取一併縮排、不換行模式），7 種分類顏色、拖曳重排／移動、**多選批次移動／刪除**（Ctrl／Shift 選取後按右鍵）、還原刪除、**回收桶（30 天內還原，附內文預覽）**、重複縮寫警告、使用統計、儲存回饋。
 - **資料**：本機 JSON、熱重載（自動合併外部編輯／同步）、同步衝突通知、匯出／匯入備份、**每日自動備份（保留 10 份）**、開機自動啟動。
 - **在地化**：**18 種介面語言**（簡體／繁體中文、English、日本語、한국어、Español、Français、Deutsch、Русский、العربية……），**阿拉伯文支援由右至左鏡像**，於設定中即時切換。
 - **穩健性**：單一實例（第二次啟動會呼叫搜尋面板，而非重複安裝掛勾）；CI 於每次推送執行測試加視窗煙霧檢查，並在 `v*` 標籤發佈單一檔案 exe。
@@ -148,7 +156,7 @@
 
 資料夾（預設 `Documents\QuickText`，可在設定中更改，可指向同步磁碟）：
 
-```
+```text
 <data folder>/
   ├─ index.json        # category order + each category's file name and color
   ├─ <category>.json   # the snippets in that category (Snippet[])
@@ -191,12 +199,10 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 需要 .NET 10 SDK。僅限 Windows（Win32 全域熱鍵／鍵盤掛勾／剪貼簿）。
 
-## 關於 365 開源計畫
+## 關於 365 開源計劃
 
-本專案是 [365 開源計畫](https://github.com/rockbenben/365opensource) 的第 023 個專案。
-
-一個人 + AI，一年 300+ 個開源專案。[提交你的需求 →](https://365.aishort.top/)
+[365 開源計劃](https://github.com/rockbenben/365opensource) 的第 **#023** 個專案——一人 + AI，一年 300+ 個開源專案。[提交你的點子 →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
 
 ## 授權
 
-[MIT License](../LICENSE) · Copyright © 2026 rockbenben. 可自由使用、修改與散布。
+[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. 可自由使用、修改與散布。

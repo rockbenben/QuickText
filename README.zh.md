@@ -2,11 +2,14 @@
   <img src="assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](README.md) · **简体中文** · [繁體中文](docs/README.zh-Hant.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Español](docs/README.es.md) · [Português](docs/README.pt.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md) · [Русский](docs/README.ru.md) · [Tiếng Việt](docs/README.vi.md) · [ไทย](docs/README.th.md) · [Bahasa Indonesia](docs/README.id.md) · [हिन्दी](docs/README.hi.md) · [বাংলা](docs/README.bn.md) · [العربية](docs/README.ar.md) · [Türkçe](docs/README.tr.md)
+[English](README.md) · **简体中文** · [繁體中文](docs/i18n/README.zh-Hant.md) · [日本語](docs/i18n/README.ja.md) · [한국어](docs/i18n/README.ko.md) · [Español](docs/i18n/README.es.md) · [Português](docs/i18n/README.pt.md) · [Français](docs/i18n/README.fr.md) · [Deutsch](docs/i18n/README.de.md) · [Italiano](docs/i18n/README.it.md) · [Русский](docs/i18n/README.ru.md) · [Tiếng Việt](docs/i18n/README.vi.md) · [ไทย](docs/i18n/README.th.md) · [Bahasa Indonesia](docs/i18n/README.id.md) · [हिन्दी](docs/i18n/README.hi.md) · [বাংলা](docs/i18n/README.bn.md) · [العربية](docs/i18n/README.ar.md) · [Türkçe](docs/i18n/README.tr.md)
 
 # QuickText
 
-> **[365 开源计划](https://github.com/rockbenben/365opensource)** 第 023 个项目 · Windows 托盘速贴，常用文本 / 图片几键即达光标。
+> Windows 托盘速贴，常用文本 / 图片几键即达光标
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![365 开源计划 #023](https://img.shields.io/badge/365%20%E5%BC%80%E6%BA%90%E8%AE%A1%E5%88%92-%23023-1f6feb)](https://github.com/rockbenben/365opensource)
 
 **同样的话，别再打第二遍。** QuickText 常驻 Windows 托盘，把你反复要输入的东西（邮箱、地址、签名、模板、常用回复、图片……）存一次，之后在**任意输入框**里敲几个拼音、或打一个缩写，就贴到光标处。多行、特殊字符、emoji 逐字符无损。
 
@@ -15,6 +18,15 @@
 - WPF / .NET 10，单文件绿色版，**无账号、默认不联网**——仅可选的“检查更新”会访问 GitHub。
 - 数据是你自己文件夹里的**本地 JSON**，可放进坚果云 / OneDrive / NAS 同步。
 - 深色主题，**18 种界面语言**（阿拉伯语 RTL 镜像），设置即时生效。
+
+## 下载
+
+**[⬇ 下载最新版](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64。
+
+下 `QuickText-<版本>-win-x64.exe`（单文件绿色版，双击即用），或者下 `.zip` 自己解压。
+免安装、无需注册。
+
+程序没有代码签名，首次运行 Windows SmartScreen 会拦一下：点**更多信息 → 仍要运行**。
 
 ---
 
@@ -28,7 +40,9 @@
 | **销售 / 商务**      | 邮件模板、开场白、报价、签名落款                                 |
 | **程序员 / 运维**    | 命令、配置、JSON、样板代码（`{...}` 原样输出、不被误解析）       |
 | **办公 / 填表**      | 邮箱、地址、电话、证件号、会议纪要模板（弹窗填、记住上次值）     |
-| **HR / 行政 / 法务** | 入职通知、标准告知、免责声明 —— 本地、不联网，适合内部或敏感内容 |
+| **HR / 行政 / 法务** | 入职通知、标准告知、免责声明 —— 全程本地、不联网上传 |
+
+> **关于存敏感内容。** 片段保存为**明文 JSON**，刻意不加密——这样你能自己读、自己 diff、自己改。存模板和套话、且机器只有你在用，这没问题。但也意味着写进去的身份证号或密码，任何能读到该文件的东西都能读到——包括以你账户运行的其它程序，以及你把目录放进 Dropbox / OneDrive 后的同步服务商。真正的机密请交给密码管理器，QuickText 留给那些「摆在桌面上你也不介意」的文本。
 
 ## 30 秒看它怎么用
 
@@ -58,7 +72,7 @@
 
 ---
 
-# 详细说明
+**详细说明。** 上面的内容对多数人已经够用，下面是完整参考。
 
 ## 装完即用
 
@@ -72,8 +86,12 @@
 ## 添加 / 修改你的文本
 
 - **托盘右键 → 打开管理**：完整管理器。左边分类、右边条目、下面编辑器。可新建/改名/删除分类（选 **7 色**标记）、增删改条目（名称、缩写、正文、图片）。拖拽可排序或移到别的分类；`Ctrl+Z` 撤销删除。
-- **托盘右键 → 从剪贴板新增**：把当前剪贴板内容新建成一条，在管理器里打开补全（随管理器保存/关闭一并存盘）。
+- **托盘右键 → 从剪贴板新增**：把当前剪贴板内容新建成一条，在管理器里打开补全（点**保存**才写盘，不点就不落盘；未保存的改动在丢失前一律会问你 —— 关管理器时问、关放大窗时问、切到别的条目时也问）。
 - **面板里现场建**：在搜索框输入内容，按 `Ctrl+N` 存成新条目（这段文字即正文；`@分类 …` 会归入该分类）并跳到管理器补全（选中某条按 `Ctrl+E` 编辑）。
+
+> **写长文本 / 代码**：正文框上方的 `⤢ 放大编辑` 会把正文放进一个近全屏的大窗编辑（也可在正文里按 `Ctrl+Shift+Enter`），`Esc` 或「完成」结束编辑；有改动时会先问你保存还是丢弃。勾选「启用 {变量} 占位符」后，正文里的记号会**按类型着色**：变量青色、`{日期}` 等自动记号琥珀色、`{片段:x}` 紫色、`{光标}` 青色虚线；而拼错的片段名、无效的日期格式、没闭合的花括号会画**红色波浪线**并可悬停看原因 —— 这些写法发送时是**原样贴出**的，以前只能等贴错了才发现。日期记号悬停还会显示算好的实际值。存代码时不勾选该开关即可：高亮完全关闭，满屏的 `{}` 不会被打扰，只在底部状态栏提示有多少处会原样输出。另有**回车保持缩进**、**多行 `Tab` 整块缩进**。
+>
+> 大窗**恒开行号**，底部还能选**代码格式** —— JSON、YAML、XML、HTML、Markdown、SQL、Python、JavaScript/TypeScript、C#、Java、PowerShell、Shell、INI 共 13 种，选了就按语法着色，格式记在这一条上。**存的仍然是纯文本，发送出去一字不变**。占位符高亮画的是背景、语法高亮染的是字色，两条通道互不打架，所以一段带 `{变量}` 的 JSON 能同时看清结构和变量。
 
 ## 变量占位符（一条模板套多种场景）· 每条手动启用
 
@@ -114,7 +132,7 @@
 - **快速采集热键**：设置一个组合键后，按下即把当前剪贴板文本**静默存为新条目**（气泡提示，不弹窗口）。
 - **面板位置**：跟随活动窗口（默认）/ 跟随文字光标 / 记住上次位置。
 - **呼出方式（二选一）**：① **组合键** —— 点输入框按下新组合即改（普通键需配 `Ctrl`/`Alt`/`Shift`/`Win`，功能键 **`F1`–`F24` 可单独用**）；② **连按修饰键** —— **单击或双击一个修饰键**（如右 `Ctrl`、右 `Shift`）即呼出（单个修饰键做不了普通热键，故用连按检测）。选了连按就自动停用组合键，界面上互斥、一眼可辨当前生效的是哪种。
-- **数据夹**：可指向同步盘；**导出 / 导入备份**（zip，导入前校验并确认覆盖）。
+- **数据夹**：可指向同步盘；**导出 / 导入备份**（zip，导入前校验并确认覆盖）；本机**每日自动备份**（保留最新 10 份，一键打开备份目录）。
 - **界面语言**：**18 种** —— 简体 · 繁體 · English · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية（RTL）· Türkçe，即时切换。**开机自启**可选。
 - **检查更新**：默认关闭；开启后仅在启动时联网访问 GitHub 看有无新版(应用唯一的联网操作)。也可点「立即检查」按需触发。
 
@@ -135,11 +153,11 @@
 ## 功能一览
 
 - **呼出**：全局热键，**组合键**（功能键可单键）或**单击 / 双击一个修饰键**（如右 Ctrl）**二选一**；面板可跟随活动窗口 / 文字光标 / 记忆位置；顶部一排按钮直达**新建 / 管理 / 设置**；图钉可**固定连发**多条；可拖动、缩放并记忆尺寸。
-- **搜索**：名称 / 拼音全拼 / 首字母 / 缩写 / 正文，命中高亮；**同分档按使用频次排序（frecency）**；`@分类 关键词` 限定在某分类内搜（`@分类` 单独输入即浏览该分类）。
+- **搜索**：名称 / 拼音全拼 / 首字母 / 缩写 / 正文。**命中的那几个字会高亮** —— 拼音命中也标得出来（查询词根本不在名称里），若是缩写命中则点亮缩写键帽，不会有"这条为什么在这"的疑惑；**同分档按使用频次排序（frecency）**；`@分类 关键词` 限定在某分类内搜（`@分类` 单独输入即浏览该分类）。
 - **内容**：纯文本（多行、特殊字符、emoji 无损）、变量占位符（默认值 / 选项下拉 / 片段嵌套 / 日期自定义格式 / uuid / 随机数，**按条目启用**）、**图片**（剪贴板或文件添加，发送时粘贴图片；**图片也能设缩写**，打缩写直接贴图）。
 - **缩写扩展**：终端键触发、变量弹窗、误展开一键撤销、退格改错、大小写不敏感、点击断词、冲突提示、进程黑名单、**托盘一键暂停**。
 - **输出**：直接粘贴 / 仅复制；可选自动回车、还原剪贴板、单击发送；**按条目覆盖输出方式**；快速采集热键（剪贴板一键入库）。
-- **管理器**：分类 7 色、拖拽排序 / 移动、**多选批量移动 / 删除**（Ctrl / Shift 选中后右键）、撤销删除、**回收站（30 天可恢复，带正文预览）**、缩写冲突提示、使用次数统计、代码不换行模式、保存反馈。
+- **管理器**：**大正文编辑区**（`⤢ 放大编辑` 开独立大窗；有未保存的改动一律先问你 —— 关窗时问，切到别的条目时也问）、**占位符高亮**（按类型着色，找不到的片段 / 写错的日期格式 / 未闭合花括号标红并说明原因；未启用占位符时不高亮，只在状态栏提示）、**代码友好**（放大窗恒开行号并可选 13 种代码格式做语法高亮、回车保持缩进、多行 `Tab` 整块缩进、不换行模式）、分类 7 色、拖拽排序 / 移动、**多选批量移动 / 删除**（Ctrl / Shift 选中后右键）、撤销删除、**回收站（30 天可恢复，带正文预览）**、缩写冲突提示、使用次数统计、保存反馈。
 - **数据**：本地 JSON、热加载（外部编辑 / 同步后自动合并重载）、同步冲突提示、导出 / 导入备份、**每日自动备份（保留 10 份）**、开机自启。
 - **本地化**：**18 种界面语言**（简体 / 繁體 / English / 日本語 / 한국어 / Español / Français / Deutsch / Русский / العربية…），**阿拉伯语右到左镜像**，设置里即时切换。
 - **稳健**：单实例（重复启动会唤出搜索面板而不是跑出第二份钩子）；CI 每次提交跑测试与窗口冒烟检查，打 `v*` 标签自动发布单文件 exe。
@@ -148,7 +166,7 @@
 
 数据文件夹（默认「我的文档 / QuickText」，设置里可改，可指向同步盘）：
 
-```
+```text
 <数据文件夹>/
   ├─ index.json        # 分类顺序 + 每个分类的文件名与颜色
   ├─ <分类>.json       # 该分类下的条目数组（Snippet[]）
@@ -171,8 +189,8 @@ Core 纯逻辑（无 Win32，可单测）与 Win32/UI 隔离。
 
 | 项目                         | 内容                                                                                                                                                                                                                        |
 | ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/QuickText.Core`         | `Models`、`Persistence`（`Store`、`UsageStore`、`JsonConfig`）、`Search`（`SearchIndex`）、`Abbr`（`AbbrMatcher`）、`Snippets`（`Placeholders`）、`Pinyin`、`Settings`、`Localization`（.resx，18 语）                      |
-| `src/QuickText.App`          | WPF 界面（`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`）、`Ui/Theme.xaml`（夜行深色主题）、`Interop`（`GlobalHotkey`、`KeyboardHook`、`PasteEngine`、`Autostart`、`NativeMethods`） |
+| `src/QuickText.Core`         | `Models`、`Persistence`（`Store`、`UsageStore`、`JsonConfig`）、`Search`（`SearchIndex`）、`Abbr`（`AbbrMatcher`）、`Snippets`（`Placeholders`、`PlaceholderScanner`、`CodeLanguages`）、`Pinyin`、`Settings`、`Localization`（.resx，18 语）  |
+| `src/QuickText.App`          | WPF 界面（`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `BodyEditorWindow` / `AppDialog` / `VariablesDialog`）、正文编辑器（`BodyEditor` 原生 TextBox + `PlaceholderLayer` / `LineNumberGutter` 自绘层；`CodeEditor` 基于 AvalonEdit）、`Ui/Syntax`（自带 YAML/INI/Shell 高亮定义与深色配色）、`Ui/Theme.xaml`（夜行深色主题）、`Interop`（`GlobalHotkey`、`KeyboardHook`、`PasteEngine`、`Autostart`、`NativeMethods`） |
 | `tests/QuickText.Core.Tests` | Core 单元测试（xUnit）                                                                                                                                                                                                      |
 
 ## 构建与运行
@@ -193,10 +211,4 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 ## 关于 365 开源计划
 
-本项目是 [365 开源计划](https://github.com/rockbenben/365opensource) 的第 023 个项目。
-
-一个人 + AI，一年 300+ 个开源项目。[提交你的需求 →](https://365.aishort.top/)
-
-## 许可
-
-[MIT License](LICENSE) · 版权 © 2026 rockbenben。可自由使用、修改、分发。
+[365 开源计划](https://github.com/rockbenben/365opensource) 的第 **#023** 个项目——一个人 + AI，一年 300+ 个开源项目。[提交你的需求 →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

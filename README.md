@@ -2,11 +2,14 @@
   <img src="assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-**English** · [简体中文](README.zh.md) · [繁體中文](docs/README.zh-Hant.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Español](docs/README.es.md) · [Português](docs/README.pt.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md) · [Русский](docs/README.ru.md) · [Tiếng Việt](docs/README.vi.md) · [ไทย](docs/README.th.md) · [Bahasa Indonesia](docs/README.id.md) · [हिन्दी](docs/README.hi.md) · [বাংলা](docs/README.bn.md) · [العربية](docs/README.ar.md) · [Türkçe](docs/README.tr.md)
-
 # QuickText
 
-> Part of the **[365 Open Source Plan](https://github.com/rockbenben/365opensource)** — project #023 · a tray snippet manager & text expander for Windows.
+> A tray snippet manager and text expander for Windows
+
+**English** · [简体中文](README.zh.md) · [繁體中文](docs/i18n/README.zh-Hant.md) · [日本語](docs/i18n/README.ja.md) · [한국어](docs/i18n/README.ko.md) · [Español](docs/i18n/README.es.md) · [Português](docs/i18n/README.pt.md) · [Français](docs/i18n/README.fr.md) · [Deutsch](docs/i18n/README.de.md) · [Italiano](docs/i18n/README.it.md) · [Русский](docs/i18n/README.ru.md) · [Tiếng Việt](docs/i18n/README.vi.md) · [ไทย](docs/i18n/README.th.md) · [Bahasa Indonesia](docs/i18n/README.id.md) · [हिन्दी](docs/i18n/README.hi.md) · [বাংলা](docs/i18n/README.bn.md) · [العربية](docs/i18n/README.ar.md) · [Türkçe](docs/i18n/README.tr.md)
+
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![365 Open Source Plan #023](https://img.shields.io/badge/365%20Open%20Source%20Plan-%23023-1f6feb)](https://github.com/rockbenben/365opensource)
 
 **Stop typing the same thing twice.** QuickText lives in the Windows tray: store the text you reach for again and again — email, addresses, signatures, templates, canned replies, images — once, then in **any input box** type a few keystrokes or an abbreviation and it lands right at your cursor. Multi-line, special characters and emoji preserved character-for-character.
 
@@ -15,6 +18,16 @@
 - WPF / .NET 10, single-file portable exe, **no account, offline by default** — only the optional update check ever contacts GitHub.
 - Data is **local JSON** in your own folder — put it in Dropbox / OneDrive / a NAS to sync.
 - Dark theme, **18 UI languages** (with right-to-left mirroring for Arabic), settings apply instantly.
+
+## Download
+
+**[⬇ Get the latest release](https://github.com/rockbenben/QuickText/releases/latest)** — Windows x64.
+
+Grab `QuickText-<version>-win-x64.exe` (single-file portable — just run it) or the `.zip`
+if you'd rather unpack it yourself. No installer, no account.
+
+The exe isn't code-signed, so Windows SmartScreen warns on first run:
+click **More info → Run anyway**.
 
 ---
 
@@ -28,7 +41,9 @@ Wherever you **type the same thing over and over on Windows**. It lives in the t
 | **Sales / business**      | Email templates, openers, quotes, sign-offs                                                         |
 | **Developers / ops**      | Commands, config, JSON, boilerplate (`{...}` emitted verbatim, never parsed)                        |
 | **Office / form-filling** | Email, address, phone, ID numbers, meeting-note templates (prompt you, remember the last value)     |
-| **HR / admin / legal**    | Onboarding notices, standard notifications, disclaimers — local, offline, fit for sensitive content |
+| **HR / admin / legal**    | Onboarding notices, standard notifications, disclaimers — stays local, nothing uploaded             |
+
+> **On storing anything sensitive.** Snippets are saved as **plain JSON** — nothing is encrypted, by design, so you can read, diff, and edit the file yourself. That's fine for templates and boilerplate on a machine only you use. It also means an ID number or a password put in there is readable by anything that can read the file — including whatever else runs under your account, and the sync provider if you put the folder in Dropbox / OneDrive. For genuinely secret values, use a password manager and leave QuickText for the text you'd be comfortable having on your desktop.
 
 ## See it in 30 seconds
 
@@ -58,7 +73,7 @@ Full detail on abbreviations and variables is in **In detail** below — the **P
 
 ---
 
-# In detail
+**In detail.** Everything above is what most people need. What follows is the full reference.
 
 ## Works out of the box
 
@@ -72,8 +87,12 @@ Double-click **`QuickText.exe`**; it lives in the **system tray** (no taskbar bu
 ## Add / edit your text
 
 - **Tray → Open Manager** — the full editor: categories on the left, snippets on the right, editor below. Add/rename/delete categories (with a **7-color** tag), edit snippets (name, abbreviation, body, image). Drag to reorder or move between categories; `Ctrl+Z` undoes a delete.
-- **Tray → New from clipboard** — create a new snippet from the current clipboard and open it in the Manager to finish (saved when the Manager is saved/closed).
+- **Tray → New from clipboard** — create a new snippet from the current clipboard and open it in the Manager to finish (press **Save** to write it to disk; nothing is written until you do, and anything unsaved is confirmed before it can be lost — on closing the Manager, on closing the enlarged editor, and on switching to another snippet).
 - **Create in the panel** — type the text in the search box and press `Ctrl+N` to save it as a new snippet (that text becomes the body; `@category …` files it in that category) and jump to the Manager to finish (`Ctrl+E` edits the selected one).
+
+> **Long text / code**: the `⤢ Enlarge` button above the body opens it in a near-full-screen editor (or press `Ctrl+Shift+Enter` in the body); `Esc` or "Done" ends the session; if you changed anything it asks whether to save or discard first. With "enable {variable} placeholders" checked, tokens are **tinted by kind** — variables cyan, auto tokens like `{date}` amber, `{snippet:x}` purple, `{cursor}` cyan dashed — while a misspelled snippet name, an invalid date format or an unclosed brace gets a **red squiggle** you can hover for the reason. All of those paste **verbatim** at send time, which used to be discoverable only after pasting the wrong thing. Hovering a date token also previews its resolved value. For code, leave the checkbox off: highlighting is fully disabled so a body full of `{}` stays quiet, and the status bar just notes how many tokens will be output as-is. Also included: **Enter keeps indentation** and **`Tab` indents a whole multi-line selection**.
+>
+> The enlarged window **always shows line numbers**, and its footer offers a **code format** picker — JSON, YAML, XML, HTML, Markdown, SQL, Python, JavaScript/TypeScript, C#, Java, PowerShell, Shell and INI, 13 in all — which syntax-highlights the body and is remembered per snippet. **The stored text stays plain and what gets pasted is unchanged.** Placeholder highlighting paints the background while syntax highlighting tints the glyphs, so the two never fight: a JSON body with `{variables}` in it shows both its structure and its variables at once.
 
 ## Placeholders (one template, many situations) · opt-in per snippet
 
@@ -135,11 +154,11 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 ## Features at a glance
 
 - **Summon**: global hotkey — a **key combo** (function keys work as a single key) or **single/double-tap a modifier** (e.g. right Ctrl), **pick one**; panel follows active window / text caret / remembered position; top-row buttons jump to **New / Manager / Settings**; pin it to send several in a row; drag & resize with remembered size.
-- **Search**: name / pinyin / initials / abbreviation / body, highlighted; **ties broken by usage frequency (frecency)**; `@category keywords` scopes the search to one category (bare `@category` browses it).
+- **Search**: name / pinyin / initials / abbreviation / body. The **matched characters are accented** — including for a pinyin hit, where the query appears nowhere in the name — and when the abbreviation is what matched, its key lights up instead, so no result is ever unexplained; **ties broken by usage frequency (frecency)**; `@category keywords` scopes the search to one category (bare `@category` browses it).
 - **Content**: plain text (multi-line, special chars, emoji lossless), placeholders (defaults / option dropdowns / snippet nesting / custom date formats / uuid / random — **opt-in per snippet**), **images** (from clipboard or file, pasted as an image on send; **images can have abbreviations too** — type the abbr, get the image).
 - **Abbreviations**: terminator-triggered, variable prompt, one-press undo, Backspace typo-correction, case-insensitive, click breaks the token, duplicate warning, per-app blacklist, **one-click tray pause**.
 - **Output**: paste directly / copy only; optional auto-Enter, restore clipboard, single-click send; **per-snippet output override**; capture hotkey (clipboard → snippet in one press).
-- **Manager**: 7 category colors, drag reorder / move, **multi-select batch move / delete** (Ctrl / Shift select, then right-click), undo delete, **trash (30-day restore, with body preview)**, duplicate-abbr warning, usage stats, no-wrap mode for code, save feedback.
+- **Manager**: **roomy body editor** (`⤢ Enlarge` opens it in its own window; unsaved changes are always confirmed — on closing it, and on switching to another snippet), **placeholder highlighting** (tinted by kind; dead snippet refs / invalid date formats / unclosed braces are squiggled red with a reason on hover; nothing is highlighted when placeholders are off — the status bar says so instead), **code-friendly** (the enlarged window always shows line numbers and offers 13 code formats for syntax highlighting; Enter keeps indentation, `Tab` indents a multi-line selection, no-wrap mode), 7 category colors, drag reorder / move, **multi-select batch move / delete** (Ctrl / Shift select, then right-click), undo delete, **trash (30-day restore, with body preview)**, duplicate-abbr warning, usage stats, save feedback.
 - **Data**: local JSON, hot-reload (auto-merges external edits / sync), sync-conflict notice, export / import backup, **daily auto-backup (10 kept)**, start with Windows.
 - **Localization**: **18 UI languages** (Simplified / Traditional Chinese, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) with **right-to-left mirroring for Arabic**, switched live in Settings.
 - **Robustness**: single instance (a second launch summons the search panel instead of double-installing hooks); CI runs tests plus a window smoke-check on every push and publishes a single-file exe on `v*` tags.
@@ -148,7 +167,7 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 
 Data folder (default `Documents\QuickText`, changeable in Settings, can point at a sync drive):
 
-```
+```text
 <data folder>/
   ├─ index.json        # category order + each category's file name and color
   ├─ <category>.json   # the snippets in that category (Snippet[])
@@ -171,8 +190,8 @@ Pure Core (no Win32, unit-testable) kept separate from Win32/UI.
 
 | Project                      | Contents                                                                                                                                                                                                             |
 | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/QuickText.Core`         | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`), `Pinyin`, `Settings`, `Localization` (.resx, 18 languages)             |
-| `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (dark theme), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
+| `src/QuickText.Core`         | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`, `PlaceholderScanner`, `CodeLanguages`), `Pinyin`, `Settings`, `Localization` (.resx, 18 languages) |
+| `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `BodyEditorWindow` / `AppDialog` / `VariablesDialog`), body editors (`BodyEditor` — native TextBox with the `PlaceholderLayer` / `LineNumberGutter` custom-drawn layers; `CodeEditor` — AvalonEdit), `Ui/Syntax` (bundled YAML/INI/Shell highlighting definitions and the dark palette), `Ui/Theme.xaml` (dark theme), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Core unit tests (xUnit)                                                                                                                                                                                              |
 
 ## Build & run
@@ -193,10 +212,4 @@ Requires the .NET 10 SDK. Windows only (Win32 global hotkey / keyboard hook / cl
 
 ## About the 365 Open Source Plan
 
-This is project #023 of the [365 Open Source Plan](https://github.com/rockbenben/365opensource).
-
-One person + AI, 300+ open-source projects in a year. [Submit your idea →](https://365.aishort.top/)
-
-## License
-
-[MIT License](LICENSE) · Copyright © 2026 rockbenben. Free to use, modify, and distribute.
+Project **#023** of the [365 Open Source Plan](https://github.com/rockbenben/365opensource) — one person + AI, 300+ open-source projects in a year. [Submit your idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

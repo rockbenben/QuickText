@@ -1,8 +1,8 @@
 <p align="left">
-  <img src="../assets/branding/quicktext-256.png" width="72" alt="QuickText">
+  <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../README.md) · [简体中文](../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · **Deutsch** · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · **Deutsch** · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
 
 # QuickText
 
@@ -15,6 +15,8 @@
 - WPF / .NET 10, portable Einzeldatei-Exe, **kein Konto, standardmäßig offline** — nur die optionale Update-Prüfung kontaktiert GitHub.
 - Die Daten liegen als **lokales JSON** in deinem eigenen Ordner — leg ihn in Dropbox / OneDrive / ein NAS, um zu synchronisieren.
 - Dunkles Design, **18 Oberflächensprachen** (mit Rechts-nach-links-Spiegelung für Arabisch), Einstellungen greifen sofort.
+
+**[⬇ Neueste Version herunterladen](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable Einzeldatei. Nicht signiert, daher warnt SmartScreen beim ersten Start: **Weitere Informationen → Trotzdem ausführen**.
 
 ---
 
@@ -29,6 +31,8 @@
 | **Entwickler / Ops**           | Befehle, Konfiguration, JSON, Boilerplate (`{...}` wird wortwörtlich ausgegeben, nie interpretiert)                    |
 | **Büro / Formulare ausfüllen** | E-Mail, Adresse, Telefon, Ausweisnummern, Vorlagen für Besprechungsnotizen (fragen dich, merken sich den letzten Wert) |
 | **HR / Verwaltung / Recht**    | Onboarding-Hinweise, Standardbenachrichtigungen, Haftungsausschlüsse — lokal, offline, geeignet für sensible Inhalte   |
+
+> **Bevor Sie Sensibles hineinschreiben.** Snippets werden als **Klartext-JSON** gespeichert, bewusst unverschlüsselt — so können Sie die Datei selbst lesen, diffen und bearbeiten. Für Vorlagen und Textbausteine auf einem Rechner, den nur Sie nutzen, ist das in Ordnung. Es heißt aber auch: Eine Ausweisnummer oder ein Passwort darin ist für alles lesbar, was die Datei lesen kann — auch für jedes andere Programm unter Ihrem Konto und für den Sync-Anbieter, wenn der Ordner in Dropbox / OneDrive liegt. Für echte Geheimnisse nehmen Sie einen Passwortmanager und lassen QuickText den Text, der ruhig offen herumliegen darf.
 
 ## In 30 Sekunden erklärt
 
@@ -58,7 +62,7 @@ Alle Details zu Kürzeln und Variablen findest du weiter unten unter **Im Detail
 
 ---
 
-# Im Detail
+**Im Detail**
 
 ## Funktioniert sofort
 
@@ -72,8 +76,12 @@ Doppelklicke **`QuickText.exe`**; es lebt im **System-Infobereich** (keine Taskl
 ## Deinen Text hinzufügen / bearbeiten
 
 - **Infobereich → Manager öffnen** — der vollständige Editor: Kategorien links, Snippets rechts, Editor darunter. Kategorien hinzufügen/umbenennen/löschen (mit einer **7-farbigen** Markierung), Snippets bearbeiten (Name, Kürzel, Text, Bild). Zum Umsortieren oder Verschieben zwischen Kategorien ziehen; `Ctrl+Z` macht ein Löschen rückgängig.
-- **Infobereich → Neu aus Zwischenablage** — erstellt ein neues Snippet aus dem aktuellen Inhalt der Zwischenablage und öffnet es im Manager zum Fertigstellen (gespeichert, wenn der Manager gespeichert/geschlossen wird).
+- **Infobereich → Neu aus Zwischenablage** — erstellt ein neues Snippet aus dem aktuellen Inhalt der Zwischenablage und öffnet es im Manager zum Fertigstellen (auf **Speichern** klicken, um es auf den Datenträger zu schreiben; beim Schließen des Managers wirst du gefragt, ob gespeichert oder verworfen werden soll).
 - **Im Panel erstellen** — tippe den Text ins Suchfeld und drücke `Ctrl+N`, um ihn als neuen Baustein zu speichern (dieser Text wird der Inhalt; `@Kategorie …` legt ihn in dieser Kategorie ab) und zum Fertigstellen in den Manager zu springen (`Ctrl+E` bearbeitet das ausgewählte).
+
+> **Langer Text / Code**: Die Schaltfläche `⤢` über dem Text öffnet ihn in einem nahezu bildschirmfüllenden Editor (oder drücke `Ctrl+Shift+Enter` im Text); `Esc` oder „Fertig“ beendet die Bearbeitung; bei Änderungen wird vorher gefragt, ob gespeichert oder verworfen werden soll. Ist „{variable}-Platzhalter aktivieren“ angehakt, werden die Tokens **je nach Art eingefärbt** — Variablen cyan, automatische Tokens wie `{date}` bernstein, `{snippet:x}` violett, `{cursor}` cyan gestrichelt — während ein falsch geschriebener Snippet-Name, ein ungültiges Datumsformat oder eine nicht geschlossene geschweifte Klammer eine **rote Wellenlinie** erhält, die beim Hovern den Grund zeigt. All das wird beim Senden **wortwörtlich** eingefügt, was früher erst nach dem Einfügen des Falschen auffiel. Beim Hovern über ein Datums-Token wird zudem sein aufgelöster Wert als Vorschau angezeigt. Für Code lässt du den Haken weg: Die Hervorhebung ist dann vollständig deaktiviert, sodass ein Text voller `{}` ruhig bleibt, und die Statusleiste vermerkt nur, wie viele Tokens unverändert ausgegeben werden. Ebenfalls enthalten: **Enter behält die Einrückung bei** und **`Tab` rückt eine ganze mehrzeilige Auswahl ein**.
+>
+> Das vergrößerte Fenster **zeigt immer Zeilennummern**, und seine Fußzeile bietet eine Auswahl des **Code-Formats** — JSON, YAML, XML, HTML, Markdown, SQL, Python, JavaScript/TypeScript, C#, Java, PowerShell, Shell und INI, 13 insgesamt —, die den Text mit Syntaxhervorhebung versieht und pro Snippet gemerkt wird. **Der gespeicherte Text bleibt unverändert, und was eingefügt wird, ändert sich nicht.** Die Platzhalter-Hervorhebung färbt den Hintergrund, während die Syntaxhervorhebung die Zeichen einfärbt, sodass sich beide nie in die Quere kommen: Ein JSON-Text mit `{variables}` darin zeigt gleichzeitig seine Struktur und seine Variablen.
 
 ## Platzhalter (eine Vorlage, viele Situationen) · pro Snippet aktivierbar
 
@@ -139,7 +147,7 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 - **Inhalt**: Klartext (mehrzeilig, Sonderzeichen, Emojis verlustfrei), Platzhalter (Standardwerte / Options-Dropdowns / Snippet-Verschachtelung / eigene Datumsformate / uuid / random — **pro Snippet aktivierbar**), **Bilder** (aus Zwischenablage oder Datei, beim Senden als Bild eingefügt; **Bilder können ebenfalls Kürzel haben** — tippe das Kürzel, erhalte das Bild).
 - **Kürzel**: durch Abschlusszeichen ausgelöst, Variablen-Abfrage, Rückgängig mit einem Tastendruck, Tippfehlerkorrektur per Rücktaste, ohne Groß-/Kleinschreibung, Klick trennt das Token, Duplikat-Warnung, App-Sperrliste, **Ein-Klick-Pause im Infobereich**.
 - **Ausgabe**: direkt einfügen / nur kopieren; optional automatisches Enter, Zwischenablage wiederherstellen, Senden per Einfachklick; **Ausgabe-Überschreibung pro Snippet**; Erfassungs-Hotkey (Zwischenablage → Snippet mit einem Tastendruck).
-- **Manager**: 7 Kategoriefarben, Ziehen zum Umsortieren / Verschieben, **Mehrfachauswahl für Stapel-Verschieben / -Löschen** (Ctrl / Shift auswählen, dann Rechtsklick), Löschen rückgängig, **Papierkorb (30-Tage-Wiederherstellung, mit Textvorschau)**, Duplikat-Kürzel-Warnung, Nutzungsstatistik, Zeilenumbruch-aus-Modus für Code, Speicher-Rückmeldung.
+- **Manager**: **geräumiger Text-Editor** (`⤢ Vergrößern` öffnet ihn in einem eigenen Fenster; ungespeicherte Änderungen werden immer abgefragt — beim Schließen und beim Wechsel zu einem anderen Eintrag), **Platzhalter-Hervorhebung** (je nach Art eingefärbt; ungültige Snippet-Verweise / ungültige Datumsformate / nicht geschlossene geschweifte Klammern erhalten eine rote Wellenlinie mit Grund beim Hovern; sind Platzhalter deaktiviert, wird nichts hervorgehoben — das steht dann stattdessen in der Statusleiste), **codefreundlich** (das vergrößerte Fenster zeigt immer Zeilennummern und bietet 13 Code-Formate zur Syntaxhervorhebung; Enter behält die Einrückung bei, `Tab` rückt eine mehrzeilige Auswahl komplett ein, Zeilenumbruch-aus-Modus), 7 Kategoriefarben, Ziehen zum Umsortieren / Verschieben, **Mehrfachauswahl für Stapel-Verschieben / -Löschen** (Ctrl / Shift auswählen, dann Rechtsklick), Löschen rückgängig, **Papierkorb (30-Tage-Wiederherstellung, mit Textvorschau)**, Duplikat-Kürzel-Warnung, Nutzungsstatistik, Speicher-Rückmeldung.
 - **Daten**: lokales JSON, Hot-Reload (führt externe Änderungen / Synchronisierung automatisch zusammen), Hinweis bei Synchronisierungskonflikten, Backup exportieren / importieren, **tägliches Auto-Backup (10 aufbewahrt)**, mit Windows starten.
 - **Lokalisierung**: **18 Oberflächensprachen** (vereinfachtes / traditionelles Chinesisch, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) mit **Rechts-nach-links-Spiegelung für Arabisch**, live in den Einstellungen umgeschaltet.
 - **Robustheit**: einzelne Instanz (ein zweiter Start ruft das Suchpanel auf, statt Hooks doppelt zu installieren); CI führt bei jedem Push Tests plus einen Fenster-Smoke-Check aus und veröffentlicht bei `v*`-Tags eine Einzeldatei-Exe.
@@ -148,7 +156,7 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 
 Datenordner (Standard `Documents\QuickText`, in den Einstellungen änderbar, kann auf ein Synchronisierungslaufwerk zeigen):
 
-```
+```text
 <data folder>/
   ├─ index.json        # category order + each category's file name and color
   ├─ <category>.json   # the snippets in that category (Snippet[])
@@ -191,12 +199,10 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Erfordert das .NET 10 SDK. Nur Windows (Win32-Globaler-Hotkey / Tastatur-Hook / Zwischenablage).
 
-## Über den 365-Open-Source-Plan
+## Über den 365 Open Source Plan
 
-Dies ist Projekt Nr. 023 des [365-Open-Source-Plans](https://github.com/rockbenben/365opensource).
-
-Eine Person + KI, über 300 Open-Source-Projekte in einem Jahr. [Reiche deine Idee ein →](https://365.aishort.top/)
+Projekt **#023** des [365 Open Source Plan](https://github.com/rockbenben/365opensource) — eine Person + KI, über 300 Open-Source-Projekte in einem Jahr. [Reiche deine Idee ein →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
 
 ## Lizenz
 
-[MIT License](../LICENSE) · Copyright © 2026 rockbenben. Frei nutzbar, veränderbar und verteilbar.
+[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Frei nutzbar, veränderbar und verteilbar.

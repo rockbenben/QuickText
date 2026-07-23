@@ -1,8 +1,8 @@
 <p align="left">
-  <img src="../assets/branding/quicktext-256.png" width="72" alt="QuickText">
+  <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../README.md) · [简体中文](../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · **Italiano** · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · **Italiano** · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
 
 # QuickText
 
@@ -15,6 +15,8 @@
 - WPF / .NET 10, exe portatile a file singolo, **nessun account, offline per impostazione predefinita** — solo il controllo aggiornamenti opzionale contatta GitHub.
 - I dati sono in **JSON locale** nella tua cartella — mettila su Dropbox / OneDrive / un NAS per sincronizzarli.
 - Tema scuro, **18 lingue dell'interfaccia** (con rispecchiamento da destra a sinistra per l'arabo), le impostazioni si applicano all'istante.
+
+**[⬇ Scarica l'ultima versione](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable in un solo file. Non è firmato, quindi SmartScreen avvisa al primo avvio: **Ulteriori informazioni → Esegui comunque**.
 
 ---
 
@@ -29,6 +31,8 @@ Ovunque tu **digiti la stessa cosa più e più volte su Windows**. Vive nella ba
 | **Sviluppatori / ops**            | Comandi, configurazioni, JSON, boilerplate (`{...}` emesso alla lettera, mai interpretato)                      |
 | **Ufficio / compilazione moduli** | Email, indirizzo, telefono, numeri di documento, modelli di verbali (te lo chiedono, ricordano l'ultimo valore) |
 | **HR / amministrazione / legale** | Comunicazioni di onboarding, notifiche standard, disclaimer — locale, offline, adatto a contenuti sensibili     |
+
+> **Prima di metterci dentro qualcosa di sensibile.** Gli snippet sono salvati come **JSON in chiaro**, non cifrati e di proposito: così puoi leggerli, confrontarli e modificarli tu stesso. Per modelli e frasi standard su una macchina che usi solo tu va benissimo. Vuol dire però che un numero di documento o una password messi lì sono leggibili da qualsiasi cosa possa leggere il file — compresi gli altri programmi in esecuzione con il tuo account e il servizio di sincronizzazione, se metti la cartella su Dropbox / OneDrive. Per i segreti veri usa un gestore di password e lascia a QuickText il testo che non ti dispiacerebbe lasciare in vista.
 
 ## Guardalo in 30 secondi
 
@@ -58,7 +62,7 @@ Tutti i dettagli su abbreviazioni e variabili sono in **Nel dettaglio** qui sott
 
 ---
 
-# Nel dettaglio
+**Nel dettaglio**
 
 ## Funziona da subito
 
@@ -72,8 +76,12 @@ Fai doppio clic su **`QuickText.exe`**; vive nella **barra delle applicazioni** 
 ## Aggiungi / modifica il tuo testo
 
 - **Barra delle applicazioni → Apri Gestore** — l'editor completo: categorie a sinistra, snippet a destra, editor in basso. Aggiungi/rinomina/elimina categorie (con un'etichetta a **7 colori**), modifica gli snippet (nome, abbreviazione, corpo, immagine). Trascina per riordinare o spostare tra categorie; `Ctrl+Z` annulla un'eliminazione.
-- **Barra delle applicazioni → Nuovo dagli appunti** — crea un nuovo snippet dal contenuto attuale degli appunti e lo apre nel Gestore per completarlo (salvato quando il Gestore viene salvato/chiuso).
+- **Barra delle applicazioni → Nuovo dagli appunti** — crea un nuovo snippet dal contenuto attuale degli appunti e lo apre nel Gestore per completarlo (premi **Salva** per scriverlo su disco; chiudendo il Gestore ti verrà chiesto se salvare o scartare).
 - **Crea nel pannello** — digita il testo nella casella di ricerca e premi `Ctrl+N` per salvarlo come nuovo snippet (quel testo diventa il corpo; `@categoria …` lo archivia in quella categoria) e passare al Gestore per completarlo (`Ctrl+E` modifica quello selezionato).
+
+> **Testo lungo / codice**: il pulsante `⤢` sopra il corpo lo apre in un editor quasi a schermo intero (oppure premi `Ctrl+Shift+Enter` nel corpo); `Esc` o «Fatto» termina la modifica; se hai cambiato qualcosa, chiede prima se salvare o scartare. Con «Abilita segnaposto {variabile}» spuntato, i token vengono **colorati in base al tipo** — le variabili in ciano, i token automatici come `{date}` in ambra, `{snippet:x}` in viola, `{cursor}` in ciano tratteggiato — mentre un nome di snippet scritto male, un formato di data non valido o una parentesi graffa non chiusa ricevono una **sottolineatura ondulata rossa** su cui puoi passare il mouse per vedere il motivo. Tutto questo viene incollato **alla lettera** all'invio, cosa che prima si scopriva solo dopo aver incollato la cosa sbagliata. Passando il mouse su un token di data se ne vede anche un'anteprima del valore risolto. Per il codice, lascia la casella non spuntata: l'evidenziazione è allora completamente disattivata, così un corpo pieno di `{}` resta silenzioso, e la barra di stato si limita a indicare quanti token verranno emessi così come sono. Incluso anche: **Invio mantiene l'indentazione** e **`Tab` indenta un'intera selezione multiriga**.
+>
+> La finestra ingrandita **mostra sempre i numeri di riga**, e il suo piè di pagina offre un selettore di **formato di codice** — JSON, YAML, XML, HTML, Markdown, SQL, Python, JavaScript/TypeScript, C#, Java, PowerShell, Shell e INI, 13 in totale — che evidenzia la sintassi del corpo e viene ricordato per singolo snippet. **Il testo salvato resta semplice e ciò che viene incollato non cambia.** L'evidenziazione dei segnaposto colora lo sfondo mentre l'evidenziazione della sintassi colora i caratteri, così le due non entrano mai in conflitto: un corpo JSON con `{variables}` al suo interno mostra contemporaneamente la sua struttura e le sue variabili.
 
 ## Segnaposto (un modello, molte situazioni) · attivabili per singolo snippet
 
@@ -139,7 +147,7 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 - **Contenuto**: testo semplice (multiriga, caratteri speciali, emoji senza perdite), segnaposto (valori predefiniti / menu a discesa di opzioni / annidamento di snippet / formati data personalizzati / uuid / random — **attivabili per singolo snippet**), **immagini** (dagli appunti o da file, incollate come immagine all'invio; **anche le immagini possono avere abbreviazioni** — digita l'abbreviazione, ottieni l'immagine).
 - **Abbreviazioni**: attivazione con terminatore, richiesta variabili, annullamento con una pressione, correzione errori con Backspace, senza distinzione maiuscole/minuscole, il clic interrompe il token, avviso di duplicati, lista di esclusione per app, **sospensione a un clic dalla barra delle applicazioni**.
 - **Output**: incolla direttamente / solo copia; Invio automatico opzionale, ripristino appunti, invio con singolo clic; **sovrascrittura output per singolo snippet**; scorciatoia di cattura (appunti → snippet con una pressione).
-- **Gestore**: 7 colori di categoria, trascinamento per riordinare / spostare, **spostamento / eliminazione in blocco multiselezione** (selezione con Ctrl / Shift, poi clic destro), annullamento eliminazione, **cestino (ripristino a 30 giorni, con anteprima del corpo)**, avviso di abbreviazioni duplicate, statistiche d'uso, modalità senza a capo per il codice, riscontro al salvataggio.
+- **Gestore**: **editor del corpo spazioso** (`⤢ Ingrandisci` lo apre in una finestra propria; le modifiche non salvate vengono sempre confermate: alla chiusura e passando a un altro elemento), **evidenziazione dei segnaposto** (colorata in base al tipo; riferimenti a snippet inesistenti / formati di data non validi / parentesi graffe non chiuse vengono sottolineati in rosso ondulato con il motivo al passaggio del mouse; nulla viene evidenziato quando i segnaposto sono disattivati — lo indica invece la barra di stato), **adatto al codice** (la finestra ingrandita mostra sempre i numeri di riga e offre 13 formati di codice per l'evidenziazione della sintassi; Invio mantiene l'indentazione, `Tab` indenta una selezione multiriga, modalità senza a capo), 7 colori di categoria, trascinamento per riordinare / spostare, **spostamento / eliminazione in blocco multiselezione** (selezione con Ctrl / Shift, poi clic destro), annullamento eliminazione, **cestino (ripristino a 30 giorni, con anteprima del corpo)**, avviso di abbreviazioni duplicate, statistiche d'uso, riscontro al salvataggio.
 - **Dati**: JSON locale, ricaricamento a caldo (unisce automaticamente le modifiche esterne / la sincronizzazione), avviso di conflitto di sincronizzazione, esporta / importa backup, **backup automatico giornaliero (10 conservati)**, avvio con Windows.
 - **Localizzazione**: **18 lingue dell'interfaccia** (cinese semplificato / tradizionale, inglese, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) con **rispecchiamento da destra a sinistra per l'arabo**, cambiate dal vivo nelle Impostazioni.
 - **Robustezza**: istanza singola (un secondo avvio richiama il pannello di ricerca invece di installare due volte gli hook); la CI esegue i test più un controllo rapido della finestra a ogni push e pubblica un exe a file singolo sui tag `v*`.
@@ -148,7 +156,7 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 
 Cartella dati (predefinita `Documents\QuickText`, modificabile nelle Impostazioni, può puntare a un'unità di sincronizzazione):
 
-```
+```text
 <cartella dati>/
   ├─ index.json        # ordine delle categorie + nome file e colore di ciascuna categoria
   ├─ <category>.json   # gli snippet in quella categoria (Snippet[])
@@ -191,12 +199,10 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Richiede l'SDK .NET 10. Solo Windows (scorciatoia globale Win32 / hook della tastiera / appunti).
 
-## Informazioni sul Piano 365 open source
+## Informazioni sul 365 Open Source Plan
 
-Questo è il progetto n. 023 del [Piano 365 open source](https://github.com/rockbenben/365opensource).
-
-Una persona + IA, oltre 300 progetti open source in un anno. [Invia la tua idea →](https://365.aishort.top/)
+Progetto **#023** del [365 Open Source Plan](https://github.com/rockbenben/365opensource) — una persona + l'IA, oltre 300 progetti open source in un anno. [Proponi la tua idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
 
 ## Licenza
 
-[MIT License](../LICENSE) · Copyright © 2026 rockbenben. Libero di usare, modificare e distribuire.
+[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Libero di usare, modificare e distribuire.

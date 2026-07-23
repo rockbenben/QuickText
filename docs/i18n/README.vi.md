@@ -1,8 +1,8 @@
 <p align="left">
-  <img src="../assets/branding/quicktext-256.png" width="72" alt="QuickText">
+  <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../README.md) · [简体中文](../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · **Tiếng Việt** · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · **Tiếng Việt** · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
 
 # QuickText
 
@@ -15,6 +15,8 @@
 - WPF / .NET 10, exe di động dạng đơn tệp, **không cần tài khoản, ngoại tuyến theo mặc định** — chỉ việc kiểm tra cập nhật tùy chọn mới kết nối GitHub.
 - Dữ liệu là **JSON cục bộ** trong thư mục của riêng bạn — đặt nó vào Dropbox / OneDrive / một NAS để đồng bộ.
 - Giao diện tối, **18 ngôn ngữ giao diện** (có phản chiếu phải-sang-trái cho tiếng Ả Rập), thiết lập áp dụng tức thì.
+
+**[⬇ Tải bản mới nhất](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable một tệp. Không được ký số nên lần chạy đầu SmartScreen sẽ cảnh báo: **More info → Run anyway**.
 
 ---
 
@@ -29,6 +31,8 @@ Bất cứ nơi nào bạn **gõ đi gõ lại cùng một thứ trên Windows**
 | **Lập trình viên / vận hành**      | Câu lệnh, cấu hình, JSON, mã khung (`{...}` phát nguyên văn, không bao giờ bị phân tích)                     |
 | **Văn phòng / điền biểu mẫu**      | Email, địa chỉ, số điện thoại, số CMND, mẫu ghi chú cuộc họp (nhắc bạn nhập, ghi nhớ giá trị lần trước)      |
 | **Nhân sự / hành chính / pháp lý** | Thông báo nhập việc, thông báo chuẩn, tuyên bố miễn trừ — cục bộ, ngoại tuyến, phù hợp cho nội dung nhạy cảm |
+
+> **Trước khi lưu thứ gì nhạy cảm.** Các đoạn văn bản được lưu dưới dạng **JSON văn bản thuần**, cố ý không mã hoá — để bạn có thể tự đọc, tự so sánh và tự sửa tệp. Dùng cho mẫu và câu chữ soạn sẵn trên máy chỉ mình bạn dùng thì hoàn toàn ổn. Nhưng cũng có nghĩa là số giấy tờ hay mật khẩu để trong đó đều đọc được bởi bất cứ thứ gì đọc được tệp — kể cả chương trình khác chạy dưới tài khoản của bạn, và dịch vụ đồng bộ nếu bạn đặt thư mục vào Dropbox / OneDrive. Bí mật thật sự hãy giao cho trình quản lý mật khẩu, còn QuickText dành cho phần văn bản mà bạn không ngại để lộ.
 
 ## Xem trong 30 giây
 
@@ -58,7 +62,7 @@ Chi tiết đầy đủ về từ viết tắt và biến nằm trong phần **C
 
 ---
 
-# Chi tiết
+**Chi tiết**
 
 ## Dùng được ngay
 
@@ -72,8 +76,12 @@ Nhấp đúp **`QuickText.exe`**; nó nằm trong **khay hệ thống** (không 
 ## Thêm / chỉnh sửa văn bản của bạn
 
 - **Khay → Mở Trình quản lý** — trình soạn thảo đầy đủ: danh mục bên trái, đoạn văn bản bên phải, trình soạn thảo bên dưới. Thêm/đổi tên/xóa danh mục (với thẻ **7 màu**), chỉnh sửa đoạn văn bản (tên, từ viết tắt, nội dung, hình ảnh). Kéo để sắp xếp lại hoặc chuyển giữa các danh mục; `Ctrl+Z` hoàn tác một thao tác xóa.
-- **Khay → Tạo mới từ clipboard** — tạo một đoạn văn bản mới từ clipboard hiện tại và mở nó trong Trình quản lý để hoàn thiện (được lưu khi Trình quản lý được lưu/đóng).
+- **Khay → Tạo mới từ clipboard** — tạo một đoạn văn bản mới từ clipboard hiện tại và mở nó trong Trình quản lý để hoàn thiện (nhấn **Lưu** để ghi vào ổ đĩa; đóng Trình quản lý sẽ hỏi bạn muốn lưu hay hủy).
 - **Tạo trong bảng** — gõ nội dung vào ô tìm kiếm và nhấn `Ctrl+N` để lưu thành đoạn mới (văn bản đó trở thành nội dung; `@danh mục …` xếp nó vào danh mục đó) và nhảy đến Trình quản lý để hoàn thiện (`Ctrl+E` chỉnh sửa mục đang chọn).
+
+> **Văn bản dài / mã**: nút `⤢` phía trên nội dung sẽ mở nó trong một trình soạn thảo gần như toàn màn hình (hoặc nhấn `Ctrl+Shift+Enter` trong nội dung); `Esc` hoặc "Xong" kết thúc phiên chỉnh sửa; nếu có thay đổi, nó sẽ hỏi lưu hay bỏ trước. Khi đánh dấu "Bật trình giữ chỗ {biến}", các token được **tô màu theo loại** — biến màu xanh lơ, token tự động như `{date}` màu hổ phách, `{snippet:x}` màu tím, `{cursor}` màu xanh lơ nét đứt — trong khi tên đoạn văn bản gõ sai, định dạng ngày không hợp lệ hoặc dấu ngoặc nhọn chưa đóng sẽ nhận một **đường gạch chân sóng màu đỏ** mà bạn có thể di chuột qua để xem lý do. Tất cả những thứ đó được dán **nguyên văn** khi gửi, điều mà trước đây chỉ có thể phát hiện được sau khi đã dán nhầm. Di chuột qua một token ngày cũng hiển thị bản xem trước giá trị đã được giải quyết của nó. Với mã, hãy để hộp kiểm chưa đánh dấu: việc tô màu bị tắt hoàn toàn, nên một nội dung đầy `{}` vẫn im lặng, và thanh trạng thái chỉ ghi chú có bao nhiêu token sẽ được xuất nguyên trạng. Cũng có thêm: **Enter giữ nguyên thụt lề** và **`Tab` thụt lề cả một vùng chọn nhiều dòng**.
+>
+> Cửa sổ phóng to **luôn hiển thị số dòng**, và phần chân của nó cung cấp bộ chọn **định dạng mã** — JSON, YAML, XML, HTML, Markdown, SQL, Python, JavaScript/TypeScript, C#, Java, PowerShell, Shell và INI, tổng cộng 13 loại — giúp tô sáng cú pháp cho nội dung và được ghi nhớ theo từng đoạn văn bản. **Văn bản được lưu trữ vẫn giữ nguyên dạng thuần và những gì được dán không thay đổi.** Việc tô màu trình giữ chỗ tô nền, còn tô sáng cú pháp tô màu ký tự, nên hai thứ này không bao giờ xung đột: một nội dung JSON có chứa `{variables}` sẽ hiển thị đồng thời cả cấu trúc lẫn các biến của nó.
 
 ## Trình giữ chỗ (một mẫu, nhiều tình huống) · bật tùy chọn theo từng đoạn
 
@@ -139,7 +147,7 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 - **Nội dung**: văn bản thuần (nhiều dòng, ký tự đặc biệt, emoji không mất mát), trình giữ chỗ (giá trị mặc định / danh sách lựa chọn / lồng đoạn văn bản / định dạng ngày tùy chỉnh / uuid / random — **bật tùy chọn theo từng đoạn**), **hình ảnh** (từ clipboard hoặc tệp, được dán dưới dạng hình ảnh khi gửi; **hình ảnh cũng có thể có từ viết tắt** — gõ từ viết tắt, được hình ảnh).
 - **Từ viết tắt**: kích hoạt bằng dấu kết thúc, hỏi biến, hoàn tác một cú nhấn, sửa lỗi gõ bằng Backspace, không phân biệt hoa thường, nhấp phá vỡ token, cảnh báo trùng lặp, danh sách đen theo ứng dụng, **tạm dừng bằng một cú nhấp trên khay hệ thống**.
 - **Đầu ra**: dán trực tiếp / chỉ sao chép; tùy chọn tự động Enter, khôi phục clipboard, nhấp một lần để gửi; **ghi đè đầu ra theo từng đoạn**; phím tắt thu thập (clipboard → đoạn văn bản trong một cú nhấn).
-- **Trình quản lý**: 7 màu danh mục, kéo sắp xếp lại / chuyển, **chọn nhiều để chuyển / xóa hàng loạt** (chọn bằng Ctrl / Shift, rồi nhấp chuột phải), hoàn tác xóa, **thùng rác (khôi phục trong 30 ngày, có xem trước nội dung)**, cảnh báo trùng từ viết tắt, thống kê sử dụng, chế độ không ngắt dòng cho mã, phản hồi khi lưu.
+- **Trình quản lý**: **trình soạn thảo nội dung rộng rãi** (`⤢ Phóng to` mở nó trong cửa sổ riêng; thay đổi chưa lưu luôn được hỏi lại — khi đóng cửa sổ và khi chuyển sang mục khác), **tô màu trình giữ chỗ** (tô theo loại; tham chiếu đoạn văn bản không tồn tại / định dạng ngày không hợp lệ / dấu ngoặc nhọn chưa đóng được gạch chân sóng đỏ kèm lý do khi di chuột qua; không có gì được tô màu khi trình giữ chỗ tắt — thay vào đó thanh trạng thái sẽ thông báo), **thân thiện với mã** (cửa sổ phóng to luôn hiển thị số dòng và cung cấp 13 định dạng mã để tô sáng cú pháp; Enter giữ nguyên thụt lề, `Tab` thụt lề một vùng chọn nhiều dòng, chế độ không ngắt dòng), 7 màu danh mục, kéo sắp xếp lại / chuyển, **chọn nhiều để chuyển / xóa hàng loạt** (chọn bằng Ctrl / Shift, rồi nhấp chuột phải), hoàn tác xóa, **thùng rác (khôi phục trong 30 ngày, có xem trước nội dung)**, cảnh báo trùng từ viết tắt, thống kê sử dụng, phản hồi khi lưu.
 - **Dữ liệu**: JSON cục bộ, tải lại nóng (tự động hợp nhất chỉnh sửa từ bên ngoài / đồng bộ), thông báo xung đột đồng bộ, xuất / nhập bản sao lưu, **tự động sao lưu hàng ngày (giữ 10 bản)**, khởi động cùng Windows.
 - **Bản địa hóa**: **18 ngôn ngữ giao diện** (Tiếng Trung Giản thể / Phồn thể, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) với **phản chiếu phải-sang-trái cho tiếng Ả Rập**, chuyển đổi trực tiếp trong Cài đặt.
 - **Độ bền bỉ**: một phiên bản duy nhất (lần khởi động thứ hai sẽ gọi bảng tìm kiếm ra thay vì cài đặt hook trùng lặp); CI chạy các bài kiểm thử cộng với kiểm tra nhanh cửa sổ ở mỗi lần push và xuất bản một exe đơn tệp trên các thẻ `v*`.
@@ -148,7 +156,7 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 
 Thư mục dữ liệu (mặc định `Documents\QuickText`, có thể thay đổi trong Cài đặt, có thể trỏ vào một ổ đĩa đồng bộ):
 
-```
+```text
 <data folder>/
   ├─ index.json        # category order + each category's file name and color
   ├─ <category>.json   # the snippets in that category (Snippet[])
@@ -191,12 +199,10 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Yêu cầu .NET 10 SDK. Chỉ dành cho Windows (phím tắt toàn cục Win32 / keyboard hook / clipboard).
 
-## Về Kế hoạch 365 mã nguồn mở
+## Giới thiệu về 365 Open Source Plan
 
-Đây là dự án số 023 của [Kế hoạch 365 mã nguồn mở](https://github.com/rockbenben/365opensource).
-
-Một người + AI, hơn 300 dự án mã nguồn mở trong một năm. [Gửi ý tưởng của bạn →](https://365.aishort.top/)
+Dự án **#023** của [365 Open Source Plan](https://github.com/rockbenben/365opensource) — một người + AI, hơn 300 dự án mã nguồn mở trong một năm. [Gửi ý tưởng của bạn →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
 
 ## Giấy phép
 
-[MIT License](../LICENSE) · Bản quyền © 2026 rockbenben. Tự do sử dụng, chỉnh sửa, và phân phối.
+[MIT License](../../LICENSE) · Bản quyền © 2026 rockbenben. Tự do sử dụng, chỉnh sửa, và phân phối.

@@ -1,8 +1,8 @@
 <p align="left">
-  <img src="../assets/branding/quicktext-256.png" width="72" alt="QuickText">
+  <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../README.md) · [简体中文](../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · **Español** · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · **Español** · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
 
 # QuickText
 
@@ -15,6 +15,8 @@
 - WPF / .NET 10, exe portátil de un solo archivo, **sin cuenta, sin conexión por defecto**: solo la comprobación de actualizaciones opcional contacta con GitHub.
 - Los datos son **JSON local** en tu propia carpeta: ponlos en Dropbox / OneDrive / un NAS para sincronizarlos.
 - Tema oscuro, **18 idiomas de interfaz** (con reflejo de derecha a izquierda para el árabe), los ajustes se aplican al instante.
+
+**[⬇ Descargar la última versión](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable de un solo archivo. No está firmado digitalmente, así que SmartScreen avisa la primera vez: **Más información → Ejecutar de todas formas**.
 
 ---
 
@@ -29,6 +31,8 @@ Allí donde **escribes lo mismo una y otra vez en Windows**. Vive en la bandeja 
 | **Desarrolladores / operaciones**    | Comandos, configuración, JSON, código base (`{...}` se emite literalmente, nunca se interpreta)                                   |
 | **Oficina / rellenar formularios**   | Correo, dirección, teléfono, números de identificación, plantillas de actas de reunión (te preguntan y recuerdan el último valor) |
 | **RR. HH. / administración / legal** | Avisos de incorporación, notificaciones estándar, avisos legales: local, sin conexión, apto para contenido sensible               |
+
+> **Antes de guardar algo sensible.** Los fragmentos se guardan como **JSON en texto plano**, sin cifrar y a propósito: así puedes leerlos, compararlos y editarlos tú mismo. Para plantillas y textos estándar en un equipo que solo usas tú, está bien. También significa que un número de identidad o una contraseña guardados ahí son legibles por cualquier cosa que pueda leer el archivo, incluido cualquier otro programa que se ejecute con tu cuenta y el proveedor de sincronización si pones la carpeta en Dropbox / OneDrive. Para secretos de verdad usa un gestor de contraseñas y deja QuickText para el texto que no te importaría tener a la vista.
 
 ## Míralo en 30 segundos
 
@@ -58,7 +62,7 @@ Todos los detalles sobre abreviaturas y variables están en **En detalle**, más
 
 ---
 
-# En detalle
+**En detalle**
 
 ## Funciona nada más instalar
 
@@ -72,8 +76,12 @@ Haz doble clic en **`QuickText.exe`**; vive en la **bandeja del sistema** (sin b
 ## Añadir / editar tu texto
 
 - **Bandeja → Abrir Gestor** — el editor completo: categorías a la izquierda, fragmentos a la derecha, editor debajo. Añade/renombra/elimina categorías (con una etiqueta de **7 colores**), edita fragmentos (nombre, abreviatura, cuerpo, imagen). Arrastra para reordenar o mover entre categorías; `Ctrl+Z` deshace un borrado.
-- **Bandeja → Nuevo desde el portapapeles** — crea un fragmento nuevo a partir del portapapeles actual y ábrelo en el Gestor para completarlo (se guarda al guardar/cerrar el Gestor).
+- **Bandeja → Nuevo desde el portapapeles** — crea un fragmento nuevo a partir del portapapeles actual y ábrelo en el Gestor para completarlo (pulsa **Guardar** para escribirlo en disco; al cerrar el Gestor te preguntará si guardar o descartar).
 - **Crear en el panel** — escribe el texto en el cuadro de búsqueda y pulsa `Ctrl+N` para guardarlo como un fragmento nuevo (ese texto pasa a ser el cuerpo; `@categoría …` lo archiva en esa categoría) y saltar al Gestor a completarlo (`Ctrl+E` edita el seleccionado).
+
+> **Texto largo / código**: el botón `⤢` sobre el cuerpo lo abre en un editor casi a pantalla completa (o pulsa `Ctrl+Shift+Enter` en el cuerpo); `Esc` o «Listo» finaliza la edición; si cambiaste algo, primero se pregunta si guardar o descartar. Con «Activar marcadores {variable}» marcado, los tokens se **colorean según su tipo** —variables en cian, tokens automáticos como `{date}` en ámbar, `{snippet:x}` en morado, `{cursor}` en cian discontinuo— mientras que un nombre de fragmento mal escrito, un formato de fecha inválido o una llave sin cerrar recibe un **subrayado ondulado rojo** que, al pasar el cursor por encima, muestra el motivo. Todo eso se pega **tal cual** al enviar, algo que antes solo se descubría después de pegar lo que no tocaba. Pasar el cursor sobre un token de fecha también muestra una vista previa de su valor resuelto. Para código, deja la casilla sin marcar: el resaltado queda entonces completamente desactivado, así que un cuerpo lleno de `{}` se mantiene tranquilo, y la barra de estado solo indica cuántos tokens se emitirán tal cual. También incluye: **Enter conserva la sangría** y **`Tab` sangra toda una selección de varias líneas**.
+>
+> La ventana ampliada **siempre muestra números de línea**, y su pie ofrece un selector de **formato de código** —JSON, YAML, XML, HTML, Markdown, SQL, Python, JavaScript/TypeScript, C#, Java, PowerShell, Shell e INI, 13 en total— que resalta la sintaxis del cuerpo y se recuerda por fragmento. **El texto guardado permanece plano y lo que se pega no cambia.** El resaltado de marcadores pinta el fondo mientras que el resaltado de sintaxis colorea los caracteres, así que nunca chocan entre sí: un cuerpo JSON con `{variables}` dentro muestra a la vez su estructura y sus variables.
 
 ## Marcadores de posición (una plantilla, muchas situaciones) · opcional por fragmento
 
@@ -139,7 +147,7 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 - **Contenido**: texto plano (varias líneas, caracteres especiales, emoji sin pérdidas), marcadores de posición (valores por defecto / desplegables de opciones / anidamiento de fragmentos / formatos de fecha personalizados / uuid / aleatorio, **opcional por fragmento**), **imágenes** (desde el portapapeles o un archivo, pegadas como imagen al enviar; **las imágenes también pueden tener abreviaturas**: escribe la abreviatura, obtén la imagen).
 - **Abreviaturas**: activadas por terminador, cuadro de variables, deshacer con una pulsación, corrección de erratas con Retroceso, sin distinción de mayúsculas, el clic rompe el token, aviso de duplicados, lista negra por aplicación, **pausa desde la bandeja con un clic**.
 - **Salida**: pegar directamente / solo copiar; Enter automático opcional, restaurar portapapeles, envío con un solo clic; **anulación de salida por fragmento**; tecla de captura (portapapeles → fragmento con una pulsación).
-- **Gestor**: 7 colores de categoría, reordenar / mover arrastrando, **mover / eliminar por lotes con selección múltiple** (selecciona con Ctrl / Shift y luego clic derecho), deshacer borrado, **papelera (restauración de 30 días, con vista previa del cuerpo)**, aviso de abreviatura duplicada, estadísticas de uso, modo sin ajuste de línea para código, confirmación de guardado.
+- **Gestor**: **editor de cuerpo amplio** (`⤢ Ampliar` lo abre en su propia ventana; los cambios sin guardar siempre se confirman: al cerrarla y al cambiar a otro elemento), **resaltado de marcadores** (coloreado según el tipo; las referencias a fragmentos inexistentes / los formatos de fecha inválidos / las llaves sin cerrar se subrayan en rojo ondulado con el motivo al pasar el cursor; no se resalta nada cuando los marcadores están desactivados —la barra de estado lo indica en su lugar—), **compatible con código** (la ventana ampliada siempre muestra números de línea y ofrece 13 formatos de código para resaltado de sintaxis; Enter conserva la sangría, `Tab` sangra una selección de varias líneas, modo sin ajuste de línea), 7 colores de categoría, reordenar / mover arrastrando, **mover / eliminar por lotes con selección múltiple** (selecciona con Ctrl / Shift y luego clic derecho), deshacer borrado, **papelera (restauración de 30 días, con vista previa del cuerpo)**, aviso de abreviatura duplicada, estadísticas de uso, confirmación de guardado.
 - **Datos**: JSON local, recarga en caliente (fusiona automáticamente las ediciones externas / la sincronización), aviso de conflicto de sincronización, exportar / importar copia de seguridad, **copia automática diaria (se conservan 10)**, iniciar con Windows.
 - **Localización**: **18 idiomas de interfaz** (chino simplificado / tradicional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) con **reflejo de derecha a izquierda para el árabe**, con cambio en vivo desde Ajustes.
 - **Robustez**: instancia única (un segundo arranque invoca el panel de búsqueda en lugar de instalar los ganchos por duplicado); la CI ejecuta las pruebas más una comprobación de humo de ventana en cada push y publica un exe de un solo archivo en las etiquetas `v*`.
@@ -148,7 +156,7 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 
 Carpeta de datos (por defecto `Documents\QuickText`, cambiable en Ajustes, puede apuntar a una unidad de sincronización):
 
-```
+```text
 <carpeta de datos>/
   ├─ index.json        # orden de categorías + nombre de archivo y color de cada categoría
   ├─ <categoría>.json  # los fragmentos de esa categoría (Snippet[])
@@ -191,12 +199,10 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Requiere el SDK de .NET 10. Solo Windows (tecla rápida global de Win32 / gancho de teclado / portapapeles).
 
-## Acerca del Plan 365 de código abierto
+## Sobre el Plan 365 de código abierto
 
-Este es el proyecto n.º 023 del [Plan 365 de código abierto](https://github.com/rockbenben/365opensource).
-
-Una persona + IA, más de 300 proyectos de código abierto en un año. [Envía tu idea →](https://365.aishort.top/)
+Proyecto **#023** del [Plan 365 de código abierto](https://github.com/rockbenben/365opensource) — una persona + IA, más de 300 proyectos de código abierto en un año. [Envía tu idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
 
 ## Licencia
 
-[MIT License](../LICENSE) · Copyright © 2026 rockbenben. Libre de usar, modificar y distribuir.
+[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Libre de usar, modificar y distribuir.

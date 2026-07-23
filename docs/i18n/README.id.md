@@ -1,8 +1,8 @@
 <p align="left">
-  <img src="../assets/branding/quicktext-256.png" width="72" alt="QuickText">
+  <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../README.md) · [简体中文](../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · **Bahasa Indonesia** · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · **Bahasa Indonesia** · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
 
 # QuickText
 
@@ -15,6 +15,8 @@
 - WPF / .NET 10, exe portabel file tunggal, **tanpa akun, luring secara bawaan** — hanya pemeriksaan pembaruan opsional yang menghubungi GitHub.
 - Data berupa **JSON lokal** di folder Anda sendiri — taruh di Dropbox / OneDrive / NAS untuk sinkronisasi.
 - Tema gelap, **18 bahasa UI** (dengan pencerminan kanan-ke-kiri untuk bahasa Arab), pengaturan berlaku seketika.
+
+**[⬇ Unduh versi terbaru](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portabel satu file. Tidak ditandatangani, jadi SmartScreen memperingatkan saat pertama dijalankan: **More info → Run anyway**.
 
 ---
 
@@ -29,6 +31,8 @@ Di mana pun Anda **mengetik hal yang sama berulang-ulang di Windows**. Aplikasi 
 | **Developer / ops**             | Perintah, konfigurasi, JSON, boilerplate (`{...}` dikeluarkan apa adanya, tak pernah diurai)              |
 | **Kantor / pengisian formulir** | Email, alamat, telepon, nomor identitas, templat notulen rapat (memberi prompt, mengingat nilai terakhir) |
 | **HR / admin / hukum**          | Pemberitahuan onboarding, notifikasi standar, disklaimer — lokal, offline, cocok untuk konten sensitif    |
+
+> **Sebelum menyimpan sesuatu yang sensitif.** Cuplikan disimpan sebagai **JSON teks biasa**, sengaja tidak dienkripsi — supaya Anda bisa membaca, mem-*diff*, dan menyunting berkasnya sendiri. Untuk templat dan kalimat baku di komputer yang hanya Anda pakai, ini tidak masalah. Artinya juga: nomor identitas atau kata sandi yang ditaruh di sana bisa dibaca apa pun yang bisa membaca berkas itu — termasuk program lain yang berjalan dengan akun Anda, dan penyedia sinkronisasi bila foldernya Anda taruh di Dropbox / OneDrive. Untuk rahasia yang sesungguhnya, pakai pengelola kata sandi, dan biarkan QuickText untuk teks yang Anda rela terlihat orang.
 
 ## Lihat dalam 30 detik
 
@@ -58,7 +62,7 @@ Detail lengkap tentang singkatan dan variabel ada di **Rincian** di bawah — ba
 
 ---
 
-# Rincian
+**Rincian**
 
 ## Langsung jalan tanpa setup
 
@@ -72,8 +76,12 @@ Klik ganda **`QuickText.exe`**; ia tinggal di **system tray** (tanpa tombol task
 ## Tambah / edit teks Anda
 
 - **Tray → Buka Manager** — editor lengkap: kategori di kiri, snippet di kanan, editor di bawah. Tambah/ganti nama/hapus kategori (dengan tag **7 warna**), edit snippet (nama, singkatan, isi, gambar). Seret untuk menyusun ulang atau memindahkan antar kategori; `Ctrl+Z` membatalkan penghapusan.
-- **Tray → Baru dari clipboard** — buat snippet baru dari isi clipboard saat ini dan buka di Manager untuk menyelesaikannya (disimpan saat Manager disimpan/ditutup).
+- **Tray → Baru dari clipboard** — buat snippet baru dari isi clipboard saat ini dan buka di Manager untuk menyelesaikannya (tekan **Simpan** untuk menulisnya ke disk; menutup Manager akan menanyakan apakah ingin menyimpan atau membuang perubahan).
 - **Buat di panel** — ketik teks di kotak pencarian lalu tekan `Ctrl+N` untuk menyimpannya sebagai snippet baru (teks itu menjadi isi; `@kategori …` menaruhnya di kategori tersebut) dan langsung ke Manager untuk menyelesaikan (`Ctrl+E` mengedit yang terpilih).
+
+> **Teks panjang / kode**: tombol `⤢` di atas isi membukanya dalam editor hampir layar penuh (atau tekan `Ctrl+Shift+Enter` di dalam isi); `Esc` atau "Selesai" mengakhiri penyuntingan; jika ada yang diubah, ditanya dulu apakah disimpan atau dibuang. Dengan "Aktifkan placeholder {variable}" dicentang, token **diwarnai menurut jenisnya** — variabel cyan, token otomatis seperti `{date}` amber, `{snippet:x}` ungu, `{cursor}` cyan putus-putus — sementara nama snippet yang salah eja, format tanggal yang tidak valid, atau kurung kurawal yang tidak ditutup mendapat **garis bawah bergelombang merah** yang bisa Anda arahkan kursor untuk melihat alasannya. Semua itu ditempel **apa adanya** saat dikirim, yang dulu baru diketahui setelah menempel hal yang salah. Mengarahkan kursor ke token tanggal juga menampilkan pratinjau nilai hasilnya. Untuk kode, biarkan kotak centang itu tidak dicentang: highlighting dinonaktifkan sepenuhnya sehingga isi yang penuh `{}` tetap tenang, dan status bar hanya mencatat berapa banyak token yang akan dikeluarkan apa adanya. Termasuk juga: **Enter mempertahankan indentasi** dan **`Tab` mengindentasi seluruh seleksi multi-baris**.
+>
+> Jendela yang diperbesar **selalu menampilkan nomor baris**, dan footernya menawarkan pemilih **format kode** — JSON, YAML, XML, HTML, Markdown, SQL, Python, JavaScript/TypeScript, C#, Java, PowerShell, Shell, dan INI, 13 semuanya — yang menyorot sintaks isi dan diingat per snippet. **Teks yang tersimpan tetap polos dan yang ditempel tidak berubah.** Highlighting placeholder mewarnai latar belakang sementara highlighting sintaks mewarnai glyph, jadi keduanya tidak pernah berbenturan: isi JSON dengan `{variables}` di dalamnya menampilkan struktur dan variabelnya sekaligus.
 
 ## Placeholder (satu templat, banyak situasi) · dipilih per snippet
 
@@ -139,7 +147,7 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 - **Konten**: teks polos (multi-baris, karakter khusus, emoji tanpa kehilangan), placeholder (default / dropdown opsi / snippet bersarang / format tanggal kustom / uuid / random — **dipilih per snippet**), **gambar** (dari clipboard atau file, ditempel sebagai gambar saat dikirim; **gambar bisa punya singkatan juga** — ketik singkatannya, dapatkan gambarnya).
 - **Singkatan**: dipicu terminator, prompt variabel, batalkan sekali tekan, koreksi salah ketik dengan Backspace, tidak peka huruf besar/kecil, klik memecah token, peringatan duplikat, daftar hitam per aplikasi, **jeda tray sekali klik**.
 - **Output**: tempel langsung / salin saja; auto-Enter opsional, pulihkan clipboard, kirim klik tunggal; **penimpaan output per snippet**; hotkey tangkap (clipboard → snippet dalam satu tekan).
-- **Manager**: 7 warna kategori, seret susun ulang / pindah, **pilih banyak untuk pindah / hapus massal** (pilih dengan Ctrl / Shift, lalu klik kanan), batalkan penghapusan, **tempat sampah (pulihkan 30 hari, dengan pratinjau isi)**, peringatan singkatan duplikat, statistik pemakaian, mode tanpa bungkus untuk kode, umpan balik penyimpanan.
+- **Manager**: **editor isi yang lapang** (`⤢ Perbesar` membukanya di jendela sendiri; perubahan yang belum disimpan selalu dikonfirmasi — saat menutupnya dan saat beralih ke entri lain), **highlighting placeholder** (diwarnai menurut jenis; referensi snippet yang mati / format tanggal tidak valid / kurung kurawal tak tertutup diberi garis bawah bergelombang merah dengan alasan saat diarahkan kursor; tidak ada yang disorot saat placeholder nonaktif — status bar yang memberi tahu sebagai gantinya), **ramah kode** (jendela yang diperbesar selalu menampilkan nomor baris dan menawarkan 13 format kode untuk highlighting sintaks; Enter mempertahankan indentasi, `Tab` mengindentasi seleksi multi-baris, mode tanpa bungkus), 7 warna kategori, seret susun ulang / pindah, **pilih banyak untuk pindah / hapus massal** (pilih dengan Ctrl / Shift, lalu klik kanan), batalkan penghapusan, **tempat sampah (pulihkan 30 hari, dengan pratinjau isi)**, peringatan singkatan duplikat, statistik pemakaian, umpan balik penyimpanan.
 - **Data**: JSON lokal, hot-reload (menggabungkan otomatis suntingan eksternal / sinkronisasi), pemberitahuan konflik sinkronisasi, ekspor / impor cadangan, **cadangan otomatis harian (10 disimpan)**, mulai bersama Windows.
 - **Lokalisasi**: **18 bahasa UI** (Tionghoa Sederhana / Tradisional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) dengan **pencerminan kanan-ke-kiri untuk bahasa Arab**, diganti langsung di Pengaturan.
 - **Ketahanan**: instance tunggal (peluncuran kedua memanggil panel pencarian alih-alih memasang hook dua kali); CI menjalankan tes plus pemeriksaan asap jendela pada setiap push dan menerbitkan exe file tunggal pada tag `v*`.
@@ -148,7 +156,7 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 
 Folder data (default `Documents\QuickText`, bisa diubah di Pengaturan, dapat mengarah ke drive sinkronisasi):
 
-```
+```text
 <data folder>/
   ├─ index.json        # urutan kategori + nama file dan warna tiap kategori
   ├─ <category>.json   # snippet dalam kategori itu (Snippet[])
@@ -191,12 +199,10 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Membutuhkan .NET 10 SDK. Hanya Windows (hotkey global Win32 / keyboard hook / clipboard).
 
-## Tentang Rencana 365 Sumber Terbuka
+## Tentang 365 Open Source Plan
 
-Ini adalah proyek ke-023 dari [Rencana 365 Sumber Terbuka](https://github.com/rockbenben/365opensource).
-
-Satu orang + AI, 300+ proyek sumber terbuka dalam setahun. [Kirim ide Anda →](https://365.aishort.top/)
+Proyek **#023** dari [365 Open Source Plan](https://github.com/rockbenben/365opensource) — satu orang + AI, 300+ proyek open-source dalam setahun. [Ajukan ide Anda →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
 
 ## Lisensi
 
-[MIT License](../LICENSE) · Hak Cipta © 2026 rockbenben. Bebas digunakan, dimodifikasi, dan didistribusikan.
+[MIT License](../../LICENSE) · Hak Cipta © 2026 rockbenben. Bebas digunakan, dimodifikasi, dan didistribusikan.

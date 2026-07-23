@@ -1,8 +1,8 @@
 <p align="left">
-  <img src="../assets/branding/quicktext-256.png" width="72" alt="QuickText">
+  <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../README.md) · [简体中文](../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · **Português** · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · **Português** · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
 
 # QuickText
 
@@ -15,6 +15,8 @@
 - WPF / .NET 10, executável portátil de arquivo único, **sem conta, offline por padrão** — apenas a verificação de atualizações opcional acessa o GitHub.
 - Os dados são **JSON local** na sua própria pasta — coloque-os no Dropbox / OneDrive / num NAS para sincronizar.
 - Tema escuro, **18 idiomas de interface** (com espelhamento da direita para a esquerda para o árabe), configurações aplicadas instantaneamente.
+
+**[⬇ Baixar a versão mais recente](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portátil em arquivo único. Não é assinado, então o SmartScreen avisa na primeira execução: **Mais informações → Executar assim mesmo**.
 
 ---
 
@@ -29,6 +31,8 @@ Onde quer que você **digite a mesma coisa repetidamente no Windows**. Ele fica 
 | **Desenvolvedores / ops**                     | Comandos, configurações, JSON, código base (`{...}` emitido literalmente, nunca interpretado)                                  |
 | **Escritório / preenchimento de formulários** | E-mail, endereço, telefone, números de documentos, modelos de atas de reunião (pedem os dados a você e lembram o último valor) |
 | **RH / administrativo / jurídico**            | Avisos de integração, notificações padrão, isenções de responsabilidade — local, offline, adequado para conteúdo sensível      |
+
+> **Antes de guardar algo sensível.** Os trechos são gravados como **JSON em texto simples**, sem criptografia e de propósito: assim você pode ler, comparar e editar o arquivo por conta própria. Para modelos e textos padrão numa máquina que só você usa, tudo bem. Também significa que um número de documento ou uma senha ali dentro pode ser lido por qualquer coisa capaz de ler o arquivo — inclusive outros programas rodando na sua conta e o serviço de sincronização, se a pasta estiver no Dropbox / OneDrive. Para segredos de verdade, use um gerenciador de senhas e deixe o QuickText para o texto que você não se importaria de deixar à vista.
 
 ## Veja funcionando em 30 segundos
 
@@ -58,7 +62,7 @@ Todos os detalhes sobre abreviações e variáveis estão em **Em detalhe**, aba
 
 ---
 
-# Em detalhe
+**Em detalhe**
 
 ## Funciona logo de cara
 
@@ -72,8 +76,12 @@ Dê um duplo clique em **`QuickText.exe`**; ele fica na **bandeja do sistema** (
 ## Adicione / edite seu texto
 
 - **Bandeja → Abrir Gerenciador** — o editor completo: categorias à esquerda, trechos à direita, editor abaixo. Adicione/renomeie/exclua categorias (com uma etiqueta de **7 cores**), edite trechos (nome, abreviação, corpo, imagem). Arraste para reordenar ou mover entre categorias; `Ctrl+Z` desfaz uma exclusão.
-- **Bandeja → Novo a partir da área de transferência** — cria um novo trecho a partir do conteúdo atual da área de transferência e o abre no Gerenciador para finalizar (salvo quando o Gerenciador é salvo/fechado).
+- **Bandeja → Novo a partir da área de transferência** — cria um novo trecho a partir do conteúdo atual da área de transferência e o abre no Gerenciador para finalizar (pressione **Salvar** para gravá-lo no disco; fechar o Gerenciador pergunta se deseja salvar ou descartar).
 - **Criar no painel** — digite o texto na caixa de busca e pressione `Ctrl+N` para salvá-lo como um novo snippet (esse texto vira o corpo; `@categoria …` o arquiva nessa categoria) e ir ao Gerenciador para finalizar (`Ctrl+E` edita o selecionado).
+
+> **Texto longo / código**: o botão `⤢` acima do corpo o abre num editor quase em tela cheia (ou pressione `Ctrl+Shift+Enter` no corpo); `Esc` ou "Pronto" termina a edição; se alterou algo, pergunta primeiro se quer guardar ou descartar. Com "ativar espaços reservados {variable}" marcado, os tokens são **coloridos por tipo** — variáveis em ciano, tokens automáticos como `{date}` em âmbar, `{snippet:x}` em roxo, `{cursor}` em ciano tracejado — enquanto um nome de trecho digitado errado, um formato de data inválido ou uma chave não fechada recebem um **sublinhado ondulado vermelho** que você pode passar o mouse por cima para ver o motivo. Todos eles são colados **literalmente** no envio, algo que antes só se descobria depois de colar a coisa errada. Passar o mouse sobre um token de data também mostra uma prévia do valor resolvido. Para código, deixe a caixa desmarcada: o realce fica totalmente desativado, então um corpo cheio de `{}` permanece discreto, e a barra de status apenas informa quantos tokens serão emitidos como estão. Também incluído: **o Enter preserva a indentação** e **`Tab` recua toda uma seleção com várias linhas**.
+>
+> A janela ampliada **sempre mostra números de linha**, e seu rodapé oferece um seletor de **formato de código** — JSON, YAML, XML, HTML, Markdown, SQL, Python, JavaScript/TypeScript, C#, Java, PowerShell, Shell e INI, 13 ao todo — que realça a sintaxe do corpo e é lembrado por trecho. **O texto armazenado permanece simples e o que é colado não muda.** O realce de espaços reservados pinta o fundo enquanto o realce de sintaxe colore os caracteres, então os dois nunca entram em conflito: um corpo JSON com `{variables}` mostra ao mesmo tempo sua estrutura e suas variáveis.
 
 ## Espaços reservados (um modelo, muitas situações) · ativados por trecho
 
@@ -139,7 +147,7 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 - **Conteúdo**: texto simples (múltiplas linhas, caracteres especiais, emoji sem perdas), espaços reservados (padrões / menus de opções / trechos aninhados / formatos de data personalizados / uuid / random — **ativados por trecho**), **imagens** (da área de transferência ou de arquivo, coladas como imagem ao enviar; **imagens também podem ter abreviações** — digite a abreviação, receba a imagem).
 - **Abreviações**: acionadas por terminador, solicitação de variáveis, desfazer com uma tecla, correção de erro de digitação com Backspace, sem diferenciar maiúsculas, o clique quebra o token, aviso de duplicidade, lista de bloqueio por aplicativo, **pausa na bandeja com um clique**.
 - **Saída**: colar diretamente / apenas copiar; Enter automático opcional, restaurar a área de transferência, envio com clique único; **substituição de saída por trecho**; tecla de captura (área de transferência → trecho num só toque).
-- **Gerenciador**: 7 cores de categoria, reordenar / mover arrastando, **seleção múltipla para mover / excluir em lote** (selecione com Ctrl / Shift e clique com o botão direito), desfazer exclusão, **lixeira (restauração por 30 dias, com prévia do corpo)**, aviso de abreviação duplicada, estatísticas de uso, modo sem quebra de linha para código, retorno de salvamento.
+- **Gerenciador**: **editor de corpo espaçoso** (`⤢ Ampliar` abre-o na sua própria janela; as alterações não guardadas são sempre confirmadas: ao fechá-la e ao mudar para outro item), **realce de espaços reservados** (colorido por tipo; referências de trechos inexistentes / formatos de data inválidos / chaves não fechadas recebem um sublinhado ondulado vermelho com o motivo ao passar o mouse; nada é realçado quando os espaços reservados estão desativados — a barra de status avisa isso em vez disso), **compatível com código** (a janela ampliada sempre mostra números de linha e oferece 13 formatos de código para realce de sintaxe; o Enter preserva a indentação, `Tab` recua uma seleção com várias linhas, modo sem quebra de linha), 7 cores de categoria, reordenar / mover arrastando, **seleção múltipla para mover / excluir em lote** (selecione com Ctrl / Shift e clique com o botão direito), desfazer exclusão, **lixeira (restauração por 30 dias, com prévia do corpo)**, aviso de abreviação duplicada, estatísticas de uso, retorno de salvamento.
 - **Dados**: JSON local, recarga a quente (mescla automaticamente edições/sincronizações externas), aviso de conflito de sincronização, exportar / importar backup, **backup automático diário (10 mantidos)**, iniciar com o Windows.
 - **Localização**: **18 idiomas de interface** (chinês simplificado / tradicional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) com **espelhamento da direita para a esquerda para o árabe**, trocados ao vivo em Configurações.
 - **Robustez**: instância única (uma segunda execução invoca o painel de busca em vez de instalar hooks em duplicidade); a CI executa testes mais uma verificação de fumaça de janela a cada push e publica um executável de arquivo único nas tags `v*`.
@@ -148,7 +156,7 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 
 Pasta de dados (padrão `Documents\QuickText`, alterável em Configurações, pode apontar para um drive de sincronização):
 
-```
+```text
 <data folder>/
   ├─ index.json        # category order + each category's file name and color
   ├─ <category>.json   # the snippets in that category (Snippet[])
@@ -191,12 +199,10 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Requer o SDK do .NET 10. Apenas Windows (tecla de atalho global / hook de teclado / área de transferência do Win32).
 
-## Sobre o Plano 365 de código aberto
+## Sobre o Plano 365 Open Source
 
-Este é o projeto nº 023 do [Plano 365 de código aberto](https://github.com/rockbenben/365opensource).
-
-Uma pessoa + IA, mais de 300 projetos de código aberto em um ano. [Envie sua ideia →](https://365.aishort.top/)
+Projeto **#023** do [Plano 365 Open Source](https://github.com/rockbenben/365opensource) — uma pessoa + IA, mais de 300 projetos open-source em um ano. [Envie sua ideia →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
 
 ## Licença
 
-[MIT License](../LICENSE) · Copyright © 2026 rockbenben. Livre para usar, modificar e distribuir.
+[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Livre para usar, modificar e distribuir.
