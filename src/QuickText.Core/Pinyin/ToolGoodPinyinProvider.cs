@@ -37,17 +37,23 @@ public sealed class ToolGoodPinyinProvider : IPinyinProvider
     public string GetFullPinyin(string text) =>
         WordsHelper.GetPinyin(text ?? "", "", false).ToLowerInvariant();
 
-    public string GetInitials(string text)
+    /// <summary>Initials are DERIVED from <see cref="GetMap"/> rather than walked separately, so
+    /// the string the search index matches against and the character positions the UI highlights
+    /// can never disagree about where a syllable started.</summary>
+    public string GetInitials(string text) => GetMap(text).Initials;
+
+    public PinyinMap GetMap(string text)
     {
         if (string.IsNullOrEmpty(text))
         {
-            return string.Empty;
+            return PinyinMap.Empty;
         }
 
         var contextual = WordsHelper.GetPinyinList(text, false).ToList();
         var isAligned = contextual.Count == text.Length;
 
-        var sb = new StringBuilder();
+        var syllablesOut = new List<string>();
+        var sourceOut = new List<int>();
         var i = 0;
         while (i < text.Length)
         {
@@ -56,12 +62,18 @@ public sealed class ToolGoodPinyinProvider : IPinyinProvider
             if (syllables.Count > 0)
             {
                 var syllable = isAligned ? contextual[i] : syllables[0];
-                sb.Append(char.ToLowerInvariant(syllable[0]));
+                syllablesOut.Add(syllable.ToLowerInvariant());
+                sourceOut.Add(i);
                 i++;
             }
             else
             {
-                sb.Append(char.ToLowerInvariant(c));
+                // A contiguous non-Chinese run contributes only its leading character — the
+                // long-standing GetInitials contract ("Hi" -> "h"). The run's remaining characters
+                // are skipped, so the next entry's source index is where the run ends, which is
+                // what lets PinyinMap.SourceSpan cover the whole run.
+                syllablesOut.Add(char.ToLowerInvariant(c).ToString());
+                sourceOut.Add(i);
                 i++;
                 while (i < text.Length && WordsHelper.GetAllPinyin(text[i], false).Count == 0)
                 {
@@ -70,6 +82,6 @@ public sealed class ToolGoodPinyinProvider : IPinyinProvider
             }
         }
 
-        return sb.ToString();
+        return new PinyinMap(syllablesOut, sourceOut);
     }
 }

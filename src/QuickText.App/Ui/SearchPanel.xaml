@@ -35,7 +35,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition x:Name="BodyRow" Height="Auto"/>
+                <!-- Star, not Auto, even in auto-height mode: with SizeToContent=Height a star row
+                     still measures to its content, but when the window's MinHeight exceeds what the
+                     content needs, the slack lands HERE instead of pooling below the footer. With
+                     Auto every row was content-sized, the Grid was top-aligned inside a 340-tall
+                     window, and two results left a dead strip under the hint bar. -->
+                <RowDefinition x:Name="BodyRow" Height="*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>

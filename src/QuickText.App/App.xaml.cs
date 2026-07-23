@@ -46,14 +46,62 @@ public partial class App : Application
         return created;
     }
 
-    /// <summary>Reliably raise a window to the foreground. Opened from the search panel (a topmost
-    /// tool window summoned by a hook), a plain Show/Activate is foreground-locked and the window can
-    /// come up behind others; steal the foreground the same way the panel does for itself.</summary>
+    /// <summary>How long to keep re-asserting the foreground, and how often. Callers of
+    /// <see cref="ShowSingleton"/> are themselves in the middle of giving focus away — the search
+    /// panel hides itself around the same moment — and Windows completes that handoff
+    /// ASYNCHRONOUSLY, so a single SetForegroundWindow can be undone microseconds later by the
+    /// system finishing its own transfer to whatever sat behind the panel. Fire-and-forget lost
+    /// that race intermittently, which is why the window kept coming up behind everything.
+    /// <para>The window is short on purpose: long enough to outlast the handoff, short enough that
+    /// it can never fight a deliberate click on another app a moment later.</para></summary>
+    private static readonly TimeSpan ForegroundGuardFor = TimeSpan.FromMilliseconds(900);
+    private static readonly TimeSpan ForegroundGuardEvery = TimeSpan.FromMilliseconds(50);
+
+    /// <summary>Consecutive ticks the window must HOLD the foreground before the guard disarms.
+    /// Disarming on "we are foreground right now" is what makes fire-and-forget fail: the very
+    /// first assertion usually succeeds, and the theft lands a few tens of ms LATER. Requiring the
+    /// hold to persist means the guard is still armed when that happens — and dropping it as soon
+    /// as the hold is stable means it is long gone before the user could click somewhere else and
+    /// have us fight them for it.</summary>
+    private const int ForegroundStableTicks = 6;
+
+    /// <summary>Raise a window to the foreground and hold it there against Windows' asynchronous
+    /// handoff. Opened from the search panel (a topmost tool window summoned by a hook), a plain
+    /// Show/Activate is foreground-locked and the window comes up behind others; and even a
+    /// successful SetForegroundWindow gets undone microseconds later when the system finishes
+    /// transferring foreground to whatever sat behind the panel. So assert, then VERIFY with
+    /// GetForegroundWindow for a short window afterwards, re-asserting whenever we have lost it.</summary>
     internal static void BringToFront(Window w)
     {
         var hwnd = new WindowInteropHelper(w).Handle;
-        if (hwnd != IntPtr.Zero) Interop.NativeMethods.StealForeground(hwnd);
+        if (hwnd == IntPtr.Zero) return;
+        Interop.NativeMethods.StealForeground(hwnd);
+
+        var deadline = DateTime.UtcNow + ForegroundGuardFor;
+        int stable = 0;
+        var timer = new System.Windows.Threading.DispatcherTimer(
+            System.Windows.Threading.DispatcherPriority.Send, w.Dispatcher) { Interval = ForegroundGuardEvery };
+        timer.Tick += (_, _) =>
+        {
+            // A stray guard that outlives its window would keep yanking focus from whatever the
+            // user moved on to, so it also stops the moment the window closes or hides.
+            var live = new WindowInteropHelper(w).Handle;
+            if (live == IntPtr.Zero || !w.IsVisible || DateTime.UtcNow > deadline)
+            {
+                timer.Stop();
+                return;
+            }
+            if (Interop.NativeMethods.GetForegroundWindow() == live)
+            {
+                if (++stable >= ForegroundStableTicks) timer.Stop();
+                return;
+            }
+            stable = 0;
+            Interop.NativeMethods.StealForeground(live);
+        };
+        timer.Start();
     }
+
     private IntPtr _hotkeyHwnd;
     private System.Threading.Mutex? _instanceMutex;   // held for the app's lifetime
 
@@ -505,6 +553,23 @@ public partial class App : Application
             Exercise(new ManagerWindow());
             Exercise(new SettingsWindow());
             Exercise(new TrashDialog());
+            Exercise(new BodyEditorWindow());
+            // Also exercise the CODE path: the parameterless ctor above resolves to plain text and
+            // never inflates CodeEditor.xaml, so a missing StaticResource there would reach users.
+            // This one line also covers SwapSurface's code branch, HighlightingCatalog.Get,
+            // SyntaxTheme.ApplyDark and PlaceholderColorizer end to end.
+            Exercise(new BodyEditorWindow("", "", false, 0, 0, "json"));
+            // An embedded .xshd that didn't get embedded is invisible at build time — the app
+            // starts fine and only the user who picks that one format ever finds out. CI runs
+            // this on every commit, so it's the right place to catch it.
+            var missing = Ui.Syntax.HighlightingCatalog.MissingDefinitions();
+            if (missing.Count > 0)
+                throw new InvalidOperationException(
+                    "highlighting definitions missing: " + string.Join(", ", missing));
+            var unreadable = Ui.Syntax.HighlightingCatalog.UnreadableColors();
+            if (unreadable.Count > 0)
+                throw new InvalidOperationException(
+                    "syntax colours below 3:1 contrast on the editor background: " + string.Join(", ", unreadable));
             var vd = new VariablesDialog();
             vd.Populate(new[] { new Core.Snippets.Placeholders.VariableSpec("测试", "默认", new[] { "a", "b" }) });
             Exercise(vd);

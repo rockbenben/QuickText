@@ -32,6 +32,8 @@
     <SolidColorBrush x:Key="Brush.AbbrBg"       Color="#1F3DC2A0"/>
     <SolidColorBrush x:Key="Brush.AbbrBorder"   Color="#553DC2A0"/>
     <SolidColorBrush x:Key="Brush.AbbrText"     Color="#8FE0CB"/>
+    <!-- Keycap fill when the abbreviation is WHY this row matched (see SnippetRowTemplate). -->
+    <SolidColorBrush x:Key="Brush.AbbrMatchBg"  Color="#403DC2A0"/>
     <SolidColorBrush x:Key="Brush.KeycapBg"     Color="#14FFFFFF"/>
     <SolidColorBrush x:Key="Brush.KeycapBorder" Color="#2EFFFFFF"/>
     <SolidColorBrush x:Key="Brush.KeycapText"   Color="#C4CCD7"/>
@@ -137,15 +139,40 @@
                                FontFamily="{StaticResource Font.Ui}" FontSize="15" FontWeight="SemiBold"
                                Foreground="{StaticResource Brush.TextPrimary}" TextTrimming="CharacterEllipsis"
                                ui:Highlight.Text="{Binding Snippet.Name}"
+                               ui:Highlight.Start="{Binding NameStart}"
+                               ui:Highlight.Length="{Binding NameLength}"
                                ui:Highlight.Query="{Binding HighlightQuery, RelativeSource={RelativeSource AncestorType=Window}}"/>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
                         <TextBlock Text="&#x2605;" FontSize="12" VerticalAlignment="Center" Margin="0,0,7,0"
                                    Foreground="{StaticResource Brush.Star}"
                                    Visibility="{Binding Snippet.Id, Converter={StaticResource FavVis}}"/>
-                        <Border Style="{StaticResource AbbrKeycap}"
-                                Visibility="{Binding Snippet.Abbr, Converter={StaticResource EmptyToCollapsed}}">
-                            <TextBlock Text="{Binding Snippet.Abbr}" FontFamily="{StaticResource Font.Mono}"
-                                       FontSize="11" Foreground="{StaticResource Brush.AbbrText}"/>
+                        <!-- An abbreviation hit is the one case where the query appears in NO visible
+                             text on the row ("qm" matching 签名), so the keycap itself lights up:
+                             that is the answer to "why is this here?". -->
+                        <Border Visibility="{Binding Snippet.Abbr, Converter={StaticResource EmptyToCollapsed}}">
+                            <Border.Style>
+                                <Style TargetType="Border" BasedOn="{StaticResource AbbrKeycap}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Kind}" Value="Abbr">
+                                            <Setter Property="Background" Value="{StaticResource Brush.AbbrMatchBg}"/>
+                                            <Setter Property="BorderBrush" Value="{StaticResource Brush.Accent}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <TextBlock Text="{Binding Snippet.Abbr}" FontFamily="{StaticResource Font.Mono}" FontSize="11">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="{StaticResource Brush.AbbrText}"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Kind}" Value="Abbr">
+                                                <Setter Property="Foreground" Value="{StaticResource Brush.Accent}"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
                         </Border>
                         <Border Style="{StaticResource Chip}" Margin="6,0,0,0"
                                 Visibility="{Binding Category, Converter={StaticResource EmptyToCollapsed}}">
@@ -158,10 +185,13 @@
                     <Image Source="{Binding Snippet.ImagePath, Converter={StaticResource ImgSrc}}"
                            Height="30" Stretch="Uniform" HorizontalAlignment="Left"
                            Visibility="{Binding Snippet.ImagePath, Converter={StaticResource EmptyToCollapsed}}"/>
-                    <TextBlock Text="{Binding Snippet.Body, Converter={StaticResource FirstLine}}"
-                               FontFamily="{StaticResource Font.Ui}" FontSize="12.5"
+                    <!-- Body-only hits report no name span, so the query is accented here instead —
+                         otherwise a row whose name has nothing to do with the query looks arbitrary. -->
+                    <TextBlock FontFamily="{StaticResource Font.Ui}" FontSize="12.5"
                                Foreground="{StaticResource Brush.TextMuted}" TextWrapping="NoWrap"
                                TextTrimming="CharacterEllipsis"
+                               ui:Highlight.Text="{Binding Snippet.Body, Converter={StaticResource FirstLine}}"
+                               ui:Highlight.Query="{Binding HighlightQuery, RelativeSource={RelativeSource AncestorType=Window}}"
                                Visibility="{Binding Snippet.ImagePath, Converter={StaticResource NonEmptyToCollapsed}}"/>
                 </Grid>
             </StackPanel>

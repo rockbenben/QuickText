@@ -11,20 +11,24 @@ public sealed class CachedPinyinProvider : IPinyinProvider
     private const int MaxEntries = 10_000;   // safety valve; a library rarely exceeds this
 
     private readonly IPinyinProvider _inner;
-    private readonly Dictionary<string, (string Full, string Initials)> _cache = new();
+    private readonly Dictionary<string, (string Full, PinyinMap Map)> _cache = new();
 
     public CachedPinyinProvider(IPinyinProvider inner) => _inner = inner;
 
     public string GetFullPinyin(string text) => Get(text).Full;
 
-    public string GetInitials(string text) => Get(text).Initials;
+    // Initials come off the cached map rather than a separately cached string: one fewer thing to
+    // keep in sync, and the map is what the highlighter needs anyway on the very same lookup.
+    public string GetInitials(string text) => Get(text).Map.Initials;
 
-    private (string Full, string Initials) Get(string text)
+    public PinyinMap GetMap(string text) => Get(text).Map;
+
+    private (string Full, PinyinMap Map) Get(string text)
     {
         text ??= "";
         if (_cache.TryGetValue(text, out var hit)) return hit;
         if (_cache.Count >= MaxEntries) _cache.Clear();
-        var computed = (_inner.GetFullPinyin(text), _inner.GetInitials(text));
+        var computed = (_inner.GetFullPinyin(text), _inner.GetMap(text));
         _cache[text] = computed;
         return computed;
     }

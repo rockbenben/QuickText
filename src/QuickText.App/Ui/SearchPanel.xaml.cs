@@ -117,14 +117,15 @@ public partial class SearchPanel : Window
     private void EnterManualMode()
     {
         SizeToContent = SizeToContent.Manual;
-        BodyRow.Height = new GridLength(1, GridUnitType.Star);
         CategoryRail.MaxHeight = BrowseList.MaxHeight = Results.MaxHeight = double.PositiveInfinity;
     }
 
     private void EnterAutoMode()
     {
         SizeToContent = SizeToContent.Height;
-        BodyRow.Height = GridLength.Auto;
+        // BodyRow stays star in both modes — see the XAML comment. A star row measures to its
+        // content under SizeToContent, so auto-height still works; it only changes where the
+        // slack goes once MinHeight kicks in.
         CategoryRail.MaxHeight = BrowseList.MaxHeight = Results.MaxHeight = 404;
     }
 
@@ -149,8 +150,15 @@ public partial class SearchPanel : Window
         switch (s.PanelPlacement)
         {
             case "fixed":
-                var wa = SystemParameters.WorkArea;
-                if (s.PanelX != 0 || s.PanelY != 0)
+                bool remembered = s.PanelX != 0 || s.PanelY != 0;
+                // Clamp a remembered position against ITS OWN monitor, not the primary:
+                // SystemParameters.WorkArea covers the primary only, so on a desktop that extends
+                // to the left of it (negative X) this dragged the panel off the monitor the user
+                // parked it on and pinned it to the primary's left edge.
+                var wa = remembered
+                    ? WindowTheming.MonitorWorkAreaDipAt(s.PanelX, s.PanelY)
+                    : SystemParameters.WorkArea;
+                if (remembered)
                 {
                     Left = Math.Max(wa.Left, Math.Min(s.PanelX, wa.Right - 120));
                     Top = Math.Max(wa.Top, Math.Min(s.PanelY, wa.Bottom - 120));
@@ -175,14 +183,12 @@ public partial class SearchPanel : Window
         Top = wa.Top + wa.Height * 0.16;
     }
 
-    // WPF (system-DPI-aware) device px -> DIP scale factor. Shared so the panel and the dialogs
-    // (WindowTheming) convert monitor geometry the same way.
-    private static double PxToDip => WindowTheming.SystemPxToDip;
+    /// <summary>Monitor handle hosting the given window; the null handle (→ primary) if unknown.</summary>
+    private static IntPtr MonitorOf(IntPtr hwnd) =>
+        hwnd != IntPtr.Zero ? NativeMethods.MonitorFromWindow(hwnd, NativeMethods.MONITOR_DEFAULTTONEAREST) : IntPtr.Zero;
 
     /// <summary>Work area (in DIPs) of the monitor hosting the given window; primary if unknown.</summary>
-    private static Rect WorkAreaOf(IntPtr hwnd) =>
-        WindowTheming.MonitorWorkAreaDip(
-            hwnd != IntPtr.Zero ? NativeMethods.MonitorFromWindow(hwnd, NativeMethods.MONITOR_DEFAULTTONEAREST) : IntPtr.Zero);
+    private static Rect WorkAreaOf(IntPtr hwnd) => WindowTheming.MonitorWorkAreaDip(MonitorOf(hwnd));
 
     /// <summary>Place the panel just below the target window's text caret. False if the app exposes no caret.</summary>
     private bool TryPlaceAtCaret(double estHeight)
@@ -195,8 +201,13 @@ public partial class SearchPanel : Window
         var pt = new NativeMethods.POINT { X = gti.rcCaret.Left, Y = gti.rcCaret.Bottom };
         if (!NativeMethods.ClientToScreen(gti.hwndCaret, ref pt)) return false;
 
-        double k = PxToDip;
-        var wa = WorkAreaOf(_target);
+        // The caret rect is raw Win32 px from the TARGET window's process — convert it with that
+        // window's OWN monitor DPI (not a global factor), the same monitor the work-area clamp
+        // below already uses, so a caret on a non-primary monitor at a different scale still lands
+        // at the right DIP position.
+        var monitor = MonitorOf(_target);
+        double k = WindowTheming.PxToDipFactor(monitor);
+        var wa = WindowTheming.MonitorWorkAreaDip(monitor);
         double left = Math.Max(wa.Left, Math.Min(pt.X * k, wa.Right - Width));
         double top = pt.Y * k + 8;
         if (top + estHeight > wa.Bottom)   // no room below → open above the caret
@@ -327,6 +338,19 @@ public partial class SearchPanel : Window
 
     private void OnSnippetSelectionChanged(object sender, SelectionChangedEventArgs e) => UpdatePreview();
 
+    /// <summary>
+    /// Roughly how much of a body the row's own subtitle already shows. The subtitle renders the
+    /// first line at 12.5px across ~460 DIP, so a short single-line body is fully visible there and
+    /// the preview pane below would repeat it verbatim — a divider plus ~60 DIP of chrome saying
+    /// nothing new. Deliberately conservative: overshooting shows a redundant preview, undershooting
+    /// HIDES text the user cannot otherwise read.
+    /// </summary>
+    private const int SubtitleVisibleChars = 34;
+
+    /// <summary>Does the preview pane show the user anything the row doesn't already?</summary>
+    private static bool PreviewAddsAnything(string body) =>
+        body.IndexOfAny(new[] { '\r', '\n' }) >= 0 || body.Trim().Length > SubtitleVisibleChars;
+
     private void UpdatePreview()
     {
         if (ActiveList.SelectedItem is not SearchHit hit)
@@ -342,7 +366,7 @@ public partial class SearchPanel : Window
             PreviewText.Visibility = Visibility.Collapsed;
             PreviewPane.Visibility = PreviewImage.Source != null ? Visibility.Visible : Visibility.Collapsed;
         }
-        else if (!string.IsNullOrEmpty(sn.Body))
+        else if (!string.IsNullOrEmpty(sn.Body) && PreviewAddsAnything(sn.Body))
         {
             // The pane shows ~150px; a full multi-hundred-KB body would make WPF lay out
             // every wrapped line and stall selection. Preview only needs the head.
@@ -496,16 +520,33 @@ public partial class SearchPanel : Window
     }
 
     /// <summary>Open the Manager focused on the selected snippet.</summary>
+    /// <summary>
+    /// Open a full window from the panel, then dismiss the panel — in that order.
+    /// <para>Hiding first left the screen blank for however long the window took to construct
+    /// (the first ManagerWindow of a session is the slow one), so the click read as "nothing
+    /// happened". It also handed the foreground to whatever sat BEHIND the panel before the new
+    /// window existed to claim it, which is how the window ended up buried.</para>
+    /// <para>Opening first costs a brief moment where the topmost panel still covers the new
+    /// window — which reads as the panel dissolving into it, and is honest feedback that the click
+    /// registered.</para>
+    /// </summary>
+    private T OpenThenDismiss<T>(Func<T> create) where T : Window
+    {
+        var w = App.ShowSingleton(create);
+        Hide();
+        App.BringToFront(w);   // Hide() re-shuffles the foreground; re-assert after it, not before
+        return w;
+    }
+
     private void EditSelected()
     {
         if (ActiveList.SelectedItem is not SearchHit hit) return;
-        Hide();
-        App.ShowSingleton(() => new ManagerWindow()).SelectSnippet(hit.Snippet.Id);
+        OpenThenDismiss(() => new ManagerWindow()).SelectSnippet(hit.Snippet.Id);
     }
 
-    // Panel toolbar shortcuts to the full windows — dismiss the launcher, then focus/open the one.
-    private void OnOpenManager(object sender, RoutedEventArgs e) { Hide(); App.ShowSingleton(() => new ManagerWindow()); }
-    private void OnOpenSettings(object sender, RoutedEventArgs e) { Hide(); App.ShowSingleton(() => new SettingsWindow()); }
+    // Panel toolbar shortcuts to the full windows — open the one, then dismiss the launcher.
+    private void OnOpenManager(object sender, RoutedEventArgs e) => OpenThenDismiss(() => new ManagerWindow());
+    private void OnOpenSettings(object sender, RoutedEventArgs e) => OpenThenDismiss(() => new SettingsWindow());
 
     private ListBox ActiveList => Browsing ? BrowseList : Results;
 
@@ -602,11 +643,8 @@ public partial class SearchPanel : Window
             Output();
     }
 
-    private static T? FindAncestor<T>(DependencyObject? d) where T : DependencyObject
-    {
-        while (d != null) { if (d is T t) return t; d = VisualTreeHelper.GetParent(d); }
-        return null;
-    }
+    private static T? FindAncestor<T>(DependencyObject? d) where T : DependencyObject =>
+        TreeSearch.FindAncestor<T>(d);
 
     private static void Move(ListBox list, int delta)
     {

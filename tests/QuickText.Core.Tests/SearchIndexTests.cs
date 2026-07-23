@@ -93,4 +93,71 @@ public class SearchIndexTests
             new Snippet { Id = "2", Name = "b" });
         Assert.Equal(2, idx.Search("").Count);
     }
+
+    // --- match reporting: the panel highlights from these, so a wrong span is a visible bug ---
+
+    [Fact]
+    public void Initials_match_reports_the_matched_name_characters()
+    {
+        var idx = Build(new Snippet { Id = "1", Name = "请假条", Body = "x" });
+        var hit = Assert.Single(idx.Search("qj"));
+        Assert.Equal(MatchKind.Initials, hit.Kind);
+        // "qj" are the initials of 请 and 假 — characters 0..1.
+        Assert.Equal(0, hit.NameStart);
+        Assert.Equal(2, hit.NameLength);
+        Assert.Equal("请假", hit.Snippet.Name.Substring(hit.NameStart, hit.NameLength));
+    }
+
+    [Fact]
+    public void Initials_match_in_the_middle_of_a_name_reports_the_right_offset()
+    {
+        var idx = Build(new Snippet { Id = "1", Name = "本月会议纪要", Body = "x" });
+        var hit = Assert.Single(idx.Search("hy"));
+        Assert.Equal(MatchKind.Initials, hit.Kind);
+        Assert.Equal("会议", hit.Snippet.Name.Substring(hit.NameStart, hit.NameLength));
+    }
+
+    [Fact]
+    public void Literal_name_match_reports_its_own_range()
+    {
+        var idx = Build(new Snippet { Id = "1", Name = "会议纪要模板", Body = "x" });
+        var hit = Assert.Single(idx.Search("纪要"));
+        Assert.Equal(MatchKind.Name, hit.Kind);
+        Assert.Equal("纪要", hit.Snippet.Name.Substring(hit.NameStart, hit.NameLength));
+    }
+
+    [Fact]
+    public void Abbr_match_reports_no_name_span()
+    {
+        // The query appears nowhere in "签名" — highlighting any part of the name would be a lie.
+        var idx = Build(new Snippet { Id = "1", Name = "签名", Abbr = "qm", Body = "x" });
+        var hit = Assert.Single(idx.Search("qm"));
+        Assert.Equal(MatchKind.Abbr, hit.Kind);
+        Assert.Equal(-1, hit.NameStart);
+    }
+
+    [Fact]
+    public void Body_only_match_reports_no_name_span()
+    {
+        var idx = Build(new Snippet { Id = "1", Name = "签名", Body = "zhangsan@example.com" });
+        var hit = Assert.Single(idx.Search("example"));
+        Assert.Equal(MatchKind.Body, hit.Kind);
+        Assert.Equal(-1, hit.NameStart);
+    }
+
+    [Fact]
+    public void Reported_name_span_always_lies_inside_the_name()
+    {
+        // Mixed CJK/ASCII, where the romanization map collapses the ASCII run to one entry.
+        foreach (var name in new[] { "会议AB纪要", "AB会议", "会议AB", "Hi你好", "你好world" })
+        foreach (var q in new[] { "h", "hy", "a", "ab", "n", "hui", "yi" })
+        {
+            var hits = Build(new Snippet { Id = "1", Name = name, Body = "x" }).Search(q);
+            foreach (var h in hits.Where(h => h.NameStart >= 0))
+            {
+                Assert.InRange(h.NameStart, 0, name.Length - 1);
+                Assert.InRange(h.NameStart + h.NameLength, 0, name.Length);
+            }
+        }
+    }
 }
