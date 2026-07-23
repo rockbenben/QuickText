@@ -31,6 +31,10 @@
     <UseWPF>true</UseWPF>
     <AssemblyName>QuickText</AssemblyName>
     <ApplicationIcon>..\..\assets\branding\quicktext.ico</ApplicationIcon>
+    <!-- Per-monitor v2 DPI awareness (see WindowTheming.cs): without this the process is only
+         system-DPI-aware and a single global px->DIP factor is wrong for any non-primary monitor
+         running at a different scale. -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
 
   <!-- Product metadata (shows in the exe's file properties + the Settings version stamp). CI

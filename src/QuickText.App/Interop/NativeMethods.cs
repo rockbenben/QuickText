@@ -239,6 +239,17 @@ internal static class NativeMethods
     [DllImport("user32.dll")]
     public static extern int GetSystemMetrics(int nIndex);
 
+    // --- per-monitor DPI (PerMonitorV2, see app.manifest) ---
+    public const int MDT_EFFECTIVE_DPI = 0;
+
+    [DllImport("Shcore.dll")]
+    public static extern int GetDpiForMonitor(IntPtr hmonitor, int dpiType, out uint dpiX, out uint dpiY);
+
+    public delegate bool MonitorEnumProc(IntPtr hMonitor, IntPtr hdcMonitor, ref RECT lprcMonitor, IntPtr dwData);
+
+    [DllImport("user32.dll")]
+    public static extern bool EnumDisplayMonitors(IntPtr hdc, IntPtr lprcClip, MonitorEnumProc lpfnEnum, IntPtr dwData);
+
     // --- dark window chrome (Win10 2004+/Win11) ---
     public const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
 

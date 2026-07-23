@@ -75,14 +75,28 @@ internal static class WindowTheming
         w.ContentRendered += (_, _) => { Place(); settled = true; };
     }
 
-    /// <summary>WPF device-px → DIP factor. The app is system-DPI-aware (no per-monitor manifest),
-    /// so ONE scale — the primary/system scale — applies across the whole virtual desktop; a
-    /// per-monitor scale would be wrong. Shared with the search panel so the two can't diverge.</summary>
-    internal static double SystemPxToDip =>
-        SystemParameters.PrimaryScreenWidth / Math.Max(1, NativeMethods.GetSystemMetrics(0));
+    /// <summary>Per-MONITOR device-px → DIP factor (96 / that monitor's effective DPI), via
+    /// Shcore's <c>GetDpiForMonitor</c>. The app is PerMonitorV2-DPI-aware (see app.manifest), so
+    /// there is no longer a single scale for the whole virtual desktop — every monitor-geometry
+    /// conversion must ask for ITS OWN monitor's DPI. Falls back to 1.0 (no scaling) if the handle
+    /// is null or the API fails — GetDpiForMonitor has existed since Windows 8.1, well below this
+    /// app's minimum OS, so that path is not expected to be hit in practice.</summary>
+    internal static double PxToDipFactor(IntPtr monitor)
+    {
+        try
+        {
+            if (monitor != IntPtr.Zero &&
+                NativeMethods.GetDpiForMonitor(monitor, NativeMethods.MDT_EFFECTIVE_DPI, out uint dpiX, out _) == 0 &&
+                dpiX > 0)
+                return 96.0 / dpiX;
+        }
+        catch { /* Shcore unavailable — fall through */ }
+        return 1.0;
+    }
 
-    /// <summary>Work area (DIPs) of the given monitor; the primary work area if the handle is null
-    /// or unavailable. The one place the monitor-rcWork→DIP conversion lives (dialogs + panel).</summary>
+    /// <summary>Work area (DIPs) of the given monitor, converted with THAT monitor's own DPI; the
+    /// primary work area if the handle is null or unavailable. The one place the monitor-rcWork→DIP
+    /// conversion lives (dialogs + panel).</summary>
     internal static Rect MonitorWorkAreaDip(IntPtr monitor)
     {
         if (monitor != IntPtr.Zero)
@@ -91,11 +105,53 @@ internal static class WindowTheming
                 { cbSize = System.Runtime.InteropServices.Marshal.SizeOf<NativeMethods.MONITORINFO>() };
             if (NativeMethods.GetMonitorInfo(monitor, ref mi))
             {
-                double k = SystemPxToDip;
+                double k = PxToDipFactor(monitor);
                 return new Rect(mi.rcWork.Left * k, mi.rcWork.Top * k,
                     (mi.rcWork.Right - mi.rcWork.Left) * k, (mi.rcWork.Bottom - mi.rcWork.Top) * k);
             }
         }
+        return SystemParameters.WorkArea;
+    }
+
+    /// <summary>
+    /// Work area (DIPs) of the monitor containing the given DIP point; the primary's as a fallback.
+    /// <para>This is what a REMEMBERED window position must be clamped against.
+    /// <see cref="SystemParameters.WorkArea"/> describes the PRIMARY monitor only, so clamping a
+    /// remembered position to it drags any window that was left on another monitor back onto the
+    /// primary — and for a monitor sitting to the LEFT of the primary (negative X, which Windows
+    /// allows) the clamp pins it to x=0, i.e. hard against the primary's left edge. That is the
+    /// "it always opens in the top-left corner" report.</para>
+    /// <para>Under per-monitor DPI awareness there is no single px↔DIP factor to invert a DIP point
+    /// back to a px point for <c>MonitorFromPoint</c> — each monitor can have its own scale. Instead
+    /// this walks every monitor via <c>EnumDisplayMonitors</c>, converts each one's work area to DIP
+    /// with ITS OWN DPI, and returns the first whose DIP rect contains the point. If none does (the
+    /// point is just off every monitor's edge), it falls back to the DIP rect whose centre is
+    /// nearest — the same "nearest monitor" behaviour <c>MONITOR_DEFAULTTONEAREST</c> gives.</para>
+    /// </summary>
+    internal static Rect MonitorWorkAreaDipAt(double xDip, double yDip)
+    {
+        try
+        {
+            var point = new Point(xDip, yDip);
+            Rect? containing = null;
+            Rect? nearest = null;
+            double nearestDistSq = double.MaxValue;
+
+            bool Callback(IntPtr hMonitor, IntPtr hdc, ref NativeMethods.RECT rect, IntPtr data)
+            {
+                var wa = MonitorWorkAreaDip(hMonitor);
+                if (wa.Contains(point)) { containing = wa; return false; }   // stop early — found it
+                double cx = wa.Left + wa.Width / 2, cy = wa.Top + wa.Height / 2;
+                double distSq = (cx - xDip) * (cx - xDip) + (cy - yDip) * (cy - yDip);
+                if (distSq < nearestDistSq) { nearestDistSq = distSq; nearest = wa; }
+                return true;
+            }
+
+            NativeMethods.EnumDisplayMonitors(IntPtr.Zero, IntPtr.Zero, Callback, IntPtr.Zero);
+            if (containing is { } c) return c;
+            if (nearest is { } n) return n;
+        }
+        catch { /* fall through to the primary work area */ }
         return SystemParameters.WorkArea;
     }
 
