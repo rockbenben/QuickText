@@ -1,0 +1,44 @@
+<UserControl x:Class="QuickText.App.Ui.BodyEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:QuickText.App.Ui">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{StaticResource Brush.InputBg}"
+                BorderBrush="{StaticResource Brush.InputBorder}" BorderThickness="1"
+                CornerRadius="7" ClipToBounds="True">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="GutterColumn" Width="0"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- line-number gutter (Task 6 draws into it) -->
+                <ui:LineNumberGutter x:Name="Gutter" Grid.Column="0" ClipToBounds="True"/>
+
+                <Grid Grid.Column="1" ClipToBounds="True">
+                    <!-- highlight layer FIRST = behind the glyphs -->
+                    <ui:PlaceholderLayer x:Name="Layer"/>
+                    <TextBox x:Name="Editor" Background="Transparent" BorderThickness="0"
+                             Foreground="{StaticResource Brush.TextPrimary}"
+                             CaretBrush="{StaticResource Brush.Accent}"
+                             SelectionBrush="{StaticResource Brush.Accent}"
+                             Padding="9,7" FontFamily="{StaticResource Font.Mono}" FontSize="13"
+                             AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap"
+                             VerticalContentAlignment="Top"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Disabled"/>
+                </Grid>
+            </Grid>
+        </Border>
+
+        <TextBlock Grid.Row="1" x:Name="Status" Margin="4,6,4,0"
+                   FontFamily="{StaticResource Font.Ui}" FontSize="11.5"
+                   Foreground="{StaticResource Brush.TextFaint}"
+                   TextTrimming="CharacterEllipsis"/>
+    </Grid>
+</UserControl>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="QuickText.Ini" extensions=".ini;.conf;.cfg;.properties"
+                  xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Comment" foreground="Green"/>
+  <Color name="Section" foreground="Purple"/>
+  <Color name="Key"     foreground="Navy"/>
+  <Color name="String"  foreground="Blue"/>
+  <Color name="Punctuation" foreground="DarkGray"/>
+
+  <RuleSet ignoreCase="false">
+    <Span color="Comment" begin=";"/>
+    <Span color="Comment" begin="#"/>
+    <Rule color="Section">^[ \t]*\[[^\]\r\n]*\]</Rule>
+    <Rule color="Key">^[ \t]*[\w.\-]+(?=[ \t]*=)</Rule>
+    <Span color="String" multiline="false">
+      <Begin>"</Begin><End>"</End>
+    </Span>
+    <Rule color="Punctuation">=</Rule>
+  </RuleSet>
+</SyntaxDefinition>

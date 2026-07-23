@@ -1,4 +1,5 @@
 using System.Windows;
+using System.Windows.Input;
 using QuickText.Core.Localization;
 
 namespace QuickText.App.Ui;
@@ -11,10 +12,23 @@ public partial class AppDialog : Window
         InitializeComponent();
         WindowTheming.UseDarkChrome(this);
         WindowTheming.ApplyFlowDirection(this);
+        // Esc always means cancel — never set DialogResult here, so ShowDialog() returns null
+        // exactly as it does when the window is closed via its native close button (X). Both
+        // Prompt and Confirm already treat null the same as their explicit Cancel-button result
+        // (both check "== true"), so this is a no-op for them and is what lets the three-way
+        // ConfirmSaveDiscard tell "cancel" (null) apart from "discard" (false).
+        PreviewKeyDown += (_, e) =>
+        {
+            if (e.Key == Key.Escape) { e.Handled = true; Close(); }
+        };
     }
 
     private void OnOk(object sender, RoutedEventArgs e) => DialogResult = true;
-    private void OnCancel(object sender, RoutedEventArgs e) => DialogResult = false;
+
+    // Leaves DialogResult unset (null) rather than false — see the Esc comment above.
+    private void OnCancel(object sender, RoutedEventArgs e) => Close();
+
+    private void OnDiscard(object sender, RoutedEventArgs e) => DialogResult = false;
 
     private static string L(string key) => LocalizationService.Instance[key];
 
@@ -39,6 +53,23 @@ public partial class AppDialog : Window
         d.OkButton.Content = okText;
         d.CancelButton.Content = cancelText ?? L("Dialog.Cancel");
         return d.ShowDialog() == true;
+    }
+
+    /// <summary>Three-way question (e.g. Save / Don't save / Cancel). Returns true if
+    /// <paramref name="saveText"/> was chosen, false for <paramref name="discardText"/>, or null
+    /// if the user cancelled (Esc or the window's close button) — cancel must never be treated
+    /// as a silent discard by the caller.</summary>
+    public static bool? ConfirmSaveDiscard(Window owner, string title, string message,
+                                            string saveText, string discardText, string cancelText)
+    {
+        var d = new AppDialog { Owner = owner, Title = title };
+        d.MessageText.Text = message;
+        d.InputBox.Visibility = Visibility.Collapsed;
+        d.OkButton.Content = saveText;
+        d.DiscardButton.Content = discardText;
+        d.DiscardButton.Visibility = Visibility.Visible;
+        d.CancelButton.Content = cancelText;
+        return d.ShowDialog();
     }
 
     /// <summary>Single-button message.</summary>

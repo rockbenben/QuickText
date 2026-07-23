@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>Nuovo frammento</value></data>
   <data name="Manager.Filter"><value>Filtra…</value></data>
   <data name="Manager.Duplicate"><value>Duplica</value></data>
+  <data name="Manager.Expand"><value>Ingrandisci</value></data>
+  <data name="Manager.LineNumbers"><value>Numeri di riga</value></data>
+  <data name="Manager.CodeFormat"><value>Formato</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>Testo normale</value></data>
+  <data name="Manager.LongLinePlainText"><value>Riga troppo lunga: visualizzata come testo normale</value></data>
+  <data name="Manager.BodyEditorTitle"><value>Corpo · {0}</value></data>
+  <data name="Manager.Done"><value>Fatto</value></data>
+  <data name="Manager.BodyStats"><value>{0} righe · {1} caratteri</value></data>
+  <data name="Manager.BodyCaret"><value>Riga {0} : Col {1}</value></data>
+  <data name="Manager.BodyVars"><value>Variabili: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>Segnaposto disattivati · {0} {{…}} verranno restituiti così come sono</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} token non valido/i</value></data>
+  <data name="Manager.ImageSection"><value>Immagine</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>Nessun frammento chiamato «{0}»</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>Formato data non valido — restituito così com'è</value></data>
+  <data name="Manager.Token.EmptyName"><value>Nome variabile vuoto — non verrà mai richiesto</value></data>
+  <data name="Manager.Token.Unclosed"><value>Parentesi graffa non chiusa</value></data>
   <data name="Manager.DuplicateAbbr"><value>L'abbreviazione “{0}” è già usata da “{1}” — l'espansione sarebbe ambigua</value></data>
   <data name="Msg.FirstRunHint"><value>Premi {0} per aprire il pannello</value></data>
   <data name="Settings.OpenFolder"><value>Apri cartella dati</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>Versione {0} disponibile — fai clic per scaricare.</value></data>
   <data name="Msg.UpToDate"><value>Hai già l'ultima versione.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Impossibile controllare gli aggiornamenti. Riprova più tardi.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>Ci sono modifiche non salvate. Salvarle?</value></data>
+  <data name="Manager.DontSave"><value>Non salvare</value></data>
 </root>

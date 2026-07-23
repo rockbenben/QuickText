@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>مقتطف جديد</value></data>
   <data name="Manager.Filter"><value>تصفية…</value></data>
   <data name="Manager.Duplicate"><value>تكرار</value></data>
+  <data name="Manager.Expand"><value>تكبير</value></data>
+  <data name="Manager.LineNumbers"><value>أرقام الأسطر</value></data>
+  <data name="Manager.CodeFormat"><value>التنسيق</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>نص عادي</value></data>
+  <data name="Manager.LongLinePlainText"><value>السطر طويل جدًا، تم عرضه كنص عادي</value></data>
+  <data name="Manager.BodyEditorTitle"><value>النص · {0}</value></data>
+  <data name="Manager.Done"><value>تم</value></data>
+  <data name="Manager.BodyStats"><value>{0} سطر · {1} حرف</value></data>
+  <data name="Manager.BodyCaret"><value>السطر {0} : العمود {1}</value></data>
+  <data name="Manager.BodyVars"><value>المتغيرات: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>العناصر النائبة متوقفة · {0} من {{…}} سيتم إخراجها كما هي</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} رمز غير صالح</value></data>
+  <data name="Manager.ImageSection"><value>الصورة</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>لا يوجد مقتطف باسم ”{0}“</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>تنسيق التاريخ غير صالح — سيتم إخراجه كما هو</value></data>
+  <data name="Manager.Token.EmptyName"><value>اسم المتغير فارغ — لن تتم المطالبة به</value></data>
+  <data name="Manager.Token.Unclosed"><value>قوس غير مغلق</value></data>
   <data name="Manager.DuplicateAbbr"><value>الاختصار ”{0}“ مُستخدم بالفعل في ”{1}“ — سيكون التوسيع مبهمًا</value></data>
   <data name="Msg.FirstRunHint"><value>اضغط {0} لفتح اللوحة</value></data>
   <data name="Settings.OpenFolder"><value>فتح مجلد البيانات</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>الإصدار {0} متوفّر — انقر للتنزيل.</value></data>
   <data name="Msg.UpToDate"><value>أنت تستخدم أحدث إصدار.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>تعذّر التحقق من التحديثات. حاول مرة أخرى لاحقًا.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>لديك تغييرات غير محفوظة، هل تريد حفظها؟</value></data>
+  <data name="Manager.DontSave"><value>عدم الحفظ</value></data>
 </root>

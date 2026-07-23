@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>নতুন স্নিপেট</value></data>
   <data name="Manager.Filter"><value>ফিল্টার…</value></data>
   <data name="Manager.Duplicate"><value>নকল করুন</value></data>
+  <data name="Manager.Expand"><value>বড় করুন</value></data>
+  <data name="Manager.LineNumbers"><value>লাইন নম্বর</value></data>
+  <data name="Manager.CodeFormat"><value>ফরম্যাট</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>প্লেইন টেক্সট</value></data>
+  <data name="Manager.LongLinePlainText"><value>লাইন অনেক বেশি লম্বা, তাই প্লেইন টেক্সট হিসেবে দেখানো হয়েছে</value></data>
+  <data name="Manager.BodyEditorTitle"><value>বিষয়বস্তু · {0}</value></data>
+  <data name="Manager.Done"><value>সম্পন্ন</value></data>
+  <data name="Manager.BodyStats"><value>{0} লাইন · {1} অক্ষর</value></data>
+  <data name="Manager.BodyCaret"><value>লাইন {0} : কলাম {1}</value></data>
+  <data name="Manager.BodyVars"><value>ভেরিয়েবল: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>প্লেসহোল্ডার বন্ধ · {0} টি {{…}} যেমন আছে তেমন আউটপুট হবে</value></data>
+  <data name="Manager.BodyInvalid"><value>{0}টি অবৈধ টোকেন</value></data>
+  <data name="Manager.ImageSection"><value>ছবি</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>“{0}” নামে কোনো স্নিপেট নেই</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>তারিখের ফরম্যাট অবৈধ — যেমন আছে তেমন আউটপুট হবে</value></data>
+  <data name="Manager.Token.EmptyName"><value>ভেরিয়েবলের নাম খালি — কখনো জিজ্ঞাসা করা হবে না</value></data>
+  <data name="Manager.Token.Unclosed"><value>কার্লি ব্র্যাকেট বন্ধ হয়নি</value></data>
   <data name="Manager.DuplicateAbbr"><value>সংক্ষিপ্ত রূপ “{0}” ইতিমধ্যে “{1}” ব্যবহার করছে — সম্প্রসারণ অস্পষ্ট হবে</value></data>
   <data name="Msg.FirstRunHint"><value>প্যানেল খুলতে {0} চাপুন</value></data>
   <data name="Settings.OpenFolder"><value>ডেটা ফোল্ডার খুলুন</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>সংস্করণ {0} উপলব্ধ — ডাউনলোড করতে ক্লিক করুন।</value></data>
   <data name="Msg.UpToDate"><value>আপনি সর্বশেষ সংস্করণে আছেন।</value></data>
   <data name="Msg.UpdateCheckFailed"><value>আপডেট দেখা যায়নি। পরে আবার চেষ্টা করুন।</value></data>
+  <data name="Manager.UnsavedConfirm"><value>সংরক্ষণ না করা পরিবর্তন আছে, সংরক্ষণ করবেন?</value></data>
+  <data name="Manager.DontSave"><value>সংরক্ষণ করবেন না</value></data>
 </root>

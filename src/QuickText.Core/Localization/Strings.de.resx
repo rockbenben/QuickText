@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>Neuer Baustein</value></data>
   <data name="Manager.Filter"><value>Filtern…</value></data>
   <data name="Manager.Duplicate"><value>Duplizieren</value></data>
+  <data name="Manager.Expand"><value>Vergrößern</value></data>
+  <data name="Manager.LineNumbers"><value>Zeilennummern</value></data>
+  <data name="Manager.CodeFormat"><value>Format</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>Nur Text</value></data>
+  <data name="Manager.LongLinePlainText"><value>Zeile zu lang – als Nur Text angezeigt</value></data>
+  <data name="Manager.BodyEditorTitle"><value>Inhalt · {0}</value></data>
+  <data name="Manager.Done"><value>Fertig</value></data>
+  <data name="Manager.BodyStats"><value>{0} Zeilen · {1} Zeichen</value></data>
+  <data name="Manager.BodyCaret"><value>Zeile {0} : Spalte {1}</value></data>
+  <data name="Manager.BodyVars"><value>Variablen: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>Platzhalter deaktiviert · {0} {{…}} werden unverändert ausgegeben</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} ungültige(s) Token</value></data>
+  <data name="Manager.ImageSection"><value>Bild</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>Kein Baustein namens „{0}“</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>Ungültiges Datumsformat — wird unverändert ausgegeben</value></data>
+  <data name="Manager.Token.EmptyName"><value>Variablenname leer — wird nie abgefragt</value></data>
+  <data name="Manager.Token.Unclosed"><value>Nicht geschlossene geschweifte Klammer</value></data>
   <data name="Manager.DuplicateAbbr"><value>Kürzel „{0}“ wird bereits von „{1}“ verwendet – die Erweiterung wäre mehrdeutig</value></data>
   <data name="Msg.FirstRunHint"><value>{0} drücken, um das Panel zu öffnen</value></data>
   <data name="Settings.OpenFolder"><value>Datenordner öffnen</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>Version {0} verfügbar – zum Herunterladen klicken.</value></data>
   <data name="Msg.UpToDate"><value>Sie verwenden die neueste Version.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Update-Suche fehlgeschlagen. Bitte später erneut versuchen.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>Es gibt ungespeicherte Änderungen. Speichern?</value></data>
+  <data name="Manager.DontSave"><value>Nicht speichern</value></data>
 </root>

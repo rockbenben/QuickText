@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>ข้อความใหม่</value></data>
   <data name="Manager.Filter"><value>กรอง…</value></data>
   <data name="Manager.Duplicate"><value>ทำสำเนา</value></data>
+  <data name="Manager.Expand"><value>ขยายแก้ไข</value></data>
+  <data name="Manager.LineNumbers"><value>เลขบรรทัด</value></data>
+  <data name="Manager.CodeFormat"><value>รูปแบบ</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>ข้อความธรรมดา</value></data>
+  <data name="Manager.LongLinePlainText"><value>บรรทัดยาวเกินไป แสดงเป็นข้อความธรรมดา</value></data>
+  <data name="Manager.BodyEditorTitle"><value>เนื้อหา · {0}</value></data>
+  <data name="Manager.Done"><value>เสร็จสิ้น</value></data>
+  <data name="Manager.BodyStats"><value>{0} บรรทัด · {1} ตัวอักษร</value></data>
+  <data name="Manager.BodyCaret"><value>บรรทัด {0} : คอลัมน์ {1}</value></data>
+  <data name="Manager.BodyVars"><value>ตัวแปร: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>ปิดใช้งานตัวแทน · {0} จุดของ {{…}} จะแสดงผลตามเดิม</value></data>
+  <data name="Manager.BodyInvalid"><value>โทเค็นไม่ถูกต้อง {0} รายการ</value></data>
+  <data name="Manager.ImageSection"><value>รูปภาพ</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>ไม่พบข้อความชื่อ “{0}”</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>รูปแบบวันที่ไม่ถูกต้อง — จะแสดงผลตามเดิม</value></data>
+  <data name="Manager.Token.EmptyName"><value>ชื่อตัวแปรว่างเปล่า — จะไม่มีการถามค่า</value></data>
+  <data name="Manager.Token.Unclosed"><value>วงเล็บปีกกาไม่ปิด</value></data>
   <data name="Manager.DuplicateAbbr"><value>ตัวย่อ "{0}" ถูกใช้โดย "{1}" แล้ว — การขยายจะกำกวม</value></data>
   <data name="Msg.FirstRunHint"><value>กด {0} เพื่อเปิดแผง</value></data>
   <data name="Settings.OpenFolder"><value>เปิดโฟลเดอร์ข้อมูล</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>มีเวอร์ชัน {0} แล้ว — คลิกเพื่อดาวน์โหลด</value></data>
   <data name="Msg.UpToDate"><value>คุณใช้เวอร์ชันล่าสุดอยู่แล้ว</value></data>
   <data name="Msg.UpdateCheckFailed"><value>ตรวจหาอัปเดตไม่สำเร็จ โปรดลองใหม่ภายหลัง</value></data>
+  <data name="Manager.UnsavedConfirm"><value>มีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก ต้องการบันทึกหรือไม่</value></data>
+  <data name="Manager.DontSave"><value>ไม่บันทึก</value></data>
 </root>

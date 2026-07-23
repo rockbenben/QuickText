@@ -2,8 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:app="clr-namespace:QuickText.App"
+        xmlns:ui="clr-namespace:QuickText.App.Ui"
         Title="{Binding [App.Name], Source={x:Static app:LocProxy.Instance}}"
-        Height="600" Width="880" MinWidth="680" MinHeight="440"
+        Height="680" Width="880" MinWidth="680" MinHeight="520"
         Background="{StaticResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -124,8 +125,7 @@
 
             <TextBlock Grid.Row="0" Style="{StaticResource FieldLabel}"
                        Text="{Binding [Manager.Name], Source={x:Static app:LocProxy.Instance}}"/>
-            <TextBox Grid.Row="1" x:Name="SnippetName" Style="{StaticResource DarkTextBox}" FontSize="14"
-                     LostFocus="OnNameLostFocus"/>
+            <TextBox Grid.Row="1" x:Name="SnippetName" Style="{StaticResource DarkTextBox}" FontSize="14"/>
 
             <TextBlock Grid.Row="2" Style="{StaticResource FieldLabel}" Margin="2,18,0,6"
                        Text="{Binding [Manager.Abbr], Source={x:Static app:LocProxy.Instance}}"/>
@@ -141,19 +141,26 @@
 
             <DockPanel Grid.Row="4" Margin="2,18,0,6" LastChildFill="False">
                 <TextBlock DockPanel.Dock="Left" Style="{StaticResource FieldLabel}" Margin="0"
+                           VerticalAlignment="Center"
                            Text="{Binding [Manager.Body], Source={x:Static app:LocProxy.Instance}}"/>
+                <Button DockPanel.Dock="Right" Style="{StaticResource AccentTextIconButton}"
+                        Click="OnExpandBody" VerticalAlignment="Center"
+                        Content="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"
+                        ToolTip="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"/>
                 <CheckBox DockPanel.Dock="Right" x:Name="WrapToggle" Style="{StaticResource DarkCheckBox}"
+                          VerticalAlignment="Center" Margin="0,0,14,0"
                           Checked="OnWrapToggled" Unchecked="OnWrapToggled"
                           Content="{Binding [Manager.Wrap], Source={x:Static app:LocProxy.Instance}}"/>
+                <CheckBox DockPanel.Dock="Right" x:Name="LineNumberToggle" Style="{StaticResource DarkCheckBox}"
+                          VerticalAlignment="Center" Margin="0,0,14,0"
+                          Checked="OnLineNumbersToggled" Unchecked="OnLineNumbersToggled"
+                          Content="{Binding [Manager.LineNumbers], Source={x:Static app:LocProxy.Instance}}"/>
             </DockPanel>
-            <TextBox Grid.Row="5" x:Name="Body" Style="{StaticResource DarkTextBox}" MinHeight="90"
-                     AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                     VerticalContentAlignment="Top"
-                     FontFamily="{StaticResource Font.Mono}" FontSize="13"/>
+            <ui:BodyEditor Grid.Row="5" x:Name="Body" MinHeight="120" ShowStatusBar="True"/>
 
             <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="2,12,0,0">
                 <CheckBox x:Name="UseVars" Style="{StaticResource DarkCheckBox}" VerticalAlignment="Center"
+                          Checked="OnUseVarsToggled" Unchecked="OnUseVarsToggled"
                           Content="{Binding [Manager.UseVars], Source={x:Static app:LocProxy.Instance}}"
                           ToolTip="{Binding [Manager.UseVarsHint], Source={x:Static app:LocProxy.Instance}}"/>
                 <TextBlock VerticalAlignment="Center" Margin="28,0,8,0" FontSize="13"
@@ -163,21 +170,36 @@
                           ToolTip="{Binding [Manager.OutputModeHint], Source={x:Static app:LocProxy.Instance}}"/>
             </StackPanel>
 
-            <StackPanel Grid.Row="7" Orientation="Horizontal" Margin="0,14,0,0">
-                <Border Width="72" Height="72" CornerRadius="8" Background="{StaticResource Brush.InputBg}"
-                        BorderBrush="{StaticResource Brush.InputBorder}" BorderThickness="1">
-                    <Image x:Name="SnippetImage" Stretch="Uniform" Margin="4"/>
-                </Border>
-                <StackPanel VerticalAlignment="Center" Margin="14,0,0,0">
-                    <TextBlock Style="{StaticResource FieldLabel}" Margin="0,0,0,6"
-                               Text="{Binding [Manager.Image], Source={x:Static app:LocProxy.Instance}}"/>
-                    <StackPanel Orientation="Horizontal">
-                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Click="OnImageFromClipboard"
-                                Content="{Binding [Manager.FromClipboard], Source={x:Static app:LocProxy.Instance}}"/>
-                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageFromFile"
-                                Content="{Binding [Manager.FromFile], Source={x:Static app:LocProxy.Instance}}"/>
-                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageRemove"
-                                Content="{Binding [Manager.RemoveImage], Source={x:Static app:LocProxy.Instance}}"/>
+            <StackPanel Grid.Row="7" Margin="0,12,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <CheckBox x:Name="ImageToggle" Style="{StaticResource DisclosureToggle}"
+                              Checked="OnImageSectionToggled" Unchecked="OnImageSectionToggled"
+                              Content="{Binding [Manager.ImageSection], Source={x:Static app:LocProxy.Instance}}"/>
+                    <Border x:Name="ImagePeek" Width="20" Height="20" Margin="10,0,0,0" CornerRadius="4"
+                            Background="{StaticResource Brush.InputBg}"
+                            BorderBrush="{StaticResource Brush.InputBorder}" BorderThickness="1"
+                            VerticalAlignment="Center" Visibility="Collapsed">
+                        <Image x:Name="SnippetImagePeek" Stretch="Uniform" Margin="1"/>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel x:Name="ImageSection" Orientation="Horizontal" Margin="0,10,0,0"
+                            Visibility="Collapsed">
+                    <Border Width="72" Height="72" CornerRadius="8" Background="{StaticResource Brush.InputBg}"
+                            BorderBrush="{StaticResource Brush.InputBorder}" BorderThickness="1">
+                        <Image x:Name="SnippetImage" Stretch="Uniform" Margin="4"/>
+                    </Border>
+                    <StackPanel VerticalAlignment="Center" Margin="14,0,0,0">
+                        <TextBlock Style="{StaticResource FieldLabel}" Margin="0,0,0,6"
+                                   Text="{Binding [Manager.Image], Source={x:Static app:LocProxy.Instance}}"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button Style="{StaticResource DarkButton}" Padding="12,6" Click="OnImageFromClipboard"
+                                    Content="{Binding [Manager.FromClipboard], Source={x:Static app:LocProxy.Instance}}"/>
+                            <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageFromFile"
+                                    Content="{Binding [Manager.FromFile], Source={x:Static app:LocProxy.Instance}}"/>
+                            <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageRemove"
+                                    Content="{Binding [Manager.RemoveImage], Source={x:Static app:LocProxy.Instance}}"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="QuickText.Shell" extensions=".sh;.bash;.zsh"
+                  xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Comment"  foreground="Green"/>
+  <Color name="String"   foreground="Blue"/>
+  <Color name="Keyword"  foreground="Purple"/>
+  <Color name="Variable" foreground="DarkCyan"/>
+  <Color name="Number"   foreground="DarkCyan"/>
+  <Color name="Punctuation" foreground="DarkGray"/>
+
+  <RuleSet ignoreCase="false">
+    <Span color="Comment" begin="#"/>
+    <Span color="String" multiline="false">
+      <Begin>"</Begin><End>"</End>
+      <RuleSet>
+        <Span begin="\\" end="."/>
+        <Rule color="Variable">\$(?:\{?[\w]+\}?|[0-9@#$*?!-])</Rule>
+      </RuleSet>
+    </Span>
+    <Span color="String" multiline="false">
+      <Begin>'</Begin><End>'</End>
+    </Span>
+    <Keywords color="Keyword">
+      <Word>if</Word><Word>then</Word><Word>else</Word><Word>elif</Word><Word>fi</Word>
+      <Word>for</Word><Word>while</Word><Word>until</Word><Word>do</Word><Word>done</Word>
+      <Word>case</Word><Word>esac</Word><Word>in</Word><Word>function</Word><Word>return</Word>
+      <Word>export</Word><Word>local</Word><Word>readonly</Word><Word>set</Word><Word>unset</Word>
+      <Word>echo</Word><Word>cd</Word><Word>exit</Word><Word>source</Word>
+    </Keywords>
+    <Rule color="Variable">\$(?:\{?[\w]+\}?|[0-9@#$*?!-])</Rule>
+    <Rule color="Punctuation">[|&amp;;()&lt;&gt;]</Rule>
+    <Rule color="Number">\b\d+\b</Rule>
+  </RuleSet>
+</SyntaxDefinition>

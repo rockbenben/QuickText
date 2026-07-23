@@ -1,0 +1,44 @@
+<Window x:Class="QuickText.App.Ui.BodyEditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:app="clr-namespace:QuickText.App"
+        Height="640" Width="900" MinWidth="420" MinHeight="320"
+        ShowInTaskbar="False"
+        Background="{StaticResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
+    <Border Style="{StaticResource SetCard}" Margin="16">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Whichever editor is active gets dropped in here; only one exists at a time. -->
+            <ContentControl Grid.Row="0" x:Name="EditorHost"/>
+
+            <Grid Grid.Row="1" Margin="0,14,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <TextBlock VerticalAlignment="Center" Margin="2,0,8,0" FontSize="12.5"
+                               Foreground="{StaticResource Brush.TextMuted}"
+                               Text="{Binding [Manager.CodeFormat], Source={x:Static app:LocProxy.Instance}}"/>
+                    <ComboBox x:Name="CodeFormatBox" Width="180" VerticalAlignment="Center"
+                              Style="{StaticResource DarkComboBox}"
+                              SelectionChanged="OnCodeFormatChanged"/>
+                    <TextBlock x:Name="LongLineNotice" VerticalAlignment="Center" Margin="10,0,0,0"
+                               FontSize="12.5" Foreground="{StaticResource Brush.TextMuted}"
+                               Visibility="Collapsed"
+                               Text="{Binding [Manager.LongLinePlainText], Source={x:Static app:LocProxy.Instance}}"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <CheckBox x:Name="WrapToggle" Style="{StaticResource DarkCheckBox}"
+                              VerticalAlignment="Center" Margin="0,0,18,0"
+                              Checked="OnWrapToggled" Unchecked="OnWrapToggled"
+                              Content="{Binding [Manager.Wrap], Source={x:Static app:LocProxy.Instance}}"/>
+                    <Button MinWidth="100" Padding="18,8" Style="{StaticResource DarkButtonPrimary}"
+                            Click="OnDone" IsDefault="False"
+                            Content="{Binding [Manager.Done], Source={x:Static app:LocProxy.Instance}}"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>

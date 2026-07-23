@@ -20,6 +20,15 @@ public partial class ManagerWindow : Window
     private Category? _editingCategory;
     private readonly HashSet<Category> _dirty = new();
 
+    /// <summary>The editable fields as they were when the current snippet was loaded. Dirty means
+    /// "the controls differ from this", not "the editor was touched" — clicking into a snippet and
+    /// straight back out must never prompt. Null when no snippet is loaded.</summary>
+    private SnippetEdit? _baseline;
+
+    /// <summary>Guards the selection-revert we do when the user cancels leaving a dirty editor:
+    /// putting SelectedItem back raises SelectionChanged again, which would prompt a second time.</summary>
+    private bool _revertingSelection;
+
     // Snippet.OutputMode values, in the ComboBox's item order.
     private static readonly string[] OutputModes = { "", "paste", "paste-enter", "copy" };
 
@@ -36,19 +45,25 @@ public partial class ManagerWindow : Window
             OutputMode.Items.Add(loc[key]);
         OutputMode.SelectedIndex = 0;
 
+        // Point at the Manager's own live _cats, NOT AppState's index — that index is only
+        // rebuilt on Save/Close, while _cats is the authoritative in-memory model while this
+        // window is open. Using the stale index made a nested reference to a snippet just created
+        // (or renamed into place) here show a false "no such snippet" squiggle until Save. Match
+        // AppState.SnippetForNesting's own rule: case-insensitive name, image snippets excluded.
+        Body.SnippetExists = name => _cats.SelectMany(c => c.Snippets)
+            .Any(x => !x.IsImage && string.Equals(x.Name, name, StringComparison.OrdinalIgnoreCase));
         WrapToggle.IsChecked = AppState.Current.Settings.EditorWrap;
+        LineNumberToggle.IsChecked = AppState.Current.Settings.EditorLineNumbers;
+        ImageToggle.IsChecked = AppState.Current.Settings.EditorImageExpanded;
         ApplyWrap();
+        ApplyLineNumbers();
+        ApplyImageSection();
 
         Closing += OnClosing;
         Load();
     }
 
-    private void ApplyWrap()
-    {
-        bool wrap = WrapToggle.IsChecked == true;
-        Body.TextWrapping = wrap ? TextWrapping.Wrap : TextWrapping.NoWrap;
-        Body.HorizontalScrollBarVisibility = wrap ? ScrollBarVisibility.Disabled : ScrollBarVisibility.Auto;
-    }
+    private void ApplyWrap() => Body.WrapText = WrapToggle.IsChecked == true;
 
     private void OnWrapToggled(object sender, RoutedEventArgs e)
     {
@@ -60,6 +75,116 @@ public partial class ManagerWindow : Window
             state.SettingsStore.Save(state.Settings);
         }
     }
+
+    private void ApplyLineNumbers() => Body.ShowLineNumbers = LineNumberToggle.IsChecked == true;
+
+    private void OnLineNumbersToggled(object sender, RoutedEventArgs e)
+    {
+        ApplyLineNumbers();
+        var state = AppState.Current;
+        if (state.Settings.EditorLineNumbers != (LineNumberToggle.IsChecked == true))
+        {
+            state.Settings.EditorLineNumbers = LineNumberToggle.IsChecked == true;
+            state.SettingsStore.Save(state.Settings);
+        }
+    }
+
+    /// <summary>Show/hide the image block. A snippet that HAS an image always shows it — the
+    /// remembered collapse is a default for image-less snippets, not a way to hide real content.</summary>
+    private void ApplyImageSection()
+    {
+        bool hasImage = _editing?.IsImage == true;
+        bool open = ImageToggle.IsChecked == true || hasImage;
+        ImageSection.Visibility = open ? Visibility.Visible : Visibility.Collapsed;
+        ImagePeek.Visibility = (!open && hasImage) ? Visibility.Visible : Visibility.Collapsed;
+        // On an image snippet the section is always forced open, so the checkbox has nothing to
+        // do visually — but left clickable it still silently rewrote the persisted default
+        // (EditorImageExpanded) for every OTHER snippet. Disable it while it would be a no-op.
+        ImageToggle.IsEnabled = !hasImage;
+    }
+
+    private void OnImageSectionToggled(object sender, RoutedEventArgs e)
+    {
+        ApplyImageSection();
+        var state = AppState.Current;
+        if (state.Settings.EditorImageExpanded != (ImageToggle.IsChecked == true))
+        {
+            state.Settings.EditorImageExpanded = ImageToggle.IsChecked == true;
+            state.SettingsStore.Save(state.Settings);
+        }
+    }
+
+    /// <summary>Open the enlarged body editor, then take its text, caret and selection back.</summary>
+    private void OnExpandBody(object sender, RoutedEventArgs e)
+    {
+        if (_editing is not { } target) return;
+        var win = new BodyEditorWindow(SnippetName.Text, Body.Text, UseVars.IsChecked == true,
+                                       Body.CaretIndex, Body.SelectionLength, target.CodeFormat)
+        {
+            Owner = this,
+        };
+        win.ShowDialog();
+
+        // The enlarged editor's own wrap checkbox writes straight to AppSettings, so the disk
+        // value can have moved out from under this window's checkbox/inline editor — re-sync now.
+        WrapToggle.IsChecked = AppState.Current.Settings.EditorWrap;
+        ApplyWrap();
+
+        // The selection can move under a modal: the global summon hotkey still fires (it's
+        // delivered to a message-only window, not blocked by WPF modality), so the SearchPanel can
+        // re-target THIS open Manager at a different snippet. If that happened, writing the
+        // enlarged editor's result into the inline Body box would paste this snippet's edited text
+        // over the now-selected one's — land it on the snippet the window was opened for instead.
+        if (!ReferenceEquals(_editing, target))
+        {
+            if (!win.Committed) return;   // discarded: nothing to write anywhere
+            bool changed = target.Body != win.ResultText
+                           || (target.CodeFormat ?? "") != win.ResultCodeFormat;
+            if (changed)
+            {
+                target.Body = win.ResultText;
+                target.CodeFormat = win.ResultCodeFormat.Length == 0 ? null : win.ResultCodeFormat;
+                target.UpdatedAt = DateTimeOffset.UtcNow;
+                if (_cats.FirstOrDefault(c => c.Snippets.Contains(target)) is { } cat) _dirty.Add(cat);
+            }
+            return;
+        }
+
+        Body.Text = win.ResultText;
+        Body.CaretIndex = win.ResultCaret;
+        Body.SelectionLength = win.ResultSelectionLength;
+        if (win.Committed)
+        {
+            // Save was chosen in the enlarged editor, and Save means disk everywhere. The code
+            // format has no control in the Manager, so it goes onto the snippet directly before
+            // CommitAndPersistCurrent() writes the rest.
+            target.CodeFormat = win.ResultCodeFormat.Length == 0 ? null : win.ResultCodeFormat;
+            CommitAndPersistCurrent();
+        }
+        else
+        {
+            // Discarded: Body.Text was just restored to the original, so the editor is back to
+            // whatever it was before enlarging. Re-baseline so it doesn't read as dirty.
+            ResetBaseline();
+        }
+        Body.FocusEditor();
+    }
+
+    /// <summary>Ctrl+Shift+Enter / F11 while editing the body opens the enlarged editor.</summary>
+    private void MaybeExpandBodyFromKey(KeyEventArgs e)
+    {
+        if (_editing == null || !Body.IsKeyboardFocusWithin) return;
+        bool combo = e.Key == Key.Enter &&
+                     Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift);
+        if (combo || e.Key == Key.F11)
+        {
+            OnExpandBody(this, new RoutedEventArgs());
+            e.Handled = true;
+        }
+    }
+
+    private void OnUseVarsToggled(object sender, RoutedEventArgs e) =>
+        Body.UseVariables = UseVars.IsChecked == true;
 
     protected override void OnActivated(EventArgs e)
     {
@@ -79,6 +204,9 @@ public partial class ManagerWindow : Window
         // With no category/snippet (e.g. an empty library) nothing set _editing, so make sure
         // the editor reflects that and is grayed out rather than a live-looking dead form.
         EditorPane.IsEnabled = _editing != null;
+        // A disk reload can change which snippet names exist (add/rename/delete/category
+        // add-or-delete all route through here) — clear any now-stale nested-reference marks.
+        Body.Rescan();
     }
 
     private Category? SelectedCategory => Categories.SelectedItem as Category;
@@ -91,7 +219,8 @@ public partial class ManagerWindow : Window
         SnippetName.SelectAll();
     }
 
-    /// <summary>Navigate to the snippet with the given id (e.g. after "new from clipboard").</summary>
+    /// <summary>Navigate to the snippet with the given id (e.g. after "new from clipboard" or
+    /// "edit" from the search panel).</summary>
     public void SelectSnippet(string id)
     {
         foreach (var c in _cats)
@@ -100,6 +229,14 @@ public partial class ManagerWindow : Window
             Categories.SelectedItem = c;      // triggers RefreshSnippets
             Snippets.SelectedItem = sn;
             Snippets.ScrollIntoView(sn);
+            // Deferred, not synchronous: the SelectedItem assignments above only queue the
+            // selection-changed handling that loads sn into Body — calling FocusEditor() here would
+            // focus a control that's about to be repopulated (or, worse, still holds the PREVIOUS
+            // snippet's content). Dispatching at Input priority runs after that load has completed,
+            // in both the freshly-created-window case and the already-open one (the caller may be
+            // re-targeting an already-visible Manager at a different snippet).
+            Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Input,
+                new Action(() => Body.FocusEditor()));
             return;
         }
     }
@@ -113,7 +250,7 @@ public partial class ManagerWindow : Window
     /// optional home category, resolved against this window's own list.</summary>
     public void AddSnippet(string name, string body, string? preferCategoryName = null)
     {
-        CommitEditor();                  // fold any in-progress editor text into _dirty first — keep it
+        if (!TryLeaveEditor()) return;
         var c = (preferCategoryName is not null ? _cats.FirstOrDefault(x => x.Name == preferCategoryName) : null)
                 ?? SelectedCategory ?? _cats.FirstOrDefault();
         if (c is null)                   // empty library: start a category so the snippet has a home
@@ -130,8 +267,20 @@ public partial class ManagerWindow : Window
         if (FilterBox.Text.Length > 0) FilterBox.Text = "";   // a filter would hide the new row
         SelectCategoryByName(c.Name);
         RefreshSnippets(sn);                                  // land on (and reveal) the new snippet
+        Body.Rescan();   // the new name may resolve a nested reference elsewhere
         FocusNameField();
     }
+
+    /// <summary>The editable fields as the controls currently hold them.</summary>
+    private SnippetEdit CurrentEdit() => SnippetEdit.Of(
+        SnippetName.Text, Abbr.Text, Body.Text, UseVars.IsChecked == true,
+        OutputModes[Math.Max(0, OutputMode.SelectedIndex)], _editing?.CodeFormat);
+
+    /// <summary>Snapshot the loaded snippet as the new "unchanged" state.</summary>
+    private void ResetBaseline() => _baseline = _editing == null ? null : SnippetEdit.From(_editing);
+
+    private bool EditorIsDirty() =>
+        _editing != null && _baseline != null && CurrentEdit() != _baseline;
 
     // Flush the editor fields back into the snippet currently loaded, so switching
     // selection (or closing) never silently discards unsaved edits.
@@ -151,6 +300,57 @@ public partial class ManagerWindow : Window
             _editing.UpdatedAt = DateTimeOffset.UtcNow;
             if (_editingCategory != null) _dirty.Add(_editingCategory);
         }
+    }
+
+    /// <summary>Commit the editor onto the loaded snippet, write just that snippet's category, and
+    /// take a fresh baseline. The single "the user said save" path — used by the Save button's
+    /// prompt-free flow's sibling and by every TryLeaveEditor prompt that answers Save.</summary>
+    private bool CommitAndPersistCurrent()
+    {
+        CommitEditor();
+        bool ok = _editingCategory == null || PersistCategory(_editingCategory);
+        if (!ok) AlertSaveFailed();
+        ResetBaseline();
+        // A rename changes the list label and can create or break a {片段:名称} reference.
+        Snippets.Items.Refresh();
+        Body.Rescan();
+        return ok;
+    }
+
+    /// <summary>
+    /// Gate every path that leaves the snippet currently in the editor. Returns false only when
+    /// the user chose Cancel — the caller MUST then abort whatever it was doing.
+    /// <para>Structural operations call this too, but what it asks about is the half-finished
+    /// snippet sitting in the EDITOR (those operations move the selection or rewrite the list).
+    /// It never asks about the structural operation itself — renames, drags and deletes are
+    /// deliberate acts with a visible result and keep their own existing save timing.</para>
+    /// </summary>
+    private bool TryLeaveEditor()
+    {
+        if (!EditorIsDirty()) return true;
+
+        bool? choice = AppDialog.ConfirmSaveDiscard(this, L("App.Name"), L("Manager.UnsavedConfirm"),
+            L("Manager.Save"), L("Manager.DontSave"), L("Dialog.Cancel"));
+        if (choice == null) return false;
+
+        if (choice == true) CommitAndPersistCurrent();
+        else RestoreEditorFromBaseline();
+        return true;
+    }
+
+    /// <summary>Put the controls back to the baseline. The Snippet object needs no rollback: it
+    /// was never mutated, because CommitEditor() is no longer called behind the user's back.</summary>
+    private void RestoreEditorFromBaseline()
+    {
+        if (_baseline is not { } b) return;
+        SnippetName.Text = b.Name;
+        Abbr.Text = b.Abbr;
+        Body.Text = b.Body;
+        UseVars.IsChecked = b.UseVariables;
+        Body.UseVariables = b.UseVariables;
+        int mode = Array.IndexOf(OutputModes, b.OutputMode);
+        OutputMode.SelectedIndex = mode < 0 ? 0 : mode;
+        UpdateAbbrConflictHint();
     }
 
     /// <summary>Drop empty drafts so a "new" the user abandoned isn't kept as a blank row (see
@@ -240,19 +440,37 @@ public partial class ManagerWindow : Window
 
     private void OnCategorySelected(object s, SelectionChangedEventArgs e)
     {
-        CommitEditor();
+        if (_revertingSelection) return;
+        if (!TryLeaveEditor())
+        {
+            _revertingSelection = true;
+            try { Categories.SelectedItem = _editingCategory; }
+            finally { _revertingSelection = false; }
+            return;
+        }
         RefreshSnippets();
     }
 
     private void OnSnippetSelected(object s, SelectionChangedEventArgs e)
     {
-        CommitEditor();
+        if (_revertingSelection) return;
+        if (!TryLeaveEditor())
+        {
+            // Cancelled: SelectionChanged already moved the selection, so put it back. The
+            // re-entrancy flag stops that assignment prompting a second time.
+            _revertingSelection = true;
+            try { Snippets.SelectedItem = _editing; }
+            finally { _revertingSelection = false; }
+            return;
+        }
+
         if (SelectedSnippet is { } sn)
         {
             _editing = sn;
             _editingCategory = SelectedCategory;
             SnippetName.Text = sn.Name; Abbr.Text = sn.Abbr; Body.Text = sn.Body;
             UseVars.IsChecked = sn.UseVariables;
+            Body.UseVariables = sn.UseVariables;
             int mode = Array.IndexOf(OutputModes, sn.OutputMode ?? "");
             OutputMode.SelectedIndex = mode < 0 ? 0 : mode;
             UpdateAbbrConflictHint();
@@ -261,16 +479,23 @@ public partial class ManagerWindow : Window
             EditorPane.IsEnabled = true;
         }
         else { _editing = null; _editingCategory = null; ClearEditor(); }
+
+        ResetBaseline();   // whatever we just loaded (or cleared) is the new "unchanged" state
     }
 
     private void ClearEditor()
     {
         SnippetName.Text = Abbr.Text = Body.Text = "";
         UseVars.IsChecked = false;
+        Body.UseVariables = false;
+        SnippetImagePeek.Source = null;
         OutputMode.SelectedIndex = 0;
         AbbrConflict.Visibility = Visibility.Collapsed;
         UsageStat.Text = "";
         SnippetImage.Source = null;
+        // _editing is already null by every call site, so this collapses the (now dead) image
+        // section instead of leaving it expanded over a form with no snippet behind it.
+        ApplyImageSection();
         // Nothing selected — gray the editor out so typing can't silently vanish (there's no
         // snippet behind these fields until one is added/selected).
         EditorPane.IsEnabled = false;
@@ -308,14 +533,6 @@ public partial class ManagerWindow : Window
         AbbrConflict.Visibility = other == null ? Visibility.Collapsed : Visibility.Visible;
     }
 
-    // Keep the snippet list's display name in sync when the name box loses focus.
-    private void OnNameLostFocus(object sender, RoutedEventArgs e)
-    {
-        if (_editing == null) return;
-        CommitEditor();
-        Snippets.Items.Refresh();
-    }
-
     // ---------- image snippets ----------
     // Decode off the UI thread: ImageLoader uses BitmapCacheOption.OnLoad, which reads and
     // decodes the whole file synchronously — and if the image is a OneDrive "files on-demand"
@@ -330,6 +547,10 @@ public partial class ManagerWindow : Window
         // reappear over the correct state.
         int gen = ++_imageLoadGen;
         SnippetImage.Source = null;
+        SnippetImagePeek.Source = null;
+        // Collapse state keys off _editing.IsImage, not off the (still-loading) bitmap, so the
+        // section opens for an image snippet immediately rather than after the load lands.
+        ApplyImageSection();
         if (_editing is not { IsImage: true } s) return;
         var rel = s.ImagePath;
         System.Threading.Tasks.Task.Run(() =>
@@ -337,7 +558,9 @@ public partial class ManagerWindow : Window
             var img = ImageLoader.Load(rel);
             Dispatcher.BeginInvoke(new Action(() =>
             {
-                if (gen == _imageLoadGen) SnippetImage.Source = img;
+                // Both surfaces are filled HERE, once the bitmap exists — assigning the peek
+                // synchronously below would only ever copy the null set above.
+                if (gen == _imageLoadGen) { SnippetImage.Source = img; SnippetImagePeek.Source = img; }
             }));
         });
     }
@@ -407,7 +630,7 @@ public partial class ManagerWindow : Window
     private void OnCategoryColor(object sender, RoutedEventArgs e)
     {
         if (SelectedCategory is not Category c || sender is not Button b) return;
-        CommitEditor();
+        if (!TryLeaveEditor()) return;
         var prevColor = c.Color;
         c.Color = (b.Tag as string) ?? "";
         AppState.Current.MarkSelfWrite();
@@ -418,7 +641,7 @@ public partial class ManagerWindow : Window
 
     private void OnAddCategory(object s, RoutedEventArgs e)
     {
-        CommitEditor();
+        if (!TryLeaveEditor()) return;
         var name = AppDialog.Prompt(this, L("Manager.NewCategory"), L("Manager.CategoryName"), UniqueCategoryName());
         if (string.IsNullOrWhiteSpace(name)) return;
         if (_cats.Any(x => x.Name == name))
@@ -465,7 +688,7 @@ public partial class ManagerWindow : Window
 
     private void OnRenameCategory(object s, RoutedEventArgs e)
     {
-        CommitEditor();
+        if (!TryLeaveEditor()) return;
         if (SelectedCategory is not { } c) return;
         var name = AppDialog.Prompt(this, L("Manager.RenameCategory"), L("Manager.CategoryName"), c.Name);
         if (string.IsNullOrWhiteSpace(name) || name == c.Name) return;
@@ -527,23 +750,24 @@ public partial class ManagerWindow : Window
 
     private void OnAddSnippet(object s, RoutedEventArgs e)
     {
-        CommitEditor();
+        if (!TryLeaveEditor()) return;
         if (SelectedCategory is not { } c) return;
         var sn = new Snippet { Name = L("Manager.NewSnippetName") };
         c.Snippets.Add(sn);
         _dirty.Add(c);
         if (FilterBox.Text.Length > 0) FilterBox.Text = "";   // a filter would hide the new row
         RefreshSnippets(sn);
+        Body.Rescan();   // the new name may resolve a nested reference elsewhere
         SnippetName.Focus();
         SnippetName.SelectAll();
     }
 
     private void OnDuplicateSnippet(object s, RoutedEventArgs e)
     {
-        CommitEditor();
+        if (!TryLeaveEditor()) return;
         if (SelectedCategory is not { } c || SelectedSnippet is not { } sn) return;
         // Abbr stays empty: two snippets with the same abbreviation would be ambiguous.
-        var copy = new Snippet { Name = sn.Name + " (2)", Body = sn.Body, UseVariables = sn.UseVariables, OutputMode = sn.OutputMode };
+        var copy = new Snippet { Name = sn.Name + " (2)", Body = sn.Body, UseVariables = sn.UseVariables, OutputMode = sn.OutputMode, CodeFormat = sn.CodeFormat };
         if (sn.IsImage)
         {
             // Copy the image file — sharing one file would break when either snippet is deleted.
@@ -558,6 +782,7 @@ public partial class ManagerWindow : Window
         c.Snippets.Insert(c.Snippets.IndexOf(sn) + 1, copy);
         _dirty.Add(c);
         RefreshSnippets(copy);
+        Body.Rescan();   // the new name (" (2)") may resolve a nested reference elsewhere
         SnippetName.Focus();
         SnippetName.SelectAll();
     }
@@ -596,6 +821,7 @@ public partial class ManagerWindow : Window
         PersistDirty();
         if (!saved) AlertSaveFailed();
         RefreshSnippets();
+        Body.Rescan();   // a deleted name may now dangle a nested reference elsewhere
         if (Snippets.Items.Count > 0) Snippets.SelectedIndex = Math.Min(idx, Snippets.Items.Count - 1);
         else ClearEditor();
     }
@@ -633,7 +859,7 @@ public partial class ManagerWindow : Window
 
     private void MoveSelectedTo(Category target)
     {
-        CommitEditor();
+        if (!TryLeaveEditor()) return;
         if (SelectedCategory is not { } from || ReferenceEquals(from, target)) return;
         foreach (var sn in SelectedSnippets())
         {
@@ -668,6 +894,11 @@ public partial class ManagerWindow : Window
             UndoDelete();
             e.Handled = true;
         }
+        else
+        {
+            // Ctrl+Shift+Enter / F11 while editing the body opens the enlarged editor.
+            MaybeExpandBodyFromKey(e);
+        }
         base.OnPreviewKeyDown(e);
     }
 
@@ -690,6 +921,7 @@ public partial class ManagerWindow : Window
         PersistDirty();   // deletes persist immediately, so their undo must too
         Categories.SelectedItem = cat;
         RefreshSnippets(sn);
+        Body.Rescan();   // the restored name may resolve a nested reference elsewhere
     }
 
     private void OnSave(object s, RoutedEventArgs e)
@@ -711,6 +943,7 @@ public partial class ManagerWindow : Window
         // from it in memory instead of re-reading the whole library off disk (that read-back
         // was the main "卡住" on sync drives).
         AppState.Current.ApplyCategories(_cats);
+        ResetBaseline();   // what we just wrote is the new "unchanged" state
         // Refresh names, then keep the user on the snippet they were editing.
         RefreshSnippets(keep);
         Categories.Items.Refresh();
@@ -729,11 +962,8 @@ public partial class ManagerWindow : Window
     private Point _dragStart;
     private object? _dragItem;   // Category or Snippet under the mouse at press
 
-    private static T? FindAncestor<T>(DependencyObject? d) where T : DependencyObject
-    {
-        while (d != null) { if (d is T t) return t; d = VisualTreeHelper.GetParent(d); }
-        return null;
-    }
+    private static T? FindAncestor<T>(DependencyObject? d) where T : DependencyObject =>
+        TreeSearch.FindAncestor<T>(d);
 
     private void OnListPressed(object sender, MouseButtonEventArgs e)
     {
@@ -782,7 +1012,7 @@ public partial class ManagerWindow : Window
         {
             var dest = DropTarget<Category>(e);
             if (dest == null || SelectedCategory is not { } src || ReferenceEquals(dest, src)) return;
-            CommitEditor();
+            if (!TryLeaveEditor()) return;
             if (_editing == sn) { _editing = null; _editingCategory = null; }
             src.Snippets.Remove(sn);
             dest.Snippets.Add(sn);
@@ -818,9 +1048,13 @@ public partial class ManagerWindow : Window
 
     private void OnClosing(object? s, System.ComponentModel.CancelEventArgs e)
     {
-        CommitEditor();
+        // The editor's own half-finished edit is the only thing that gets asked about. Structural
+        // changes (renames, drags, deletes) are deliberate acts with a visible result and keep
+        // their existing save timing — asking about them again would be noise, not safety.
+        if (!TryLeaveEditor()) { e.Cancel = true; return; }
+
         PruneBlankDrafts();   // an abandoned blank "new" shouldn't survive to the next launch
-        PersistDirty();
+        PersistDirty();       // structural changes only — the editor was settled above
         // Deleted snippets (and their image files) are owned by the trash now — its
         // 30-day purge is what finally deletes image files.
         _deleted.Clear();
@@ -829,7 +1063,7 @@ public partial class ManagerWindow : Window
 
     private void OnOpenTrash(object s, RoutedEventArgs e)
     {
-        CommitEditor();
+        if (!TryLeaveEditor()) return;
         PersistDirty();
         new TrashDialog { Owner = this }.ShowDialog();
         Load();   // one disk read: restored snippets should appear immediately

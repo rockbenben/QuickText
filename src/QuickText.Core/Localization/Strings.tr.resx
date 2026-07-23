@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>Yeni metin</value></data>
   <data name="Manager.Filter"><value>Süz…</value></data>
   <data name="Manager.Duplicate"><value>Çoğalt</value></data>
+  <data name="Manager.Expand"><value>Büyüt</value></data>
+  <data name="Manager.LineNumbers"><value>Satır numaraları</value></data>
+  <data name="Manager.CodeFormat"><value>Biçim</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>Düz metin</value></data>
+  <data name="Manager.LongLinePlainText"><value>Satır çok uzun — düz metin olarak gösteriliyor</value></data>
+  <data name="Manager.BodyEditorTitle"><value>Gövde · {0}</value></data>
+  <data name="Manager.Done"><value>Bitti</value></data>
+  <data name="Manager.BodyStats"><value>{0} satır · {1} karakter</value></data>
+  <data name="Manager.BodyCaret"><value>Sat {0} : Süt {1}</value></data>
+  <data name="Manager.BodyVars"><value>Değişkenler: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>Yer tutucular kapalı · {0} yerdeki {{…}} olduğu gibi çıktılanacak</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} geçersiz belirteç</value></data>
+  <data name="Manager.ImageSection"><value>Resim</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>“{0}” adında bir metin yok</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>Geçersiz tarih biçimi — olduğu gibi çıktılanacak</value></data>
+  <data name="Manager.Token.EmptyName"><value>Değişken adı boş — asla sorulmayacak</value></data>
+  <data name="Manager.Token.Unclosed"><value>Kapanmamış küme ayracı</value></data>
   <data name="Manager.DuplicateAbbr"><value>“{0}” kısaltması zaten “{1}” tarafından kullanılıyor — genişletme belirsiz olur</value></data>
   <data name="Msg.FirstRunHint"><value>Paneli açmak için {0} tuşuna basın</value></data>
   <data name="Settings.OpenFolder"><value>Veri klasörünü aç</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>{0} sürümü mevcut — indirmek için tıklayın.</value></data>
   <data name="Msg.UpToDate"><value>En son sürümü kullanıyorsunuz.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Güncellemeler denetlenemedi. Daha sonra tekrar deneyin.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>Kaydedilmemiş değişiklikler var. Kaydedilsin mi?</value></data>
+  <data name="Manager.DontSave"><value>Kaydetme</value></data>
 </root>

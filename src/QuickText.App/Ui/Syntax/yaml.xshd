@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<SyntaxDefinition name="QuickText.Yaml" extensions=".yaml;.yml"
+                  xmlns="http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008">
+  <Color name="Comment" foreground="Green"/>
+  <Color name="String"  foreground="Blue"/>
+  <Color name="Key"     foreground="Navy"/>
+  <Color name="Number"  foreground="DarkCyan"/>
+  <Color name="Keyword" foreground="Purple"/>
+  <Color name="Punctuation" foreground="DarkGray"/>
+
+  <RuleSet ignoreCase="false">
+    <Span color="Comment" begin="#"/>
+    <Span color="String" multiline="false">
+      <Begin>"</Begin><End>"</End>
+      <RuleSet><Span begin="\\" end="."/></RuleSet>
+    </Span>
+    <Span color="String" multiline="false">
+      <Begin>'</Begin><End>'</End>
+    </Span>
+    <!-- key: at the start of a line (after optional indent and an optional "- ") -->
+    <Rule color="Key">^[ \t]*-?[ \t]*[\w.\-]+(?=[ \t]*:)</Rule>
+    <Keywords color="Keyword">
+      <Word>true</Word><Word>false</Word><Word>null</Word>
+      <Word>yes</Word><Word>no</Word><Word>on</Word><Word>off</Word><Word>~</Word>
+    </Keywords>
+    <Rule color="Punctuation">[:\-\[\]\{\},&amp;*|&gt;]</Rule>
+    <Rule color="Number">\b0[xX][0-9a-fA-F]+|\b\d+(\.\d+)?\b</Rule>
+  </RuleSet>
+</SyntaxDefinition>

@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>Mẫu mới</value></data>
   <data name="Manager.Filter"><value>Lọc…</value></data>
   <data name="Manager.Duplicate"><value>Nhân bản</value></data>
+  <data name="Manager.Expand"><value>Phóng to</value></data>
+  <data name="Manager.LineNumbers"><value>Số dòng</value></data>
+  <data name="Manager.CodeFormat"><value>Định dạng</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>Văn bản thuần túy</value></data>
+  <data name="Manager.LongLinePlainText"><value>Dòng quá dài — hiển thị dưới dạng văn bản thuần túy</value></data>
+  <data name="Manager.BodyEditorTitle"><value>Nội dung · {0}</value></data>
+  <data name="Manager.Done"><value>Xong</value></data>
+  <data name="Manager.BodyStats"><value>{0} dòng · {1} ký tự</value></data>
+  <data name="Manager.BodyCaret"><value>Dòng {0} : Cột {1}</value></data>
+  <data name="Manager.BodyVars"><value>Biến: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>Placeholder đang tắt · {0} chỗ {{…}} sẽ được xuất nguyên văn</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} token không hợp lệ</value></data>
+  <data name="Manager.ImageSection"><value>Hình ảnh</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>Không có mẫu nào tên “{0}”</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>Định dạng ngày không hợp lệ — sẽ xuất nguyên văn</value></data>
+  <data name="Manager.Token.EmptyName"><value>Tên biến trống — sẽ không bao giờ được hỏi</value></data>
+  <data name="Manager.Token.Unclosed"><value>Dấu ngoặc nhọn chưa đóng</value></data>
   <data name="Manager.DuplicateAbbr"><value>Chữ viết tắt “{0}” đã được “{1}” dùng — mở rộng sẽ nhập nhằng</value></data>
   <data name="Msg.FirstRunHint"><value>Nhấn {0} để mở bảng</value></data>
   <data name="Settings.OpenFolder"><value>Mở thư mục dữ liệu</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>Đã có phiên bản {0} — nhấp để tải xuống.</value></data>
   <data name="Msg.UpToDate"><value>Bạn đang dùng phiên bản mới nhất.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Không kiểm tra được cập nhật. Vui lòng thử lại sau.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>Có thay đổi chưa được lưu. Lưu lại?</value></data>
+  <data name="Manager.DontSave"><value>Không lưu</value></data>
 </root>

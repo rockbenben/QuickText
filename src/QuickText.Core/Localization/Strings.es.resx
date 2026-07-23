@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>Nuevo fragmento</value></data>
   <data name="Manager.Filter"><value>Filtrar…</value></data>
   <data name="Manager.Duplicate"><value>Duplicar</value></data>
+  <data name="Manager.Expand"><value>Ampliar</value></data>
+  <data name="Manager.LineNumbers"><value>Números de línea</value></data>
+  <data name="Manager.CodeFormat"><value>Formato</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>Texto sin formato</value></data>
+  <data name="Manager.LongLinePlainText"><value>Línea demasiado larga: mostrada como texto sin formato</value></data>
+  <data name="Manager.BodyEditorTitle"><value>Cuerpo · {0}</value></data>
+  <data name="Manager.Done"><value>Listo</value></data>
+  <data name="Manager.BodyStats"><value>{0} líneas · {1} caracteres</value></data>
+  <data name="Manager.BodyCaret"><value>Lín {0} : Col {1}</value></data>
+  <data name="Manager.BodyVars"><value>Variables: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>Marcadores desactivados · {0} {{…}} se mostrarán tal cual</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} token(s) no válido(s)</value></data>
+  <data name="Manager.ImageSection"><value>Imagen</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>No hay ningún fragmento llamado «{0}»</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>Formato de fecha no válido — se mostrará tal cual</value></data>
+  <data name="Manager.Token.EmptyName"><value>Nombre de variable vacío — nunca se preguntará</value></data>
+  <data name="Manager.Token.Unclosed"><value>Llave sin cerrar</value></data>
   <data name="Manager.DuplicateAbbr"><value>La abreviatura «{0}» ya la usa «{1}»: la expansión sería ambigua</value></data>
   <data name="Msg.FirstRunHint"><value>Pulsa {0} para abrir el panel</value></data>
   <data name="Settings.OpenFolder"><value>Abrir carpeta de datos</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>Versión {0} disponible: haz clic para descargar.</value></data>
   <data name="Msg.UpToDate"><value>Tienes la última versión.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>No se pudo buscar actualizaciones. Inténtalo más tarde.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>Hay cambios sin guardar. ¿Guardarlos?</value></data>
+  <data name="Manager.DontSave"><value>No guardar</value></data>
 </root>

@@ -26,6 +26,26 @@ public sealed class AppSettings
     public bool CopyToClipboardOnly { get; set; }   // true = just copy; false = paste into the active app
     public string Language { get; set; } = "";
     public bool EditorWrap { get; set; } = true;   // Manager body editor: wrap vs horizontal scroll (for code)
+    // Manager body editor: show a logical-line-number gutter (off by default — plain-text users
+    // don't need it; it's for snippets that hold code/JSON).
+    public bool EditorLineNumbers { get; set; }
+    // Manager: whether the image section is expanded. Collapsed by default so the body editor
+    // gets the height; a snippet that HAS an image expands it regardless.
+    public bool EditorImageExpanded { get; set; }
+
+    // Remembered "enlarge body" window bounds (0 = unset -> 80% of the active monitor's work area).
+    /// <summary>No longer read or written by the app. The enlarged body editor used to reopen at
+    /// this remembered absolute position, but on a multi-monitor desktop that meant it always
+    /// reopened on whichever monitor it was last closed on, regardless of where the Manager (its
+    /// owner) currently is — so it now always centers on the owner's monitor instead, and only the
+    /// size (<see cref="BodyWinW"/>/<see cref="BodyWinH"/>) is remembered. Left in place (not
+    /// removed) only so existing users' settings.json keeps round-tripping without churn — do not
+    /// wire this back up.</summary>
+    public double BodyWinX { get; set; }
+    /// <summary>No longer read or written — see <see cref="BodyWinX"/>.</summary>
+    public double BodyWinY { get; set; }
+    public double BodyWinW { get; set; }
+    public double BodyWinH { get; set; }
     // Opt-in, OFF by default: when true the app makes ONE network request to the GitHub Releases API
     // at startup to see if a newer version exists (everything else stays fully offline). Off keeps the
     // "no network" promise intact.

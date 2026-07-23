@@ -1,0 +1,37 @@
+<UserControl x:Class="QuickText.App.Ui.CodeEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:avalon="http://icsharpcode.net/sharpdevelop/avalonedit">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--
+        Pinned, NOT inherited. FlowDirection cascades from the host Window, which WindowTheming
+        flips to RightToLeft for Arabic — and AvalonEdit's bidi support is weak, which is the very
+        reason plain text stays on the native TextBox (BodyEditor, which SHOULD keep inheriting RTL).
+        Code is structurally left-to-right whatever the UI language is, so this control opts out —
+        but scoped to the editor's own Border, NOT the UserControl root, so the Status TextBlock
+        below still inherits the window's real FlowDirection like BodyEditor's identical status line.
+        -->
+        <Border Grid.Row="0" FlowDirection="LeftToRight" Background="{StaticResource Brush.InputBg}"
+                BorderBrush="{StaticResource Brush.InputBorder}" BorderThickness="1"
+                CornerRadius="7" ClipToBounds="True" Padding="4">
+            <avalon:TextEditor x:Name="Editor"
+                               Background="Transparent"
+                               Foreground="{StaticResource Brush.TextPrimary}"
+                               FontFamily="{StaticResource Font.Mono}" FontSize="13"
+                               ShowLineNumbers="True"
+                               LineNumbersForeground="{StaticResource Brush.TextFaint}"
+                               HorizontalScrollBarVisibility="Auto"
+                               VerticalScrollBarVisibility="Auto"/>
+        </Border>
+
+        <TextBlock Grid.Row="1" x:Name="Status" Margin="4,6,4,0"
+                   FontFamily="{StaticResource Font.Ui}" FontSize="11.5"
+                   Foreground="{StaticResource Brush.TextFaint}"
+                   TextTrimming="CharacterEllipsis"/>
+    </Grid>
+</UserControl>

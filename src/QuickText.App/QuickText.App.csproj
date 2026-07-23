@@ -6,11 +6,21 @@
 
   <ItemGroup>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Brand icon lives once under assets/branding; linked in as the tray/window resource. -->
     <Resource Include="..\..\assets\branding\quicktext.ico" Link="Assets\quicktext.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- AvalonEdit ships no YAML/INI/Shell definition; ours are embedded so a single-file
+         publish carries them. A missing resource is invisible at build time - the smoke
+         check in App.xaml.cs is what catches it. -->
+    <EmbeddedResource Include="Ui\Syntax\yaml.xshd" />
+    <EmbeddedResource Include="Ui\Syntax\ini.xshd" />
+    <EmbeddedResource Include="Ui\Syntax\shell.xshd" />
   </ItemGroup>
 
   <PropertyGroup>

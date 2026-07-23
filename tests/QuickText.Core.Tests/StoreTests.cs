@@ -115,4 +115,38 @@ public class StoreTests : IDisposable
         Assert.Equal("bodyA", la.Snippets.Single().Body);
         Assert.Equal("bodyB", lb.Snippets.Single().Body);
     }
+
+    // Sync-drive users (坚果云/OneDrive/NAS) get a full-library diff if every existing snippet
+    // sprouts a new field. A snippet that never picked a code format must serialize byte-identical
+    // to before this feature existed.
+    [Fact]
+    public void Snippet_without_a_code_format_writes_no_code_format_field()
+    {
+        var json = System.Text.Json.JsonSerializer.Serialize(
+            new[] { new Snippet { Name = "n", Body = "b" } },
+            QuickText.Core.Persistence.JsonConfig.Write);
+        Assert.DoesNotContain("codeformat", json, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Snippet_with_a_code_format_writes_and_reads_it_back()
+    {
+        var json = System.Text.Json.JsonSerializer.Serialize(
+            new[] { new Snippet { Name = "n", Body = "b", CodeFormat = "json" } },
+            QuickText.Core.Persistence.JsonConfig.Write);
+        Assert.Contains("\"CodeFormat\": \"json\"", json);
+
+        var back = System.Text.Json.JsonSerializer.Deserialize<List<Snippet>>(
+            json, QuickText.Core.Persistence.JsonConfig.Read)!;
+        Assert.Equal("json", back[0].CodeFormat);
+    }
+
+    // Pre-upgrade files have no such field at all.
+    [Fact]
+    public void Snippet_json_without_the_field_deserializes_as_plain_text()
+    {
+        var back = System.Text.Json.JsonSerializer.Deserialize<List<Snippet>>(
+            """[{"Name":"n","Body":"b"}]""", QuickText.Core.Persistence.JsonConfig.Read)!;
+        Assert.True(string.IsNullOrEmpty(back[0].CodeFormat));
+    }
 }

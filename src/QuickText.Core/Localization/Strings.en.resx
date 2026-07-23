@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>New snippet</value></data>
   <data name="Manager.Filter"><value>Filter…</value></data>
   <data name="Manager.Duplicate"><value>Duplicate</value></data>
+  <data name="Manager.Expand"><value>Enlarge</value></data>
+  <data name="Manager.LineNumbers"><value>Line numbers</value></data>
+  <data name="Manager.CodeFormat"><value>Format</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>Plain text</value></data>
+  <data name="Manager.LongLinePlainText"><value>Line too long — shown as plain text</value></data>
+  <data name="Manager.BodyEditorTitle"><value>Body · {0}</value></data>
+  <data name="Manager.Done"><value>Done</value></data>
+  <data name="Manager.BodyStats"><value>{0} lines · {1} chars</value></data>
+  <data name="Manager.BodyCaret"><value>Ln {0} : Col {1}</value></data>
+  <data name="Manager.BodyVars"><value>Variables: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>Placeholders off · {0} {{…}} will be output verbatim</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} invalid token(s)</value></data>
+  <data name="Manager.ImageSection"><value>Image</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>No snippet named “{0}”</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>Invalid date format — output verbatim</value></data>
+  <data name="Manager.Token.EmptyName"><value>Empty variable name — never prompted</value></data>
+  <data name="Manager.Token.Unclosed"><value>Unclosed brace</value></data>
   <data name="Manager.DuplicateAbbr"><value>Abbreviation “{0}” is already used by “{1}” — expansion would be ambiguous</value></data>
   <data name="Msg.FirstRunHint"><value>Press {0} to open the panel</value></data>
   <data name="Settings.OpenFolder"><value>Open data folder</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>Version {0} is available — click to download.</value></data>
   <data name="Msg.UpToDate"><value>You're on the latest version.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Couldn't check for updates. Try again later.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>You have unsaved changes. Save them?</value></data>
+  <data name="Manager.DontSave"><value>Don't save</value></data>
 </root>

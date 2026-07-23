@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>Nouvel extrait</value></data>
   <data name="Manager.Filter"><value>Filtrer…</value></data>
   <data name="Manager.Duplicate"><value>Dupliquer</value></data>
+  <data name="Manager.Expand"><value>Agrandir</value></data>
+  <data name="Manager.LineNumbers"><value>Numéros de ligne</value></data>
+  <data name="Manager.CodeFormat"><value>Format</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>Texte brut</value></data>
+  <data name="Manager.LongLinePlainText"><value>Ligne trop longue — affichée en texte brut</value></data>
+  <data name="Manager.BodyEditorTitle"><value>Corps · {0}</value></data>
+  <data name="Manager.Done"><value>Terminé</value></data>
+  <data name="Manager.BodyStats"><value>{0} lignes · {1} caractères</value></data>
+  <data name="Manager.BodyCaret"><value>L {0} : Col {1}</value></data>
+  <data name="Manager.BodyVars"><value>Variables : {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>Espaces réservés désactivés · {0} {{…}} seront affichés tels quels</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} jeton(s) invalide(s)</value></data>
+  <data name="Manager.ImageSection"><value>Image</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>Aucun extrait nommé « {0} »</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>Format de date invalide — affiché tel quel</value></data>
+  <data name="Manager.Token.EmptyName"><value>Nom de variable vide — jamais demandé</value></data>
+  <data name="Manager.Token.Unclosed"><value>Accolade non fermée</value></data>
   <data name="Manager.DuplicateAbbr"><value>Abréviation « {0} » déjà utilisée par « {1} » — l'expansion serait ambiguë</value></data>
   <data name="Msg.FirstRunHint"><value>Appuyez sur {0} pour ouvrir le panneau</value></data>
   <data name="Settings.OpenFolder"><value>Ouvrir le dossier de données</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>Version {0} disponible — cliquez pour télécharger.</value></data>
   <data name="Msg.UpToDate"><value>Vous avez la dernière version.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Impossible de vérifier les mises à jour. Réessayez plus tard.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>Il y a des modifications non enregistrées. Les enregistrer ?</value></data>
+  <data name="Manager.DontSave"><value>Ne pas enregistrer</value></data>
 </root>

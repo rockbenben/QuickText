@@ -283,7 +283,7 @@ public sealed class AppState
             {
                 Id = s.Id, Name = s.Name, Abbr = s.Abbr, Body = s.Body,
                 UseVariables = s.UseVariables, OutputMode = s.OutputMode,
-                ImagePath = s.ImagePath, UpdatedAt = s.UpdatedAt
+                ImagePath = s.ImagePath, UpdatedAt = s.UpdatedAt, CodeFormat = s.CodeFormat
             }).ToList()
         }).ToList();
 

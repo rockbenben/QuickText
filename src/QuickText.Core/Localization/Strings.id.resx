@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>Snippet baru</value></data>
   <data name="Manager.Filter"><value>Saring…</value></data>
   <data name="Manager.Duplicate"><value>Gandakan</value></data>
+  <data name="Manager.Expand"><value>Perbesar</value></data>
+  <data name="Manager.LineNumbers"><value>Nomor baris</value></data>
+  <data name="Manager.CodeFormat"><value>Format</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>Teks biasa</value></data>
+  <data name="Manager.LongLinePlainText"><value>Baris terlalu panjang — ditampilkan sebagai teks biasa</value></data>
+  <data name="Manager.BodyEditorTitle"><value>Isi · {0}</value></data>
+  <data name="Manager.Done"><value>Selesai</value></data>
+  <data name="Manager.BodyStats"><value>{0} baris · {1} karakter</value></data>
+  <data name="Manager.BodyCaret"><value>Brs {0} : Kol {1}</value></data>
+  <data name="Manager.BodyVars"><value>Variabel: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>Placeholder nonaktif · {0} {{…}} akan ditampilkan apa adanya</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} token tidak valid</value></data>
+  <data name="Manager.ImageSection"><value>Gambar</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>Tidak ada snippet bernama “{0}”</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>Format tanggal tidak valid — ditampilkan apa adanya</value></data>
+  <data name="Manager.Token.EmptyName"><value>Nama variabel kosong — tidak akan pernah diminta</value></data>
+  <data name="Manager.Token.Unclosed"><value>Kurung kurawal belum ditutup</value></data>
   <data name="Manager.DuplicateAbbr"><value>Singkatan “{0}” sudah dipakai oleh “{1}” — perluasan jadi ambigu</value></data>
   <data name="Msg.FirstRunHint"><value>Tekan {0} untuk membuka panel</value></data>
   <data name="Settings.OpenFolder"><value>Buka folder data</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>Versi {0} tersedia — klik untuk mengunduh.</value></data>
   <data name="Msg.UpToDate"><value>Anda memakai versi terbaru.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Gagal memeriksa pembaruan. Coba lagi nanti.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>Ada perubahan yang belum disimpan. Simpan?</value></data>
+  <data name="Manager.DontSave"><value>Jangan simpan</value></data>
 </root>

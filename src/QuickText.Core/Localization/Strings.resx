@@ -168,6 +168,23 @@
   <data name="Manager.NewSnippetName"><value>新文本</value></data>
   <data name="Manager.Filter"><value>筛选…</value></data>
   <data name="Manager.Duplicate"><value>复制一份</value></data>
+  <data name="Manager.Expand"><value>放大编辑</value></data>
+  <data name="Manager.LineNumbers"><value>行号</value></data>
+  <data name="Manager.CodeFormat"><value>格式</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>纯文本</value></data>
+  <data name="Manager.LongLinePlainText"><value>行过长，已按纯文本显示</value></data>
+  <data name="Manager.BodyEditorTitle"><value>正文 · {0}</value></data>
+  <data name="Manager.Done"><value>完成</value></data>
+  <data name="Manager.BodyStats"><value>{0} 行 · {1} 字</value></data>
+  <data name="Manager.BodyCaret"><value>行 {0} : 列 {1}</value></data>
+  <data name="Manager.BodyVars"><value>变量：{0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>占位符未启用 · {0} 处 {{…}} 将原样输出</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} 处无效记号</value></data>
+  <data name="Manager.ImageSection"><value>图片</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>找不到名为「{0}」的文本</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>日期格式无效，将原样输出</value></data>
+  <data name="Manager.Token.EmptyName"><value>变量名为空，不会弹窗</value></data>
+  <data name="Manager.Token.Unclosed"><value>花括号未闭合</value></data>
   <data name="Manager.DuplicateAbbr"><value>缩写「{0}」已被「{1}」使用，展开时会有歧义</value></data>
   <data name="Msg.FirstRunHint"><value>按 {0} 呼出面板</value></data>
   <data name="Settings.OpenFolder"><value>打开数据文件夹</value></data>
@@ -248,4 +265,6 @@
   <data name="Msg.UpdateAvailable"><value>发现新版本 {0}，点击前往下载。</value></data>
   <data name="Msg.UpToDate"><value>已是最新版本。</value></data>
   <data name="Msg.UpdateCheckFailed"><value>检查更新失败，请稍后重试。</value></data>
+  <data name="Manager.UnsavedConfirm"><value>有未保存的改动，要保存吗？</value></data>
+  <data name="Manager.DontSave"><value>不保存</value></data>
 </root>

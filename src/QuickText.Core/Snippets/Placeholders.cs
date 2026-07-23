@@ -241,6 +241,45 @@ public static class Placeholders
             : new VariableSpec(raw[..colon].Trim(), raw[(colon + 1)..].Trim(), Array.Empty<string>());
     }
 
+    // ---------- editor-facing surface ----------
+    // The editor highlights a token by asking THESE, never by re-implementing the rules.
+    // Same judgments, same order as Fill() — so "highlighted as a date" and "pasted as a date"
+    // cannot drift apart.
+
+    /// <summary>What kind of token is this inner text (the part between the braces)?
+    /// Judges by NAME only: it does NOT check whether a {片段:x} target exists or whether a
+    /// date's custom format is valid — those need a snippet lookup / a clock and belong to
+    /// <see cref="PlaceholderScanner.Scan"/>.</summary>
+    public static TokenKind Classify(string raw)
+    {
+        var n = (raw ?? "").Trim();
+        if (n.Length == 0) return TokenKind.Invalid;
+        if (IsCursor(n)) return TokenKind.Cursor;
+        if (IsClipboard(n) || IsUuid(n) || IsRandom(n) || IsDateTimeToken(n)) return TokenKind.Auto;
+        // Before ParseSpec: "片段:签名" would otherwise parse as a variable 片段 defaulting to 签名.
+        if (TryNestedName(n, out _)) return TokenKind.Nested;
+        return ParseSpec(n).Name.Length == 0 ? TokenKind.Invalid : TokenKind.Variable;
+    }
+
+    /// <summary>Every well-formed <c>{…}</c> in the body as (Index, Length-including-braces,
+    /// inner text). The one place the token pattern is applied outside <see cref="Fill"/>.</summary>
+    public static IEnumerable<(int Index, int Length, string Raw)> TokenMatches(string? body)
+    {
+        if (string.IsNullOrEmpty(body)) yield break;
+        foreach (Match m in Token.Matches(body))
+            yield return (m.Index, m.Length, m.Groups[1].Value);
+    }
+
+    /// <summary>The snippet name a <c>{片段:名称}</c>/<c>{snippet:name}</c> points at, else null.</summary>
+    public static string? NestedName(string raw) => TryNestedName((raw ?? "").Trim(), out var n) ? n : null;
+
+    /// <summary>Is this a date/time token by name (offset/format stripped), regardless of whether
+    /// the custom format is valid? Lets the scanner tell "bad date format" apart from "not a date".</summary>
+    public static bool IsDateToken(string raw) => IsDateTimeToken((raw ?? "").Trim());
+
+    /// <summary>Parse a variable token exactly as the send-time prompt does.</summary>
+    public static VariableSpec ParseVariable(string raw) => ParseSpec((raw ?? "").Trim());
+
     /// <summary>Distinct user-fillable variables (excludes special tokens), in first-seen order.</summary>
     public static IReadOnlyList<VariableSpec> VariableSpecs(string body)
     {

@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace QuickText.Core.Models;
 
 public sealed class Snippet
@@ -13,6 +15,18 @@ public sealed class Snippet
     // "paste-enter" always auto-Enter, "copy" copy to clipboard only (no paste).
     public string OutputMode { get; set; } = "";
     public string ImagePath { get; set; } = "";   // relative "images/<id>.png" — image snippet when set
+
+    /// <summary>Code format for the ENLARGED body editor's syntax highlighting only — our own
+    /// stable id ("json"/"sql"/…), never the rendering library's internal name, so retuning or
+    /// replacing the renderer never touches user data. Null/empty = plain text, which is also
+    /// every pre-upgrade snippet's state.
+    /// <para>Nullable with WhenWritingNull, NOT an empty string with WhenWritingDefault:
+    /// WhenWritingDefault compares against default(T) — null for a string — so an ""-defaulted
+    /// property would still be written to every snippet in the library, giving sync-drive users
+    /// a full-library diff for a field they never set.</para></summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string? CodeFormat { get; set; }
+
     public DateTimeOffset UpdatedAt { get; set; } = DateTimeOffset.UtcNow;
 
     public bool IsImage => !string.IsNullOrEmpty(ImagePath);

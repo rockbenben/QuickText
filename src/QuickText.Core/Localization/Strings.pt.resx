@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>Novo excerto</value></data>
   <data name="Manager.Filter"><value>Filtrar…</value></data>
   <data name="Manager.Duplicate"><value>Duplicar</value></data>
+  <data name="Manager.Expand"><value>Ampliar</value></data>
+  <data name="Manager.LineNumbers"><value>Números de linha</value></data>
+  <data name="Manager.CodeFormat"><value>Formato</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>Texto sem formatação</value></data>
+  <data name="Manager.LongLinePlainText"><value>Linha muito longa — exibida como texto sem formatação</value></data>
+  <data name="Manager.BodyEditorTitle"><value>Corpo · {0}</value></data>
+  <data name="Manager.Done"><value>Concluído</value></data>
+  <data name="Manager.BodyStats"><value>{0} linhas · {1} caracteres</value></data>
+  <data name="Manager.BodyCaret"><value>Lin {0} : Col {1}</value></data>
+  <data name="Manager.BodyVars"><value>Variáveis: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>Variáveis desativadas · {0} {{…}} serão exibidos tal como estão</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} token(s) inválido(s)</value></data>
+  <data name="Manager.ImageSection"><value>Imagem</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>Nenhum excerto chamado “{0}”</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>Formato de data inválido — exibido tal como está</value></data>
+  <data name="Manager.Token.EmptyName"><value>Nome de variável vazio — nunca será solicitado</value></data>
+  <data name="Manager.Token.Unclosed"><value>Chave não fechada</value></data>
   <data name="Manager.DuplicateAbbr"><value>A abreviatura “{0}” já é usada por “{1}” — a expansão seria ambígua</value></data>
   <data name="Msg.FirstRunHint"><value>Prima {0} para abrir o painel</value></data>
   <data name="Settings.OpenFolder"><value>Abrir pasta de dados</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>Versão {0} disponível — clique para baixar.</value></data>
   <data name="Msg.UpToDate"><value>Você está na versão mais recente.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Não foi possível verificar atualizações. Tente novamente mais tarde.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>Há alterações não guardadas. Guardar?</value></data>
+  <data name="Manager.DontSave"><value>Não guardar</value></data>
 </root>

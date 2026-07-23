@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>Новый фрагмент</value></data>
   <data name="Manager.Filter"><value>Фильтр…</value></data>
   <data name="Manager.Duplicate"><value>Дублировать</value></data>
+  <data name="Manager.Expand"><value>Увеличить</value></data>
+  <data name="Manager.LineNumbers"><value>Номера строк</value></data>
+  <data name="Manager.CodeFormat"><value>Формат</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>Обычный текст</value></data>
+  <data name="Manager.LongLinePlainText"><value>Строка слишком длинная — показана как обычный текст</value></data>
+  <data name="Manager.BodyEditorTitle"><value>Содержимое · {0}</value></data>
+  <data name="Manager.Done"><value>Готово</value></data>
+  <data name="Manager.BodyStats"><value>{0} строк · {1} символов</value></data>
+  <data name="Manager.BodyCaret"><value>Стр. {0} : Кол. {1}</value></data>
+  <data name="Manager.BodyVars"><value>Переменные: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>Плейсхолдеры отключены · {0} {{…}} будут выведены как есть</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} недопустимых токенов</value></data>
+  <data name="Manager.ImageSection"><value>Изображение</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>Нет фрагмента с именем «{0}»</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>Неверный формат даты — будет выведен как есть</value></data>
+  <data name="Manager.Token.EmptyName"><value>Пустое имя переменной — запрос никогда не появится</value></data>
+  <data name="Manager.Token.Unclosed"><value>Незакрытая фигурная скобка</value></data>
   <data name="Manager.DuplicateAbbr"><value>Сокращение «{0}» уже используется в «{1}» — подстановка будет неоднозначной</value></data>
   <data name="Msg.FirstRunHint"><value>Нажмите {0}, чтобы открыть панель</value></data>
   <data name="Settings.OpenFolder"><value>Открыть папку данных</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>Доступна версия {0} — нажмите, чтобы скачать.</value></data>
   <data name="Msg.UpToDate"><value>У вас последняя версия.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Не удалось проверить обновления. Повторите попытку позже.</value></data>
+  <data name="Manager.UnsavedConfirm"><value>Есть несохранённые изменения. Сохранить их?</value></data>
+  <data name="Manager.DontSave"><value>Не сохранять</value></data>
 </root>

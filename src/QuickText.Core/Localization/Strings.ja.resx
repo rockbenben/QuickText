@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>新規スニペット</value></data>
   <data name="Manager.Filter"><value>絞り込み…</value></data>
   <data name="Manager.Duplicate"><value>複製</value></data>
+  <data name="Manager.Expand"><value>拡大編集</value></data>
+  <data name="Manager.LineNumbers"><value>行番号</value></data>
+  <data name="Manager.CodeFormat"><value>形式</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>プレーンテキスト</value></data>
+  <data name="Manager.LongLinePlainText"><value>行が長すぎるため、プレーンテキストで表示しています</value></data>
+  <data name="Manager.BodyEditorTitle"><value>本文 · {0}</value></data>
+  <data name="Manager.Done"><value>完了</value></data>
+  <data name="Manager.BodyStats"><value>{0} 行 · {1} 文字</value></data>
+  <data name="Manager.BodyCaret"><value>{0} 行 : {1} 列</value></data>
+  <data name="Manager.BodyVars"><value>変数: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>プレースホルダー無効 · {0} 箇所の {{…}} はそのまま出力されます</value></data>
+  <data name="Manager.BodyInvalid"><value>無効なトークン {0} 件</value></data>
+  <data name="Manager.ImageSection"><value>画像</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>「{0}」という名前のスニペットが見つかりません</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>日付形式が無効です。そのまま出力されます</value></data>
+  <data name="Manager.Token.EmptyName"><value>変数名が空です。入力を求められることはありません</value></data>
+  <data name="Manager.Token.Unclosed"><value>波かっこが閉じられていません</value></data>
   <data name="Manager.DuplicateAbbr"><value>略語「{0}」は「{1}」で既に使用されています。展開が曖昧になります</value></data>
   <data name="Msg.FirstRunHint"><value>{0} でパネルを呼び出せます</value></data>
   <data name="Settings.OpenFolder"><value>データフォルダーを開く</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>新しいバージョン {0} があります。クリックしてダウンロード。</value></data>
   <data name="Msg.UpToDate"><value>最新バージョンです。</value></data>
   <data name="Msg.UpdateCheckFailed"><value>更新を確認できませんでした。後でもう一度お試しください。</value></data>
+  <data name="Manager.UnsavedConfirm"><value>未保存の変更があります。保存しますか？</value></data>
+  <data name="Manager.DontSave"><value>保存しない</value></data>
 </root>

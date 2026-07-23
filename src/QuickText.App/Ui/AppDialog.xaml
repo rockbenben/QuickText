@@ -10,6 +10,7 @@
         <TextBox x:Name="InputBox" Style="{StaticResource DarkTextBox}" FontSize="14"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
             <Button x:Name="CancelButton" Style="{StaticResource DarkButton}" MinWidth="84" Padding="16,7" Margin="0,0,10,0" Click="OnCancel"/>
+            <Button x:Name="DiscardButton" Style="{StaticResource DarkButton}" MinWidth="84" Padding="16,7" Margin="0,0,10,0" Click="OnDiscard" Visibility="Collapsed"/>
             <Button x:Name="OkButton" Style="{StaticResource DarkButtonPrimary}" MinWidth="84" Padding="16,7" Click="OnOk" IsDefault="True"/>
         </StackPanel>
     </StackPanel>

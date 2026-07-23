@@ -118,6 +118,23 @@
   <data name="Manager.NewSnippetName"><value>नया स्निपेट</value></data>
   <data name="Manager.Filter"><value>फ़िल्टर…</value></data>
   <data name="Manager.Duplicate"><value>प्रतिलिपि बनाएँ</value></data>
+  <data name="Manager.Expand"><value>बड़ा करें</value></data>
+  <data name="Manager.LineNumbers"><value>लाइन नंबर</value></data>
+  <data name="Manager.CodeFormat"><value>स्वरूप</value></data>
+  <data name="Manager.CodeFormat.PlainText"><value>सादा टेक्स्ट</value></data>
+  <data name="Manager.LongLinePlainText"><value>लाइन बहुत लंबी है, इसलिए सादा टेक्स्ट के रूप में दिखाया गया</value></data>
+  <data name="Manager.BodyEditorTitle"><value>बॉडी · {0}</value></data>
+  <data name="Manager.Done"><value>हो गया</value></data>
+  <data name="Manager.BodyStats"><value>{0} पंक्तियाँ · {1} वर्ण</value></data>
+  <data name="Manager.BodyCaret"><value>पंक्ति {0} : स्तंभ {1}</value></data>
+  <data name="Manager.BodyVars"><value>वेरिएबल: {0}</value></data>
+  <data name="Manager.BodyVarsOff"><value>प्लेसहोल्डर बंद हैं · {0} जगह {{…}} ज्यों का त्यों आउटपुट होगा</value></data>
+  <data name="Manager.BodyInvalid"><value>{0} अमान्य टोकन</value></data>
+  <data name="Manager.ImageSection"><value>छवि</value></data>
+  <data name="Manager.Token.UnknownSnippet"><value>“{0}” नाम का कोई स्निपेट नहीं है</value></data>
+  <data name="Manager.Token.BadDateFormat"><value>दिनांक स्वरूप अमान्य — ज्यों का त्यों आउटपुट होगा</value></data>
+  <data name="Manager.Token.EmptyName"><value>वेरिएबल नाम खाली है — कभी नहीं पूछा जाएगा</value></data>
+  <data name="Manager.Token.Unclosed"><value>कर्ली ब्रेस बंद नहीं है</value></data>
   <data name="Manager.DuplicateAbbr"><value>संक्षिप्त रूप “{0}” पहले से “{1}” द्वारा उपयोग में है — विस्तार अस्पष्ट होगा</value></data>
   <data name="Msg.FirstRunHint"><value>पैनल खोलने के लिए {0} दबाएँ</value></data>
   <data name="Settings.OpenFolder"><value>डेटा फ़ोल्डर खोलें</value></data>
@@ -198,4 +215,6 @@
   <data name="Msg.UpdateAvailable"><value>संस्करण {0} उपलब्ध है — डाउनलोड करने के लिए क्लिक करें।</value></data>
   <data name="Msg.UpToDate"><value>आप नवीनतम संस्करण पर हैं।</value></data>
   <data name="Msg.UpdateCheckFailed"><value>अपडेट जाँच नहीं सका। बाद में पुनः प्रयास करें।</value></data>
+  <data name="Manager.UnsavedConfirm"><value>असहेजे बदलाव हैं, क्या उन्हें सहेजना चाहते हैं?</value></data>
+  <data name="Manager.DontSave"><value>सहेजें नहीं</value></data>
 </root>

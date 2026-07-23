@@ -40,4 +40,36 @@ public class SettingsStoreTests
         Assert.Equal("Ctrl+Shift+8", s.Hotkey);
         File.Delete(path);
     }
+
+    [Fact]
+    public void Editor_settings_default_off_and_survive_a_roundtrip()
+    {
+        var fresh = new AppSettings();
+        Assert.False(fresh.EditorLineNumbers);
+        Assert.False(fresh.EditorImageExpanded);
+        Assert.Equal(0, fresh.BodyWinX);
+        Assert.Equal(0, fresh.BodyWinY);
+        Assert.Equal(0, fresh.BodyWinW);
+        Assert.Equal(0, fresh.BodyWinH);
+
+        var path = Path.Combine(Path.GetTempPath(), "quicktext-test-" + Guid.NewGuid().ToString("N") + ".json");
+        try
+        {
+            var store = new SettingsStore(path);
+            store.Save(new AppSettings
+            {
+                EditorLineNumbers = true,
+                EditorImageExpanded = true,
+                BodyWinX = 120, BodyWinY = 80, BodyWinW = 1000, BodyWinH = 700,
+            });
+            var back = store.Load();
+            Assert.True(back.EditorLineNumbers);
+            Assert.True(back.EditorImageExpanded);
+            Assert.Equal(120, back.BodyWinX);
+            Assert.Equal(80, back.BodyWinY);
+            Assert.Equal(1000, back.BodyWinW);
+            Assert.Equal(700, back.BodyWinH);
+        }
+        finally { File.Delete(path); }
+    }
 }

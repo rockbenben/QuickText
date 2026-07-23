@@ -21,7 +21,12 @@
     <SolidColorBrush x:Key="Brush.Accent"       Color="#3DC2A0"/>
     <SolidColorBrush x:Key="Brush.TextPrimary"  Color="#ECEFF2"/>
     <SolidColorBrush x:Key="Brush.TextMuted"    Color="#99A1AC"/>
-    <SolidColorBrush x:Key="Brush.TextFaint"    Color="#6B727C"/>
+    <!-- #6B727C was 3.05:1 on InputBg — below the 4.5:1 AA floor, and this brush is only ever used
+         at 11–13px (quick-pick indices, the editor status line, hint captions), all well under the
+         18.66px large-text exemption. #89909A is the least-light value on the same ramp that clears
+         AA on every surface it lands on (Surface 5.18 / CardBg 4.83 / InputBg 4.60) while staying
+         clearly below TextMuted's 5.68–6.40, so the three-step hierarchy still reads. -->
+    <SolidColorBrush x:Key="Brush.TextFaint"    Color="#89909A"/>
     <SolidColorBrush x:Key="Brush.ChipBg"       Color="#17FFFFFF"/>
     <SolidColorBrush x:Key="Brush.ChipText"     Color="#B6BEC9"/>
     <SolidColorBrush x:Key="Brush.AbbrBg"       Color="#1F3DC2A0"/>
@@ -236,7 +241,12 @@
                 <ControlTemplate TargetType="TextBox">
                     <Border x:Name="b" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="7">
-                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}"/>
+                        <!-- No Margin="{TemplateBinding Padding}" here: TextBox lays its inner
+                             TextBoxView out inside PART_ContentHost using Padding ALREADY, so
+                             binding it again as a margin applies the same inset twice and makes
+                             every field ~14 DIP taller than it should be (48 vs the 30 of the
+                             ComboBox next to it). Padding still works — it just works once. -->
+                        <ScrollViewer x:Name="PART_ContentHost"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocused" Value="True">
@@ -437,6 +447,75 @@
     </Style>
 
     <!-- borderless glyph button for section headers (+ / rename / −) -->
+    <!-- A CheckBox that reveals a section rather than setting a value. Same control (so IsChecked
+         and the existing handlers are untouched) but a disclosure chevron instead of a checkbox:
+         「图片」sat beside 「启用 {变量} 占位符」looking identical while meaning something entirely
+         different — one expands a panel, the other changes how the snippet behaves. -->
+    <Style x:Key="DisclosureToggle" TargetType="CheckBox">
+        <Setter Property="Foreground" Value="{StaticResource Brush.TextPrimary}"/>
+        <Setter Property="FontFamily" Value="{StaticResource Font.Ui}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Border x:Name="bd" Background="Transparent" CornerRadius="6" Padding="5,3">
+                        <StackPanel Orientation="Horizontal">
+                            <Path x:Name="chevron" Width="8" Height="8" VerticalAlignment="Center"
+                                  Stretch="Uniform" Fill="{StaticResource Brush.TextMuted}"
+                                  Data="M 0,0 L 6,5 L 0,10 Z" RenderTransformOrigin="0.5,0.5"/>
+                            <ContentPresenter VerticalAlignment="Center" Margin="9,0,0,0"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="{StaticResource Brush.RowHover}"/>
+                            <Setter TargetName="chevron" Property="Fill" Value="{StaticResource Brush.TextPrimary}"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <!-- Set the whole transform: a name inside RenderTransform is not in the
+                                 template's name scope, so TargetName can't reach a RotateTransform. -->
+                            <Setter TargetName="chevron" Property="RenderTransform">
+                                <Setter.Value><RotateTransform Angle="90"/></Setter.Value>
+                            </Setter>
+                            <Setter TargetName="chevron" Property="Fill" Value="{StaticResource Brush.Accent}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Icon + label, accent-tinted. The enlarge affordance is the most useful control on the body
+         row, and as a bare ghost icon it read fainter than the two view checkboxes beside it. -->
+    <Style x:Key="AccentTextIconButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource Brush.Accent}"/>
+        <Setter Property="FontFamily" Value="{StaticResource Font.Ui}"/>
+        <Setter Property="FontSize" Value="12.5"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="6"
+                            BorderBrush="{StaticResource Brush.AbbrBorder}" BorderThickness="1" Padding="9,3">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE740;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                                       VerticalAlignment="Center" Margin="0,0,7,0"/>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="b" Property="Background" Value="{StaticResource Brush.AbbrBg}"/>
+                            <Setter TargetName="b" Property="BorderBrush" Value="{StaticResource Brush.Accent}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style x:Key="GhostIconButton" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{StaticResource Brush.TextMuted}"/>
