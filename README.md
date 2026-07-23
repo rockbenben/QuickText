@@ -15,7 +15,7 @@
 
 > Your reusable text, a few keystrokes away — dropped straight at the cursor.
 
-- WPF / .NET 10, single-file portable exe, **no account, offline by default** — only the optional update check ever contacts GitHub.
+- A single portable exe — **no account, offline by default**; only the optional update check ever contacts GitHub.
 - Data is **local JSON** in your own folder — put it in Dropbox / OneDrive / a NAS to sync.
 - Dark theme, **18 UI languages** (with right-to-left mirroring for Arabic), settings apply instantly.
 
@@ -133,7 +133,7 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 - **Panel position** — follow the active window (default) / follow the text caret / remember last position.
 - **Summon method (pick one)** — ① **key combo**: click the box and press a new one (ordinary keys need `Ctrl`/`Alt`/`Shift`/`Win`; function keys **`F1`–`F24` work on their own**); or ② **tap a modifier**: **single- or double-tap one modifier** (e.g. right `Ctrl`, right `Shift`) to summon (a lone modifier can't be a normal hotkey, so it's detected by tap). Choosing tap disables the combo — the two are mutually exclusive, so it's always clear which one is live.
 - **Capture hotkey** — optional second combo that **silently saves the clipboard as a new snippet** (balloon feedback, no window).
-- **Data folder** — point it at a sync drive; **export / import backup** (zip, validated with an overwrite confirm); daily **auto-backup** to this machine (newest 10 kept, one-click folder access).
+- **Data folder** — point it at a sync drive ([the snippets stay plain JSON](#where-youd-use-it), so the sync provider can read them); **export / import backup** (zip, validated with an overwrite confirm); daily **auto-backup** to this machine (newest 10 kept, one-click folder access).
 - **Language** — **18 languages**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, switched instantly. **Start with Windows** optional.
 - **Check for updates** — off by default; when on, the app contacts GitHub once at startup to see if a newer release exists (the only time it goes online). "Check now" runs it on demand.
 
@@ -188,11 +188,21 @@ Assets live in `assets/branding/`: `quicktext-mark.svg` (primary), `quicktext-ma
 
 Pure Core (no Win32, unit-testable) kept separate from Win32/UI.
 
-| Project                      | Contents                                                                                                                                                                                                             |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/QuickText.Core`         | `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`), `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Snippets` (`Placeholders`, `PlaceholderScanner`, `CodeLanguages`), `Pinyin`, `Settings`, `Localization` (.resx, 18 languages) |
-| `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `BodyEditorWindow` / `AppDialog` / `VariablesDialog`), body editors (`BodyEditor` — native TextBox with the `PlaceholderLayer` / `LineNumberGutter` custom-drawn layers; `CodeEditor` — AvalonEdit), `Ui/Syntax` (bundled YAML/INI/Shell highlighting definitions and the dark palette), `Ui/Theme.xaml` (dark theme), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
-| `tests/QuickText.Core.Tests` | Core unit tests (xUnit)                                                                                                                                                                                              |
+**`src/QuickText.Core`** — everything testable without a window:
+
+- `Models`, `Persistence` (`Store`, `UsageStore`, `JsonConfig`)
+- `Search` (`SearchIndex`), `Abbr` (`AbbrMatcher`), `Pinyin`
+- `Snippets` (`Placeholders`, `PlaceholderScanner`, `CodeLanguages`)
+- `Settings`, `Localization` (.resx, 18 languages)
+
+**`src/QuickText.App`** — the WPF layer:
+
+- Windows: `SearchPanel` / `ManagerWindow` / `SettingsWindow` / `BodyEditorWindow` / `AppDialog` / `VariablesDialog`
+- Body editors: `BodyEditor` (native TextBox with the custom-drawn `PlaceholderLayer` and `LineNumberGutter`) and `CodeEditor` (AvalonEdit)
+- `Ui/Syntax` (bundled YAML/INI/Shell highlighting plus the dark palette), `Ui/Theme.xaml`
+- `Interop`: `GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`
+
+**`tests/QuickText.Core.Tests`** — Core unit tests (xUnit).
 
 ## Build & run
 

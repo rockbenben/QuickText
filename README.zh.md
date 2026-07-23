@@ -15,7 +15,7 @@
 
 > 存好常用文本，在任意输入框敲几个拼音，一键贴到光标处。
 
-- WPF / .NET 10，单文件绿色版，**无账号、默认不联网**——仅可选的“检查更新”会访问 GitHub。
+- 单文件绿色版，**无账号、默认不联网**——仅可选的「检查更新」会访问 GitHub。
 - 数据是你自己文件夹里的**本地 JSON**，可放进坚果云 / OneDrive / NAS 同步。
 - 深色主题，**18 种界面语言**（阿拉伯语 RTL 镜像），设置即时生效。
 
@@ -132,7 +132,7 @@
 - **快速采集热键**：设置一个组合键后，按下即把当前剪贴板文本**静默存为新条目**（气泡提示，不弹窗口）。
 - **面板位置**：跟随活动窗口（默认）/ 跟随文字光标 / 记住上次位置。
 - **呼出方式（二选一）**：① **组合键** —— 点输入框按下新组合即改（普通键需配 `Ctrl`/`Alt`/`Shift`/`Win`，功能键 **`F1`–`F24` 可单独用**）；② **连按修饰键** —— **单击或双击一个修饰键**（如右 `Ctrl`、右 `Shift`）即呼出（单个修饰键做不了普通热键，故用连按检测）。选了连按就自动停用组合键，界面上互斥、一眼可辨当前生效的是哪种。
-- **数据夹**：可指向同步盘；**导出 / 导入备份**（zip，导入前校验并确认覆盖）；本机**每日自动备份**（保留最新 10 份，一键打开备份目录）。
+- **数据夹**：可指向同步盘（[片段是明文 JSON](#用在哪里)，同步服务商读得到）；**导出 / 导入备份**（zip，导入前校验并确认覆盖）；本机**每日自动备份**（保留最新 10 份，一键打开备份目录）。
 - **界面语言**：**18 种** —— 简体 · 繁體 · English · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية（RTL）· Türkçe，即时切换。**开机自启**可选。
 - **检查更新**：默认关闭；开启后仅在启动时联网访问 GitHub 看有无新版(应用唯一的联网操作)。也可点「立即检查」按需触发。
 
@@ -187,11 +187,21 @@
 
 Core 纯逻辑（无 Win32，可单测）与 Win32/UI 隔离。
 
-| 项目                         | 内容                                                                                                                                                                                                                        |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `src/QuickText.Core`         | `Models`、`Persistence`（`Store`、`UsageStore`、`JsonConfig`）、`Search`（`SearchIndex`）、`Abbr`（`AbbrMatcher`）、`Snippets`（`Placeholders`、`PlaceholderScanner`、`CodeLanguages`）、`Pinyin`、`Settings`、`Localization`（.resx，18 语）  |
-| `src/QuickText.App`          | WPF 界面（`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `BodyEditorWindow` / `AppDialog` / `VariablesDialog`）、正文编辑器（`BodyEditor` 原生 TextBox + `PlaceholderLayer` / `LineNumberGutter` 自绘层；`CodeEditor` 基于 AvalonEdit）、`Ui/Syntax`（自带 YAML/INI/Shell 高亮定义与深色配色）、`Ui/Theme.xaml`（夜行深色主题）、`Interop`（`GlobalHotkey`、`KeyboardHook`、`PasteEngine`、`Autostart`、`NativeMethods`） |
-| `tests/QuickText.Core.Tests` | Core 单元测试（xUnit）                                                                                                                                                                                                      |
+**`src/QuickText.Core`** —— 不需要窗口就能测的那部分：
+
+- `Models`、`Persistence`（`Store`、`UsageStore`、`JsonConfig`）
+- `Search`（`SearchIndex`）、`Abbr`（`AbbrMatcher`）、`Pinyin`
+- `Snippets`（`Placeholders`、`PlaceholderScanner`、`CodeLanguages`）
+- `Settings`、`Localization`（.resx，18 种语言）
+
+**`src/QuickText.App`** —— WPF 界面层：
+
+- 窗口：`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `BodyEditorWindow` / `AppDialog` / `VariablesDialog`
+- 正文编辑器：`BodyEditor`（原生 TextBox + 自绘的 `PlaceholderLayer`、`LineNumberGutter`）与 `CodeEditor`（基于 AvalonEdit）
+- `Ui/Syntax`（自带 YAML/INI/Shell 高亮定义与深色配色）、`Ui/Theme.xaml`
+- `Interop`：`GlobalHotkey`、`KeyboardHook`、`PasteEngine`、`Autostart`、`NativeMethods`
+
+**`tests/QuickText.Core.Tests`** —— Core 单元测试（xUnit）。
 
 ## 构建与运行
 
