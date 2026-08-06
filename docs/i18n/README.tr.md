@@ -6,7 +6,9 @@
 
 # QuickText
 
-> **[365 Açık Kaynak Planı](https://github.com/rockbenben/365opensource)** kapsamında 023. proje · Windows sistem tepsisinde çalışan snippet yöneticisi ve metin genişletici.
+> Windows sistem tepsisinde çalışan snippet yöneticisi ve metin genişletici.
+
+![Paneli herhangi bir pencerenin üzerinde çağır, birkaç harf yaz, snippet imlecin olduğu yere düşsün](../images/quicktext-demo.webp)
 
 **Aynı şeyi iki kez yazmayı bırakın.** QuickText, Windows sistem tepsisinde durur: tekrar tekrar başvurduğunuz metinleri — e-posta, adresler, imzalar, şablonlar, hazır yanıtlar, görseller — bir kez saklayın, ardından **herhangi bir giriş kutusunda** birkaç tuşa veya bir kısaltmaya basın; metin tam imlecinizin olduğu yere düşsün. Çok satırlı içerik, özel karakterler ve emojiler karakter karakter korunur.
 
@@ -14,7 +16,7 @@
 
 - WPF / .NET 10, tek dosyalık taşınabilir exe, **hesap yok, varsayılan olarak çevrimdışı** — yalnızca isteğe bağlı güncelleme denetimi GitHub'a bağlanır.
 - Veriler kendi klasörünüzdeki **yerel JSON** olarak durur — senkronize etmek için Dropbox / OneDrive / bir NAS içine koyun.
-- Koyu tema, **18 arayüz dili** (Arapça için sağdan sola yansıtmayla), ayarlar anında uygulanır.
+- Koyu ve açık tema (veya Windows’u izle), **18 arayüz dili** (Arapça için sağdan sola yansıtmayla), ayarlar anında uygulanır.
 
 **[⬇ En son sürümü indir](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, tek dosya taşınabilir. Kod imzalı değil, bu yüzden SmartScreen ilk çalıştırmada uyarır: **More info → Run anyway**.
 
@@ -75,6 +77,8 @@ Kısaltmalar ve değişkenlerle ilgili tüm ayrıntılar aşağıdaki **Ayrınt�
 
 ## Metninizi ekleyin / düzenleyin
 
+![Yönetici: solda kategoriler, ortada snippet'ler, sağda düzenleyici](../images/quicktext-manager.webp)
+
 - **Tepsi → Yöneticiyi Aç** — tam editör: solda kategoriler, sağda snippet'ler, altta editör. Kategori ekleyin/yeniden adlandırın/silin (**7 renkli** bir etiketle), snippet'leri düzenleyin (ad, kısaltma, gövde, görsel). Yeniden sıralamak veya kategoriler arasında taşımak için sürükleyin; `Ctrl+Z` bir silmeyi geri alır.
 - **Tepsi → Panodan yeni** — mevcut panodan yeni bir snippet oluşturun ve tamamlamak için Yönetici'de açın (diske yazmak için **Kaydet**'e basın; Yönetici'yi kapatırken kaydetmek mi yoksa vazgeçmek mi istediğiniz sorulur).
 - **Panelde oluşturun** — arama kutusuna metni yazın ve `Ctrl+N` tuşuna basarak yeni bir parça olarak kaydedin (bu metin gövde olur; `@kategori …` onu o kategoriye yerleştirir) ve tamamlamak üzere Yönetici'ye geçin (`Ctrl+E` seçili olanı düzenler).
@@ -118,12 +122,13 @@ Ayrıntılar: eşleştirme **büyük/küçük harfe duyarlı değildir** (`;SIG`
 
 ## Çıktı ve genel ayarlar (Tepsi → Ayarlar)
 
-- **Çıktı** — varsayılan "etkin uygulamaya yapıştır"; veya "yalnızca panoya kopyala" (`Ctrl+V` ile siz yapıştırırsınız). İsteğe bağlı: yapıştırmadan sonra Enter'a bas, göndermek için tek tıklama, panoyu geri yükle. **Her snippet bunu geçersiz kılabilir** (Yönetici → Çıktı: geneli takip et / yapıştır / yapıştır + Enter / yalnızca kopyala) — sohbet ifadeleri otomatik gönderilir, kod snippet'leri asla gönderilmez.
+- **Çıktı** — varsayılan "etkin uygulamaya yapıştır"; veya "yalnızca panoya kopyala" (`Ctrl+V` ile siz yapıştırırsınız). İsteğe bağlı: yapıştırmadan sonra Enter'a bas, göndermek için tek tıklama, “Panomu olduğu gibi koru” (geri yükleme varsayılan olarak kapalıdır — panoyu yavaş okuyan uygulamalar eski içeriği yapıştırabilir). **Her snippet bunu geçersiz kılabilir** (Yönetici → Çıktı: geneli takip et / yapıştır / yapıştır + Enter / yalnızca kopyala) — sohbet ifadeleri otomatik gönderilir, kod snippet'leri asla gönderilmez.
 - **Panel konumu** — etkin pencereyi takip et (varsayılan) / metin imlecini takip et / son konumu hatırla.
 - **Çağırma yöntemi (birini seçin)** — ① **tuş kombinasyonu**: kutuya tıklayın ve yeni bir tane basın (sıradan tuşlar `Ctrl`/`Alt`/`Shift`/`Win` gerektirir; işlev tuşları **`F1`–`F24` tek başına çalışır**); veya ② **bir değiştirici tuşa dokunun**: çağırmak için **bir değiştirici tuşa tek veya çift dokunun** (örneğin sağ `Ctrl`, sağ `Shift`) (tek başına bir değiştirici tuş normal kısayol olamayacağından dokunuşla algılanır). Dokunmayı seçmek kombinasyonu devre dışı bırakır — ikisi birbirini dışlar, böylece hangisinin etkin olduğu her zaman nettir.
 - **Yakalama kısayolu** — panoyu **sessizce yeni bir snippet olarak kaydeden** isteğe bağlı ikinci bir kombinasyon (balon geri bildirimi, pencere yok).
 - **Veri klasörü** — bir senkronizasyon sürücüsüne yönlendirin; **yedeği dışa / içe aktar** (zip, üzerine yazma onayıyla doğrulanır); bu makineye günlük **otomatik yedekleme** (en yeni 10 tanesi tutulur, tek tıkla klasör erişimi).
 - **Dil** — **18 dil**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, anında değişir. **Windows ile başlat** isteğe bağlı.
+- **Tema** — koyu (varsayılan) / açık / Windows’u izle; seçtiğiniz anda uygulanır, yeniden başlatma gerekmez.
 - **Güncellemeleri denetle** — varsayılan olarak kapalı; açıkken başlangıçta bir kez GitHub'a bağlanarak yeni sürüm olup olmadığını denetler (çevrimiçi olduğu tek an). «Şimdi denetle» ile isteğe bağlı çalıştırın.
 
 ## Klavye kısa referansı
@@ -149,7 +154,7 @@ Ayrıntılar: eşleştirme **büyük/küçük harfe duyarlı değildir** (`;SIG`
 - **Çıktı**: doğrudan yapıştır / yalnızca kopyala; isteğe bağlı otomatik Enter, panoyu geri yükleme, tek tıkla gönderme; **snippet başına çıktı geçersiz kılma**; yakalama kısayolu (pano → tek basışta snippet).
 - **Yönetici**: **geniş gövde editörü** (`⤢ Büyüt` onu kendi penceresinde açar; kaydedilmemiş değişiklikler her zaman sorulur — pencereyi kapatırken ve başka bir kayda geçerken), **yer tutucu vurgulama** (türe göre renklendirilir; ölü snippet referansları / geçersiz tarih biçimleri / kapanmamış süslü parantezler, üzerine gelindiğinde nedeniyle birlikte kırmızı dalgalı çizgiyle gösterilir; yer tutucular kapalıyken hiçbir şey vurgulanmaz — bunun yerine durum çubuğu bunu belirtir), **koda uygun** (büyütülmüş pencere her zaman satır numaralarını gösterir ve sözdizimi vurgulama için 13 kod biçimi sunar; Enter girintiyi korur, `Tab` çok satırlı bir seçime girinti uygular, kaydırmasız mod), 7 kategori rengi, sürükleyerek sıralama / taşıma, **çoklu seçimle toplu taşıma / silme** (Ctrl / Shift ile seçin, sonra sağ tıklayın), silmeyi geri alma, **çöp kutusu (30 günlük geri yükleme, gövde önizlemesiyle)**, yinelenen kısaltma uyarısı, kullanım istatistikleri, kaydetme geri bildirimi.
 - **Veri**: yerel JSON, sıcak yeniden yükleme (dış düzenlemeleri / senkronizasyonu otomatik birleştirir), senkronizasyon çakışması bildirimi, yedeği dışa / içe aktarma, **günlük otomatik yedekleme (10 tanesi tutulur)**, Windows ile başlatma.
-- **Yerelleştirme**: **18 arayüz dili** (Basitleştirilmiş / Geleneksel Çince, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …), **Arapça için sağdan sola yansıtmayla**, Ayarlar'da canlı olarak değişir.
+- **Yerelleştirme**: **18 arayüz dili** (Basitleştirilmiş / Geleneksel Çince, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …), **Arapça için sağdan sola yansıtmayla**, Ayarlar'da canlı olarak değişir. Koyu ve açık tema (veya Windows’u izle) de anında değişir.
 - **Sağlamlık**: tek örnek (ikinci bir başlatma, kancaları iki kez kurmak yerine arama panelini çağırır); CI her push'ta testleri artı bir pencere duman kontrolü çalıştırır ve `v*` etiketlerinde tek dosyalık bir exe yayınlar.
 
 ## Veri ve senkronizasyon
@@ -199,10 +204,12 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 .NET 10 SDK gerektirir. Yalnızca Windows (Win32 global kısayol / klavye kancası / pano).
 
-## 365 Açık Kaynak Planı hakkında
-
-[365 Açık Kaynak Planı](https://github.com/rockbenben/365opensource) kapsamındaki **#023** numaralı proje — bir kişi + yapay zeka, bir yılda 300'den fazla açık kaynak proje. [Fikrinizi paylaşın →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
-
 ## Lisans
 
 [MIT License](../../LICENSE) · Telif hakkı © 2026 rockbenben. Kullanmakta, değiştirmekte ve dağıtmakta özgürsünüz.
+
+## 365 Açık Kaynak Planı hakkında
+
+[365 Açık Kaynak Planı](https://github.com/rockbenben/365opensource) kapsamındaki **#023** numaralı proje — bir kişi + yapay zeka, bir yılda 300'den fazla açık kaynak proje.
+
+[Fikrinizi paylaşın →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

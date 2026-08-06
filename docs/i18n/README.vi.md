@@ -6,7 +6,9 @@
 
 # QuickText
 
-> Thuộc **[Kế hoạch 365 mã nguồn mở](https://github.com/rockbenben/365opensource)** — dự án số 023 · trình quản lý đoạn văn bản kiêm mở rộng văn bản thường trú ở khay Windows.
+> trình quản lý đoạn văn bản kiêm mở rộng văn bản thường trú ở khay Windows.
+
+![Gọi bảng tìm kiếm trên bất kỳ cửa sổ nào, gõ vài chữ, đoạn văn bản rơi đúng vị trí con trỏ](../images/quicktext-demo.webp)
 
 **Đừng gõ đi gõ lại cùng một thứ.** QuickText nằm trong khay hệ thống của Windows: hãy lưu một lần những đoạn văn bản bạn dùng đi dùng lại — email, địa chỉ, chữ ký, mẫu văn bản, câu trả lời soạn sẵn, hình ảnh — rồi trong **bất kỳ ô nhập liệu nào**, chỉ cần gõ vài phím hoặc một từ viết tắt là nó xuất hiện ngay tại con trỏ của bạn. Nhiều dòng, ký tự đặc biệt và emoji được giữ nguyên vẹn từng ký tự.
 
@@ -14,7 +16,7 @@
 
 - WPF / .NET 10, exe di động dạng đơn tệp, **không cần tài khoản, ngoại tuyến theo mặc định** — chỉ việc kiểm tra cập nhật tùy chọn mới kết nối GitHub.
 - Dữ liệu là **JSON cục bộ** trong thư mục của riêng bạn — đặt nó vào Dropbox / OneDrive / một NAS để đồng bộ.
-- Giao diện tối, **18 ngôn ngữ giao diện** (có phản chiếu phải-sang-trái cho tiếng Ả Rập), thiết lập áp dụng tức thì.
+- Giao diện tối và sáng (hoặc theo Windows), **18 ngôn ngữ giao diện** (có phản chiếu phải-sang-trái cho tiếng Ả Rập), thiết lập áp dụng tức thì.
 
 **[⬇ Tải bản mới nhất](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable một tệp. Không được ký số nên lần chạy đầu SmartScreen sẽ cảnh báo: **More info → Run anyway**.
 
@@ -75,6 +77,8 @@ Nhấp đúp **`QuickText.exe`**; nó nằm trong **khay hệ thống** (không 
 
 ## Thêm / chỉnh sửa văn bản của bạn
 
+![Trình quản lý: danh mục bên trái, đoạn văn bản ở giữa, trình soạn thảo bên phải](../images/quicktext-manager.webp)
+
 - **Khay → Mở Trình quản lý** — trình soạn thảo đầy đủ: danh mục bên trái, đoạn văn bản bên phải, trình soạn thảo bên dưới. Thêm/đổi tên/xóa danh mục (với thẻ **7 màu**), chỉnh sửa đoạn văn bản (tên, từ viết tắt, nội dung, hình ảnh). Kéo để sắp xếp lại hoặc chuyển giữa các danh mục; `Ctrl+Z` hoàn tác một thao tác xóa.
 - **Khay → Tạo mới từ clipboard** — tạo một đoạn văn bản mới từ clipboard hiện tại và mở nó trong Trình quản lý để hoàn thiện (nhấn **Lưu** để ghi vào ổ đĩa; đóng Trình quản lý sẽ hỏi bạn muốn lưu hay hủy).
 - **Tạo trong bảng** — gõ nội dung vào ô tìm kiếm và nhấn `Ctrl+N` để lưu thành đoạn mới (văn bản đó trở thành nội dung; `@danh mục …` xếp nó vào danh mục đó) và nhảy đến Trình quản lý để hoàn thiện (`Ctrl+E` chỉnh sửa mục đang chọn).
@@ -118,12 +122,13 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 
 ## Đầu ra & cài đặt thông dụng (Khay → Cài đặt)
 
-- **Đầu ra** — mặc định "dán vào ứng dụng đang hoạt động"; hoặc "chỉ sao chép vào clipboard" (bạn dán bằng `Ctrl+V`). Tùy chọn: nhấn Enter sau khi dán, nhấp một lần để gửi, khôi phục clipboard. **Mỗi đoạn văn bản có thể ghi đè điều này** (Trình quản lý → Đầu ra: theo toàn cục / dán / dán + Enter / chỉ sao chép) — câu chat tự động gửi, đoạn mã thì không bao giờ.
+- **Đầu ra** — mặc định "dán vào ứng dụng đang hoạt động"; hoặc "chỉ sao chép vào clipboard" (bạn dán bằng `Ctrl+V`). Tùy chọn: nhấn Enter sau khi dán, nhấp một lần để gửi, “Giữ nguyên bộ nhớ tạm của tôi” (khôi phục mặc định tắt — các ứng dụng đọc clipboard chậm có thể dán ra nội dung cũ). **Mỗi đoạn văn bản có thể ghi đè điều này** (Trình quản lý → Đầu ra: theo toàn cục / dán / dán + Enter / chỉ sao chép) — câu chat tự động gửi, đoạn mã thì không bao giờ.
 - **Vị trí bảng** — theo cửa sổ đang hoạt động (mặc định) / theo con trỏ văn bản / ghi nhớ vị trí lần trước.
 - **Phương thức gọi ra (chọn một)** — ① **tổ hợp phím**: nhấp vào ô và nhấn một tổ hợp mới (phím thông thường cần `Ctrl`/`Alt`/`Shift`/`Win`; phím chức năng **`F1`–`F24` dùng độc lập được**); hoặc ② **gõ nhẹ một phím bổ trợ**: **gõ một hoặc hai lần một phím bổ trợ** (ví dụ `Ctrl` phải, `Shift` phải) để gọi ra (một phím bổ trợ đơn lẻ không thể là phím tắt thông thường, nên nó được phát hiện qua thao tác gõ nhẹ). Chọn gõ nhẹ sẽ tắt tổ hợp — hai cái loại trừ lẫn nhau, nên luôn rõ cái nào đang hoạt động.
 - **Phím tắt thu thập** — tổ hợp thứ hai tùy chọn giúp **lặng lẽ lưu clipboard thành một đoạn văn bản mới** (phản hồi bằng bong bóng, không có cửa sổ).
 - **Thư mục dữ liệu** — trỏ nó vào một ổ đĩa đồng bộ; **xuất / nhập bản sao lưu** (zip, được kiểm tra với xác nhận ghi đè); **tự động sao lưu** hàng ngày về máy này (giữ 10 bản mới nhất, truy cập thư mục bằng một cú nhấp).
 - **Ngôn ngữ** — **18 ngôn ngữ**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, chuyển đổi tức thì. **Khởi động cùng Windows** tùy chọn.
+- **Giao diện** — tối (mặc định) / sáng / theo Windows, áp dụng ngay khi chọn, không cần khởi động lại.
 - **Kiểm tra cập nhật** — tắt theo mặc định; khi bật, ứng dụng kết nối GitHub một lần lúc khởi động để kiểm tra phiên bản mới (lần duy nhất truy cập mạng). «Kiểm tra ngay» chạy khi cần.
 
 ## Bảng tra cứu nhanh phím tắt
@@ -149,7 +154,7 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 - **Đầu ra**: dán trực tiếp / chỉ sao chép; tùy chọn tự động Enter, khôi phục clipboard, nhấp một lần để gửi; **ghi đè đầu ra theo từng đoạn**; phím tắt thu thập (clipboard → đoạn văn bản trong một cú nhấn).
 - **Trình quản lý**: **trình soạn thảo nội dung rộng rãi** (`⤢ Phóng to` mở nó trong cửa sổ riêng; thay đổi chưa lưu luôn được hỏi lại — khi đóng cửa sổ và khi chuyển sang mục khác), **tô màu trình giữ chỗ** (tô theo loại; tham chiếu đoạn văn bản không tồn tại / định dạng ngày không hợp lệ / dấu ngoặc nhọn chưa đóng được gạch chân sóng đỏ kèm lý do khi di chuột qua; không có gì được tô màu khi trình giữ chỗ tắt — thay vào đó thanh trạng thái sẽ thông báo), **thân thiện với mã** (cửa sổ phóng to luôn hiển thị số dòng và cung cấp 13 định dạng mã để tô sáng cú pháp; Enter giữ nguyên thụt lề, `Tab` thụt lề một vùng chọn nhiều dòng, chế độ không ngắt dòng), 7 màu danh mục, kéo sắp xếp lại / chuyển, **chọn nhiều để chuyển / xóa hàng loạt** (chọn bằng Ctrl / Shift, rồi nhấp chuột phải), hoàn tác xóa, **thùng rác (khôi phục trong 30 ngày, có xem trước nội dung)**, cảnh báo trùng từ viết tắt, thống kê sử dụng, phản hồi khi lưu.
 - **Dữ liệu**: JSON cục bộ, tải lại nóng (tự động hợp nhất chỉnh sửa từ bên ngoài / đồng bộ), thông báo xung đột đồng bộ, xuất / nhập bản sao lưu, **tự động sao lưu hàng ngày (giữ 10 bản)**, khởi động cùng Windows.
-- **Bản địa hóa**: **18 ngôn ngữ giao diện** (Tiếng Trung Giản thể / Phồn thể, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) với **phản chiếu phải-sang-trái cho tiếng Ả Rập**, chuyển đổi trực tiếp trong Cài đặt.
+- **Bản địa hóa**: **18 ngôn ngữ giao diện** (Tiếng Trung Giản thể / Phồn thể, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) với **phản chiếu phải-sang-trái cho tiếng Ả Rập**, chuyển đổi trực tiếp trong Cài đặt. Giao diện tối và sáng (hoặc theo Windows), cũng đổi ngay.
 - **Độ bền bỉ**: một phiên bản duy nhất (lần khởi động thứ hai sẽ gọi bảng tìm kiếm ra thay vì cài đặt hook trùng lặp); CI chạy các bài kiểm thử cộng với kiểm tra nhanh cửa sổ ở mỗi lần push và xuất bản một exe đơn tệp trên các thẻ `v*`.
 
 ## Dữ liệu & đồng bộ
@@ -199,10 +204,12 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Yêu cầu .NET 10 SDK. Chỉ dành cho Windows (phím tắt toàn cục Win32 / keyboard hook / clipboard).
 
-## Giới thiệu về 365 Open Source Plan
-
-Dự án **#023** của [365 Open Source Plan](https://github.com/rockbenben/365opensource) — một người + AI, hơn 300 dự án mã nguồn mở trong một năm. [Gửi ý tưởng của bạn →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
-
 ## Giấy phép
 
 [MIT License](../../LICENSE) · Bản quyền © 2026 rockbenben. Tự do sử dụng, chỉnh sửa, và phân phối.
+
+## Giới thiệu về 365 Open Source Plan
+
+Dự án **#023** của [365 Open Source Plan](https://github.com/rockbenben/365opensource) — một người + AI, hơn 300 dự án mã nguồn mở trong một năm.
+
+[Gửi ý tưởng của bạn →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

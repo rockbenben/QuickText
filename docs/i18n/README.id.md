@@ -6,7 +6,9 @@
 
 # QuickText
 
-> Bagian dari **[Rencana 365 Sumber Terbuka](https://github.com/rockbenben/365opensource)** — proyek ke-023 · pengelola snippet dan pemekar teks yang menetap di baki Windows.
+> pengelola snippet dan pemekar teks yang menetap di baki Windows.
+
+![Panggil panel di atas jendela mana pun, ketik beberapa huruf, snippet mendarat di kursor](../images/quicktext-demo.webp)
 
 **Berhenti mengetik hal yang sama dua kali.** QuickText tinggal di tray Windows: simpan teks yang Anda pakai berulang kali — email, alamat, tanda tangan, templat, balasan siap pakai, gambar — cukup sekali, lalu di **kotak input mana pun** ketik beberapa tombol atau sebuah singkatan dan teks itu langsung mendarat tepat di kursor Anda. Multi-baris, karakter khusus, dan emoji dipertahankan karakter demi karakter.
 
@@ -14,7 +16,7 @@
 
 - WPF / .NET 10, exe portabel file tunggal, **tanpa akun, luring secara bawaan** — hanya pemeriksaan pembaruan opsional yang menghubungi GitHub.
 - Data berupa **JSON lokal** di folder Anda sendiri — taruh di Dropbox / OneDrive / NAS untuk sinkronisasi.
-- Tema gelap, **18 bahasa UI** (dengan pencerminan kanan-ke-kiri untuk bahasa Arab), pengaturan berlaku seketika.
+- Tema gelap dan terang (atau ikuti Windows), **18 bahasa UI** (dengan pencerminan kanan-ke-kiri untuk bahasa Arab), pengaturan berlaku seketika.
 
 **[⬇ Unduh versi terbaru](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portabel satu file. Tidak ditandatangani, jadi SmartScreen memperingatkan saat pertama dijalankan: **More info → Run anyway**.
 
@@ -75,6 +77,8 @@ Klik ganda **`QuickText.exe`**; ia tinggal di **system tray** (tanpa tombol task
 
 ## Tambah / edit teks Anda
 
+![Manager: kategori di kiri, snippet di tengah, editor di kanan](../images/quicktext-manager.webp)
+
 - **Tray → Buka Manager** — editor lengkap: kategori di kiri, snippet di kanan, editor di bawah. Tambah/ganti nama/hapus kategori (dengan tag **7 warna**), edit snippet (nama, singkatan, isi, gambar). Seret untuk menyusun ulang atau memindahkan antar kategori; `Ctrl+Z` membatalkan penghapusan.
 - **Tray → Baru dari clipboard** — buat snippet baru dari isi clipboard saat ini dan buka di Manager untuk menyelesaikannya (tekan **Simpan** untuk menulisnya ke disk; menutup Manager akan menanyakan apakah ingin menyimpan atau membuang perubahan).
 - **Buat di panel** — ketik teks di kotak pencarian lalu tekan `Ctrl+N` untuk menyimpannya sebagai snippet baru (teks itu menjadi isi; `@kategori …` menaruhnya di kategori tersebut) dan langsung ke Manager untuk menyelesaikan (`Ctrl+E` mengedit yang terpilih).
@@ -118,12 +122,13 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 
 ## Output & pengaturan umum (Tray → Pengaturan)
 
-- **Output** — default “tempel ke aplikasi aktif”; atau “salin ke clipboard saja” (Anda menempel dengan `Ctrl+V`). Opsional: tekan Enter setelah menempel, klik tunggal untuk mengirim, pulihkan clipboard. **Setiap snippet bisa menimpa ini** (Manager → Output: ikuti global / tempel / tempel + Enter / salin saja) — frasa chat terkirim otomatis, snippet kode tak pernah.
+- **Output** — default “tempel ke aplikasi aktif”; atau “salin ke clipboard saja” (Anda menempel dengan `Ctrl+V`). Opsional: tekan Enter setelah menempel, klik tunggal untuk mengirim, “Jaga clipboard tetap utuh” (pemulihan nonaktif secara bawaan — aplikasi yang membaca clipboard dengan lambat bisa menempelkan konten lama). **Setiap snippet bisa menimpa ini** (Manager → Output: ikuti global / tempel / tempel + Enter / salin saja) — frasa chat terkirim otomatis, snippet kode tak pernah.
 - **Posisi panel** — mengikuti jendela aktif (default) / mengikuti kursor teks / mengingat posisi terakhir.
 - **Cara memanggil (pilih satu)** — ① **kombinasi tombol**: klik kotaknya dan tekan yang baru (tombol biasa perlu `Ctrl`/`Alt`/`Shift`/`Win`; tombol fungsi **`F1`–`F24` bekerja sendirian**); atau ② **ketuk sebuah modifier**: **ketuk sekali atau dua kali satu modifier** (mis. `Ctrl` kanan, `Shift` kanan) untuk memanggil (modifier tunggal tak bisa jadi hotkey biasa, jadi dideteksi lewat ketukan). Memilih ketukan menonaktifkan kombinasi — keduanya saling eksklusif, jadi selalu jelas mana yang aktif.
 - **Hotkey tangkap** — kombinasi kedua opsional yang **diam-diam menyimpan clipboard sebagai snippet baru** (umpan balik balon, tanpa jendela).
 - **Folder data** — arahkan ke drive sinkronisasi; **ekspor / impor cadangan** (zip, divalidasi dengan konfirmasi penimpaan); **cadangan otomatis harian** ke mesin ini (10 terbaru disimpan, akses folder sekali klik).
 - **Bahasa** — **18 bahasa**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, diganti seketika. **Mulai bersama Windows** opsional.
+- **Tema** — gelap (bawaan) / terang / ikuti Windows, langsung berlaku tanpa mulai ulang.
 - **Periksa pembaruan** — nonaktif secara bawaan; jika aktif, terhubung ke GitHub sekali saat mulai untuk memeriksa versi baru (satu-satunya saat daring). «Periksa sekarang» menjalankannya sesuai permintaan.
 
 ## Contekan keyboard
@@ -149,7 +154,7 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 - **Output**: tempel langsung / salin saja; auto-Enter opsional, pulihkan clipboard, kirim klik tunggal; **penimpaan output per snippet**; hotkey tangkap (clipboard → snippet dalam satu tekan).
 - **Manager**: **editor isi yang lapang** (`⤢ Perbesar` membukanya di jendela sendiri; perubahan yang belum disimpan selalu dikonfirmasi — saat menutupnya dan saat beralih ke entri lain), **highlighting placeholder** (diwarnai menurut jenis; referensi snippet yang mati / format tanggal tidak valid / kurung kurawal tak tertutup diberi garis bawah bergelombang merah dengan alasan saat diarahkan kursor; tidak ada yang disorot saat placeholder nonaktif — status bar yang memberi tahu sebagai gantinya), **ramah kode** (jendela yang diperbesar selalu menampilkan nomor baris dan menawarkan 13 format kode untuk highlighting sintaks; Enter mempertahankan indentasi, `Tab` mengindentasi seleksi multi-baris, mode tanpa bungkus), 7 warna kategori, seret susun ulang / pindah, **pilih banyak untuk pindah / hapus massal** (pilih dengan Ctrl / Shift, lalu klik kanan), batalkan penghapusan, **tempat sampah (pulihkan 30 hari, dengan pratinjau isi)**, peringatan singkatan duplikat, statistik pemakaian, umpan balik penyimpanan.
 - **Data**: JSON lokal, hot-reload (menggabungkan otomatis suntingan eksternal / sinkronisasi), pemberitahuan konflik sinkronisasi, ekspor / impor cadangan, **cadangan otomatis harian (10 disimpan)**, mulai bersama Windows.
-- **Lokalisasi**: **18 bahasa UI** (Tionghoa Sederhana / Tradisional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) dengan **pencerminan kanan-ke-kiri untuk bahasa Arab**, diganti langsung di Pengaturan.
+- **Lokalisasi**: **18 bahasa UI** (Tionghoa Sederhana / Tradisional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) dengan **pencerminan kanan-ke-kiri untuk bahasa Arab**, diganti langsung di Pengaturan. Tema gelap dan terang (atau ikuti Windows), juga langsung.
 - **Ketahanan**: instance tunggal (peluncuran kedua memanggil panel pencarian alih-alih memasang hook dua kali); CI menjalankan tes plus pemeriksaan asap jendela pada setiap push dan menerbitkan exe file tunggal pada tag `v*`.
 
 ## Data & sinkronisasi
@@ -199,10 +204,12 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Membutuhkan .NET 10 SDK. Hanya Windows (hotkey global Win32 / keyboard hook / clipboard).
 
-## Tentang 365 Open Source Plan
-
-Proyek **#023** dari [365 Open Source Plan](https://github.com/rockbenben/365opensource) — satu orang + AI, 300+ proyek open-source dalam setahun. [Ajukan ide Anda →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
-
 ## Lisensi
 
 [MIT License](../../LICENSE) · Hak Cipta © 2026 rockbenben. Bebas digunakan, dimodifikasi, dan didistribusikan.
+
+## Tentang 365 Open Source Plan
+
+Proyek **#023** dari [365 Open Source Plan](https://github.com/rockbenben/365opensource) — satu orang + AI, 300+ proyek open-source dalam setahun.
+
+[Ajukan ide Anda →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

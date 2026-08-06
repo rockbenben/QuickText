@@ -6,7 +6,9 @@
 
 # QuickText
 
-> Membre du **[Plan 365 open source](https://github.com/rockbenben/365opensource)** — projet n° 023 · un gestionnaire d'extraits et expanseur de texte dans la barre d'état de Windows.
+> un gestionnaire d'extraits et expanseur de texte dans la barre d'état de Windows.
+
+![Appelez le panneau au-dessus de n’importe quelle fenêtre, tapez quelques lettres, le fragment atterrit au curseur](../images/quicktext-demo.webp)
 
 **Ne tapez plus jamais deux fois la même chose.** QuickText réside dans la zone de notification de Windows : enregistrez une seule fois les textes que vous saisissez encore et encore — e-mail, adresses, signatures, modèles, réponses toutes faites, images — puis, dans **n'importe quel champ de saisie**, tapez quelques touches ou une abréviation et le texte se dépose juste à l'emplacement de votre curseur. Multiligne, caractères spéciaux et emoji préservés caractère par caractère.
 
@@ -14,7 +16,7 @@
 
 - WPF / .NET 10, exe portable en un seul fichier, **sans compte, hors ligne par défaut** — seule la vérification des mises à jour facultative contacte GitHub.
 - Les données sont du **JSON local** dans votre propre dossier — placez-le dans Dropbox / OneDrive / un NAS pour le synchroniser.
-- Thème sombre, **18 langues d'interface** (avec miroir de droite à gauche pour l'arabe), les réglages s'appliquent instantanément.
+- Thèmes sombre et clair (ou suivre Windows), **18 langues d'interface** (avec miroir de droite à gauche pour l'arabe), les réglages s'appliquent instantanément.
 
 **[⬇ Télécharger la dernière version](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable en un seul fichier. Non signé, donc SmartScreen avertit au premier lancement : **Informations complémentaires → Exécuter quand même**.
 
@@ -75,6 +77,8 @@ Double-cliquez sur **`QuickText.exe`** ; il réside dans la **zone de notificati
 
 ## Ajouter / modifier vos textes
 
+![Gestionnaire : catégories à gauche, fragments au centre, éditeur à droite](../images/quicktext-manager.webp)
+
 - **Zone de notification → Ouvrir le Gestionnaire** — l'éditeur complet : catégories à gauche, fragments à droite, éditeur en dessous. Ajouter/renommer/supprimer des catégories (avec une étiquette **7 couleurs**), modifier les fragments (nom, abréviation, corps, image). Glissez pour réordonner ou déplacer entre catégories ; `Ctrl+Z` annule une suppression.
 - **Zone de notification → Nouveau depuis le presse-papiers** — créez un nouveau fragment à partir du presse-papiers actuel et ouvrez-le dans le Gestionnaire pour le compléter (appuyez sur **Enregistrer** pour l'écrire sur le disque ; fermer le Gestionnaire demande s'il faut enregistrer ou abandonner).
 - **Créer dans le panneau** — tapez le texte dans le champ de recherche et appuyez sur `Ctrl+N` pour l'enregistrer comme nouveau fragment (ce texte devient le corps ; `@catégorie …` le classe dans cette catégorie) et sauter au Gestionnaire pour le compléter (`Ctrl+E` modifie celui qui est sélectionné).
@@ -118,12 +122,13 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 
 ## Sortie et réglages courants (Zone de notification → Réglages)
 
-- **Sortie** — par défaut « coller dans l'application active » ; ou « copier uniquement dans le presse-papiers » (vous collez avec `Ctrl+V`). En option : appuyer sur Entrée après le collage, envoi au simple clic, restaurer le presse-papiers. **Chaque fragment peut remplacer ce réglage** (Gestionnaire → Sortie : suivre le global / coller / coller + Entrée / copier uniquement) — les phrases de chat s'envoient automatiquement, les fragments de code jamais.
+- **Sortie** — par défaut « coller dans l'application active » ; ou « copier uniquement dans le presse-papiers » (vous collez avec `Ctrl+V`). En option : appuyer sur Entrée après le collage, envoi au simple clic, “Conserver mon presse-papiers intact” (la restauration est désactivée par défaut — les applications qui lisent lentement le presse-papiers risquent de coller l'ancien contenu). **Chaque fragment peut remplacer ce réglage** (Gestionnaire → Sortie : suivre le global / coller / coller + Entrée / copier uniquement) — les phrases de chat s'envoient automatiquement, les fragments de code jamais.
 - **Position du panneau** — suivre la fenêtre active (par défaut) / suivre le curseur de texte / se souvenir de la dernière position.
 - **Méthode d'appel (choisissez-en une)** — ① **combinaison de touches** : cliquez sur le champ et appuyez sur une nouvelle (les touches ordinaires nécessitent `Ctrl`/`Alt`/`Shift`/`Win` ; les touches de fonction **`F1`–`F24` fonctionnent seules**) ; ou ② **tapoter un modificateur** : **tapotez une ou deux fois un modificateur** (par ex. `Ctrl` droit, `Shift` droit) pour appeler (un modificateur seul ne peut pas être un raccourci normal, il est donc détecté au tapotement). Choisir le tapotement désactive la combinaison — les deux sont mutuellement exclusifs, on voit donc toujours clairement lequel est actif.
 - **Raccourci de capture** — deuxième combinaison optionnelle qui **enregistre silencieusement le presse-papiers comme nouveau fragment** (retour par bulle, sans fenêtre).
 - **Dossier de données** — pointez-le vers un lecteur de synchronisation ; **exporter / importer une sauvegarde** (zip, validée avec confirmation d'écrasement) ; **sauvegarde automatique** quotidienne sur cette machine (les 10 plus récentes conservées, accès au dossier en un clic).
 - **Langue** — **18 langues** : English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, changées instantanément. **Démarrer avec Windows** en option.
+- **Thème** — sombre (par défaut) / clair / suivre Windows, appliqué dès le clic, sans redémarrage.
 - **Vérifier les mises à jour** — désactivé par défaut ; si activé, se connecte à GitHub une fois au démarrage pour vérifier s'il existe une nouvelle version (le seul moment où l'application accède à Internet). « Vérifier maintenant » l'exécute à la demande.
 
 ## Aide-mémoire clavier
@@ -149,7 +154,7 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 - **Sortie** : coller directement / copier uniquement ; en option Entrée automatique, restaurer le presse-papiers, envoi au simple clic ; **remplacement de sortie par fragment** ; raccourci de capture (presse-papiers → fragment en une frappe).
 - **Gestionnaire** : **éditeur de corps spacieux** (`⤢ Agrandir` l'ouvre dans sa propre fenêtre ; les modifications non enregistrées sont toujours confirmées : à la fermeture, et au passage à un autre élément), **coloration des espaces réservés** (colorée selon le type ; les références de fragment mortes / formats de date invalides / accolades non fermées sont soulignées en rouge ondulé avec la raison au survol ; rien n'est coloré quand les espaces réservés sont désactivés — la barre d'état l'indique à la place), **adapté au code** (la fenêtre agrandie affiche toujours les numéros de ligne et propose 13 formats de code pour la coloration syntaxique ; Entrée conserve l'indentation, `Tab` indente une sélection multiligne, mode sans retour à la ligne), 7 couleurs de catégorie, réorganisation / déplacement par glisser, **déplacement / suppression par lot en sélection multiple** (sélection Ctrl / Shift, puis clic droit), annulation de suppression, **corbeille (restauration sous 30 jours, avec aperçu du corps)**, avertissement de doublon d'abréviation, statistiques d'usage, retour après enregistrement.
 - **Données** : JSON local, rechargement à chaud (fusionne automatiquement les modifications externes / la synchronisation), avis de conflit de synchronisation, exporter / importer une sauvegarde, **sauvegarde automatique quotidienne (10 conservées)**, démarrer avec Windows.
-- **Localisation** : **18 langues d'interface** (chinois simplifié / traditionnel, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) avec **miroir de droite à gauche pour l'arabe**, changées en direct dans les Réglages.
+- **Localisation** : **18 langues d'interface** (chinois simplifié / traditionnel, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) avec **miroir de droite à gauche pour l'arabe**, changées en direct dans les Réglages. Thèmes sombre et clair (ou suivre Windows), également en direct.
 - **Robustesse** : instance unique (un second lancement appelle le panneau de recherche au lieu d'installer les hooks en double) ; la CI exécute les tests plus une vérification de fumée de fenêtre à chaque push et publie un exe en un seul fichier sur les étiquettes `v*`.
 
 ## Données et synchronisation
@@ -199,10 +204,12 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Nécessite le SDK .NET 10. Windows uniquement (raccourci global Win32 / hook clavier / presse-papiers).
 
-## À propos du 365 Open Source Plan
-
-Projet **#023** du [365 Open Source Plan](https://github.com/rockbenben/365opensource) — une personne + l'IA, plus de 300 projets open source en un an. [Proposez votre idée →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
-
 ## Licence
 
 [MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Libre d'utilisation, de modification et de distribution.
+
+## À propos du 365 Open Source Plan
+
+Projet **#023** du [365 Open Source Plan](https://github.com/rockbenben/365opensource) — une personne + l'IA, plus de 300 projets open source en un an.
+
+[Proposez votre idée →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

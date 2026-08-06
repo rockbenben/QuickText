@@ -6,7 +6,9 @@
 
 # QuickText
 
-> Parte del **[Plan 365 de código abierto](https://github.com/rockbenben/365opensource)** — proyecto n.º 023 · un gestor de fragmentos y expansor de texto en la bandeja de Windows.
+> un gestor de fragmentos y expansor de texto en la bandeja de Windows.
+
+![Invoca el panel sobre cualquier ventana, escribe unas letras y el fragmento aparece en el cursor](../images/quicktext-demo.webp)
 
 **Deja de escribir lo mismo dos veces.** QuickText vive en la bandeja de Windows: guarda una vez el texto al que recurres una y otra vez —correo, direcciones, firmas, plantillas, respuestas predefinidas, imágenes— y luego, en **cualquier campo de texto**, escribe unas pocas teclas o una abreviatura y aparece justo en el cursor. Varias líneas, caracteres especiales y emoji preservados carácter por carácter.
 
@@ -14,7 +16,7 @@
 
 - WPF / .NET 10, exe portátil de un solo archivo, **sin cuenta, sin conexión por defecto**: solo la comprobación de actualizaciones opcional contacta con GitHub.
 - Los datos son **JSON local** en tu propia carpeta: ponlos en Dropbox / OneDrive / un NAS para sincronizarlos.
-- Tema oscuro, **18 idiomas de interfaz** (con reflejo de derecha a izquierda para el árabe), los ajustes se aplican al instante.
+- Temas oscuro y claro (o seguir a Windows), **18 idiomas de interfaz** (con reflejo de derecha a izquierda para el árabe), los ajustes se aplican al instante.
 
 **[⬇ Descargar la última versión](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable de un solo archivo. No está firmado digitalmente, así que SmartScreen avisa la primera vez: **Más información → Ejecutar de todas formas**.
 
@@ -75,6 +77,8 @@ Haz doble clic en **`QuickText.exe`**; vive en la **bandeja del sistema** (sin b
 
 ## Añadir / editar tu texto
 
+![Gestor: categorías a la izquierda, fragmentos en el centro, editor a la derecha](../images/quicktext-manager.webp)
+
 - **Bandeja → Abrir Gestor** — el editor completo: categorías a la izquierda, fragmentos a la derecha, editor debajo. Añade/renombra/elimina categorías (con una etiqueta de **7 colores**), edita fragmentos (nombre, abreviatura, cuerpo, imagen). Arrastra para reordenar o mover entre categorías; `Ctrl+Z` deshace un borrado.
 - **Bandeja → Nuevo desde el portapapeles** — crea un fragmento nuevo a partir del portapapeles actual y ábrelo en el Gestor para completarlo (pulsa **Guardar** para escribirlo en disco; al cerrar el Gestor te preguntará si guardar o descartar).
 - **Crear en el panel** — escribe el texto en el cuadro de búsqueda y pulsa `Ctrl+N` para guardarlo como un fragmento nuevo (ese texto pasa a ser el cuerpo; `@categoría …` lo archiva en esa categoría) y saltar al Gestor a completarlo (`Ctrl+E` edita el seleccionado).
@@ -118,12 +122,13 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 
 ## Salida y ajustes comunes (Bandeja → Ajustes)
 
-- **Salida** — por defecto "pegar en la aplicación activa"; o "copiar solo al portapapeles" (pegas tú con `Ctrl+V`). Opcional: pulsar Enter tras pegar, un solo clic para enviar, restaurar el portapapeles. **Cada fragmento puede anular esto** (Gestor → Salida: seguir global / pegar / pegar + Enter / solo copiar): las frases de chat se envían solas, los fragmentos de código nunca.
+- **Salida** — por defecto "pegar en la aplicación activa"; o "copiar solo al portapapeles" (pegas tú con `Ctrl+V`). Opcional: pulsar Enter tras pegar, un solo clic para enviar, “Mantener mi portapapeles intacto” (restaurar está desactivado por defecto: las aplicaciones que leen el portapapeles con lentitud pueden acabar pegando el contenido antiguo). **Cada fragmento puede anular esto** (Gestor → Salida: seguir global / pegar / pegar + Enter / solo copiar): las frases de chat se envían solas, los fragmentos de código nunca.
 - **Posición del panel** — seguir la ventana activa (por defecto) / seguir el cursor de texto / recordar la última posición.
 - **Método de invocación (elige uno)** — ① **combinación de teclas**: haz clic en el cuadro y pulsa una nueva (las teclas normales necesitan `Ctrl`/`Alt`/`Shift`/`Win`; las teclas de función **`F1`–`F24` funcionan solas**); o ② **pulsar un modificador**: **una o dos pulsaciones de un modificador** (p. ej. `Ctrl` derecho, `Shift` derecho) para invocar (un modificador solo no puede ser una tecla rápida normal, así que se detecta por pulsación). Elegir la pulsación desactiva la combinación: las dos son mutuamente excluyentes, así que siempre queda claro cuál está activa.
 - **Tecla de captura** — segunda combinación opcional que **guarda en silencio el portapapeles como un fragmento nuevo** (aviso con globo, sin ventana).
 - **Carpeta de datos** — apúntala a una unidad de sincronización; **exportar / importar copia de seguridad** (zip, validada con confirmación de sobrescritura); **copia automática** diaria a esta máquina (se conservan las 10 más recientes, acceso a la carpeta con un clic).
 - **Idioma** — **18 idiomas**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, con cambio instantáneo. **Iniciar con Windows** opcional.
+- **Tema** — oscuro (predeterminado) / claro / seguir a Windows; se aplica al elegirlo, sin reiniciar.
 - **Buscar actualizaciones** — desactivado por defecto; si se activa, contacta con GitHub una vez al iniciar para comprobar si hay una versión nueva (la única vez que usa Internet). «Buscar ahora» lo ejecuta al momento.
 
 ## Chuleta de teclado
@@ -149,7 +154,7 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 - **Salida**: pegar directamente / solo copiar; Enter automático opcional, restaurar portapapeles, envío con un solo clic; **anulación de salida por fragmento**; tecla de captura (portapapeles → fragmento con una pulsación).
 - **Gestor**: **editor de cuerpo amplio** (`⤢ Ampliar` lo abre en su propia ventana; los cambios sin guardar siempre se confirman: al cerrarla y al cambiar a otro elemento), **resaltado de marcadores** (coloreado según el tipo; las referencias a fragmentos inexistentes / los formatos de fecha inválidos / las llaves sin cerrar se subrayan en rojo ondulado con el motivo al pasar el cursor; no se resalta nada cuando los marcadores están desactivados —la barra de estado lo indica en su lugar—), **compatible con código** (la ventana ampliada siempre muestra números de línea y ofrece 13 formatos de código para resaltado de sintaxis; Enter conserva la sangría, `Tab` sangra una selección de varias líneas, modo sin ajuste de línea), 7 colores de categoría, reordenar / mover arrastrando, **mover / eliminar por lotes con selección múltiple** (selecciona con Ctrl / Shift y luego clic derecho), deshacer borrado, **papelera (restauración de 30 días, con vista previa del cuerpo)**, aviso de abreviatura duplicada, estadísticas de uso, confirmación de guardado.
 - **Datos**: JSON local, recarga en caliente (fusiona automáticamente las ediciones externas / la sincronización), aviso de conflicto de sincronización, exportar / importar copia de seguridad, **copia automática diaria (se conservan 10)**, iniciar con Windows.
-- **Localización**: **18 idiomas de interfaz** (chino simplificado / tradicional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) con **reflejo de derecha a izquierda para el árabe**, con cambio en vivo desde Ajustes.
+- **Localización**: **18 idiomas de interfaz** (chino simplificado / tradicional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) con **reflejo de derecha a izquierda para el árabe**, con cambio en vivo desde Ajustes. Temas oscuro y claro (o seguir a Windows), también al instante.
 - **Robustez**: instancia única (un segundo arranque invoca el panel de búsqueda en lugar de instalar los ganchos por duplicado); la CI ejecuta las pruebas más una comprobación de humo de ventana en cada push y publica un exe de un solo archivo en las etiquetas `v*`.
 
 ## Datos y sincronización
@@ -199,10 +204,12 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Requiere el SDK de .NET 10. Solo Windows (tecla rápida global de Win32 / gancho de teclado / portapapeles).
 
-## Sobre el Plan 365 de código abierto
-
-Proyecto **#023** del [Plan 365 de código abierto](https://github.com/rockbenben/365opensource) — una persona + IA, más de 300 proyectos de código abierto en un año. [Envía tu idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
-
 ## Licencia
 
 [MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Libre de usar, modificar y distribuir.
+
+## Sobre el Plan 365 de código abierto
+
+Proyecto **#023** del [Plan 365 de código abierto](https://github.com/rockbenben/365opensource) — una persona + IA, más de 300 proyectos de código abierto en un año.
+
+[Envía tu idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

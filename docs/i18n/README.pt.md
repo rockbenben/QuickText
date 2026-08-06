@@ -6,7 +6,9 @@
 
 # QuickText
 
-> Parte do **[Plano 365 de código aberto](https://github.com/rockbenben/365opensource)** — projeto nº 023 · um gerenciador de snippets e expansor de texto na bandeja do Windows.
+> um gerenciador de snippets e expansor de texto na bandeja do Windows.
+
+![Abra o painel sobre qualquer janela, digite algumas letras e o trecho aparece no cursor](../images/quicktext-demo.webp)
 
 **Pare de digitar a mesma coisa duas vezes.** O QuickText fica na bandeja do Windows: armazene uma única vez o texto ao qual você recorre repetidamente — e-mails, endereços, assinaturas, modelos, respostas prontas, imagens — e depois, em **qualquer caixa de texto**, digite algumas teclas ou uma abreviação e ele aparece exatamente no cursor. Múltiplas linhas, caracteres especiais e emoji preservados caractere por caractere.
 
@@ -14,7 +16,7 @@
 
 - WPF / .NET 10, executável portátil de arquivo único, **sem conta, offline por padrão** — apenas a verificação de atualizações opcional acessa o GitHub.
 - Os dados são **JSON local** na sua própria pasta — coloque-os no Dropbox / OneDrive / num NAS para sincronizar.
-- Tema escuro, **18 idiomas de interface** (com espelhamento da direita para a esquerda para o árabe), configurações aplicadas instantaneamente.
+- Temas escuro e claro (ou seguir o Windows), **18 idiomas de interface** (com espelhamento da direita para a esquerda para o árabe), configurações aplicadas instantaneamente.
 
 **[⬇ Baixar a versão mais recente](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portátil em arquivo único. Não é assinado, então o SmartScreen avisa na primeira execução: **Mais informações → Executar assim mesmo**.
 
@@ -75,6 +77,8 @@ Dê um duplo clique em **`QuickText.exe`**; ele fica na **bandeja do sistema** (
 
 ## Adicione / edite seu texto
 
+![Gerenciador: categorias à esquerda, trechos no centro, editor à direita](../images/quicktext-manager.webp)
+
 - **Bandeja → Abrir Gerenciador** — o editor completo: categorias à esquerda, trechos à direita, editor abaixo. Adicione/renomeie/exclua categorias (com uma etiqueta de **7 cores**), edite trechos (nome, abreviação, corpo, imagem). Arraste para reordenar ou mover entre categorias; `Ctrl+Z` desfaz uma exclusão.
 - **Bandeja → Novo a partir da área de transferência** — cria um novo trecho a partir do conteúdo atual da área de transferência e o abre no Gerenciador para finalizar (pressione **Salvar** para gravá-lo no disco; fechar o Gerenciador pergunta se deseja salvar ou descartar).
 - **Criar no painel** — digite o texto na caixa de busca e pressione `Ctrl+N` para salvá-lo como um novo snippet (esse texto vira o corpo; `@categoria …` o arquiva nessa categoria) e ir ao Gerenciador para finalizar (`Ctrl+E` edita o selecionado).
@@ -118,12 +122,13 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 
 ## Saída e configurações comuns (Bandeja → Configurações)
 
-- **Saída** — padrão "colar no aplicativo ativo"; ou "apenas copiar para a área de transferência" (você cola com `Ctrl+V`). Opcional: pressionar Enter após colar, enviar com um clique, restaurar a área de transferência. **Cada trecho pode substituir isso** (Gerenciador → Saída: seguir o global / colar / colar + Enter / apenas copiar) — frases de chat se enviam automaticamente, trechos de código nunca.
+- **Saída** — padrão "colar no aplicativo ativo"; ou "apenas copiar para a área de transferência" (você cola com `Ctrl+V`). Opcional: pressionar Enter após colar, enviar com um clique, “Manter a minha área de transferência intacta” (a restauração vem desativada por padrão — aplicativos que leem a área de transferência lentamente podem acabar colando o conteúdo antigo). **Cada trecho pode substituir isso** (Gerenciador → Saída: seguir o global / colar / colar + Enter / apenas copiar) — frases de chat se enviam automaticamente, trechos de código nunca.
 - **Posição do painel** — seguir a janela ativa (padrão) / seguir o cursor de texto / lembrar a última posição.
 - **Método de invocação (escolha um)** — ① **combinação de teclas**: clique na caixa e pressione uma nova (teclas comuns precisam de `Ctrl`/`Alt`/`Shift`/`Win`; as teclas de função **`F1`–`F24` funcionam sozinhas**); ou ② **toque num modificador**: **toque uma ou duas vezes num modificador** (por exemplo `Ctrl` direito, `Shift` direito) para invocar (um modificador sozinho não pode ser uma tecla de atalho normal, então é detectado por toque). Escolher o toque desativa a combinação — os dois são mutuamente exclusivos, então sempre fica claro qual está ativo.
 - **Tecla de captura** — segunda combinação opcional que **salva silenciosamente a área de transferência como um novo trecho** (retorno por balão, sem janela).
 - **Pasta de dados** — aponte-a para um drive de sincronização; **exportar / importar backup** (zip, validado com confirmação de sobrescrita); **backup automático** diário nesta máquina (os 10 mais recentes são mantidos, acesso à pasta com um clique).
 - **Idioma** — **18 idiomas**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, trocados instantaneamente. **Iniciar com o Windows** opcional.
+- **Tema** — escuro (padrão) / claro / seguir o Windows, aplicado na hora, sem reiniciar.
 - **Verificar atualizações** — desativado por padrão; quando ativado, conecta-se ao GitHub uma vez ao iniciar para procurar uma versão mais recente (a única vez que acessa a internet). «Verificar agora» executa sob demanda.
 
 ## Referência rápida de teclado
@@ -149,7 +154,7 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 - **Saída**: colar diretamente / apenas copiar; Enter automático opcional, restaurar a área de transferência, envio com clique único; **substituição de saída por trecho**; tecla de captura (área de transferência → trecho num só toque).
 - **Gerenciador**: **editor de corpo espaçoso** (`⤢ Ampliar` abre-o na sua própria janela; as alterações não guardadas são sempre confirmadas: ao fechá-la e ao mudar para outro item), **realce de espaços reservados** (colorido por tipo; referências de trechos inexistentes / formatos de data inválidos / chaves não fechadas recebem um sublinhado ondulado vermelho com o motivo ao passar o mouse; nada é realçado quando os espaços reservados estão desativados — a barra de status avisa isso em vez disso), **compatível com código** (a janela ampliada sempre mostra números de linha e oferece 13 formatos de código para realce de sintaxe; o Enter preserva a indentação, `Tab` recua uma seleção com várias linhas, modo sem quebra de linha), 7 cores de categoria, reordenar / mover arrastando, **seleção múltipla para mover / excluir em lote** (selecione com Ctrl / Shift e clique com o botão direito), desfazer exclusão, **lixeira (restauração por 30 dias, com prévia do corpo)**, aviso de abreviação duplicada, estatísticas de uso, retorno de salvamento.
 - **Dados**: JSON local, recarga a quente (mescla automaticamente edições/sincronizações externas), aviso de conflito de sincronização, exportar / importar backup, **backup automático diário (10 mantidos)**, iniciar com o Windows.
-- **Localização**: **18 idiomas de interface** (chinês simplificado / tradicional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) com **espelhamento da direita para a esquerda para o árabe**, trocados ao vivo em Configurações.
+- **Localização**: **18 idiomas de interface** (chinês simplificado / tradicional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) com **espelhamento da direita para a esquerda para o árabe**, trocados ao vivo em Configurações. Temas escuro e claro (ou seguir o Windows), também na hora.
 - **Robustez**: instância única (uma segunda execução invoca o painel de busca em vez de instalar hooks em duplicidade); a CI executa testes mais uma verificação de fumaça de janela a cada push e publica um executável de arquivo único nas tags `v*`.
 
 ## Dados e sincronização
@@ -199,10 +204,12 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Requer o SDK do .NET 10. Apenas Windows (tecla de atalho global / hook de teclado / área de transferência do Win32).
 
-## Sobre o Plano 365 Open Source
-
-Projeto **#023** do [Plano 365 Open Source](https://github.com/rockbenben/365opensource) — uma pessoa + IA, mais de 300 projetos open-source em um ano. [Envie sua ideia →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
-
 ## Licença
 
 [MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Livre para usar, modificar e distribuir.
+
+## Sobre o Plano 365 Open Source
+
+Projeto **#023** do [Plano 365 Open Source](https://github.com/rockbenben/365opensource) — uma pessoa + IA, mais de 300 projetos open-source em um ano.
+
+[Envie sua ideia →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

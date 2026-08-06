@@ -8,8 +8,9 @@
 
 **English** · [简体中文](README.zh.md) · [繁體中文](docs/i18n/README.zh-Hant.md) · [日本語](docs/i18n/README.ja.md) · [한국어](docs/i18n/README.ko.md) · [Español](docs/i18n/README.es.md) · [Português](docs/i18n/README.pt.md) · [Français](docs/i18n/README.fr.md) · [Deutsch](docs/i18n/README.de.md) · [Italiano](docs/i18n/README.it.md) · [Русский](docs/i18n/README.ru.md) · [Tiếng Việt](docs/i18n/README.vi.md) · [ไทย](docs/i18n/README.th.md) · [Bahasa Indonesia](docs/i18n/README.id.md) · [हिन्दी](docs/i18n/README.hi.md) · [বাংলা](docs/i18n/README.bn.md) · [العربية](docs/i18n/README.ar.md) · [Türkçe](docs/i18n/README.tr.md)
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![365 Open Source Plan #023](https://img.shields.io/badge/365%20Open%20Source%20Plan-%23023-1f6feb)](https://github.com/rockbenben/365opensource)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![365 Open Source Plan #023](https://img.shields.io/badge/365%20Open%20Source%20Plan-%23023-1f6feb)](https://github.com/rockbenben/365opensource)
+
+![Summon the panel over any window, type a few letters, and the snippet lands at your cursor](docs/images/quicktext-demo.webp)
 
 **Stop typing the same thing twice.** QuickText lives in the Windows tray: store the text you reach for again and again — email, addresses, signatures, templates, canned replies, images — once, then in **any input box** type a few keystrokes or an abbreviation and it lands right at your cursor. Multi-line, special characters and emoji preserved character-for-character.
 
@@ -17,17 +18,15 @@
 
 - A single portable exe — **no account, offline by default**; only the optional update check ever contacts GitHub.
 - Data is **local JSON** in your own folder — put it in Dropbox / OneDrive / a NAS to sync.
-- Dark theme, **18 UI languages** (with right-to-left mirroring for Arabic), settings apply instantly.
+- Dark and light themes (or follow Windows), **18 UI languages** (with right-to-left mirroring for Arabic), settings apply instantly.
 
 ## Download
 
 **[⬇ Get the latest release](https://github.com/rockbenben/QuickText/releases/latest)** — Windows x64.
 
-Grab `QuickText-<version>-win-x64.exe` (single-file portable — just run it) or the `.zip`
-if you'd rather unpack it yourself. No installer, no account.
+Grab `QuickText-<version>-win-x64.exe` (single-file portable — just run it) or the `.zip` if you'd rather unpack it yourself. No installer, no account.
 
-The exe isn't code-signed, so Windows SmartScreen warns on first run:
-click **More info → Run anyway**.
+The exe isn't code-signed, so Windows SmartScreen warns on first run: click **More info → Run anyway**.
 
 ---
 
@@ -86,6 +85,8 @@ Double-click **`QuickText.exe`**; it lives in the **system tray** (no taskbar bu
 
 ## Add / edit your text
 
+![Manager: categories on the left, snippets in the middle, the editor on the right](docs/images/quicktext-manager.webp)
+
 - **Tray → Open Manager** — the full editor: categories on the left, snippets on the right, editor below. Add/rename/delete categories (with a **7-color** tag), edit snippets (name, abbreviation, body, image). Drag to reorder or move between categories; `Ctrl+Z` undoes a delete.
 - **Tray → New from clipboard** — create a new snippet from the current clipboard and open it in the Manager to finish (press **Save** to write it to disk; nothing is written until you do, and anything unsaved is confirmed before it can be lost — on closing the Manager, on closing the enlarged editor, and on switching to another snippet).
 - **Create in the panel** — type the text in the search box and press `Ctrl+N` to save it as a new snippet (that text becomes the body; `@category …` files it in that category) and jump to the Manager to finish (`Ctrl+E` edits the selected one).
@@ -129,12 +130,13 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 
 ## Output & common settings (Tray → Settings)
 
-- **Output** — default “paste into the active app”; or “copy to clipboard only” (you paste with `Ctrl+V`). Optional: press Enter after pasting, single-click to send, restore clipboard. **Each snippet can override this** (Manager → Output: follow global / paste / paste + Enter / copy only) — chat phrases auto-send, code snippets never do.
+- **Output** — default “paste into the active app”; or “copy to clipboard only” (you paste with `Ctrl+V`). Optional: press Enter after pasting, single-click to send, “Keep my clipboard intact” (off by default — apps that read the clipboard slowly can end up pasting the old content instead). **Each snippet can override this** (Manager → Output: follow global / paste / paste + Enter / copy only) — chat phrases auto-send, code snippets never do.
 - **Panel position** — follow the active window (default) / follow the text caret / remember last position.
 - **Summon method (pick one)** — ① **key combo**: click the box and press a new one (ordinary keys need `Ctrl`/`Alt`/`Shift`/`Win`; function keys **`F1`–`F24` work on their own**); or ② **tap a modifier**: **single- or double-tap one modifier** (e.g. right `Ctrl`, right `Shift`) to summon (a lone modifier can't be a normal hotkey, so it's detected by tap). Choosing tap disables the combo — the two are mutually exclusive, so it's always clear which one is live.
 - **Capture hotkey** — optional second combo that **silently saves the clipboard as a new snippet** (balloon feedback, no window).
 - **Data folder** — point it at a sync drive ([the snippets stay plain JSON](#where-youd-use-it), so the sync provider can read them); **export / import backup** (zip, validated with an overwrite confirm); daily **auto-backup** to this machine (newest 10 kept, one-click folder access).
 - **Language** — **18 languages**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, switched instantly. **Start with Windows** optional.
+- **Theme** — dark (default) / light / follow Windows, applied the moment you pick it, no restart.
 - **Check for updates** — off by default; when on, the app contacts GitHub once at startup to see if a newer release exists (the only time it goes online). "Check now" runs it on demand.
 
 ## Keyboard cheat-sheet
@@ -157,10 +159,10 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 - **Search**: name / pinyin / initials / abbreviation / body. The **matched characters are accented** — including for a pinyin hit, where the query appears nowhere in the name — and when the abbreviation is what matched, its key lights up instead, so no result is ever unexplained; **ties broken by usage frequency (frecency)**; `@category keywords` scopes the search to one category (bare `@category` browses it).
 - **Content**: plain text (multi-line, special chars, emoji lossless), placeholders (defaults / option dropdowns / snippet nesting / custom date formats / uuid / random — **opt-in per snippet**), **images** (from clipboard or file, pasted as an image on send; **images can have abbreviations too** — type the abbr, get the image).
 - **Abbreviations**: terminator-triggered, variable prompt, one-press undo, Backspace typo-correction, case-insensitive, click breaks the token, duplicate warning, per-app blacklist, **one-click tray pause**.
-- **Output**: paste directly / copy only; optional auto-Enter, restore clipboard, single-click send; **per-snippet output override**; capture hotkey (clipboard → snippet in one press).
+- **Output**: paste directly / copy only; optional auto-Enter, “Keep my clipboard intact”, single-click send; **per-snippet output override**; capture hotkey (clipboard → snippet in one press).
 - **Manager**: **roomy body editor** (`⤢ Enlarge` opens it in its own window; unsaved changes are always confirmed — on closing it, and on switching to another snippet), **placeholder highlighting** (tinted by kind; dead snippet refs / invalid date formats / unclosed braces are squiggled red with a reason on hover; nothing is highlighted when placeholders are off — the status bar says so instead), **code-friendly** (the enlarged window always shows line numbers and offers 13 code formats for syntax highlighting; Enter keeps indentation, `Tab` indents a multi-line selection, no-wrap mode), 7 category colors, drag reorder / move, **multi-select batch move / delete** (Ctrl / Shift select, then right-click), undo delete, **trash (30-day restore, with body preview)**, duplicate-abbr warning, usage stats, save feedback.
 - **Data**: local JSON, hot-reload (auto-merges external edits / sync), sync-conflict notice, export / import backup, **daily auto-backup (10 kept)**, start with Windows.
-- **Localization**: **18 UI languages** (Simplified / Traditional Chinese, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) with **right-to-left mirroring for Arabic**, switched live in Settings.
+- **Localization**: **18 UI languages** (Simplified / Traditional Chinese, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) with **right-to-left mirroring for Arabic**, switched live in Settings. Dark and light themes (or follow Windows), switched live too.
 - **Robustness**: single instance (a second launch summons the search panel instead of double-installing hooks); CI runs tests plus a window smoke-check on every push and publishes a single-file exe on `v*` tags.
 
 ## Data & sync
@@ -199,7 +201,7 @@ Pure Core (no Win32, unit-testable) kept separate from Win32/UI.
 
 - Windows: `SearchPanel` / `ManagerWindow` / `SettingsWindow` / `BodyEditorWindow` / `AppDialog` / `VariablesDialog`
 - Body editors: `BodyEditor` (native TextBox with the custom-drawn `PlaceholderLayer` and `LineNumberGutter`) and `CodeEditor` (AvalonEdit)
-- `Ui/Syntax` (bundled YAML/INI/Shell highlighting plus the dark palette), `Ui/Theme.xaml`
+- `Ui/Syntax` (bundled YAML/INI/Shell highlighting plus the dark and light token palettes), `Ui/Theme.xaml` + `Ui/Theme.Light.xaml`
 - `Interop`: `GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`
 
 **`tests/QuickText.Core.Tests`** — Core unit tests (xUnit).
@@ -222,4 +224,6 @@ Requires the .NET 10 SDK. Windows only (Win32 global hotkey / keyboard hook / cl
 
 ## About the 365 Open Source Plan
 
-Project **#023** of the [365 Open Source Plan](https://github.com/rockbenben/365opensource) — one person + AI, 300+ open-source projects in a year. [Submit your idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
+Project **#023** of the [365 Open Source Plan](https://github.com/rockbenben/365opensource) — one person + AI, 300+ open-source projects in a year.
+
+[Submit your idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

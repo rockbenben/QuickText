@@ -6,7 +6,9 @@
 
 # QuickText
 
-> Parte del **[Piano 365 open source](https://github.com/rockbenben/365opensource)** — progetto n. 023 · un gestore di snippet ed espansore di testo nella barra di Windows.
+> un gestore di snippet ed espansore di testo nella barra di Windows.
+
+![Richiama il pannello sopra qualsiasi finestra, digita poche lettere e lo snippet finisce al cursore](../images/quicktext-demo.webp)
 
 **Basta digitare due volte la stessa cosa.** QuickText vive nella barra delle applicazioni di Windows: memorizza una volta il testo a cui ricorri di continuo — email, indirizzi, firme, modelli, risposte preconfezionate, immagini — e poi, in **qualsiasi casella di testo**, digiti pochi tasti o un'abbreviazione e il testo compare direttamente al cursore. Testo su più righe, caratteri speciali ed emoji conservati carattere per carattere.
 
@@ -14,7 +16,7 @@
 
 - WPF / .NET 10, exe portatile a file singolo, **nessun account, offline per impostazione predefinita** — solo il controllo aggiornamenti opzionale contatta GitHub.
 - I dati sono in **JSON locale** nella tua cartella — mettila su Dropbox / OneDrive / un NAS per sincronizzarli.
-- Tema scuro, **18 lingue dell'interfaccia** (con rispecchiamento da destra a sinistra per l'arabo), le impostazioni si applicano all'istante.
+- Temi scuro e chiaro (o segui Windows), **18 lingue dell'interfaccia** (con rispecchiamento da destra a sinistra per l'arabo), le impostazioni si applicano all'istante.
 
 **[⬇ Scarica l'ultima versione](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable in un solo file. Non è firmato, quindi SmartScreen avvisa al primo avvio: **Ulteriori informazioni → Esegui comunque**.
 
@@ -75,6 +77,8 @@ Fai doppio clic su **`QuickText.exe`**; vive nella **barra delle applicazioni** 
 
 ## Aggiungi / modifica il tuo testo
 
+![Gestore: categorie a sinistra, snippet al centro, editor a destra](../images/quicktext-manager.webp)
+
 - **Barra delle applicazioni → Apri Gestore** — l'editor completo: categorie a sinistra, snippet a destra, editor in basso. Aggiungi/rinomina/elimina categorie (con un'etichetta a **7 colori**), modifica gli snippet (nome, abbreviazione, corpo, immagine). Trascina per riordinare o spostare tra categorie; `Ctrl+Z` annulla un'eliminazione.
 - **Barra delle applicazioni → Nuovo dagli appunti** — crea un nuovo snippet dal contenuto attuale degli appunti e lo apre nel Gestore per completarlo (premi **Salva** per scriverlo su disco; chiudendo il Gestore ti verrà chiesto se salvare o scartare).
 - **Crea nel pannello** — digita il testo nella casella di ricerca e premi `Ctrl+N` per salvarlo come nuovo snippet (quel testo diventa il corpo; `@categoria …` lo archivia in quella categoria) e passare al Gestore per completarlo (`Ctrl+E` modifica quello selezionato).
@@ -118,12 +122,13 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 
 ## Output e impostazioni comuni (Barra delle applicazioni → Impostazioni)
 
-- **Output** — predefinito "incolla nell'app attiva"; oppure "copia solo negli appunti" (incolli tu con `Ctrl+V`). Opzionale: premere Invio dopo l'incolla, invio con un solo clic, ripristino degli appunti. **Ogni snippet può sovrascriverlo** (Gestore → Output: segui globale / incolla / incolla + Invio / solo copia) — le frasi di chat si inviano automaticamente, gli snippet di codice mai.
+- **Output** — predefinito "incolla nell'app attiva"; oppure "copia solo negli appunti" (incolli tu con `Ctrl+V`). Opzionale: premere Invio dopo l'incolla, invio con un solo clic, “Mantieni intatti i miei appunti” (il ripristino è disattivato per impostazione predefinita: le app che leggono gli appunti lentamente potrebbero incollare il contenuto precedente). **Ogni snippet può sovrascriverlo** (Gestore → Output: segui globale / incolla / incolla + Invio / solo copia) — le frasi di chat si inviano automaticamente, gli snippet di codice mai.
 - **Posizione del pannello** — segui la finestra attiva (predefinito) / segui il cursore di testo / ricorda l'ultima posizione.
 - **Metodo di richiamo (scegline uno)** — ① **combinazione di tasti**: clicca la casella e premi una nuova combinazione (i tasti normali richiedono `Ctrl`/`Alt`/`Shift`/`Win`; i tasti funzione **`F1`–`F24` funzionano da soli**); oppure ② **tocca un modificatore**: **tocco singolo o doppio di un modificatore** (es. `Ctrl` destro, `Shift` destro) per richiamare (un modificatore da solo non può essere una normale scorciatoia, quindi viene rilevato tramite tocco). Scegliendo il tocco si disabilita la combinazione — le due si escludono a vicenda, così è sempre chiaro quale è attiva.
 - **Scorciatoia di cattura** — seconda combinazione opzionale che **salva silenziosamente gli appunti come nuovo snippet** (riscontro tramite fumetto, nessuna finestra).
 - **Cartella dati** — puntala su un'unità di sincronizzazione; **esporta / importa backup** (zip, convalidato con conferma di sovrascrittura); **backup automatico** giornaliero su questo computer (mantenuti i 10 più recenti, accesso alla cartella con un clic).
 - **Lingua** — **18 lingue**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, cambiate all'istante. **Avvio con Windows** opzionale.
+- **Tema** — scuro (predefinito) / chiaro / segui Windows, si applica subito, senza riavvio.
 - **Controlla aggiornamenti** — disattivato per impostazione predefinita; se attivo, si connette a GitHub una volta all'avvio per verificare la presenza di una nuova versione (l'unica volta in cui va online). «Controlla ora» lo esegue su richiesta.
 
 ## Riepilogo scorciatoie da tastiera
@@ -149,7 +154,7 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 - **Output**: incolla direttamente / solo copia; Invio automatico opzionale, ripristino appunti, invio con singolo clic; **sovrascrittura output per singolo snippet**; scorciatoia di cattura (appunti → snippet con una pressione).
 - **Gestore**: **editor del corpo spazioso** (`⤢ Ingrandisci` lo apre in una finestra propria; le modifiche non salvate vengono sempre confermate: alla chiusura e passando a un altro elemento), **evidenziazione dei segnaposto** (colorata in base al tipo; riferimenti a snippet inesistenti / formati di data non validi / parentesi graffe non chiuse vengono sottolineati in rosso ondulato con il motivo al passaggio del mouse; nulla viene evidenziato quando i segnaposto sono disattivati — lo indica invece la barra di stato), **adatto al codice** (la finestra ingrandita mostra sempre i numeri di riga e offre 13 formati di codice per l'evidenziazione della sintassi; Invio mantiene l'indentazione, `Tab` indenta una selezione multiriga, modalità senza a capo), 7 colori di categoria, trascinamento per riordinare / spostare, **spostamento / eliminazione in blocco multiselezione** (selezione con Ctrl / Shift, poi clic destro), annullamento eliminazione, **cestino (ripristino a 30 giorni, con anteprima del corpo)**, avviso di abbreviazioni duplicate, statistiche d'uso, riscontro al salvataggio.
 - **Dati**: JSON locale, ricaricamento a caldo (unisce automaticamente le modifiche esterne / la sincronizzazione), avviso di conflitto di sincronizzazione, esporta / importa backup, **backup automatico giornaliero (10 conservati)**, avvio con Windows.
-- **Localizzazione**: **18 lingue dell'interfaccia** (cinese semplificato / tradizionale, inglese, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) con **rispecchiamento da destra a sinistra per l'arabo**, cambiate dal vivo nelle Impostazioni.
+- **Localizzazione**: **18 lingue dell'interfaccia** (cinese semplificato / tradizionale, inglese, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) con **rispecchiamento da destra a sinistra per l'arabo**, cambiate dal vivo nelle Impostazioni. Temi scuro e chiaro (o segui Windows), anche questi al volo.
 - **Robustezza**: istanza singola (un secondo avvio richiama il pannello di ricerca invece di installare due volte gli hook); la CI esegue i test più un controllo rapido della finestra a ogni push e pubblica un exe a file singolo sui tag `v*`.
 
 ## Dati e sincronizzazione
@@ -199,10 +204,12 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Richiede l'SDK .NET 10. Solo Windows (scorciatoia globale Win32 / hook della tastiera / appunti).
 
-## Informazioni sul 365 Open Source Plan
-
-Progetto **#023** del [365 Open Source Plan](https://github.com/rockbenben/365opensource) — una persona + l'IA, oltre 300 progetti open source in un anno. [Proponi la tua idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
-
 ## Licenza
 
 [MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Libero di usare, modificare e distribuire.
+
+## Informazioni sul 365 Open Source Plan
+
+Progetto **#023** del [365 Open Source Plan](https://github.com/rockbenben/365opensource) — una persona + l'IA, oltre 300 progetti open source in un anno.
+
+[Proponi la tua idea →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)

@@ -6,7 +6,9 @@
 
 # QuickText
 
-> Teil des **[365-Open-Source-Plans](https://github.com/rockbenben/365opensource)** — Projekt Nr. 023 · ein Snippet-Manager und Textexpander im Windows-Infobereich.
+> ein Snippet-Manager und Textexpander im Windows-Infobereich.
+
+![Panel über jedem Fenster aufrufen, ein paar Buchstaben tippen — das Snippet landet an der Cursorposition](../images/quicktext-demo.webp)
 
 **Schluss damit, dasselbe zweimal zu tippen.** QuickText sitzt im Windows-Infobereich: Speichere den Text, den du immer wieder brauchst — E-Mail, Adressen, Signaturen, Vorlagen, Standardantworten, Bilder — einmal ab, und tippe dann in **jedem beliebigen Eingabefeld** ein paar Tasten oder ein Kürzel, und er landet genau an deiner Cursorposition. Mehrzeilig, Sonderzeichen und Emojis bleiben Zeichen für Zeichen erhalten.
 
@@ -14,7 +16,7 @@
 
 - WPF / .NET 10, portable Einzeldatei-Exe, **kein Konto, standardmäßig offline** — nur die optionale Update-Prüfung kontaktiert GitHub.
 - Die Daten liegen als **lokales JSON** in deinem eigenen Ordner — leg ihn in Dropbox / OneDrive / ein NAS, um zu synchronisieren.
-- Dunkles Design, **18 Oberflächensprachen** (mit Rechts-nach-links-Spiegelung für Arabisch), Einstellungen greifen sofort.
+- Dunkles und helles Design (oder Windows folgen), **18 Oberflächensprachen** (mit Rechts-nach-links-Spiegelung für Arabisch), Einstellungen greifen sofort.
 
 **[⬇ Neueste Version herunterladen](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable Einzeldatei. Nicht signiert, daher warnt SmartScreen beim ersten Start: **Weitere Informationen → Trotzdem ausführen**.
 
@@ -75,6 +77,8 @@ Doppelklicke **`QuickText.exe`**; es lebt im **System-Infobereich** (keine Taskl
 
 ## Deinen Text hinzufügen / bearbeiten
 
+![Manager: Kategorien links, Snippets in der Mitte, Editor rechts](../images/quicktext-manager.webp)
+
 - **Infobereich → Manager öffnen** — der vollständige Editor: Kategorien links, Snippets rechts, Editor darunter. Kategorien hinzufügen/umbenennen/löschen (mit einer **7-farbigen** Markierung), Snippets bearbeiten (Name, Kürzel, Text, Bild). Zum Umsortieren oder Verschieben zwischen Kategorien ziehen; `Ctrl+Z` macht ein Löschen rückgängig.
 - **Infobereich → Neu aus Zwischenablage** — erstellt ein neues Snippet aus dem aktuellen Inhalt der Zwischenablage und öffnet es im Manager zum Fertigstellen (auf **Speichern** klicken, um es auf den Datenträger zu schreiben; beim Schließen des Managers wirst du gefragt, ob gespeichert oder verworfen werden soll).
 - **Im Panel erstellen** — tippe den Text ins Suchfeld und drücke `Ctrl+N`, um ihn als neuen Baustein zu speichern (dieser Text wird der Inhalt; `@Kategorie …` legt ihn in dieser Kategorie ab) und zum Fertigstellen in den Manager zu springen (`Ctrl+E` bearbeitet das ausgewählte).
@@ -118,12 +122,13 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 
 ## Ausgabe & gängige Einstellungen (Infobereich → Einstellungen)
 
-- **Ausgabe** — Standard „in die aktive App einfügen“; oder „nur in die Zwischenablage kopieren“ (du fügst mit `Ctrl+V` ein). Optional: nach dem Einfügen Enter drücken, mit Einfachklick senden, Zwischenablage wiederherstellen. **Jedes Snippet kann dies überschreiben** (Manager → Ausgabe: global folgen / einfügen / einfügen + Enter / nur kopieren) — Chat-Textbausteine werden automatisch gesendet, Code-Snippets niemals.
+- **Ausgabe** — Standard „in die aktive App einfügen“; oder „nur in die Zwischenablage kopieren“ (du fügst mit `Ctrl+V` ein). Optional: nach dem Einfügen Enter drücken, mit Einfachklick senden, “Zwischenablage unverändert lassen” (Wiederherstellen ist standardmäßig aus — Apps, die die Zwischenablage langsam lesen, fügen sonst den alten Inhalt ein). **Jedes Snippet kann dies überschreiben** (Manager → Ausgabe: global folgen / einfügen / einfügen + Enter / nur kopieren) — Chat-Textbausteine werden automatisch gesendet, Code-Snippets niemals.
 - **Panel-Position** — dem aktiven Fenster folgen (Standard) / dem Textcursor folgen / letzte Position merken.
 - **Aufruf-Methode (eine wählen)** — ① **Tastenkombination**: klicke ins Feld und drücke eine neue (normale Tasten brauchen `Ctrl`/`Alt`/`Shift`/`Win`; Funktionstasten **`F1`–`F24` funktionieren allein**); oder ② **Modifikatortaste tippen**: **einfaches oder doppeltes Tippen einer Modifikatortaste** (z. B. rechte `Ctrl`, rechte `Shift`) zum Aufrufen (eine einzelne Modifikatortaste kann kein normaler Hotkey sein, wird also per Tippen erkannt). Die Wahl des Tippens deaktiviert die Kombination — beide schließen sich gegenseitig aus, sodass immer klar ist, welche aktiv ist.
 - **Erfassungs-Hotkey** — optionale zweite Kombination, die **die Zwischenablage still als neues Snippet speichert** (Sprechblasen-Rückmeldung, kein Fenster).
 - **Datenordner** — richte ihn auf ein Synchronisierungslaufwerk; **Backup exportieren / importieren** (Zip, mit Überschreib-Bestätigung geprüft); tägliches **Auto-Backup** auf diesem Rechner (die neuesten 10 bleiben, Ein-Klick-Ordnerzugriff).
 - **Sprache** — **18 Sprachen**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, sofort umgeschaltet. **Mit Windows starten** optional.
+- **Design** — dunkel (Standard) / hell / Windows folgen, greift sofort, kein Neustart.
 - **Nach Updates suchen** — standardmäßig aus; wenn aktiviert, verbindet sich die App beim Start einmal mit GitHub, um nach einer neueren Version zu suchen (das einzige Mal online). „Jetzt suchen“ führt es bei Bedarf aus.
 
 ## Tastatur-Spickzettel
@@ -149,7 +154,7 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 - **Ausgabe**: direkt einfügen / nur kopieren; optional automatisches Enter, Zwischenablage wiederherstellen, Senden per Einfachklick; **Ausgabe-Überschreibung pro Snippet**; Erfassungs-Hotkey (Zwischenablage → Snippet mit einem Tastendruck).
 - **Manager**: **geräumiger Text-Editor** (`⤢ Vergrößern` öffnet ihn in einem eigenen Fenster; ungespeicherte Änderungen werden immer abgefragt — beim Schließen und beim Wechsel zu einem anderen Eintrag), **Platzhalter-Hervorhebung** (je nach Art eingefärbt; ungültige Snippet-Verweise / ungültige Datumsformate / nicht geschlossene geschweifte Klammern erhalten eine rote Wellenlinie mit Grund beim Hovern; sind Platzhalter deaktiviert, wird nichts hervorgehoben — das steht dann stattdessen in der Statusleiste), **codefreundlich** (das vergrößerte Fenster zeigt immer Zeilennummern und bietet 13 Code-Formate zur Syntaxhervorhebung; Enter behält die Einrückung bei, `Tab` rückt eine mehrzeilige Auswahl komplett ein, Zeilenumbruch-aus-Modus), 7 Kategoriefarben, Ziehen zum Umsortieren / Verschieben, **Mehrfachauswahl für Stapel-Verschieben / -Löschen** (Ctrl / Shift auswählen, dann Rechtsklick), Löschen rückgängig, **Papierkorb (30-Tage-Wiederherstellung, mit Textvorschau)**, Duplikat-Kürzel-Warnung, Nutzungsstatistik, Speicher-Rückmeldung.
 - **Daten**: lokales JSON, Hot-Reload (führt externe Änderungen / Synchronisierung automatisch zusammen), Hinweis bei Synchronisierungskonflikten, Backup exportieren / importieren, **tägliches Auto-Backup (10 aufbewahrt)**, mit Windows starten.
-- **Lokalisierung**: **18 Oberflächensprachen** (vereinfachtes / traditionelles Chinesisch, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) mit **Rechts-nach-links-Spiegelung für Arabisch**, live in den Einstellungen umgeschaltet.
+- **Lokalisierung**: **18 Oberflächensprachen** (vereinfachtes / traditionelles Chinesisch, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) mit **Rechts-nach-links-Spiegelung für Arabisch**, live in den Einstellungen umgeschaltet. Dunkles und helles Design (oder Windows folgen), ebenfalls sofort umschaltbar.
 - **Robustheit**: einzelne Instanz (ein zweiter Start ruft das Suchpanel auf, statt Hooks doppelt zu installieren); CI führt bei jedem Push Tests plus einen Fenster-Smoke-Check aus und veröffentlicht bei `v*`-Tags eine Einzeldatei-Exe.
 
 ## Daten & Synchronisierung
@@ -199,10 +204,12 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 
 Erfordert das .NET 10 SDK. Nur Windows (Win32-Globaler-Hotkey / Tastatur-Hook / Zwischenablage).
 
-## Über den 365 Open Source Plan
-
-Projekt **#023** des [365 Open Source Plan](https://github.com/rockbenben/365opensource) — eine Person + KI, über 300 Open-Source-Projekte in einem Jahr. [Reiche deine Idee ein →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
-
 ## Lizenz
 
 [MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Frei nutzbar, veränderbar und verteilbar.
+
+## Über den 365 Open Source Plan
+
+Projekt **#023** des [365 Open Source Plan](https://github.com/rockbenben/365opensource) — eine Person + KI, über 300 Open-Source-Projekte in einem Jahr.
+
+[Reiche deine Idee ein →](https://365.aishort.top/) · [Discord](https://discord.gg/PZTQfJ4GjX) · [Telegram](https://t.me/aishort_top)
