@@ -236,6 +236,8 @@ public partial class App : Application
         var state = AppState.Current;
         state.Settings = state.SettingsStore.Load();
         LocalizationService.Instance.SetCulture(state.Settings.Language);
+        // Before any window is created, so the first paint is already in the chosen theme.
+        Ui.ThemeService.Apply(state.Settings.Theme);
         bool dataFolderUnavailable = false;
         try
         {
@@ -481,13 +483,18 @@ public partial class App : Application
                 var def = HotkeyDefinition.Parse(settings.Hotkey);
                 _hotkey = new GlobalHotkey(hwnd, def);
                 _hotkey.Pressed += () => ShowSearch();   // keyboard summon toggles
-                if (!_hotkey.TryRegister(out var err))
-                    Balloon(err, BalloonIcon.Warning);
+                // TryRegister's message is a developer string (win32 error codes); the user gets
+                // the localized one, naming the combo and saying what it costs them — a silently
+                // dead summon hotkey otherwise looks like the app itself is broken.
+                if (!_hotkey.TryRegister(out _))
+                    Balloon(string.Format(LocalizationService.Instance["Msg.HotkeyTaken"], settings.Hotkey),
+                        BalloonIcon.Warning);
             }
         }
         catch (FormatException)
         {
-            Balloon("Invalid hotkey in settings", BalloonIcon.Warning);
+            Balloon(string.Format(LocalizationService.Instance["Msg.HotkeyInvalid"], settings.Hotkey),
+                BalloonIcon.Warning);
         }
 
         // Optional second hotkey: save the clipboard as a snippet without any window.
@@ -498,13 +505,15 @@ public partial class App : Application
                 var def = HotkeyDefinition.Parse(settings.CaptureHotkey);
                 _captureHotkey = new GlobalHotkey(hwnd, def, GlobalHotkey.DefaultId + 1);
                 _captureHotkey.Pressed += CaptureClipboard;
-                if (!_captureHotkey.TryRegister(out var err))
-                    Balloon(err, BalloonIcon.Warning);
+                if (!_captureHotkey.TryRegister(out _))
+                    Balloon(string.Format(LocalizationService.Instance["Msg.HotkeyTaken"], settings.CaptureHotkey),
+                        BalloonIcon.Warning);
             }
         }
         catch (FormatException)
         {
-            Balloon("Invalid capture hotkey in settings", BalloonIcon.Warning);
+            Balloon(string.Format(LocalizationService.Instance["Msg.HotkeyInvalid"], settings.CaptureHotkey),
+                BalloonIcon.Warning);
         }
     }
 
@@ -566,10 +575,20 @@ public partial class App : Application
             if (missing.Count > 0)
                 throw new InvalidOperationException(
                     "highlighting definitions missing: " + string.Join(", ", missing));
-            var unreadable = Ui.Syntax.HighlightingCatalog.UnreadableColors();
-            if (unreadable.Count > 0)
-                throw new InvalidOperationException(
-                    "syntax colours below 3:1 contrast on the editor background: " + string.Join(", ", unreadable));
+            // BOTH palettes, not just the active one: the light theme's syntax colours are a second
+            // hand-tuned table, and a table nobody checks is a table that rots. Auditing only the
+            // running theme would have let a light value ship at 1.2:1 with the build still green.
+            foreach (var light in new[] { false, true })
+            {
+                var unreadable = Ui.Syntax.HighlightingCatalog.UnreadableColors(light);
+                if (unreadable.Count > 0)
+                    throw new InvalidOperationException(
+                        $"syntax colours below 3:1 contrast on the {(light ? "light" : "dark")} editor background: "
+                        + string.Join(", ", unreadable));
+            }
+            // Leave the catalog painted for the theme the app is actually running in — the audit
+            // above repainted the shared definitions as a side effect.
+            Ui.Syntax.HighlightingCatalog.Get("JSON");
             var vd = new VariablesDialog();
             vd.Populate(new[] { new Core.Snippets.Placeholders.VariableSpec("测试", "默认", new[] { "a", "b" }) });
             Exercise(vd);

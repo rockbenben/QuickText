@@ -14,13 +14,15 @@ internal static class WindowTheming
         w.FlowDirection = Core.Localization.LocalizationService.Instance.Culture.TextInfo.IsRightToLeft
             ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
 
-    /// <summary>Paint the native title bar dark to match the app's dark content.</summary>
+    /// <summary>Match the native title bar to the app's own theme. Named for what it did when there
+    /// was only one theme; it now follows <see cref="ThemeService.IsLight"/>, because a dark title
+    /// bar over light content looks like a half-repainted window.</summary>
     public static void UseDarkChrome(Window w)
     {
         w.SourceInitialized += (_, _) =>
         {
             var hwnd = new WindowInteropHelper(w).Handle;
-            int on = 1;
+            int on = ThemeService.IsLight ? 0 : 1;
             try
             {
                 NativeMethods.DwmSetWindowAttribute(

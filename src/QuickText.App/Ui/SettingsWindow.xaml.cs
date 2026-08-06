@@ -44,6 +44,7 @@ public partial class SettingsWindow : Window
     private Border? _capBox;   // which hotkey box is currently capturing (null = none)
     private bool _clipboardOnly;
     private string _placement = "window";
+    private string _theme = ThemeService.Dark;
 
     public SettingsWindow()
     {
@@ -87,6 +88,10 @@ public partial class SettingsWindow : Window
         foreach (var rb in PlacementPanel.Children.OfType<RadioButton>())
             if ((string?)rb.Tag == _placement) rb.IsChecked = true;
 
+        _theme = s.Theme is ThemeService.Light or ThemeService.FollowSystem ? s.Theme : ThemeService.Dark;
+        foreach (var rb in ThemePanel.Children.OfType<RadioButton>())
+            if ((string?)rb.Tag == _theme) rb.IsChecked = true;
+
         // Suspend the summon triggers while this window is open so pressing the current hotkey
         // (or tap key) reaches the capture boxes instead of firing the panel; the ref-counted
         // resume re-arms them once the last Settings window closes (OnSave re-arms via the same
@@ -121,6 +126,16 @@ public partial class SettingsWindow : Window
     private void OnPlacementChecked(object sender, RoutedEventArgs e)
     {
         if (sender is RadioButton rb) _placement = (string?)rb.Tag ?? "window";
+    }
+
+    /// <summary>Applied on click, not on Save: a theme is judged by looking at it, and every window
+    /// repaints live. Save still persists it; closing without saving leaves the preview in place
+    /// until the next launch, which is the honest trade for being able to see the choice.</summary>
+    private void OnThemeChecked(object sender, RoutedEventArgs e)
+    {
+        if (sender is not RadioButton rb) return;
+        _theme = (string?)rb.Tag ?? ThemeService.Dark;
+        ThemeService.Apply(_theme);
     }
 
     private void OnSummonModeChecked(object sender, RoutedEventArgs e)
@@ -439,6 +454,7 @@ public partial class SettingsWindow : Window
         s.ClickToSend = ClickToSend.IsChecked == true;
         s.CopyToClipboardOnly = _clipboardOnly;
         s.PanelPlacement = _placement;
+        s.Theme = _theme;
         s.Autostart = Autostart.IsChecked == true;
         s.CheckUpdates = CheckUpdates.IsChecked == true;
 

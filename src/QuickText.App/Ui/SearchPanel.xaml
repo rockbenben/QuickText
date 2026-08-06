@@ -15,19 +15,21 @@
                 <Style TargetType="Separator" BasedOn="{StaticResource DarkMenuSeparator}"/>
             </ContextMenu.Resources>
             <MenuItem Header="{Binding [Ctx.Copy], Source={x:Static app:LocProxy.Instance}}" Click="OnCtxCopy">
-                <MenuItem.Icon><TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource Brush.TextMuted}"/></MenuItem.Icon>
+                <MenuItem.Icon><TextBlock Text="&#xE8C8;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"/></MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="{Binding [Search.Favorites], Source={x:Static app:LocProxy.Instance}}" Click="OnCtxFavorite">
-                <MenuItem.Icon><TextBlock Text="&#xE734;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource Brush.Star}"/></MenuItem.Icon>
+            <!-- Its own string, not the rail's "Favorites" label: this item is a command that
+                 toggles, and its siblings are verbs. One string, one job. -->
+            <MenuItem Header="{Binding [Ctx.Favorite], Source={x:Static app:LocProxy.Instance}}" Click="OnCtxFavorite">
+                <MenuItem.Icon><TextBlock Text="&#xE734;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{DynamicResource Brush.Star}"/></MenuItem.Icon>
             </MenuItem>
             <Separator/>
             <MenuItem Header="{Binding [Ctx.Edit], Source={x:Static app:LocProxy.Instance}}" Click="OnCtxEdit">
-                <MenuItem.Icon><TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource Brush.TextMuted}"/></MenuItem.Icon>
+                <MenuItem.Icon><TextBlock Text="&#xE70F;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"/></MenuItem.Icon>
             </MenuItem>
         </ContextMenu>
     </Window.Resources>
-    <Border Margin="18" CornerRadius="16" Background="{StaticResource Brush.Surface}"
-            BorderBrush="{StaticResource Brush.Stroke}" BorderThickness="1">
+    <Border Margin="18" CornerRadius="16" Background="{DynamicResource Brush.Surface}"
+            BorderBrush="{DynamicResource Brush.Stroke}" BorderThickness="1">
         <Border.Effect>
             <DropShadowEffect BlurRadius="34" ShadowDepth="9" Direction="270" Opacity="0.5" Color="#FF000000"/>
         </Border.Effect>
@@ -53,7 +55,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="17"
-                           Foreground="{StaticResource Brush.TextMuted}" VerticalAlignment="Center" Margin="0,0,13,0"/>
+                           Foreground="{DynamicResource Brush.TextMuted}" VerticalAlignment="Center" Margin="0,0,13,0"/>
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="10,0,0,0">
                     <Button Style="{StaticResource GhostIconButton}" FontSize="14"
                             Content="&#xE710;" Click="OnNewSnippet"
@@ -71,13 +73,13 @@
                 <Grid Grid.Column="1">
                     <TextBox x:Name="Query" Background="Transparent" BorderThickness="0" Padding="0"
                              FontFamily="{StaticResource Font.Ui}" FontSize="19"
-                             Foreground="{StaticResource Brush.TextPrimary}"
-                             CaretBrush="{StaticResource Brush.Accent}"
-                             SelectionBrush="{StaticResource Brush.Accent}"
+                             Foreground="{DynamicResource Brush.TextPrimary}"
+                             CaretBrush="{DynamicResource Brush.Accent}"
+                             SelectionBrush="{DynamicResource Brush.Accent}"
                              VerticalContentAlignment="Center" TextChanged="OnQueryChanged"/>
                     <TextBlock Text="{Binding [Search.Placeholder], Source={x:Static app:LocProxy.Instance}}"
                                FontFamily="{StaticResource Font.Ui}" FontSize="19"
-                               Foreground="{StaticResource Brush.TextFaint}" IsHitTestVisible="False"
+                               Foreground="{DynamicResource Brush.TextFaint}" IsHitTestVisible="False"
                                VerticalAlignment="Center">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
@@ -93,7 +95,7 @@
                 </Grid>
             </Grid>
 
-            <Border Grid.Row="1" Height="1" Background="{StaticResource Brush.Divider}" Margin="16,0"/>
+            <Border Grid.Row="1" Height="1" Background="{DynamicResource Brush.Divider}" Margin="16,0"/>
 
             <!-- body: browse (two-pane) / search results / empty -->
             <Grid Grid.Row="2" Margin="8,7,8,7">
@@ -111,7 +113,7 @@
                              ItemTemplate="{StaticResource CategoryRowTemplate}"
                              ItemContainerStyle="{StaticResource CategoryRailItem}"
                              SelectionChanged="OnCategoryChanged"/>
-                    <Border Grid.Column="1" Background="{StaticResource Brush.Divider}" Margin="0,3"/>
+                    <Border Grid.Column="1" Background="{DynamicResource Brush.Divider}" Margin="0,3"/>
                     <ListBox x:Name="BrowseList" Grid.Column="2" Background="Transparent" BorderThickness="0" Margin="7,0,0,0"
                              MaxHeight="404" HorizontalContentAlignment="Stretch" AlternationCount="99"
                              VirtualizingPanel.IsVirtualizing="False" ScrollViewer.CanContentScroll="False"
@@ -143,10 +145,10 @@
                             VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,16">
                     <TextBlock x:Name="EmptyText" HorizontalAlignment="Center"
                                FontFamily="{StaticResource Font.Ui}" FontSize="13.5"
-                               Foreground="{StaticResource Brush.TextMuted}"/>
+                               Foreground="{DynamicResource Brush.TextMuted}"/>
                     <TextBlock x:Name="EmptySub" HorizontalAlignment="Center" Margin="0,5,0,0"
                                FontFamily="{StaticResource Font.Ui}" FontSize="11.5"
-                               Foreground="{StaticResource Brush.TextFaint}"/>
+                               Foreground="{DynamicResource Brush.TextFaint}"/>
                     <Button x:Name="CreateButton" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,14,0,0"
                             Style="{StaticResource DarkButtonPrimary}" Padding="16,6" FontSize="12.5"
                             Click="OnCreateFromQuery"/>
@@ -155,18 +157,18 @@
 
             <!-- full-text preview of the selected snippet -->
             <Border x:Name="PreviewPane" Grid.Row="3" Visibility="Collapsed" Margin="20,2,20,8"
-                    BorderBrush="{StaticResource Brush.Divider}" BorderThickness="0,1,0,0" Padding="0,10,0,0">
+                    BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,1,0,0" Padding="0,10,0,0">
                 <ScrollViewer MaxHeight="150" VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <TextBlock x:Name="PreviewText" TextWrapping="Wrap" FontFamily="{StaticResource Font.Ui}"
-                                   FontSize="13" LineHeight="19" Foreground="{StaticResource Brush.TextMuted}"/>
+                                   FontSize="13" LineHeight="19" Foreground="{DynamicResource Brush.TextMuted}"/>
                         <Image x:Name="PreviewImage" Stretch="Uniform" MaxHeight="138" HorizontalAlignment="Left" Visibility="Collapsed"/>
                     </Grid>
                 </ScrollViewer>
             </Border>
 
             <!-- footer -->
-            <Border Grid.Row="4" Background="{StaticResource Brush.FooterBg}" CornerRadius="0,0,15,15" Padding="18,10">
+            <Border Grid.Row="4" Background="{DynamicResource Brush.FooterBg}" CornerRadius="0,0,15,15" Padding="18,10">
                 <Grid>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                         <StackPanel Orientation="Horizontal" Margin="0,0,16,0">
@@ -188,7 +190,7 @@
                     </StackPanel>
                     <TextBlock x:Name="CountText" HorizontalAlignment="Right" VerticalAlignment="Center"
                                FontFamily="{StaticResource Font.Ui}" FontSize="11.5"
-                               Foreground="{StaticResource Brush.TextFaint}"/>
+                               Foreground="{DynamicResource Brush.TextFaint}"/>
                 </Grid>
             </Border>
 
@@ -198,7 +200,7 @@
                 <pt:Thumb.Template>
                     <ControlTemplate TargetType="pt:Thumb">
                         <Grid Background="Transparent">
-                            <Path Data="M 16,5 L 16,16 L 5,16 Z" Fill="{StaticResource Brush.TextFaint}" Opacity="0.6"/>
+                            <Path Data="M 16,5 L 16,16 L 5,16 Z" Fill="{DynamicResource Brush.TextFaint}" Opacity="0.6"/>
                         </Grid>
                     </ControlTemplate>
                 </pt:Thumb.Template>

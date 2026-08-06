@@ -16,22 +16,22 @@
         but scoped to the editor's own Border, NOT the UserControl root, so the Status TextBlock
         below still inherits the window's real FlowDirection like BodyEditor's identical status line.
         -->
-        <Border Grid.Row="0" FlowDirection="LeftToRight" Background="{StaticResource Brush.InputBg}"
-                BorderBrush="{StaticResource Brush.InputBorder}" BorderThickness="1"
+        <Border Grid.Row="0" FlowDirection="LeftToRight" Background="{DynamicResource Brush.InputBg}"
+                BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1"
                 CornerRadius="7" ClipToBounds="True" Padding="4">
             <avalon:TextEditor x:Name="Editor"
                                Background="Transparent"
-                               Foreground="{StaticResource Brush.TextPrimary}"
+                               Foreground="{DynamicResource Brush.TextPrimary}"
                                FontFamily="{StaticResource Font.Mono}" FontSize="13"
                                ShowLineNumbers="True"
-                               LineNumbersForeground="{StaticResource Brush.TextFaint}"
+                               LineNumbersForeground="{DynamicResource Brush.TextFaint}"
                                HorizontalScrollBarVisibility="Auto"
                                VerticalScrollBarVisibility="Auto"/>
         </Border>
 
         <TextBlock Grid.Row="1" x:Name="Status" Margin="4,6,4,0"
                    FontFamily="{StaticResource Font.Ui}" FontSize="11.5"
-                   Foreground="{StaticResource Brush.TextFaint}"
+                   Foreground="{DynamicResource Brush.TextFaint}"
                    TextTrimming="CharacterEllipsis"/>
     </Grid>
 </UserControl>

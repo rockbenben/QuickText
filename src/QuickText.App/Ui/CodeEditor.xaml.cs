@@ -34,12 +34,14 @@ public partial class CodeEditor : UserControl, IBodyEditorSurface
         Editor.Options.EnableEmailHyperlinks = false;
         Editor.Options.HighlightCurrentLine = true;
         Editor.Options.ConvertTabsToSpaces = false;
-        Editor.TextArea.TextView.CurrentLineBackground = Frozen("#14FFFFFF");
         Editor.TextArea.TextView.CurrentLineBorder = FrozenPen(Frozen("#00000000"), 0);
-        Editor.TextArea.SelectionBrush = Frozen("#553DC2A0");
         Editor.TextArea.SelectionBorder = null;
         Editor.TextArea.SelectionForeground = null;   // keep syntax colours inside a selection
-        Editor.TextArea.Caret.CaretBrush = Frozen("#FF3DC2A0");
+        // Selection and caret are the accent; the current-line wash is a tint of the text colour.
+        // All three must follow a theme switch — a white 8% wash is invisible on a light background.
+        ApplyEditorTheme();
+        ThemeService.Changed += OnThemeChanged;
+        Unloaded += (_, _) => ThemeService.Changed -= OnThemeChanged;   // static event: unsubscribe or leak
 
         // Reads _spans through a closure so the transformer never holds a stale copy — Rescan()
         // replaces the list and calls Redraw(), and the next ColorizeLine picks up the new one.
@@ -66,6 +68,29 @@ public partial class CodeEditor : UserControl, IBodyEditorSurface
     }
 
     private void OnLocalizationChanged(object? sender, PropertyChangedEventArgs e) => Rescan();
+
+    /// <summary>Chrome colours, then the token colours: re-assigning LanguageId re-resolves the
+    /// definition through <see cref="Syntax.HighlightingCatalog"/>, which repaints the shared
+    /// definitions for the new theme — without it an already-open editor keeps the old palette.</summary>
+    private void OnThemeChanged()
+    {
+        ApplyEditorTheme();
+        LanguageId = _languageId;
+    }
+
+    /// <summary>Repaint the three editor chrome colours from the current palette. Derived rather
+    /// than tabulated: selection and caret are the accent by definition, so they stay right for any
+    /// future palette without another table to keep in sync.</summary>
+    private void ApplyEditorTheme()
+    {
+        var accent = (System.Windows.Application.Current?.TryFindResource("Brush.Accent") as SolidColorBrush)?.Color
+                     ?? Color.FromRgb(0x3D, 0xC2, 0xA0);
+        Editor.TextArea.TextView.CurrentLineBackground = new SolidColorBrush(ThemeService.IsLight
+            ? Color.FromArgb(0x12, 0x1B, 0x1E, 0x24)     // a wash of the ink, not of white
+            : Color.FromArgb(0x14, 0xFF, 0xFF, 0xFF));
+        Editor.TextArea.SelectionBrush = new SolidColorBrush(Color.FromArgb(0x55, accent.R, accent.G, accent.B));
+        Editor.TextArea.Caret.CaretBrush = new SolidColorBrush(accent);
+    }
 
     private static SolidColorBrush Frozen(string hex)
     {

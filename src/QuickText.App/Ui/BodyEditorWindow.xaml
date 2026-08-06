@@ -4,7 +4,7 @@
         xmlns:app="clr-namespace:QuickText.App"
         Height="640" Width="900" MinWidth="420" MinHeight="320"
         ShowInTaskbar="False"
-        Background="{StaticResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
+        Background="{DynamicResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
     <Border Style="{StaticResource SetCard}" Margin="16">
         <Grid>
             <Grid.RowDefinitions>
@@ -18,13 +18,13 @@
             <Grid Grid.Row="1" Margin="0,14,0,0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <TextBlock VerticalAlignment="Center" Margin="2,0,8,0" FontSize="12.5"
-                               Foreground="{StaticResource Brush.TextMuted}"
+                               Foreground="{DynamicResource Brush.TextMuted}"
                                Text="{Binding [Manager.CodeFormat], Source={x:Static app:LocProxy.Instance}}"/>
                     <ComboBox x:Name="CodeFormatBox" Width="180" VerticalAlignment="Center"
                               Style="{StaticResource DarkComboBox}"
                               SelectionChanged="OnCodeFormatChanged"/>
                     <TextBlock x:Name="LongLineNotice" VerticalAlignment="Center" Margin="10,0,0,0"
-                               FontSize="12.5" Foreground="{StaticResource Brush.TextMuted}"
+                               FontSize="12.5" Foreground="{DynamicResource Brush.TextMuted}"
                                Visibility="Collapsed"
                                Text="{Binding [Manager.LongLinePlainText], Source={x:Static app:LocProxy.Instance}}"/>
                 </StackPanel>

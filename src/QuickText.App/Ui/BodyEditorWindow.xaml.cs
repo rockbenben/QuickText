@@ -210,6 +210,12 @@ public partial class BodyEditorWindow : Window
     private const double DefaultMinWidth = 900;
     private const double DefaultMinHeight = 640;
 
+    /// <summary>Cap on the DEFAULT width only (a remembered width is honoured as-is). Height may
+    /// scale with the monitor — more visible lines is always better — but width must not: wrap is
+    /// on by default, and 80% of a wide monitor is a ~2000 DIP text column, far past the measure
+    /// anyone can read comfortably. Drag it wider for long code lines; that width is remembered.</summary>
+    private const double DefaultMaxWidth = 1200;
+
     /// <summary>Center on the owner's (the Manager's) monitor, sized from the remembered W/H when
     /// sane, else 80% of that monitor's work area floored at <see cref="DefaultMinWidth"/> x
     /// <see cref="DefaultMinHeight"/> — clamped to the work area either way, so a size remembered
@@ -227,7 +233,7 @@ public partial class BodyEditorWindow : Window
         // the floor itself.
         double width = hasSavedSize
             ? settings.BodyWinW
-            : Math.Min(Math.Max(area.Width * 0.8, DefaultMinWidth), area.Width);
+            : Math.Min(Math.Min(Math.Max(area.Width * 0.8, DefaultMinWidth), DefaultMaxWidth), area.Width);
         double height = hasSavedSize
             ? settings.BodyWinH
             : Math.Min(Math.Max(area.Height * 0.8, DefaultMinHeight), area.Height);

@@ -3,15 +3,18 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Width="420" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" ShowInTaskbar="False" Topmost="True"
-        Background="{StaticResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
+        Background="{DynamicResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
     <StackPanel Margin="24,20,24,20">
-        <TextBlock x:Name="TitleText" Foreground="{StaticResource Brush.TextPrimary}"
+        <TextBlock x:Name="TitleText" Foreground="{DynamicResource Brush.TextPrimary}"
                    FontSize="15" FontWeight="SemiBold" Margin="0,0,0,16"/>
         <ItemsControl x:Name="Fields">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,0,0,12">
-                        <TextBlock Text="{Binding Name, StringFormat={}{{{0}}}}" Style="{StaticResource FieldLabel}"/>
+                        <!-- The name as the author wrote it, without the braces: those are template
+                             syntax, and the dialog title already says these are variables. Not
+                             capitalised either — the names are user-authored and often not Latin. -->
+                        <TextBlock Text="{Binding Name}" Style="{StaticResource FieldLabel}"/>
                         <TextBox Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource DarkTextBox}" FontSize="14"
                                  Visibility="{Binding TextBoxVis}"/>

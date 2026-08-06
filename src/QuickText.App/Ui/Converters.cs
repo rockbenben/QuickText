@@ -53,7 +53,11 @@ public sealed class NonEmptyToCollapsedConverter : IValueConverter
 /// <summary>#RRGGBB string -> brush; empty/invalid -> a neutral dot color.</summary>
 public sealed class HexToBrushConverter : IValueConverter
 {
-    private static readonly Brush Neutral = Freeze(new SolidColorBrush(Color.FromRgb(0x55, 0x5C, 0x68)));
+    // Resolved from the palette rather than frozen at first use, so the light theme reaches it.
+    // The literal stays as the fallback for contexts with no Application (unit tests, --smoke).
+    private static Brush Neutral =>
+        Application.Current?.TryFindResource("Brush.Neutral") as Brush ?? Fallback;
+    private static readonly Brush Fallback = Freeze(new SolidColorBrush(Color.FromRgb(0x55, 0x5C, 0x68)));
     private static Brush Freeze(SolidColorBrush b) { b.Freeze(); return b; }
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

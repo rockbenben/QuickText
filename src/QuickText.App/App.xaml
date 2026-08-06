@@ -20,23 +20,23 @@
                         <Style TargetType="Separator" BasedOn="{StaticResource DarkMenuSeparator}"/>
                     </ContextMenu.Resources>
                     <MenuItem Header="Open Search" Click="OnOpenSearch">
-                        <MenuItem.Icon><TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource Brush.Accent}"/></MenuItem.Icon>
+                        <MenuItem.Icon><TextBlock Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{DynamicResource Brush.Accent}"/></MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Open Manager" Click="OnOpenManager">
-                        <MenuItem.Icon><TextBlock Text="&#xE8F1;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource Brush.TextMuted}"/></MenuItem.Icon>
+                        <MenuItem.Icon><TextBlock Text="&#xE8F1;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"/></MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="New from clipboard" Click="OnNewFromClipboard">
-                        <MenuItem.Icon><TextBlock Text="&#xE77F;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource Brush.TextMuted}"/></MenuItem.Icon>
+                        <MenuItem.Icon><TextBlock Text="&#xE77F;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"/></MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Settings" Click="OnSettings">
-                        <MenuItem.Icon><TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource Brush.TextMuted}"/></MenuItem.Icon>
+                        <MenuItem.Icon><TextBlock Text="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"/></MenuItem.Icon>
                     </MenuItem>
                     <MenuItem Header="Pause expansion" Click="OnTogglePause">
-                        <MenuItem.Icon><TextBlock Text="&#xE769;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource Brush.TextMuted}"/></MenuItem.Icon>
+                        <MenuItem.Icon><TextBlock Text="&#xE769;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"/></MenuItem.Icon>
                     </MenuItem>
                     <Separator/>
                     <MenuItem Header="Exit" Click="OnExit">
-                        <MenuItem.Icon><TextBlock Text="&#xE7E8;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{StaticResource Brush.TextMuted}"/></MenuItem.Icon>
+                        <MenuItem.Icon><TextBlock Text="&#xE7E8;" FontFamily="Segoe MDL2 Assets" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"/></MenuItem.Icon>
                     </MenuItem>
                 </ContextMenu>
             </tb:TaskbarIcon.ContextMenu>

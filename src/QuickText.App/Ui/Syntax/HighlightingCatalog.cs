@@ -30,10 +30,21 @@ internal static class HighlightingCatalog
     /// the dropdown at all) would never have been themed on any code path.</para>
     /// <para>~20 definitions, once per process, behind the same lock as registration.</para>
     /// </summary>
-    private static void ThemeEverything()
+    /// <summary>Null until the first theming pass; then the theme the shared definitions currently
+    /// carry, so an app-theme switch repaints them instead of the once-per-process guard below
+    /// keeping every editor on the previous palette.</summary>
+    private static bool? _themedLight;
+
+    private static void ThemeEverything() => RethemeAll(QuickText.App.Ui.ThemeService.IsLight);
+
+    /// <summary>Paint every registered definition for <paramref name="light"/>, skipping the work
+    /// when they already carry that theme. Caller holds <see cref="Gate"/>.</summary>
+    private static void RethemeAll(bool light)
     {
+        if (_themedLight != light) Themed.Clear();
         foreach (var def in HighlightingManager.Instance.HighlightingDefinitions)
-            if (Themed.Add(def.Name)) SyntaxTheme.ApplyDark(def);
+            if (Themed.Add(def.Name)) SyntaxTheme.Apply(def, light);
+        _themedLight = light;
     }
 
     // Resource name suffix -> definition name, matching the <SyntaxDefinition name="…"> inside.
@@ -70,9 +81,15 @@ internal static class HighlightingCatalog
     /// <summary>Named colours across all shipped languages whose foreground is too faint to read on
     /// the editor background, as "<language>/<colour> #RRGGBB". Empty is the only healthy result.
     /// Eyeballing a few languages is exactly how a 44-colour regression slipped through once.</summary>
-    public static IReadOnlyList<string> UnreadableColors(double minContrast = 3.0)
+    /// <param name="light">Which theme to audit. Explicit rather than read from
+    /// <see cref="QuickText.App.Ui.ThemeService"/>: the check exists to prove BOTH palettes are
+    /// readable, and one that only ever sees whichever theme happens to be active would have let
+    /// the light palette ship unaudited.</param>
+    public static IReadOnlyList<string> UnreadableColors(bool light, double minContrast = 3.0)
     {
-        var background = (Color)ColorConverter.ConvertFromString("#232830")!;
+        // The editor background of the theme being audited — checking light syntax colours against
+        // the dark ink (or the reverse) would pass values that are unreadable in practice.
+        var background = (Color)ColorConverter.ConvertFromString(light ? "#FFFFFF" : "#232830")!;
         var bad = new List<string>();
         // Sweep EVERY registered definition, not just the 13 we offer in the dropdown. Several of
         // ours embed others — HTML hosts JavaScript and CSS, C# hosts XmlDoc — and an embedded
@@ -82,7 +99,7 @@ internal static class HighlightingCatalog
         lock (Gate)
         {
             EnsureRegistered();
-            ThemeEverything();
+            RethemeAll(light);
         }
         foreach (var def in HighlightingManager.Instance.HighlightingDefinitions)
         {

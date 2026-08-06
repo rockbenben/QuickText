@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Width="400" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
-        Background="{StaticResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
+        Background="{DynamicResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
     <StackPanel Margin="24,20,24,20">
-        <TextBlock x:Name="MessageText" Foreground="{StaticResource Brush.TextPrimary}" FontSize="14"
+        <TextBlock x:Name="MessageText" Foreground="{DynamicResource Brush.TextPrimary}" FontSize="14"
                    TextWrapping="Wrap" Margin="0,0,0,14"/>
         <TextBox x:Name="InputBox" Style="{StaticResource DarkTextBox}" FontSize="14"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">

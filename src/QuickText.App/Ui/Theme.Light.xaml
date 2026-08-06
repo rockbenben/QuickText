@@ -1,0 +1,42 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<!-- 「晨玉」 — the light counterpart of Theme.xaml's 「夜行」. Merged ON TOP of it by
+     ThemeService, so it only needs to carry the values that differ: same keys, same
+     meaning, re-tuned for a light editor. Every text value measures >=4.5:1 (WCAG AA)
+     against Surface / CardBg / InputBg; the accent moves from #3DC2A0 to #0E7A61
+     because the original reads at 2:1 on white. -->
+    <SolidColorBrush x:Key="Brush.Surface" Color="#F7F8FA"/>
+    <SolidColorBrush x:Key="Brush.WinBg" Color="#FFEFF1F4"/>
+    <SolidColorBrush x:Key="Brush.Panel" Color="#FFF7F8FA"/>
+    <SolidColorBrush x:Key="Brush.CardBg" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.InputBg" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.InputBorder" Color="#2E1B1E24"/>
+    <SolidColorBrush x:Key="Brush.Stroke" Color="#241B1E24"/>
+    <SolidColorBrush x:Key="Brush.Divider" Color="#141B1E24"/>
+    <SolidColorBrush x:Key="Brush.RowHover" Color="#0C1B1E24"/>
+    <SolidColorBrush x:Key="Brush.RowSelected" Color="#1F0E7A61"/>
+    <SolidColorBrush x:Key="Brush.Accent" Color="#0E7A61"/>
+    <SolidColorBrush x:Key="Brush.AccentHover" Color="#0B6350"/>
+    <SolidColorBrush x:Key="Brush.OnAccent" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.TextPrimary" Color="#12161C"/>
+    <SolidColorBrush x:Key="Brush.TextMuted" Color="#4E5661"/>
+    <SolidColorBrush x:Key="Brush.TextFaint" Color="#616A75"/>
+    <SolidColorBrush x:Key="Brush.ChipBg" Color="#141B1E24"/>
+    <SolidColorBrush x:Key="Brush.ChipText" Color="#3C444F"/>
+    <SolidColorBrush x:Key="Brush.AbbrBg" Color="#1A0E7A61"/>
+    <SolidColorBrush x:Key="Brush.AbbrBorder" Color="#550E7A61"/>
+    <SolidColorBrush x:Key="Brush.AbbrText" Color="#0A5C49"/>
+    <SolidColorBrush x:Key="Brush.AbbrMatchBg" Color="#380E7A61"/>
+    <SolidColorBrush x:Key="Brush.KeycapBg" Color="#0F1B1E24"/>
+    <SolidColorBrush x:Key="Brush.KeycapBorder" Color="#2A1B1E24"/>
+    <SolidColorBrush x:Key="Brush.KeycapText" Color="#39414B"/>
+    <SolidColorBrush x:Key="Brush.FooterBg" Color="#0A1B1E24"/>
+    <SolidColorBrush x:Key="Brush.Star" Color="#8F6300"/>
+    <SolidColorBrush x:Key="Brush.Amber" Color="#FF8A5A00"/>
+    <SolidColorBrush x:Key="Brush.ButtonBg" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="Brush.ButtonHover" Color="#FFE9ECF0"/>
+    <SolidColorBrush x:Key="Brush.ButtonBorder" Color="#331B1E24"/>
+    <SolidColorBrush x:Key="Brush.Error" Color="#B3261E"/>
+    <SolidColorBrush x:Key="Brush.LineNumber" Color="#8A929C"/>
+    <SolidColorBrush x:Key="Brush.Neutral" Color="#7A828D"/>
+</ResourceDictionary>

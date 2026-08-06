@@ -8,8 +8,8 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="{StaticResource Brush.InputBg}"
-                BorderBrush="{StaticResource Brush.InputBorder}" BorderThickness="1"
+        <Border Grid.Row="0" Background="{DynamicResource Brush.InputBg}"
+                BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1"
                 CornerRadius="7" ClipToBounds="True">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -24,9 +24,9 @@
                     <!-- highlight layer FIRST = behind the glyphs -->
                     <ui:PlaceholderLayer x:Name="Layer"/>
                     <TextBox x:Name="Editor" Background="Transparent" BorderThickness="0"
-                             Foreground="{StaticResource Brush.TextPrimary}"
-                             CaretBrush="{StaticResource Brush.Accent}"
-                             SelectionBrush="{StaticResource Brush.Accent}"
+                             Foreground="{DynamicResource Brush.TextPrimary}"
+                             CaretBrush="{DynamicResource Brush.Accent}"
+                             SelectionBrush="{DynamicResource Brush.Accent}"
                              Padding="9,7" FontFamily="{StaticResource Font.Mono}" FontSize="13"
                              AcceptsReturn="True" AcceptsTab="True" TextWrapping="Wrap"
                              VerticalContentAlignment="Top"
@@ -38,7 +38,7 @@
 
         <TextBlock Grid.Row="1" x:Name="Status" Margin="4,6,4,0"
                    FontFamily="{StaticResource Font.Ui}" FontSize="11.5"
-                   Foreground="{StaticResource Brush.TextFaint}"
+                   Foreground="{DynamicResource Brush.TextFaint}"
                    TextTrimming="CharacterEllipsis"/>
     </Grid>
 </UserControl>

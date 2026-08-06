@@ -21,7 +21,10 @@ public sealed class LineNumberGutter : FrameworkElement
 
     public void Refresh() => InvalidateVisual();
 
-    private static readonly Brush NumBrush = FrozenGray();
+    // Palette lookup per render, not a frozen static: the gutter has to follow the light theme.
+    private static Brush NumBrush =>
+        Application.Current?.TryFindResource("Brush.LineNumber") as Brush ?? FallbackGray;
+    private static readonly Brush FallbackGray = FrozenGray();
     // Literal fallback only — the TextBox itself draws with the "Font.Mono" theme resource, so a
     // hardcoded family here could silently drift from it. Resolved lazily (not at type-init time,
     // when this element isn't in the visual tree yet and TryFindResource would find nothing) and

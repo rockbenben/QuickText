@@ -5,7 +5,7 @@
         xmlns:ui="clr-namespace:QuickText.App.Ui"
         Title="{Binding [App.Name], Source={x:Static app:LocProxy.Instance}}"
         Height="680" Width="880" MinWidth="680" MinHeight="520"
-        Background="{StaticResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
+        Background="{DynamicResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="272"/>
@@ -13,8 +13,8 @@
         </Grid.ColumnDefinitions>
 
         <!-- sidebar: categories over snippets, one soft panel -->
-        <Border Grid.Column="0" Background="{StaticResource Brush.Panel}"
-                BorderBrush="{StaticResource Brush.Divider}" BorderThickness="0,0,1,0">
+        <Border Grid.Column="0" Background="{DynamicResource Brush.Panel}"
+                BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,0,1,0">
             <Grid Margin="14,16,12,14">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -87,7 +87,7 @@
                              TextChanged="OnFilterChanged"/>
                     <TextBlock Text="{Binding [Manager.Filter], Source={x:Static app:LocProxy.Instance}}"
                                FontSize="12" Margin="10,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False"
-                               Foreground="{StaticResource Brush.TextFaint}">
+                               Foreground="{DynamicResource Brush.TextFaint}">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -131,12 +131,12 @@
                        Text="{Binding [Manager.Abbr], Source={x:Static app:LocProxy.Instance}}"/>
             <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
                 <TextBlock x:Name="AbbrPrefixText" VerticalAlignment="Center" Margin="0,0,3,0"
-                           FontFamily="{StaticResource Font.Mono}" FontSize="14" Foreground="{StaticResource Brush.TextMuted}"
+                           FontFamily="{StaticResource Font.Mono}" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"
                            ToolTip="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"/>
                 <TextBox x:Name="Abbr" Style="{StaticResource DarkTextBox}" Width="180"
                          FontFamily="{StaticResource Font.Mono}" TextChanged="OnAbbrChanged"/>
                 <TextBlock x:Name="AbbrConflict" VerticalAlignment="Center" Margin="12,0,0,0"
-                           FontSize="12.5" Foreground="#F2777A" Visibility="Collapsed"/>
+                           FontSize="12.5" Foreground="{DynamicResource Brush.Error}" Visibility="Collapsed"/>
             </StackPanel>
 
             <DockPanel Grid.Row="4" Margin="2,18,0,6" LastChildFill="False">
@@ -164,7 +164,7 @@
                           Content="{Binding [Manager.UseVars], Source={x:Static app:LocProxy.Instance}}"
                           ToolTip="{Binding [Manager.UseVarsHint], Source={x:Static app:LocProxy.Instance}}"/>
                 <TextBlock VerticalAlignment="Center" Margin="28,0,8,0" FontSize="13"
-                           Foreground="{StaticResource Brush.TextMuted}"
+                           Foreground="{DynamicResource Brush.TextMuted}"
                            Text="{Binding [Manager.OutputMode], Source={x:Static app:LocProxy.Instance}}"/>
                 <ComboBox x:Name="OutputMode" Width="140" VerticalAlignment="Center" Style="{StaticResource DarkComboBox}"
                           ToolTip="{Binding [Manager.OutputModeHint], Source={x:Static app:LocProxy.Instance}}"/>
@@ -176,8 +176,8 @@
                               Checked="OnImageSectionToggled" Unchecked="OnImageSectionToggled"
                               Content="{Binding [Manager.ImageSection], Source={x:Static app:LocProxy.Instance}}"/>
                     <Border x:Name="ImagePeek" Width="20" Height="20" Margin="10,0,0,0" CornerRadius="4"
-                            Background="{StaticResource Brush.InputBg}"
-                            BorderBrush="{StaticResource Brush.InputBorder}" BorderThickness="1"
+                            Background="{DynamicResource Brush.InputBg}"
+                            BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1"
                             VerticalAlignment="Center" Visibility="Collapsed">
                         <Image x:Name="SnippetImagePeek" Stretch="Uniform" Margin="1"/>
                     </Border>
@@ -185,8 +185,8 @@
 
                 <StackPanel x:Name="ImageSection" Orientation="Horizontal" Margin="0,10,0,0"
                             Visibility="Collapsed">
-                    <Border Width="72" Height="72" CornerRadius="8" Background="{StaticResource Brush.InputBg}"
-                            BorderBrush="{StaticResource Brush.InputBorder}" BorderThickness="1">
+                    <Border Width="72" Height="72" CornerRadius="8" Background="{DynamicResource Brush.InputBg}"
+                            BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1">
                         <Image x:Name="SnippetImage" Stretch="Uniform" Margin="4"/>
                     </Border>
                     <StackPanel VerticalAlignment="Center" Margin="14,0,0,0">
@@ -205,10 +205,10 @@
             </StackPanel>
 
             <TextBlock Grid.Row="8" x:Name="UsageStat" HorizontalAlignment="Left" VerticalAlignment="Center"
-                       Margin="2,16,0,0" FontSize="12" Foreground="{StaticResource Brush.TextFaint}"/>
+                       Margin="2,16,0,0" FontSize="12" Foreground="{DynamicResource Brush.TextFaint}"/>
             <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
                 <TextBlock x:Name="SavedHint" VerticalAlignment="Center" Margin="0,0,14,0" Opacity="0"
-                           FontFamily="{StaticResource Font.Ui}" FontSize="13" Foreground="{StaticResource Brush.Accent}"
+                           FontFamily="{StaticResource Font.Ui}" FontSize="13" Foreground="{DynamicResource Brush.Accent}"
                            Text="{Binding [Manager.Saved], Source={x:Static app:LocProxy.Instance}}"/>
                 <Button MinWidth="100" Padding="18,8" Style="{StaticResource DarkButtonPrimary}" Click="OnSave"
                         Content="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}}"/>
