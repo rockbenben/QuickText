@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>Schließen</value></data>
   <data name="Trash.EmptyState"><value>Papierkorb ist leer</value></data>
   <data name="Trash.Hint"><value>Gelöschte Bausteine bleiben {0} Tage hier und werden dann automatisch entfernt. Beim Wiederherstellen landen sie in ihrer ursprünglichen Kategorie (bei Bedarf neu angelegt).</value></data>
-  <data name="Trash.EmptyConfirm"><value>Papierkorb leeren? Alle Bausteine sind dann unwiderruflich verloren.</value></data>
+  <data name="Trash.EmptyConfirm"><value>Papierkorb leeren? Alles darin ist dann endgültig weg.</value></data>
   <data name="Tray.PauseAbbr"><value>Erweiterung pausieren</value></data>
   <data name="Tray.ResumeAbbr"><value>Erweiterung fortsetzen</value></data>
   <data name="Tray.PausedTip"><value>Kürzel-Erweiterung pausiert</value></data>
@@ -125,7 +125,7 @@
   <data name="Manager.LongLinePlainText"><value>Zeile zu lang – als Nur Text angezeigt</value></data>
   <data name="Manager.BodyEditorTitle"><value>Inhalt · {0}</value></data>
   <data name="Manager.Done"><value>Fertig</value></data>
-  <data name="Manager.BodyStats"><value>{0} Zeilen · {1} Zeichen</value></data>
+  <data name="Manager.BodyStats"><value>Zeilen {0} · Zeichen {1}</value></data>
   <data name="Manager.BodyCaret"><value>Zeile {0} : Spalte {1}</value></data>
   <data name="Manager.BodyVars"><value>Variablen: {0}</value></data>
   <data name="Manager.BodyVarsOff"><value>Platzhalter deaktiviert · {0} {{…}} werden unverändert ausgegeben</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>Allgemein</value></data>
   <data name="Manager.Color"><value>Farbe</value></data>
   <data name="Manager.DuplicateCategory"><value>Eine Kategorie mit diesem Namen existiert bereits</value></data>
-  <data name="Manager.SaveFailed"><value>Speichern fehlgeschlagen: Der Datenordner ist evtl. gesperrt oder schreibgeschützt. Bitte erneut versuchen.</value></data>
+  <data name="Manager.SaveFailed"><value>Speichern nicht möglich — der Datenordner ist schreibgeschützt oder von einem anderen Programm belegt. Gib ihn frei oder wähle in den Einstellungen einen anderen Ordner.</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>Kategorie „{0}“ löschen? Ihre Bausteine werden ebenfalls entfernt.</value></data>
   <data name="Dialog.OK"><value>OK</value></data>
   <data name="Dialog.Cancel"><value>Abbrechen</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>Auslöse-Präfix</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Wird jedem Kürzel vorangestellt (Standard ;). In der Verwaltung nur das Kürzel selbst eingeben (z. B. qm) – ausgelöst wird per Präfix+Kürzel (z. B. ;qm). Leer lassen für kein Präfix; ein Präfix verhindert versehentliches Auslösen beim normalen Tippen.</value></data>
   <data name="Settings.RestoreClipboard"><value>Zwischenablage unverändert lassen</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>Beim Einfügen wird die Zwischenablage kurz genutzt und danach der vorherige Inhalt wiederhergestellt – sie bleibt unverändert.</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Beim Einfügen wird die Zwischenablage kurz benutzt und danach wiederhergestellt. Standardmäßig aus: Apps, die die Zwischenablage langsam lesen, fügen sonst den alten Inhalt ein.</value></data>
   <data name="Settings.FollowSystem"><value>System folgen</value></data>
-  <data name="Msg.HotkeyTaken"><value>Hotkey bereits belegt, bitte ändern</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} ist bereits von einer anderen App belegt — das Panel öffnet sich nicht, bis du in den Einstellungen ein anderes Tastenkürzel wählst.</value></data>
   <data name="Msg.ConflictFiles"><value>Synchronisierungs-Konfliktdateien erkannt</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Datenordner nicht verfügbar (evtl. ist ein Wechsel- oder Netzlaufwerk getrennt). Vorerst mit leerer Bibliothek gestartet – in den Einstellungen neu zuweisen oder Laufwerk verbinden und neu starten.</value></data>
   <data name="Search.Hint.Nav"><value>Navigieren</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>Update-Suche fehlgeschlagen. Bitte später erneut versuchen.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Es gibt ungespeicherte Änderungen. Speichern?</value></data>
   <data name="Manager.DontSave"><value>Nicht speichern</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} ist kein gültiges Tastenkürzel — lege in den Einstellungen ein neues fest.</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>Favorit umschalten</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>Design</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>Dunkel</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>Hell</value></data>
 </root>

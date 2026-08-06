@@ -89,7 +89,7 @@
   <data name="Manager.Trash"><value>Papelera</value></data>
   <data name="Manager.MoveTo"><value>Mover a categoría</value></data>
   <data name="Manager.DeleteSelected"><value>Eliminar seleccionados ({0})</value></data>
-  <data name="Manager.UsageStat"><value>Usado {0} veces · último {1}</value></data>
+  <data name="Manager.UsageStat"><value>Usos {0} · último {1}</value></data>
   <data name="Manager.NeverUsed"><value>Nunca usado</value></data>
   <data name="Trash.Restore"><value>Restaurar</value></data>
   <data name="Trash.DeleteForever"><value>Eliminar definitivamente</value></data>
@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>Cerrar</value></data>
   <data name="Trash.EmptyState"><value>La papelera está vacía</value></data>
   <data name="Trash.Hint"><value>Los fragmentos eliminados se conservan aquí {0} días y luego se borran automáticamente. Al restaurar vuelven a su categoría original (se recrea si es necesario).</value></data>
-  <data name="Trash.EmptyConfirm"><value>¿Vaciar la papelera? No se podrá recuperar ningún fragmento.</value></data>
+  <data name="Trash.EmptyConfirm"><value>¿Vaciar la papelera? Todo lo que hay dentro se perderá para siempre.</value></data>
   <data name="Tray.PauseAbbr"><value>Pausar expansión</value></data>
   <data name="Tray.ResumeAbbr"><value>Reanudar expansión</value></data>
   <data name="Tray.PausedTip"><value>expansión de abreviaturas en pausa</value></data>
@@ -125,7 +125,7 @@
   <data name="Manager.LongLinePlainText"><value>Línea demasiado larga: mostrada como texto sin formato</value></data>
   <data name="Manager.BodyEditorTitle"><value>Cuerpo · {0}</value></data>
   <data name="Manager.Done"><value>Listo</value></data>
-  <data name="Manager.BodyStats"><value>{0} líneas · {1} caracteres</value></data>
+  <data name="Manager.BodyStats"><value>Líneas {0} · Caracteres {1}</value></data>
   <data name="Manager.BodyCaret"><value>Lín {0} : Col {1}</value></data>
   <data name="Manager.BodyVars"><value>Variables: {0}</value></data>
   <data name="Manager.BodyVarsOff"><value>Marcadores desactivados · {0} {{…}} se mostrarán tal cual</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>General</value></data>
   <data name="Manager.Color"><value>Color</value></data>
   <data name="Manager.DuplicateCategory"><value>Ya existe una categoría con ese nombre</value></data>
-  <data name="Manager.SaveFailed"><value>Error al guardar: la carpeta de datos puede estar bloqueada o no ser escribible. Inténtalo de nuevo.</value></data>
+  <data name="Manager.SaveFailed"><value>No se pudo guardar: la carpeta de datos es de solo lectura o la está usando otro programa. Libérala o elige otra carpeta en Ajustes.</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>¿Eliminar la categoría «{0}»? También se eliminarán sus fragmentos.</value></data>
   <data name="Dialog.OK"><value>Aceptar</value></data>
   <data name="Dialog.Cancel"><value>Cancelar</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>Prefijo de activación</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Se antepone a cada abreviatura (por defecto ;). En el administrador escribe solo la abreviatura (p. ej. qm); se activa con prefijo+abreviatura (p. ej. ;qm). Déjalo vacío para no usar prefijo; un prefijo evita que la escritura normal la active.</value></data>
   <data name="Settings.RestoreClipboard"><value>Mantener mi portapapeles intacto</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>Al pegar se usa brevemente el portapapeles y luego se restaura lo que tenías copiado: queda como estaba.</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Al pegar se usa el portapapeles un momento y luego se restaura lo que tenías copiado. Desactivado por defecto: las aplicaciones que leen el portapapeles con lentitud pueden pegar el contenido antiguo.</value></data>
   <data name="Settings.FollowSystem"><value>Seguir el sistema</value></data>
-  <data name="Msg.HotkeyTaken"><value>La tecla ya está en uso, cámbiala</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} ya lo usa otra aplicación: el panel no se abrirá hasta que elijas otro atajo en Ajustes.</value></data>
   <data name="Msg.ConflictFiles"><value>Se detectaron archivos de conflicto de sincronización</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Carpeta de datos no disponible (puede que una unidad extraíble o de red esté desconectada). Se inició con una biblioteca vacía por ahora: vuelve a indicarla en Configuración, o reconéctala y reinicia.</value></data>
   <data name="Search.Hint.Nav"><value>Navegar</value></data>
@@ -202,7 +202,7 @@
   <data name="Search.Empty.Sub"><value>Abre el administrador desde el menú de la bandeja para agregar tu primer fragmento</value></data>
   <data name="Search.NoMatch"><value>Ningún fragmento coincide con «{0}»</value></data>
   <data name="Search.NoMatch.Sub"><value>Prueba otra palabra clave, o pinyin / iniciales / una abreviatura</value></data>
-  <data name="Search.Count"><value>{0} resultados</value></data>
+  <data name="Search.Count"><value>Resultados: {0}</value></data>
   <data name="Settings.HotkeyHint"><value>Haz clic y pulsa una tecla; las teclas normales necesitan Ctrl / Alt / Shift / Win, las de función F1–F24 pueden usarse solas</value></data>
   <data name="Settings.HotkeyPrompt"><value>Pulsa teclas… (Esc para cancelar)</value></data>
   <data name="Settings.Portable"><value>Modo portátil</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>No se pudo buscar actualizaciones. Inténtalo más tarde.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Hay cambios sin guardar. ¿Guardarlos?</value></data>
   <data name="Manager.DontSave"><value>No guardar</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} no es un atajo válido: define uno nuevo en Ajustes.</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>Marcar / desmarcar favorito</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>Tema</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>Oscuro</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>Claro</value></data>
 </root>

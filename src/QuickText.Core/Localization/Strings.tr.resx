@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>Kapat</value></data>
   <data name="Trash.EmptyState"><value>Çöp kutusu boş</value></data>
   <data name="Trash.Hint"><value>Silinen metinler burada {0} gün tutulur, ardından otomatik kaldırılır. Geri yükleme, onları özgün kategorisine koyar (gerekirse yeniden oluşturulur).</value></data>
-  <data name="Trash.EmptyConfirm"><value>Çöp kutusu boşaltılsın mı? Tüm metinler kurtarılamaz olacak.</value></data>
+  <data name="Trash.EmptyConfirm"><value>Çöp kutusu boşaltılsın mı? İçindeki her şey kalıcı olarak silinir.</value></data>
   <data name="Tray.PauseAbbr"><value>Genişletmeyi duraklat</value></data>
   <data name="Tray.ResumeAbbr"><value>Genişletmeyi sürdür</value></data>
   <data name="Tray.PausedTip"><value>kısaltma genişletme duraklatıldı</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>Genel</value></data>
   <data name="Manager.Color"><value>Renk</value></data>
   <data name="Manager.DuplicateCategory"><value>Bu ada sahip bir kategori zaten var</value></data>
-  <data name="Manager.SaveFailed"><value>Kaydetme başarısız: veri klasörü kilitli veya yazılamıyor olabilir. Lütfen tekrar deneyin.</value></data>
+  <data name="Manager.SaveFailed"><value>Kaydedilemedi: veri klasörü salt okunur ya da başka bir program tarafından kullanılıyor. Klasörü serbest bırakın veya Ayarlar’dan başka bir klasör seçin.</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>“{0}” kategorisi silinsin mi? İçindeki metinler de kaldırılır.</value></data>
   <data name="Dialog.OK"><value>Tamam</value></data>
   <data name="Dialog.Cancel"><value>İptal</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>Tetikleme ön eki</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Her kısaltmanın önüne eklenir (varsayılan ;). Yönetici'de yalnızca kısaltmanın kendisini yazın (örn. qm) — ön ek+kısaltma ile tetiklenir (örn. ;qm). Ön ek istemiyorsanız boş bırakın; ön ek, normal yazarken yanlışlıkla tetiklenmeyi önler.</value></data>
   <data name="Settings.RestoreClipboard"><value>Panomu olduğu gibi koru</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>Yapıştırma panoyu kısa süre kullanır, ardından daha önce kopyaladığınız içeriği geri yükler — olduğu gibi bırakılır.</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Yapıştırırken pano kısa süre kullanılır, sonra eski içerik geri yüklenir. Varsayılan olarak kapalı: panoyu yavaş okuyan uygulamalar eski içeriği yapıştırabilir.</value></data>
   <data name="Settings.FollowSystem"><value>Sistemi izle</value></data>
-  <data name="Msg.HotkeyTaken"><value>Kısayol kullanımda, lütfen değiştirin</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} başka bir uygulama tarafından kullanılıyor — Ayarlar’dan farklı bir kısayol seçene kadar panel açılmaz.</value></data>
   <data name="Msg.ConflictFiles"><value>Eşitleme çakışma dosyaları algılandı</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Veri klasörü kullanılamıyor (çıkarılabilir veya ağ sürücüsü bağlı olmayabilir). Şimdilik boş bir kitaplıkla başlatıldı — Ayarlar'dan yeniden yönlendirin ya da yeniden bağlanıp uygulamayı yeniden başlatın.</value></data>
   <data name="Search.Hint.Nav"><value>Gezin</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>Güncellemeler denetlenemedi. Daha sonra tekrar deneyin.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Kaydedilmemiş değişiklikler var. Kaydedilsin mi?</value></data>
   <data name="Manager.DontSave"><value>Kaydetme</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} geçerli bir kısayol değil — Ayarlar’dan yenisini belirleyin.</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>Favoriyi aç/kapat</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>Tema</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>Koyu</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>Açık</value></data>
 </root>

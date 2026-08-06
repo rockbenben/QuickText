@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>Fermer</value></data>
   <data name="Trash.EmptyState"><value>La corbeille est vide</value></data>
   <data name="Trash.Hint"><value>Les extraits supprimés sont conservés ici pendant {0} jours, puis retirés automatiquement. La restauration les replace dans leur catégorie d'origine (recréée si nécessaire).</value></data>
-  <data name="Trash.EmptyConfirm"><value>Vider la corbeille ? Tous les extraits seront irrécupérables.</value></data>
+  <data name="Trash.EmptyConfirm"><value>Vider la corbeille ? Tout ce qu’elle contient sera définitivement perdu.</value></data>
   <data name="Tray.PauseAbbr"><value>Suspendre l'expansion</value></data>
   <data name="Tray.ResumeAbbr"><value>Reprendre l'expansion</value></data>
   <data name="Tray.PausedTip"><value>expansion des abréviations suspendue</value></data>
@@ -125,7 +125,7 @@
   <data name="Manager.LongLinePlainText"><value>Ligne trop longue — affichée en texte brut</value></data>
   <data name="Manager.BodyEditorTitle"><value>Corps · {0}</value></data>
   <data name="Manager.Done"><value>Terminé</value></data>
-  <data name="Manager.BodyStats"><value>{0} lignes · {1} caractères</value></data>
+  <data name="Manager.BodyStats"><value>Lignes {0} · Caractères {1}</value></data>
   <data name="Manager.BodyCaret"><value>L {0} : Col {1}</value></data>
   <data name="Manager.BodyVars"><value>Variables : {0}</value></data>
   <data name="Manager.BodyVarsOff"><value>Espaces réservés désactivés · {0} {{…}} seront affichés tels quels</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>Général</value></data>
   <data name="Manager.Color"><value>Couleur</value></data>
   <data name="Manager.DuplicateCategory"><value>Une catégorie portant ce nom existe déjà</value></data>
-  <data name="Manager.SaveFailed"><value>Échec de l'enregistrement : le dossier de données est peut-être verrouillé ou en lecture seule. Veuillez réessayer.</value></data>
+  <data name="Manager.SaveFailed"><value>Enregistrement impossible : le dossier de données est en lecture seule ou utilisé par un autre programme. Libérez-le ou choisissez un autre dossier dans les Réglages.</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>Supprimer la catégorie « {0} » ? Ses extraits seront également supprimés.</value></data>
   <data name="Dialog.OK"><value>OK</value></data>
   <data name="Dialog.Cancel"><value>Annuler</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>Préfixe de déclenchement</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Ajouté devant chaque abréviation (par défaut ;). Dans le gestionnaire, saisissez seulement l'abréviation (ex. qm) — elle se déclenche sur préfixe+abréviation (ex. ;qm). Laissez vide pour aucun préfixe ; un préfixe évite les déclenchements lors d'une saisie normale.</value></data>
   <data name="Settings.RestoreClipboard"><value>Conserver mon presse-papiers intact</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>Le collage utilise brièvement le presse-papiers, puis restaure ce que vous aviez copié — il reste inchangé.</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Le collage utilise brièvement le presse-papiers, puis restaure ce que vous aviez copié. Désactivé par défaut : les applications qui lisent lentement le presse-papiers risquent de coller l’ancien contenu.</value></data>
   <data name="Settings.FollowSystem"><value>Suivre le système</value></data>
-  <data name="Msg.HotkeyTaken"><value>Ce raccourci est déjà utilisé, veuillez le modifier</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} est déjà utilisé par une autre application : le panneau ne s’ouvrira pas tant que vous n’aurez pas choisi un autre raccourci dans les Réglages.</value></data>
   <data name="Msg.ConflictFiles"><value>Fichiers de conflit de synchronisation détectés</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Dossier de données indisponible (un lecteur amovible ou réseau est peut-être déconnecté). Démarré avec une bibliothèque vide pour l'instant — redéfinissez-le dans les Paramètres, ou reconnectez et relancez.</value></data>
   <data name="Search.Hint.Nav"><value>Naviguer</value></data>
@@ -202,7 +202,7 @@
   <data name="Search.Empty.Sub"><value>Ouvrez le gestionnaire depuis le menu de la barre d'état pour ajouter votre premier extrait</value></data>
   <data name="Search.NoMatch"><value>Aucun extrait ne correspond à « {0} »</value></data>
   <data name="Search.NoMatch.Sub"><value>Essayez un autre mot-clé, ou pinyin / initiales / une abréviation</value></data>
-  <data name="Search.Count"><value>{0} résultats</value></data>
+  <data name="Search.Count"><value>Résultats : {0}</value></data>
   <data name="Settings.HotkeyHint"><value>Cliquez, puis appuyez sur une touche ; les touches ordinaires nécessitent Ctrl / Alt / Shift / Win, les touches de fonction F1–F24 peuvent être utilisées seules</value></data>
   <data name="Settings.HotkeyPrompt"><value>Appuyez sur des touches… (Esc pour annuler)</value></data>
   <data name="Settings.Portable"><value>Mode portable</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>Impossible de vérifier les mises à jour. Réessayez plus tard.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Il y a des modifications non enregistrées. Les enregistrer ?</value></data>
   <data name="Manager.DontSave"><value>Ne pas enregistrer</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} n’est pas un raccourci valide : définissez-en un autre dans les Réglages.</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>Basculer le favori</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>Thème</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>Sombre</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>Clair</value></data>
 </root>

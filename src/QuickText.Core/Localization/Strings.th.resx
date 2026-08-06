@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>ปิด</value></data>
   <data name="Trash.EmptyState"><value>ถังขยะว่างเปล่า</value></data>
   <data name="Trash.Hint"><value>ข้อความที่ลบจะเก็บไว้ที่นี่ {0} วัน แล้วลบออกอัตโนมัติ การกู้คืนจะนำกลับไปยังหมวดหมู่เดิม (สร้างใหม่หากจำเป็น)</value></data>
-  <data name="Trash.EmptyConfirm"><value>ล้างถังขยะหรือไม่ ข้อความทั้งหมดจะกู้คืนไม่ได้</value></data>
+  <data name="Trash.EmptyConfirm"><value>ล้างถังขยะหรือไม่ ทุกอย่างในนั้นจะหายถาวร</value></data>
   <data name="Tray.PauseAbbr"><value>หยุดการขยายชั่วคราว</value></data>
   <data name="Tray.ResumeAbbr"><value>ทำการขยายต่อ</value></data>
   <data name="Tray.PausedTip"><value>หยุดการขยายตัวย่อชั่วคราวแล้ว</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>ทั่วไป</value></data>
   <data name="Manager.Color"><value>สี</value></data>
   <data name="Manager.DuplicateCategory"><value>มีหมวดหมู่ชื่อนี้อยู่แล้ว</value></data>
-  <data name="Manager.SaveFailed"><value>บันทึกไม่สำเร็จ: โฟลเดอร์ข้อมูลอาจถูกล็อกหรือเขียนไม่ได้ กรุณาลองใหม่</value></data>
+  <data name="Manager.SaveFailed"><value>บันทึกไม่ได้: โฟลเดอร์ข้อมูลเป็นแบบอ่านอย่างเดียวหรือถูกโปรแกรมอื่นใช้อยู่ ปลดการใช้งาน หรือเลือกโฟลเดอร์อื่นในการตั้งค่า</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>ลบหมวดหมู่ "{0}" หรือไม่ ข้อความในหมวดนี้จะถูกลบด้วย</value></data>
   <data name="Dialog.OK"><value>ตกลง</value></data>
   <data name="Dialog.Cancel"><value>ยกเลิก</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>คำนำหน้าทริกเกอร์</value></data>
   <data name="Settings.AbbrPrefixHint"><value>เติมหน้าตัวย่อทุกอัน (ค่าเริ่มต้น ;) ในตัวจัดการพิมพ์เฉพาะตัวย่อ (เช่น qm) — จะทำงานเมื่อพิมพ์คำนำหน้า+ตัวย่อ (เช่น ;qm) เว้นว่างเพื่อไม่ใช้คำนำหน้า คำนำหน้าช่วยกันการพิมพ์ปกติไม่ให้ทริกเกอร์</value></data>
   <data name="Settings.RestoreClipboard"><value>คงคลิปบอร์ดของฉันไว้</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>การวางจะใช้คลิปบอร์ดชั่วครู่ แล้วคืนค่าสิ่งที่คุณคัดลอกไว้ก่อนหน้า — เหมือนเดิมทุกอย่าง</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>เวลาวางจะใช้คลิปบอร์ดชั่วครู่แล้วคืนค่าที่คุณคัดลอกไว้ ปิดไว้โดยค่าเริ่มต้น: แอปที่อ่านคลิปบอร์ดช้าอาจวางเนื้อหาเก่าออกมาแทน</value></data>
   <data name="Settings.FollowSystem"><value>ตามระบบ</value></data>
-  <data name="Msg.HotkeyTaken"><value>ปุ่มลัดถูกใช้งานอยู่ กรุณาเปลี่ยน</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} ถูกแอปอื่นใช้อยู่แล้ว — แผงจะไม่เปิดจนกว่าคุณจะตั้งคีย์ลัดอื่นในการตั้งค่า</value></data>
   <data name="Msg.ConflictFiles"><value>พบไฟล์ที่ขัดแย้งจากการซิงค์</value></data>
   <data name="Msg.DataFolderUnavailable"><value>ไม่สามารถเข้าถึงโฟลเดอร์ข้อมูล (ไดรฟ์แบบถอดได้หรือไดรฟ์เครือข่ายอาจถูกตัดการเชื่อมต่อ) เริ่มด้วยคลังว่างไปก่อน — กำหนดใหม่ในการตั้งค่า หรือเชื่อมต่อใหม่แล้วเปิดโปรแกรมอีกครั้ง</value></data>
   <data name="Search.Hint.Nav"><value>เลื่อน</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>ตรวจหาอัปเดตไม่สำเร็จ โปรดลองใหม่ภายหลัง</value></data>
   <data name="Manager.UnsavedConfirm"><value>มีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก ต้องการบันทึกหรือไม่</value></data>
   <data name="Manager.DontSave"><value>ไม่บันทึก</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} ไม่ใช่คีย์ลัดที่ใช้ได้ — ตั้งใหม่ในการตั้งค่า</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>สลับรายการโปรด</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>ธีม</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>มืด</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>สว่าง</value></data>
 </root>

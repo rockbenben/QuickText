@@ -89,7 +89,7 @@
   <data name="Manager.Trash"><value>ट्रैश</value></data>
   <data name="Manager.MoveTo"><value>श्रेणी में ले जाएँ</value></data>
   <data name="Manager.DeleteSelected"><value>चयनित हटाएँ ({0})</value></data>
-  <data name="Manager.UsageStat"><value>{0} बार उपयोग किया गया · अंतिम {1}</value></data>
+  <data name="Manager.UsageStat"><value>उपयोग {0} · अंतिम {1}</value></data>
   <data name="Manager.NeverUsed"><value>कभी उपयोग नहीं किया</value></data>
   <data name="Trash.Restore"><value>पुनर्स्थापित करें</value></data>
   <data name="Trash.DeleteForever"><value>हमेशा के लिए हटाएँ</value></data>
@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>बंद करें</value></data>
   <data name="Trash.EmptyState"><value>ट्रैश खाली है</value></data>
   <data name="Trash.Hint"><value>हटाए गए स्निपेट यहाँ {0} दिनों तक रखे जाते हैं, फिर अपने आप हट जाते हैं। पुनर्स्थापित करने पर वे अपनी मूल श्रेणी में लौट आते हैं (आवश्यकता होने पर फिर से बनाई जाती है)।</value></data>
-  <data name="Trash.EmptyConfirm"><value>ट्रैश खाली करें? सभी स्निपेट पुनर्प्राप्त नहीं हो सकेंगे।</value></data>
+  <data name="Trash.EmptyConfirm"><value>ट्रैश खाली करें? इसमें मौजूद सब कुछ हमेशा के लिए चला जाएगा।</value></data>
   <data name="Tray.PauseAbbr"><value>विस्तार रोकें</value></data>
   <data name="Tray.ResumeAbbr"><value>विस्तार फिर से शुरू करें</value></data>
   <data name="Tray.PausedTip"><value>संक्षिप्त रूप विस्तार रोका गया</value></data>
@@ -125,7 +125,7 @@
   <data name="Manager.LongLinePlainText"><value>लाइन बहुत लंबी है, इसलिए सादा टेक्स्ट के रूप में दिखाया गया</value></data>
   <data name="Manager.BodyEditorTitle"><value>बॉडी · {0}</value></data>
   <data name="Manager.Done"><value>हो गया</value></data>
-  <data name="Manager.BodyStats"><value>{0} पंक्तियाँ · {1} वर्ण</value></data>
+  <data name="Manager.BodyStats"><value>पंक्तियाँ {0} · वर्ण {1}</value></data>
   <data name="Manager.BodyCaret"><value>पंक्ति {0} : स्तंभ {1}</value></data>
   <data name="Manager.BodyVars"><value>वेरिएबल: {0}</value></data>
   <data name="Manager.BodyVarsOff"><value>प्लेसहोल्डर बंद हैं · {0} जगह {{…}} ज्यों का त्यों आउटपुट होगा</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>सामान्य</value></data>
   <data name="Manager.Color"><value>रंग</value></data>
   <data name="Manager.DuplicateCategory"><value>इस नाम की श्रेणी पहले से मौजूद है</value></data>
-  <data name="Manager.SaveFailed"><value>सहेजना विफल: डेटा फ़ोल्डर लॉक हो सकता है या लिखने योग्य नहीं है। कृपया पुनः प्रयास करें।</value></data>
+  <data name="Manager.SaveFailed"><value>सहेजा नहीं जा सका: डेटा फ़ोल्डर केवल-पढ़ने योग्य है या कोई दूसरा प्रोग्राम उसे इस्तेमाल कर रहा है। उसे मुक्त करें, या सेटिंग्स में दूसरा फ़ोल्डर चुनें।</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>श्रेणी “{0}” हटाएँ? इसके स्निपेट भी हट जाएँगे।</value></data>
   <data name="Dialog.OK"><value>ठीक है</value></data>
   <data name="Dialog.Cancel"><value>रद्द करें</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>ट्रिगर उपसर्ग</value></data>
   <data name="Settings.AbbrPrefixHint"><value>हर संक्षिप्त रूप से पहले जुड़ता है (डिफ़ॉल्ट ;)। मैनेजर में केवल संक्षिप्त रूप टाइप करें (उदा. qm) — यह उपसर्ग+संक्षिप्त रूप पर ट्रिगर होता है (उदा. ;qm)। बिना उपसर्ग के लिए खाली छोड़ें; उपसर्ग सामान्य टाइपिंग को ट्रिगर होने से रोकता है।</value></data>
   <data name="Settings.RestoreClipboard"><value>मेरा क्लिपबोर्ड यथावत रखें</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>चिपकाना कुछ पल के लिए क्लिपबोर्ड का उपयोग करता है, फिर आपने पहले जो कॉपी किया था उसे पुनर्स्थापित कर देता है — यह जैसा था वैसा ही रहता है।</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>पेस्ट करते समय क्लिपबोर्ड कुछ पल के लिए इस्तेमाल होता है, फिर पुरानी सामग्री लौटा दी जाती है। डिफ़ॉल्ट रूप से बंद: जो ऐप क्लिपबोर्ड धीरे पढ़ते हैं, वे पुरानी सामग्री पेस्ट कर सकते हैं।</value></data>
   <data name="Settings.FollowSystem"><value>सिस्टम का अनुसरण करें</value></data>
-  <data name="Msg.HotkeyTaken"><value>हॉटकी उपयोग में है, कृपया इसे बदलें</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} पहले से किसी और ऐप के पास है — जब तक आप सेटिंग्स में दूसरी हॉटकी न चुनें, पैनल नहीं खुलेगा।</value></data>
   <data name="Msg.ConflictFiles"><value>सिंक विरोध फ़ाइलें मिलीं</value></data>
   <data name="Msg.DataFolderUnavailable"><value>डेटा फ़ोल्डर अनुपलब्ध (कोई हटाने योग्य या नेटवर्क ड्राइव डिस्कनेक्ट हो सकती है)। अभी खाली लाइब्रेरी के साथ शुरू किया गया — सेटिंग्स में इसे फिर से सेट करें, या फिर से कनेक्ट कर पुनः लॉन्च करें।</value></data>
   <data name="Search.Hint.Nav"><value>नेविगेट करें</value></data>
@@ -202,7 +202,7 @@
   <data name="Search.Empty.Sub"><value>अपना पहला स्निपेट जोड़ने के लिए ट्रे मेनू से मैनेजर खोलें</value></data>
   <data name="Search.NoMatch"><value>“{0}” से मेल खाता कोई स्निपेट नहीं</value></data>
   <data name="Search.NoMatch.Sub"><value>कोई अन्य कीवर्ड आज़माएँ, या पिनयिन / आद्याक्षर / संक्षिप्त रूप</value></data>
-  <data name="Search.Count"><value>{0} परिणाम</value></data>
+  <data name="Search.Count"><value>परिणाम: {0}</value></data>
   <data name="Settings.HotkeyHint"><value>क्लिक करें, फिर एक कुंजी दबाएँ; सामान्य कुंजियों को Ctrl / Alt / Shift / Win चाहिए, फ़ंक्शन कुंजियाँ F1–F24 अकेले उपयोग की जा सकती हैं</value></data>
   <data name="Settings.HotkeyPrompt"><value>कुंजियाँ दबाएँ… (रद्द करने के लिए Esc)</value></data>
   <data name="Settings.Portable"><value>पोर्टेबल मोड</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>अपडेट जाँच नहीं सका। बाद में पुनः प्रयास करें।</value></data>
   <data name="Manager.UnsavedConfirm"><value>असहेजे बदलाव हैं, क्या उन्हें सहेजना चाहते हैं?</value></data>
   <data name="Manager.DontSave"><value>सहेजें नहीं</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} मान्य हॉटकी नहीं है — सेटिंग्स में नई सेट करें।</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>पसंदीदा टॉगल करें</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>थीम</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>गहरा</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>हल्का</value></data>
 </root>

@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>閉じる</value></data>
   <data name="Trash.EmptyState"><value>ごみ箱は空です</value></data>
   <data name="Trash.Hint"><value>削除した項目は {0} 日間ここに保管され、その後自動的に消去されます。復元すると元のカテゴリに戻ります（無ければ再作成）。</value></data>
-  <data name="Trash.EmptyConfirm"><value>ごみ箱を空にしますか？すべての項目が復元不能になります。</value></data>
+  <data name="Trash.EmptyConfirm"><value>ごみ箱を空にしますか？中の項目は元に戻せません。</value></data>
   <data name="Tray.PauseAbbr"><value>展開を一時停止</value></data>
   <data name="Tray.ResumeAbbr"><value>展開を再開</value></data>
   <data name="Tray.PausedTip"><value>略語展開は一時停止中</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>一般</value></data>
   <data name="Manager.Color"><value>色</value></data>
   <data name="Manager.DuplicateCategory"><value>同名のカテゴリが既にあります</value></data>
-  <data name="Manager.SaveFailed"><value>保存に失敗しました：データフォルダーが使用中か書き込み不可の可能性があります。しばらくして再試行してください。</value></data>
+  <data name="Manager.SaveFailed"><value>保存できません。データフォルダーが読み取り専用か、他のプログラムが使用中です。使用を解除するか、設定で別のフォルダーを指定してください。</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>カテゴリ「{0}」を削除しますか？中のスニペットも削除されます。</value></data>
   <data name="Dialog.OK"><value>OK</value></data>
   <data name="Dialog.Cancel"><value>キャンセル</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>トリガー接頭辞</value></data>
   <data name="Settings.AbbrPrefixHint"><value>すべての略語の前に自動で付きます（既定 ;）。マネージャーでは略語そのもの（例：qm）だけ入力してください。実際のトリガーは「接頭辞＋略語」（例：;qm）です。空にすると接頭辞なし。接頭辞は通常入力での誤爆を防ぎます。</value></data>
   <data name="Settings.RestoreClipboard"><value>元のクリップボードを保持</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>貼り付け時にクリップボードを一時的に使い、その後あなたが以前コピーした内容に戻します。クリップボードはそのまま保たれます。</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>貼り付け時に一時的にクリップボードを使い、その後もとの内容に戻します。既定はオフ：クリップボードの読み取りが遅いアプリでは、古い内容が貼り付けられることがあります。</value></data>
   <data name="Settings.FollowSystem"><value>システムに従う</value></data>
-  <data name="Msg.HotkeyTaken"><value>ホットキーが使用中です。変更してください</value></data>
+  <data name="Msg.HotkeyTaken"><value>「{0}」は他のアプリが使用中です。パネルを呼び出せないので、設定で別のホットキーに変えてください。</value></data>
   <data name="Msg.ConflictFiles"><value>同期の競合ファイルを検出</value></data>
   <data name="Msg.DataFolderUnavailable"><value>データフォルダーにアクセスできません（リムーバブル／ネットワークドライブが未接続の可能性）。一時的に空のライブラリで起動しました。設定で指定し直すか、接続し直して再起動してください。</value></data>
   <data name="Search.Hint.Nav"><value>選択</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>更新を確認できませんでした。後でもう一度お試しください。</value></data>
   <data name="Manager.UnsavedConfirm"><value>未保存の変更があります。保存しますか？</value></data>
   <data name="Manager.DontSave"><value>保存しない</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>「{0}」は有効なホットキーではありません。設定で指定し直してください。</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>お気に入りを切り替え</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>テーマ</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>ダーク</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>ライト</value></data>
 </root>

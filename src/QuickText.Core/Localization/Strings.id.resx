@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>Tutup</value></data>
   <data name="Trash.EmptyState"><value>Sampah kosong</value></data>
   <data name="Trash.Hint"><value>Snippet yang dihapus disimpan di sini selama {0} hari, lalu terhapus otomatis. Memulihkan mengembalikannya ke kategori asal (dibuat ulang jika perlu).</value></data>
-  <data name="Trash.EmptyConfirm"><value>Kosongkan sampah? Semua snippet tidak bisa dipulihkan.</value></data>
+  <data name="Trash.EmptyConfirm"><value>Kosongkan tempat sampah? Semua isinya akan hilang permanen.</value></data>
   <data name="Tray.PauseAbbr"><value>Jeda perluasan</value></data>
   <data name="Tray.ResumeAbbr"><value>Lanjutkan perluasan</value></data>
   <data name="Tray.PausedTip"><value>perluasan singkatan dijeda</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>Umum</value></data>
   <data name="Manager.Color"><value>Warna</value></data>
   <data name="Manager.DuplicateCategory"><value>Kategori dengan nama itu sudah ada</value></data>
-  <data name="Manager.SaveFailed"><value>Gagal menyimpan: folder data mungkin terkunci atau tidak bisa ditulis. Coba lagi.</value></data>
+  <data name="Manager.SaveFailed"><value>Tidak bisa menyimpan: folder data bersifat hanya-baca atau sedang dipakai program lain. Bebaskan folder itu, atau pilih folder lain di Pengaturan.</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>Hapus kategori “{0}”? Snippet di dalamnya juga akan terhapus.</value></data>
   <data name="Dialog.OK"><value>OK</value></data>
   <data name="Dialog.Cancel"><value>Batal</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>Awalan pemicu</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Ditambahkan di depan setiap singkatan (default ;). Di Pengelola ketik singkatannya saja (mis. qm) — terpicu oleh awalan+singkatan (mis. ;qm). Kosongkan untuk tanpa awalan; awalan mencegah pengetikan biasa memicunya.</value></data>
   <data name="Settings.RestoreClipboard"><value>Jaga clipboard tetap utuh</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>Menempel sesaat memakai clipboard, lalu memulihkan apa pun yang tadi Anda salin — dibiarkan seperti semula.</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Saat menempel, clipboard dipakai sebentar lalu isi lama dikembalikan. Nonaktif secara bawaan: aplikasi yang membaca clipboard dengan lambat bisa menempelkan konten lama.</value></data>
   <data name="Settings.FollowSystem"><value>Ikuti sistem</value></data>
-  <data name="Msg.HotkeyTaken"><value>Tombol pintas sedang dipakai, silakan ganti</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} sudah dipakai aplikasi lain — panel tidak akan terbuka sampai Anda memilih pintasan lain di Pengaturan.</value></data>
   <data name="Msg.ConflictFiles"><value>Berkas konflik sinkronisasi terdeteksi</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Folder data tidak tersedia (drive lepasan atau jaringan mungkin terputus). Dimulai dengan pustaka kosong untuk sekarang — arahkan ulang di Pengaturan, atau sambungkan lagi lalu jalankan ulang.</value></data>
   <data name="Search.Hint.Nav"><value>Navigasi</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>Gagal memeriksa pembaruan. Coba lagi nanti.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Ada perubahan yang belum disimpan. Simpan?</value></data>
   <data name="Manager.DontSave"><value>Jangan simpan</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} bukan pintasan yang valid — atur yang baru di Pengaturan.</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>Ubah status favorit</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>Tema</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>Gelap</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>Terang</value></data>
 </root>

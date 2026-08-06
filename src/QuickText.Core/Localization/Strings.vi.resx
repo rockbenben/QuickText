@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>Đóng</value></data>
   <data name="Trash.EmptyState"><value>Thùng rác trống</value></data>
   <data name="Trash.Hint"><value>Mẫu đã xóa được giữ ở đây {0} ngày, sau đó tự động xóa. Khôi phục sẽ đưa chúng về danh mục gốc (tạo lại nếu cần).</value></data>
-  <data name="Trash.EmptyConfirm"><value>Dọn sạch thùng rác? Tất cả mẫu sẽ không thể khôi phục.</value></data>
+  <data name="Trash.EmptyConfirm"><value>Dọn sạch thùng rác? Mọi thứ bên trong sẽ mất vĩnh viễn.</value></data>
   <data name="Tray.PauseAbbr"><value>Tạm dừng mở rộng</value></data>
   <data name="Tray.ResumeAbbr"><value>Tiếp tục mở rộng</value></data>
   <data name="Tray.PausedTip"><value>đã tạm dừng mở rộng viết tắt</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>Chung</value></data>
   <data name="Manager.Color"><value>Màu</value></data>
   <data name="Manager.DuplicateCategory"><value>Đã có danh mục trùng tên</value></data>
-  <data name="Manager.SaveFailed"><value>Lưu thất bại: thư mục dữ liệu có thể bị khóa hoặc không ghi được. Vui lòng thử lại.</value></data>
+  <data name="Manager.SaveFailed"><value>Không lưu được: thư mục dữ liệu ở chế độ chỉ đọc hoặc đang bị chương trình khác chiếm. Hãy giải phóng nó, hoặc chọn thư mục khác trong Cài đặt.</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>Xóa danh mục “{0}”? Các mẫu trong đó cũng bị xóa.</value></data>
   <data name="Dialog.OK"><value>OK</value></data>
   <data name="Dialog.Cancel"><value>Hủy</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>Tiền tố kích hoạt</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Thêm vào trước mỗi chữ viết tắt (mặc định ;). Trong trình quản lý chỉ gõ phần viết tắt (ví dụ qm) — nó kích hoạt khi gõ tiền tố+viết tắt (ví dụ ;qm). Để trống nếu không dùng tiền tố; tiền tố giúp việc gõ thường không vô tình kích hoạt.</value></data>
   <data name="Settings.RestoreClipboard"><value>Giữ nguyên bộ nhớ tạm của tôi</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>Việc dán dùng bộ nhớ tạm trong chốc lát, rồi khôi phục nội dung bạn đã sao chép trước đó — giữ nguyên như cũ.</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Khi dán, clipboard được dùng trong chốc lát rồi khôi phục nội dung bạn đã sao chép. Mặc định tắt: các ứng dụng đọc clipboard chậm có thể dán ra nội dung cũ.</value></data>
   <data name="Settings.FollowSystem"><value>Theo hệ thống</value></data>
-  <data name="Msg.HotkeyTaken"><value>Phím tắt đang được dùng, vui lòng đổi</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} đã bị ứng dụng khác chiếm — bảng sẽ không mở cho đến khi bạn chọn phím tắt khác trong Cài đặt.</value></data>
   <data name="Msg.ConflictFiles"><value>Phát hiện tệp xung đột đồng bộ</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Không truy cập được thư mục dữ liệu (ổ di động hoặc ổ mạng có thể đã ngắt kết nối). Tạm khởi động với thư viện trống — chỉ lại trong Cài đặt, hoặc kết nối lại và khởi động lại.</value></data>
   <data name="Search.Hint.Nav"><value>Điều hướng</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>Không kiểm tra được cập nhật. Vui lòng thử lại sau.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Có thay đổi chưa được lưu. Lưu lại?</value></data>
   <data name="Manager.DontSave"><value>Không lưu</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} không phải phím tắt hợp lệ — hãy đặt lại trong Cài đặt.</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>Bật/tắt yêu thích</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>Giao diện</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>Tối</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>Sáng</value></data>
 </root>

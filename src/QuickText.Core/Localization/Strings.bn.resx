@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>বন্ধ</value></data>
   <data name="Trash.EmptyState"><value>ট্র্যাশ খালি</value></data>
   <data name="Trash.Hint"><value>মুছে ফেলা স্নিপেট এখানে {0} দিন রাখা হয়, তারপর স্বয়ংক্রিয়ভাবে সরানো হয়। পুনরুদ্ধার করলে সেগুলো মূল বিভাগে ফিরে যায় (প্রয়োজনে পুনরায় তৈরি হয়)।</value></data>
-  <data name="Trash.EmptyConfirm"><value>ট্র্যাশ খালি করবেন? সব স্নিপেট আর ফিরে পাওয়া যাবে না।</value></data>
+  <data name="Trash.EmptyConfirm"><value>ট্র্যাশ খালি করবেন? এর ভেতরের সবকিছু চিরতরে মুছে যাবে।</value></data>
   <data name="Tray.PauseAbbr"><value>সম্প্রসারণ থামান</value></data>
   <data name="Tray.ResumeAbbr"><value>সম্প্রসারণ চালু করুন</value></data>
   <data name="Tray.PausedTip"><value>সংক্ষিপ্ত রূপ সম্প্রসারণ থামানো</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>সাধারণ</value></data>
   <data name="Manager.Color"><value>রঙ</value></data>
   <data name="Manager.DuplicateCategory"><value>সেই নামের একটি বিভাগ ইতিমধ্যে আছে</value></data>
-  <data name="Manager.SaveFailed"><value>সংরক্ষণ ব্যর্থ: ডেটা ফোল্ডার লক করা বা লেখার অযোগ্য হতে পারে। আবার চেষ্টা করুন।</value></data>
+  <data name="Manager.SaveFailed"><value>সংরক্ষণ করা যায়নি: ডেটা ফোল্ডারটি শুধু-পঠনযোগ্য বা অন্য প্রোগ্রাম ব্যবহার করছে। সেটি মুক্ত করুন, অথবা সেটিংসে অন্য ফোল্ডার বেছে নিন।</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>“{0}” বিভাগ মুছবেন? এর স্নিপেটগুলোও মুছে যাবে।</value></data>
   <data name="Dialog.OK"><value>ঠিক আছে</value></data>
   <data name="Dialog.Cancel"><value>বাতিল</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>ট্রিগার প্রিফিক্স</value></data>
   <data name="Settings.AbbrPrefixHint"><value>প্রতিটি সংক্ষিপ্ত রূপের আগে যুক্ত হয় (ডিফল্ট ;)। ম্যানেজারে শুধু সংক্ষিপ্ত রূপটি লিখুন (যেমন qm) — এটি প্রিফিক্স+সংক্ষিপ্ত রূপে ট্রিগার হয় (যেমন ;qm)। প্রিফিক্স ছাড়া চাইলে খালি রাখুন; প্রিফিক্স সাধারণ টাইপিং থেকে ট্রিগার এড়ায়।</value></data>
   <data name="Settings.RestoreClipboard"><value>আমার ক্লিপবোর্ড অক্ষত রাখুন</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>পেস্ট করার সময় ক্ষণিকের জন্য ক্লিপবোর্ড ব্যবহার হয়, তারপর আপনার আগের কপি করা জিনিস ফিরিয়ে দেয় — যেমন ছিল তেমনই থাকে।</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>পেস্ট করার সময় ক্লিপবোর্ড অল্প সময়ের জন্য ব্যবহৃত হয়, তারপর আগের বিষয়বস্তু ফিরিয়ে দেওয়া হয়। ডিফল্টভাবে বন্ধ: যেসব অ্যাপ ক্লিপবোর্ড ধীরে পড়ে, সেগুলো পুরনো বিষয়বস্তু পেস্ট করতে পারে।</value></data>
   <data name="Settings.FollowSystem"><value>সিস্টেম অনুসরণ করুন</value></data>
-  <data name="Msg.HotkeyTaken"><value>হটকি ব্যবহৃত হচ্ছে, অনুগ্রহ করে বদলান</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} ইতিমধ্যে অন্য অ্যাপ ব্যবহার করছে — সেটিংসে অন্য হটকি না বেছে নেওয়া পর্যন্ত প্যানেল খুলবে না।</value></data>
   <data name="Msg.ConflictFiles"><value>সিঙ্ক কনফ্লিক্ট ফাইল শনাক্ত হয়েছে</value></data>
   <data name="Msg.DataFolderUnavailable"><value>ডেটা ফোল্ডার অনুপলব্ধ (একটি অপসারণযোগ্য বা নেটওয়ার্ক ড্রাইভ সংযোগ বিচ্ছিন্ন হতে পারে)। আপাতত খালি লাইব্রেরি নিয়ে শুরু হয়েছে — সেটিংসে পুনরায় নির্দেশ করুন, বা পুনঃসংযোগ করে আবার চালু করুন।</value></data>
   <data name="Search.Hint.Nav"><value>নেভিগেট</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>আপডেট দেখা যায়নি। পরে আবার চেষ্টা করুন।</value></data>
   <data name="Manager.UnsavedConfirm"><value>সংরক্ষণ না করা পরিবর্তন আছে, সংরক্ষণ করবেন?</value></data>
   <data name="Manager.DontSave"><value>সংরক্ষণ করবেন না</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} বৈধ হটকি নয় — সেটিংসে নতুন একটি সেট করুন।</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>প্রিয় টগল করুন</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>থিম</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>গাঢ়</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>উজ্জ্বল</value></data>
 </root>

@@ -89,7 +89,7 @@
   <data name="Manager.Trash"><value>Корзина</value></data>
   <data name="Manager.MoveTo"><value>Переместить в категорию</value></data>
   <data name="Manager.DeleteSelected"><value>Удалить выбранные ({0})</value></data>
-  <data name="Manager.UsageStat"><value>Использован {0} раз · последний {1}</value></data>
+  <data name="Manager.UsageStat"><value>Использований: {0} · последний {1}</value></data>
   <data name="Manager.NeverUsed"><value>Не использовался</value></data>
   <data name="Trash.Restore"><value>Восстановить</value></data>
   <data name="Trash.DeleteForever"><value>Удалить навсегда</value></data>
@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>Закрыть</value></data>
   <data name="Trash.EmptyState"><value>Корзина пуста</value></data>
   <data name="Trash.Hint"><value>Удалённые фрагменты хранятся здесь {0} дн., затем удаляются автоматически. При восстановлении возвращаются в исходную категорию (создаётся заново при необходимости).</value></data>
-  <data name="Trash.EmptyConfirm"><value>Очистить корзину? Все фрагменты будут безвозвратно удалены.</value></data>
+  <data name="Trash.EmptyConfirm"><value>Очистить корзину? Всё, что в ней, будет удалено безвозвратно.</value></data>
   <data name="Tray.PauseAbbr"><value>Приостановить подстановку</value></data>
   <data name="Tray.ResumeAbbr"><value>Возобновить подстановку</value></data>
   <data name="Tray.PausedTip"><value>подстановка сокращений приостановлена</value></data>
@@ -125,7 +125,7 @@
   <data name="Manager.LongLinePlainText"><value>Строка слишком длинная — показана как обычный текст</value></data>
   <data name="Manager.BodyEditorTitle"><value>Содержимое · {0}</value></data>
   <data name="Manager.Done"><value>Готово</value></data>
-  <data name="Manager.BodyStats"><value>{0} строк · {1} символов</value></data>
+  <data name="Manager.BodyStats"><value>Строк: {0} · Символов: {1}</value></data>
   <data name="Manager.BodyCaret"><value>Стр. {0} : Кол. {1}</value></data>
   <data name="Manager.BodyVars"><value>Переменные: {0}</value></data>
   <data name="Manager.BodyVarsOff"><value>Плейсхолдеры отключены · {0} {{…}} будут выведены как есть</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>Общие</value></data>
   <data name="Manager.Color"><value>Цвет</value></data>
   <data name="Manager.DuplicateCategory"><value>Категория с таким названием уже существует</value></data>
-  <data name="Manager.SaveFailed"><value>Не удалось сохранить: папка данных занята или недоступна для записи. Повторите попытку.</value></data>
+  <data name="Manager.SaveFailed"><value>Не удалось сохранить: папка данных доступна только для чтения или занята другой программой. Освободите её или выберите другую папку в настройках.</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>Удалить категорию «{0}»? Её фрагменты тоже будут удалены.</value></data>
   <data name="Dialog.OK"><value>ОК</value></data>
   <data name="Dialog.Cancel"><value>Отмена</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>Префикс срабатывания</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Добавляется перед каждым сокращением (по умолчанию ;). В менеджере вводите только само сокращение (напр. qm) — срабатывает префикс+сокращение (напр. ;qm). Оставьте пустым, чтобы без префикса; префикс не даёт срабатывать при обычном вводе.</value></data>
   <data name="Settings.RestoreClipboard"><value>Сохранять мой буфер обмена</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>Вставка ненадолго использует буфер обмена, затем возвращает то, что было скопировано раньше — он остаётся прежним.</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>При вставке буфер обмена используется на мгновение, затем восстанавливается прежнее содержимое. По умолчанию выключено: приложения, которые медленно читают буфер, могут вставить старое содержимое.</value></data>
   <data name="Settings.FollowSystem"><value>Как в системе</value></data>
-  <data name="Msg.HotkeyTaken"><value>Горячая клавиша занята, выберите другую</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} уже занята другим приложением — панель не откроется, пока вы не выберете другое сочетание в настройках.</value></data>
   <data name="Msg.ConflictFiles"><value>Обнаружены файлы конфликтов синхронизации</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Папка данных недоступна (возможно, отключён съёмный или сетевой диск). Пока запущено с пустой библиотекой — укажите её заново в настройках или подключите диск и перезапустите.</value></data>
   <data name="Search.Hint.Nav"><value>Навигация</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>Не удалось проверить обновления. Повторите попытку позже.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Есть несохранённые изменения. Сохранить их?</value></data>
   <data name="Manager.DontSave"><value>Не сохранять</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} — недопустимое сочетание клавиш. Задайте другое в настройках.</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>Переключить избранное</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>Тема</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>Тёмная</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>Светлая</value></data>
 </root>

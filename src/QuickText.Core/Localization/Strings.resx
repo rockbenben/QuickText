@@ -147,7 +147,7 @@
   <data name="Trash.Close"><value>关闭</value></data>
   <data name="Trash.EmptyState"><value>回收站是空的</value></data>
   <data name="Trash.Hint"><value>删除的条目在这里保留 {0} 天，之后自动清除。恢复会放回原分类（不存在则重建）。</value></data>
-  <data name="Trash.EmptyConfirm"><value>确定清空回收站？所有条目将无法恢复。</value></data>
+  <data name="Trash.EmptyConfirm"><value>清空回收站？里面的条目将无法恢复。</value></data>
   <data name="Tray.PauseAbbr"><value>暂停缩写展开</value></data>
   <data name="Tray.ResumeAbbr"><value>恢复缩写展开</value></data>
   <data name="Tray.PausedTip"><value>缩写展开已暂停</value></data>
@@ -213,7 +213,7 @@
   <data name="Settings.SectionGeneral"><value>通用</value></data>
   <data name="Manager.Color"><value>颜色</value></data>
   <data name="Manager.DuplicateCategory"><value>已存在同名分类</value></data>
-  <data name="Manager.SaveFailed"><value>保存失败：数据文件夹可能被占用或不可写，请稍后再试。</value></data>
+  <data name="Manager.SaveFailed"><value>保存失败：数据文件夹只读，或正被其它程序占用。请解除占用，或在设置里换一个文件夹。</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>删除分类「{0}」？其中的文本会一并删除。</value></data>
   <data name="Dialog.OK"><value>确定</value></data>
   <data name="Dialog.Cancel"><value>取消</value></data>
@@ -239,9 +239,9 @@
   <data name="Settings.AbbrPrefix"><value>触发前缀</value></data>
   <data name="Settings.AbbrPrefixHint"><value>自动加在每个缩写前面（默认 ;）。你在管理器里只填缩写本身（如 qm），实际触发是「前缀+缩写」（如 ;qm）。留空则不加前缀 —— 前缀能避免正常打字误触发。</value></data>
   <data name="Settings.RestoreClipboard"><value>保留原剪贴板内容</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>粘贴时会临时占用剪贴板；完成后自动还原成你之前复制的内容，不覆盖它。</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>粘贴时会临时占用剪贴板，之后放回你原来复制的内容。默认关闭：少数程序读剪贴板较慢，还原可能赶在它读取之前，导致贴出旧内容。</value></data>
   <data name="Settings.FollowSystem"><value>跟随系统</value></data>
-  <data name="Msg.HotkeyTaken"><value>热键被占用，请更换</value></data>
+  <data name="Msg.HotkeyTaken"><value>「{0}」已被其它程序占用，面板呼不出来。请在设置里换一个热键。</value></data>
   <data name="Msg.ConflictFiles"><value>检测到同步冲突文件</value></data>
   <data name="Msg.DataFolderUnavailable"><value>数据文件夹不可用（可能是移动盘未插入或网络盘离线），已暂时以空库启动。请在设置中重新指定，或接回后重启。</value></data>
   <data name="Search.Hint.Nav"><value>选择</value></data>
@@ -267,4 +267,9 @@
   <data name="Msg.UpdateCheckFailed"><value>检查更新失败，请稍后重试。</value></data>
   <data name="Manager.UnsavedConfirm"><value>有未保存的改动，要保存吗？</value></data>
   <data name="Manager.DontSave"><value>不保存</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>「{0}」不是有效的热键，请在设置里重新设置。</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>切换收藏</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>主题</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>深色</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>浅色</value></data>
 </root>

@@ -89,7 +89,7 @@
   <data name="Manager.Trash"><value>Trash</value></data>
   <data name="Manager.MoveTo"><value>Move to category</value></data>
   <data name="Manager.DeleteSelected"><value>Delete selected ({0})</value></data>
-  <data name="Manager.UsageStat"><value>Used {0} times · last {1}</value></data>
+  <data name="Manager.UsageStat"><value>Uses {0} · last {1}</value></data>
   <data name="Manager.NeverUsed"><value>Never used</value></data>
   <data name="Trash.Restore"><value>Restore</value></data>
   <data name="Trash.DeleteForever"><value>Delete forever</value></data>
@@ -97,10 +97,10 @@
   <data name="Trash.Close"><value>Close</value></data>
   <data name="Trash.EmptyState"><value>Trash is empty</value></data>
   <data name="Trash.Hint"><value>Deleted snippets are kept here for {0} days, then removed automatically. Restoring puts them back into their original category (recreated if needed).</value></data>
-  <data name="Trash.EmptyConfirm"><value>Empty the trash? All snippets will be unrecoverable.</value></data>
+  <data name="Trash.EmptyConfirm"><value>Empty the trash? Everything in it will be gone for good.</value></data>
   <data name="Tray.PauseAbbr"><value>Pause expansion</value></data>
   <data name="Tray.ResumeAbbr"><value>Resume expansion</value></data>
-  <data name="Tray.PausedTip"><value>abbreviation expansion paused</value></data>
+  <data name="Tray.PausedTip"><value>Abbreviation expansion paused</value></data>
   <data name="Settings.CaptureHotkey"><value>Capture hotkey</value></data>
   <data name="Settings.CaptureHotkeyHint"><value>Silently saves the current clipboard text as a new snippet. Click, then press a combination; Delete clears it (empty = disabled).</value></data>
   <data name="Settings.OpenBackups"><value>Open backups folder</value></data>
@@ -125,11 +125,11 @@
   <data name="Manager.LongLinePlainText"><value>Line too long — shown as plain text</value></data>
   <data name="Manager.BodyEditorTitle"><value>Body · {0}</value></data>
   <data name="Manager.Done"><value>Done</value></data>
-  <data name="Manager.BodyStats"><value>{0} lines · {1} chars</value></data>
+  <data name="Manager.BodyStats"><value>Lines {0} · Chars {1}</value></data>
   <data name="Manager.BodyCaret"><value>Ln {0} : Col {1}</value></data>
   <data name="Manager.BodyVars"><value>Variables: {0}</value></data>
   <data name="Manager.BodyVarsOff"><value>Placeholders off · {0} {{…}} will be output verbatim</value></data>
-  <data name="Manager.BodyInvalid"><value>{0} invalid token(s)</value></data>
+  <data name="Manager.BodyInvalid"><value>Invalid tokens: {0}</value></data>
   <data name="Manager.ImageSection"><value>Image</value></data>
   <data name="Manager.Token.UnknownSnippet"><value>No snippet named “{0}”</value></data>
   <data name="Manager.Token.BadDateFormat"><value>Invalid date format — output verbatim</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>General</value></data>
   <data name="Manager.Color"><value>Color</value></data>
   <data name="Manager.DuplicateCategory"><value>A category with that name already exists</value></data>
-  <data name="Manager.SaveFailed"><value>Save failed: the data folder may be locked or not writable. Please try again.</value></data>
+  <data name="Manager.SaveFailed"><value>Couldn’t save — the data folder is read-only or in use by another program. Free it up, or pick a different folder in Settings.</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>Delete category “{0}”? Its snippets will be removed too.</value></data>
   <data name="Dialog.OK"><value>OK</value></data>
   <data name="Dialog.Cancel"><value>Cancel</value></data>
@@ -189,9 +189,9 @@
   <data name="Settings.AbbrPrefix"><value>Trigger prefix</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Prepended to every abbreviation (default ;). In the Manager type only the abbreviation itself (e.g. qm) — it triggers on prefix+abbr (e.g. ;qm). Leave empty for no prefix; a prefix keeps ordinary typing from triggering.</value></data>
   <data name="Settings.RestoreClipboard"><value>Keep my clipboard intact</value></data>
-  <data name="Settings.RestoreClipboardHint"><value>Pasting briefly uses the clipboard, then restores whatever you had copied before — it's left as it was.</value></data>
+  <data name="Settings.RestoreClipboardHint"><value>Pasting briefly uses the clipboard, then puts back what you had copied. Off by default: apps that read the clipboard slowly can end up pasting the old content instead.</value></data>
   <data name="Settings.FollowSystem"><value>Follow system</value></data>
-  <data name="Msg.HotkeyTaken"><value>Hotkey is in use, please change it</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} is already taken by another app — the panel won’t open until you set a different hotkey in Settings.</value></data>
   <data name="Msg.ConflictFiles"><value>Sync conflict files detected</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Data folder unavailable (a removable or network drive may be disconnected). Started with an empty library for now — re-point it in Settings, or reconnect and relaunch.</value></data>
   <data name="Search.Hint.Nav"><value>Navigate</value></data>
@@ -202,7 +202,7 @@
   <data name="Search.Empty.Sub"><value>Open Manager from the tray menu to add your first snippet</value></data>
   <data name="Search.NoMatch"><value>No snippets match “{0}”</value></data>
   <data name="Search.NoMatch.Sub"><value>Try another keyword, or pinyin / initials / an abbreviation</value></data>
-  <data name="Search.Count"><value>{0} results</value></data>
+  <data name="Search.Count"><value>Matches: {0}</value></data>
   <data name="Settings.HotkeyHint"><value>Click, then press a key; ordinary keys need Ctrl / Alt / Shift / Win, function keys F1–F24 can be used alone</value></data>
   <data name="Settings.HotkeyPrompt"><value>Press keys… (Esc to cancel)</value></data>
   <data name="Settings.Portable"><value>Portable mode</value></data>
@@ -217,4 +217,9 @@
   <data name="Msg.UpdateCheckFailed"><value>Couldn't check for updates. Try again later.</value></data>
   <data name="Manager.UnsavedConfirm"><value>You have unsaved changes. Save them?</value></data>
   <data name="Manager.DontSave"><value>Don't save</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} isn’t a valid hotkey — set a new one in Settings.</value></data>
+  <data name="Ctx.Favorite" xml:space="preserve"><value>Toggle favorite</value></data>
+  <data name="Settings.Theme" xml:space="preserve"><value>Theme</value></data>
+  <data name="Settings.ThemeDark" xml:space="preserve"><value>Dark</value></data>
+  <data name="Settings.ThemeLight" xml:space="preserve"><value>Light</value></data>
 </root>
