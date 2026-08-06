@@ -11,13 +11,18 @@ public sealed class AppSettings
     public string SummonTapKey { get; set; } = "";
     public bool SummonTapDouble { get; set; }   // true = double-tap, false = single-tap
     public string CaptureHotkey { get; set; } = "";   // save clipboard as a snippet; empty = disabled
+    // "dark" (the design of record) | "light" | "system" (follow the Windows app-theme preference).
+    public string Theme { get; set; } = "dark";
     public string DataFolder { get; set; } = "";
     public bool Autostart { get; set; }
     public bool AbbrEnabled { get; set; } = true;
     public string TerminatorChars { get; set; } = " \t\r\n";
     public string AbbrPrefix { get; set; } = ";";   // auto-prepended to every abbreviation when matching
     public string AbbrBlacklist { get; set; } = "";   // process names where expansion is disabled, ";"-separated
-    public bool RestoreClipboard { get; set; } = true;
+    // Off by default: restoring means writing the clipboard again shortly after Ctrl+V, and an app
+    // that reads the clipboard late then pastes the restored content instead of the snippet. A
+    // clobbered clipboard is a smaller surprise than a paste that silently delivers the wrong text.
+    public bool RestoreClipboard { get; set; }
     // One-time upgrade marker: placeholder processing used to be always-on; on first launch
     // after the per-snippet opt-in landed, snippets whose body contains {…} get opted in.
     public bool VarsOptInMigrated { get; set; }

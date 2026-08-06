@@ -708,13 +708,33 @@ public partial class SearchPanel : Window
         // trailing (caret 0). PasteEngine can't tell that case apart, so decide it here.
         var autoSend = mode switch { "paste-enter" => true, "paste" => false, _ => settings.AutoSend }
                        && !hasCursor;
-        // small delay so focus lands before paste
-        Dispatcher.BeginInvoke(new Action(() =>
+        WhenTargetIsForeground(() =>
         {
             if (image != null) PasteEngine.PasteImage(image, autoSend, restoreClipboard: restore);
             else if (text != null) PasteEngine.Paste(text, restore, autoSend, caret);
             if (pinned) ReactivatePinned();
-        }), DispatcherPriority.Background);
+        });
+    }
+
+    /// <summary>
+    /// Run <paramref name="paste"/> once the target window actually holds the foreground.
+    /// SetForegroundWindow only *requests* the handoff — activation is cross-process and lands
+    /// asynchronously, so a Ctrl+V sent into that gap sits in the target's message queue and is
+    /// consumed at an unpredictable time. That is what lets the clipboard restore beat the paste
+    /// (the panel pastes, the app reads late, and by then the user's clipboard is back). The
+    /// abbreviation path never sees this: there the target is already active.
+    /// </summary>
+    private void WhenTargetIsForeground(Action paste, int triesLeft = 12)
+    {
+        // ponytail: polling beats a EVENT_SYSTEM_FOREGROUND hook here — no unhook bookkeeping, and
+        // the budget is bounded (12 × 20ms). Raise it if a heavy app still misses the window.
+        if (triesLeft == 0 || NativeMethods.GetForegroundWindow() == _target)
+        {
+            Dispatcher.BeginInvoke(paste, DispatcherPriority.Background);
+            return;
+        }
+        System.Threading.Tasks.Task.Delay(20).ContinueWith(_ =>
+            Dispatcher.Invoke(() => WhenTargetIsForeground(paste, triesLeft - 1)));
     }
 
     private void ReactivatePinned() =>

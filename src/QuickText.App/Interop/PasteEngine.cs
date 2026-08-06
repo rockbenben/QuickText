@@ -30,6 +30,17 @@ public static class PasteEngine
     }
 
     /// <summary>
+    /// How long to leave our content on the clipboard before restoring the user's.
+    /// Ctrl+V is only a keystroke: the target app reads the clipboard whenever it gets round to it —
+    /// Chromium/Electron apps (VS Code, WeChat, browsers) round-trip it to another process, a window
+    /// just pulled to the foreground is still repainting, and RDP/VM sessions redirect it entirely.
+    /// Restoring before that read is what makes a paste silently deliver the OLD clipboard, so the
+    /// window is generous. Waiting longer is safe: the restore is gated on our content still being
+    /// on the clipboard, so a copy by the user in the meantime cancels it rather than clobbering it.
+    /// </summary>
+    private static int RestoreDelayMs(int textLength) => Math.Min(1200 + textLength / 10, 5000);
+
+    /// <summary>
     /// After we've put our content on the clipboard, schedule restoring <paramref name="original"/>.
     /// <paramref name="stillOurs"/> is the "is our pasted content still there" check; pass null for
     /// content that can't be compared (images) to fall back to a sequence-number gate — restore only
@@ -123,7 +134,7 @@ public static class PasteEngine
             // Slow apps read the clipboard well after Ctrl+V lands, and the bigger the text the
             // later that read tends to happen — restoring too early pastes the OLD content.
             ScheduleRestore(original, () => Clipboard.ContainsText() && Clipboard.GetText() == text,
-                Math.Min(250 + text.Length / 100, 3000));
+                RestoreDelayMs(text.Length));
         return true;
     }
 
@@ -200,7 +211,8 @@ public static class PasteEngine
             // Images can't be content-compared, so gate on the sequence number: restore only if the
             // clipboard is untouched since our SetImage. A "still any image" check would clobber a
             // screenshot the user copied in the meantime, or revert a rapid second image send.
-            ScheduleRestore(original, null, 500);
+            // Images are bigger and slower to read than text, so the window is no shorter.
+            ScheduleRestore(original, null, RestoreDelayMs(0));
     }
 
     private static bool SetClipboardTextWithRetry(string text)

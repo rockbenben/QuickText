@@ -14,7 +14,7 @@ public class SettingsStoreTests
         var s = store.Load();
         Assert.Equal("Ctrl+Shift+8", s.Hotkey);
         Assert.True(s.AbbrEnabled);
-        Assert.True(s.RestoreClipboard);
+        Assert.False(s.RestoreClipboard);
         Assert.Equal("", s.Language);
     }
 
