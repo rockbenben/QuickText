@@ -68,11 +68,17 @@
     with the previous release). Version only equals VersionFallback when nobody passed one in.
     `git describe` failing (no git, no tags, a source zip) leaves the fallback in place; the
     version is cosmetic, never a reason to fail a build.
+
+    IgnoreExitCode, not ContinueOnError: the latter only demotes the failure to a warning, and
+    having no tags is CI's normal state rather than an anomaly — actions/checkout clones shallow
+    without tags and ci.yml's build step passes no -p:Version, so every run logged two MSB3073
+    warnings (measured). The exit code is still read through _GitTagExit, so the logic is
+    unchanged; it just stops reporting the normal case as a problem.
   -->
   <Target Name="VersionFromGitTag" BeforeTargets="GetAssemblyVersion"
           Condition="'$(Version)' == '$(VersionFallback)'">
     <Exec Command="git describe --tags --abbrev=0" ConsoleToMSBuild="true"
-          ContinueOnError="true" StandardOutputImportance="low" StandardErrorImportance="low">
+          IgnoreExitCode="true" StandardOutputImportance="low" StandardErrorImportance="low">
       <Output TaskParameter="ConsoleOutput" PropertyName="_GitTag"/>
       <Output TaskParameter="ExitCode" PropertyName="_GitTagExit"/>
     </Exec>
