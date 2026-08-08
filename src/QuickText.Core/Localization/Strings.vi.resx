@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>Cài đặt</value></data>
   <data name="Tray.Autostart"><value>Khởi động cùng Windows</value></data>
   <data name="Tray.Exit"><value>Thoát</value></data>
-  <data name="Search.Placeholder"><value>Tìm mẫu văn bản…</value></data>
+  <data name="Search.Placeholder"><value>Tìm kiếm hoặc @danh mục</value></data>
   <data name="Manager.Categories"><value>Danh mục</value></data>
   <data name="Manager.Snippets"><value>Mẫu văn bản</value></data>
   <data name="Manager.Name"><value>Tên</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>Đã nhập bản sao lưu</value></data>
   <data name="Search.CreateNew"><value>Tạo “{0}”</value></data>
   <data name="Search.Hint.New"><value>Mới</value></data>
-  <data name="Search.Hint.Edit"><value>Sửa</value></data>
+  <data name="Search.Hint.Create"><value>Tạo</value></data>
   <data name="Settings.SectionSummon"><value>Gọi bảng</value></data>
   <data name="Settings.PanelPlacement"><value>Vị trí bảng</value></data>
   <data name="Settings.PlaceWindow"><value>Theo cửa sổ đang hoạt động</value></data>

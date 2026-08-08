@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>Настройки</value></data>
   <data name="Tray.Autostart"><value>Запускать с Windows</value></data>
   <data name="Tray.Exit"><value>Выход</value></data>
-  <data name="Search.Placeholder"><value>Поиск фрагментов…</value></data>
+  <data name="Search.Placeholder"><value>Поиск или @категория</value></data>
   <data name="Manager.Categories"><value>Категории</value></data>
   <data name="Manager.Snippets"><value>Фрагменты</value></data>
   <data name="Manager.Name"><value>Название</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>Резервная копия импортирована</value></data>
   <data name="Search.CreateNew"><value>Создать «{0}»</value></data>
   <data name="Search.Hint.New"><value>Создать</value></data>
-  <data name="Search.Hint.Edit"><value>Изменить</value></data>
+  <data name="Search.Hint.Create"><value>Создать</value></data>
   <data name="Settings.SectionSummon"><value>Вызов</value></data>
   <data name="Settings.PanelPlacement"><value>Положение панели</value></data>
   <data name="Settings.PlaceWindow"><value>За активным окном</value></data>

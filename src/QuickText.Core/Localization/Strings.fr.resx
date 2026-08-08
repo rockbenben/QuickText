@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>Paramètres</value></data>
   <data name="Tray.Autostart"><value>Démarrer avec Windows</value></data>
   <data name="Tray.Exit"><value>Quitter</value></data>
-  <data name="Search.Placeholder"><value>Rechercher des extraits…</value></data>
+  <data name="Search.Placeholder"><value>Rechercher ou @catégorie</value></data>
   <data name="Manager.Categories"><value>Catégories</value></data>
   <data name="Manager.Snippets"><value>Extraits</value></data>
   <data name="Manager.Name"><value>Nom</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>Sauvegarde importée</value></data>
   <data name="Search.CreateNew"><value>Créer « {0} »</value></data>
   <data name="Search.Hint.New"><value>Nouveau</value></data>
-  <data name="Search.Hint.Edit"><value>Modifier</value></data>
+  <data name="Search.Hint.Create"><value>Créer</value></data>
   <data name="Settings.SectionSummon"><value>Appel</value></data>
   <data name="Settings.PanelPlacement"><value>Position du panneau</value></data>
   <data name="Settings.PlaceWindow"><value>Suivre la fenêtre active</value></data>
@@ -163,7 +163,7 @@
   <data name="Settings.SectionGeneral"><value>Général</value></data>
   <data name="Manager.Color"><value>Couleur</value></data>
   <data name="Manager.DuplicateCategory"><value>Une catégorie portant ce nom existe déjà</value></data>
-  <data name="Manager.SaveFailed"><value>Enregistrement impossible : le dossier de données est en lecture seule ou utilisé par un autre programme. Libérez-le ou choisissez un autre dossier dans les Réglages.</value></data>
+  <data name="Manager.SaveFailed"><value>Enregistrement impossible : le dossier de données est en lecture seule ou utilisé par un autre programme. Libérez-le ou choisissez un autre dossier dans les Paramètres.</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>Supprimer la catégorie « {0} » ? Ses extraits seront également supprimés.</value></data>
   <data name="Dialog.OK"><value>OK</value></data>
   <data name="Dialog.Cancel"><value>Annuler</value></data>
@@ -191,7 +191,7 @@
   <data name="Settings.RestoreClipboard"><value>Conserver mon presse-papiers intact</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Le collage utilise brièvement le presse-papiers, puis restaure ce que vous aviez copié. Désactivé par défaut : les applications qui lisent lentement le presse-papiers risquent de coller l’ancien contenu.</value></data>
   <data name="Settings.FollowSystem"><value>Suivre le système</value></data>
-  <data name="Msg.HotkeyTaken"><value>{0} est déjà utilisé par une autre application : le panneau ne s’ouvrira pas tant que vous n’aurez pas choisi un autre raccourci dans les Réglages.</value></data>
+  <data name="Msg.HotkeyTaken"><value>{0} est déjà utilisé par une autre application : le panneau ne s’ouvrira pas tant que vous n’aurez pas choisi un autre raccourci dans les Paramètres.</value></data>
   <data name="Msg.ConflictFiles"><value>Fichiers de conflit de synchronisation détectés</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Dossier de données indisponible (un lecteur amovible ou réseau est peut-être déconnecté). Démarré avec une bibliothèque vide pour l'instant — redéfinissez-le dans les Paramètres, ou reconnectez et relancez.</value></data>
   <data name="Search.Hint.Nav"><value>Naviguer</value></data>
@@ -217,7 +217,7 @@
   <data name="Msg.UpdateCheckFailed"><value>Impossible de vérifier les mises à jour. Réessayez plus tard.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Il y a des modifications non enregistrées. Les enregistrer ?</value></data>
   <data name="Manager.DontSave"><value>Ne pas enregistrer</value></data>
-  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} n’est pas un raccourci valide : définissez-en un autre dans les Réglages.</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} n’est pas un raccourci valide : définissez-en un autre dans les Paramètres.</value></data>
   <data name="Ctx.Favorite" xml:space="preserve"><value>Basculer le favori</value></data>
   <data name="Settings.Theme" xml:space="preserve"><value>Thème</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Sombre</value></data>

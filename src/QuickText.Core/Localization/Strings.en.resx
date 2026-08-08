@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>Settings</value></data>
   <data name="Tray.Autostart"><value>Start with Windows</value></data>
   <data name="Tray.Exit"><value>Exit</value></data>
-  <data name="Search.Placeholder"><value>Search snippets…</value></data>
+  <data name="Search.Placeholder"><value>Search, or @category</value></data>
   <data name="Manager.Categories"><value>Categories</value></data>
   <data name="Manager.Snippets"><value>Snippets</value></data>
   <data name="Manager.Name"><value>Name</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>Backup imported</value></data>
   <data name="Search.CreateNew"><value>Create “{0}”</value></data>
   <data name="Search.Hint.New"><value>New</value></data>
-  <data name="Search.Hint.Edit"><value>Edit</value></data>
+  <data name="Search.Hint.Create"><value>Create</value></data>
   <data name="Settings.SectionSummon"><value>Summon</value></data>
   <data name="Settings.PanelPlacement"><value>Panel position</value></data>
   <data name="Settings.PlaceWindow"><value>Follow active window</value></data>

@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>設定</value></data>
   <data name="Tray.Autostart"><value>スタートアップ</value></data>
   <data name="Tray.Exit"><value>終了</value></data>
-  <data name="Search.Placeholder"><value>検索…</value></data>
+  <data name="Search.Placeholder"><value>検索、または @カテゴリ</value></data>
   <data name="Manager.Categories"><value>分類</value></data>
   <data name="Manager.Snippets"><value>テキスト</value></data>
   <data name="Manager.Name"><value>名称</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>バックアップを読み込みました</value></data>
   <data name="Search.CreateNew"><value>「{0}」を作成</value></data>
   <data name="Search.Hint.New"><value>新規</value></data>
-  <data name="Search.Hint.Edit"><value>編集</value></data>
+  <data name="Search.Hint.Create"><value>作成</value></data>
   <data name="Settings.SectionSummon"><value>呼び出し</value></data>
   <data name="Settings.PanelPlacement"><value>パネル位置</value></data>
   <data name="Settings.PlaceWindow"><value>アクティブウィンドウに追従</value></data>

@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>Pengaturan</value></data>
   <data name="Tray.Autostart"><value>Mulai bersama Windows</value></data>
   <data name="Tray.Exit"><value>Keluar</value></data>
-  <data name="Search.Placeholder"><value>Cari snippet…</value></data>
+  <data name="Search.Placeholder"><value>Cari atau @kategori</value></data>
   <data name="Manager.Categories"><value>Kategori</value></data>
   <data name="Manager.Snippets"><value>Snippet</value></data>
   <data name="Manager.Name"><value>Nama</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>Cadangan diimpor</value></data>
   <data name="Search.CreateNew"><value>Buat “{0}”</value></data>
   <data name="Search.Hint.New"><value>Baru</value></data>
-  <data name="Search.Hint.Edit"><value>Edit</value></data>
+  <data name="Search.Hint.Create"><value>Buat</value></data>
   <data name="Settings.SectionSummon"><value>Panggil</value></data>
   <data name="Settings.PanelPlacement"><value>Posisi panel</value></data>
   <data name="Settings.PlaceWindow"><value>Ikuti jendela aktif</value></data>

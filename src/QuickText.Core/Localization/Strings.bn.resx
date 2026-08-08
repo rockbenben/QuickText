@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>সেটিংস</value></data>
   <data name="Tray.Autostart"><value>Windows-এর সাথে চালু করুন</value></data>
   <data name="Tray.Exit"><value>প্রস্থান</value></data>
-  <data name="Search.Placeholder"><value>স্নিপেট খুঁজুন…</value></data>
+  <data name="Search.Placeholder"><value>খুঁজুন বা @বিভাগ</value></data>
   <data name="Manager.Categories"><value>বিভাগ</value></data>
   <data name="Manager.Snippets"><value>স্নিপেট</value></data>
   <data name="Manager.Name"><value>নাম</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>ব্যাকআপ আমদানি হয়েছে</value></data>
   <data name="Search.CreateNew"><value>“{0}” তৈরি করুন</value></data>
   <data name="Search.Hint.New"><value>নতুন</value></data>
-  <data name="Search.Hint.Edit"><value>সম্পাদনা</value></data>
+  <data name="Search.Hint.Create"><value>তৈরি</value></data>
   <data name="Settings.SectionSummon"><value>আহ্বান</value></data>
   <data name="Settings.PanelPlacement"><value>প্যানেলের অবস্থান</value></data>
   <data name="Settings.PlaceWindow"><value>সক্রিয় উইন্ডো অনুসরণ করুন</value></data>

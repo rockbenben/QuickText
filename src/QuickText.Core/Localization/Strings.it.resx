@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>Impostazioni</value></data>
   <data name="Tray.Autostart"><value>Avvia con Windows</value></data>
   <data name="Tray.Exit"><value>Esci</value></data>
-  <data name="Search.Placeholder"><value>Cerca frammenti…</value></data>
+  <data name="Search.Placeholder"><value>Cerca o @categoria</value></data>
   <data name="Manager.Categories"><value>Categorie</value></data>
   <data name="Manager.Snippets"><value>Frammenti</value></data>
   <data name="Manager.Name"><value>Nome</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>Backup importato</value></data>
   <data name="Search.CreateNew"><value>Crea “{0}”</value></data>
   <data name="Search.Hint.New"><value>Nuovo</value></data>
-  <data name="Search.Hint.Edit"><value>Modifica</value></data>
+  <data name="Search.Hint.Create"><value>Crea</value></data>
   <data name="Settings.SectionSummon"><value>Richiamo</value></data>
   <data name="Settings.PanelPlacement"><value>Posizione pannello</value></data>
   <data name="Settings.PlaceWindow"><value>Segui la finestra attiva</value></data>

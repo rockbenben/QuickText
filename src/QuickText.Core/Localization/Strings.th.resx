@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>การตั้งค่า</value></data>
   <data name="Tray.Autostart"><value>เปิดพร้อม Windows</value></data>
   <data name="Tray.Exit"><value>ออก</value></data>
-  <data name="Search.Placeholder"><value>ค้นหาข้อความ…</value></data>
+  <data name="Search.Placeholder"><value>ค้นหา หรือ @หมวดหมู่</value></data>
   <data name="Manager.Categories"><value>หมวดหมู่</value></data>
   <data name="Manager.Snippets"><value>ข้อความ</value></data>
   <data name="Manager.Name"><value>ชื่อ</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>นำเข้าข้อมูลสำรองแล้ว</value></data>
   <data name="Search.CreateNew"><value>สร้าง "{0}"</value></data>
   <data name="Search.Hint.New"><value>ใหม่</value></data>
-  <data name="Search.Hint.Edit"><value>แก้ไข</value></data>
+  <data name="Search.Hint.Create"><value>สร้าง</value></data>
   <data name="Settings.SectionSummon"><value>การเรียกแผง</value></data>
   <data name="Settings.PanelPlacement"><value>ตำแหน่งแผง</value></data>
   <data name="Settings.PlaceWindow"><value>ตามหน้าต่างที่ใช้งาน</value></data>

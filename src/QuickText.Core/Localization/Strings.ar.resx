@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>الإعدادات</value></data>
   <data name="Tray.Autostart"><value>التشغيل مع Windows</value></data>
   <data name="Tray.Exit"><value>خروج</value></data>
-  <data name="Search.Placeholder"><value>البحث في المقتطفات…</value></data>
+  <data name="Search.Placeholder"><value>بحث أو @فئة</value></data>
   <data name="Manager.Categories"><value>الفئات</value></data>
   <data name="Manager.Snippets"><value>المقتطفات</value></data>
   <data name="Manager.Name"><value>الاسم</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>تم استيراد النسخة الاحتياطية</value></data>
   <data name="Search.CreateNew"><value>إنشاء ”{0}“</value></data>
   <data name="Search.Hint.New"><value>جديد</value></data>
-  <data name="Search.Hint.Edit"><value>تحرير</value></data>
+  <data name="Search.Hint.Create"><value>إنشاء</value></data>
   <data name="Settings.SectionSummon"><value>الاستدعاء</value></data>
   <data name="Settings.PanelPlacement"><value>موضع اللوحة</value></data>
   <data name="Settings.PlaceWindow"><value>اتّباع النافذة النشطة</value></data>

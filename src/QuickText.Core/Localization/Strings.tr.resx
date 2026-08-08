@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>Ayarlar</value></data>
   <data name="Tray.Autostart"><value>Windows ile başlat</value></data>
   <data name="Tray.Exit"><value>Çıkış</value></data>
-  <data name="Search.Placeholder"><value>Metin ara…</value></data>
+  <data name="Search.Placeholder"><value>Ara veya @kategori</value></data>
   <data name="Manager.Categories"><value>Kategoriler</value></data>
   <data name="Manager.Snippets"><value>Metinler</value></data>
   <data name="Manager.Name"><value>Ad</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>Yedek içe aktarıldı</value></data>
   <data name="Search.CreateNew"><value>“{0}” oluştur</value></data>
   <data name="Search.Hint.New"><value>Yeni</value></data>
-  <data name="Search.Hint.Edit"><value>Düzenle</value></data>
+  <data name="Search.Hint.Create"><value>Oluştur</value></data>
   <data name="Settings.SectionSummon"><value>Çağırma</value></data>
   <data name="Settings.PanelPlacement"><value>Panel konumu</value></data>
   <data name="Settings.PlaceWindow"><value>Etkin pencereyi izle</value></data>

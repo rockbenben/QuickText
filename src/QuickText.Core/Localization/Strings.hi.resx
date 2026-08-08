@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>सेटिंग्स</value></data>
   <data name="Tray.Autostart"><value>Windows के साथ शुरू करें</value></data>
   <data name="Tray.Exit"><value>बाहर निकलें</value></data>
-  <data name="Search.Placeholder"><value>स्निपेट खोजें…</value></data>
+  <data name="Search.Placeholder"><value>खोजें या @श्रेणी</value></data>
   <data name="Manager.Categories"><value>श्रेणियाँ</value></data>
   <data name="Manager.Snippets"><value>स्निपेट</value></data>
   <data name="Manager.Name"><value>नाम</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>बैकअप आयात किया गया</value></data>
   <data name="Search.CreateNew"><value>“{0}” बनाएँ</value></data>
   <data name="Search.Hint.New"><value>नया</value></data>
-  <data name="Search.Hint.Edit"><value>संपादित करें</value></data>
+  <data name="Search.Hint.Create"><value>बनाएँ</value></data>
   <data name="Settings.SectionSummon"><value>बुलाएँ</value></data>
   <data name="Settings.PanelPlacement"><value>पैनल स्थिति</value></data>
   <data name="Settings.PlaceWindow"><value>सक्रिय विंडो का अनुसरण करें</value></data>

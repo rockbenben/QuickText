@@ -64,7 +64,7 @@
   <data name="Tray.Settings"><value>Einstellungen</value></data>
   <data name="Tray.Autostart"><value>Mit Windows starten</value></data>
   <data name="Tray.Exit"><value>Beenden</value></data>
-  <data name="Search.Placeholder"><value>Textbausteine suchen…</value></data>
+  <data name="Search.Placeholder"><value>Suchen oder @Kategorie</value></data>
   <data name="Manager.Categories"><value>Kategorien</value></data>
   <data name="Manager.Snippets"><value>Textbausteine</value></data>
   <data name="Manager.Name"><value>Name</value></data>
@@ -151,7 +151,7 @@
   <data name="Msg.Imported"><value>Backup importiert</value></data>
   <data name="Search.CreateNew"><value>„{0}“ erstellen</value></data>
   <data name="Search.Hint.New"><value>Neu</value></data>
-  <data name="Search.Hint.Edit"><value>Bearbeiten</value></data>
+  <data name="Search.Hint.Create"><value>Erstellen</value></data>
   <data name="Settings.SectionSummon"><value>Aufrufen</value></data>
   <data name="Settings.PanelPlacement"><value>Panel-Position</value></data>
   <data name="Settings.PlaceWindow"><value>Aktivem Fenster folgen</value></data>
