@@ -47,6 +47,18 @@ public static class Highlight
         tb.Inlines.Clear();
         var accent = tb.TryFindResource("Brush.Accent") as Brush;
 
+        // Render the value in ITS OWN direction so an RTL layout can't re-order the user's text
+        // (see Core.BidiText). Set on the TextBlock rather than injected into the string: the
+        // directional control characters are ignored by WPF, and padding `text` would also shift
+        // Start/Length — those come from the search layer indexed against the RAW string, so an
+        // extra leading character would accent the wrong run.
+        tb.FlowDirection = Core.BidiText.IsRightToLeft(text)
+            ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+        BuildRuns(tb, text, query, accent);
+    }
+
+    private static void BuildRuns(TextBlock tb, string text, string query, Brush? accent)
+    {
         // Bindings arrive in no guaranteed order, so every pass re-reads all four values and
         // rebuilds from scratch — never assume Start landed before or after Text.
         int start = GetStart(tb), length = GetLength(tb);

@@ -24,8 +24,15 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="2,3" ToolTip="{Binding Tip}">
-                        <TextBlock Text="{Binding Name}" FontSize="13.5" Foreground="{DynamicResource Brush.TextPrimary}"/>
-                        <TextBlock Text="{Binding Preview}" FontSize="12" Margin="0,2,0,0"
+                        <!-- Name and Preview are the user's own text: render each in ITS OWN
+                             direction so an RTL layout can't re-order it (Core.BidiText). Detail is
+                             our text and keeps inheriting the UI's direction. -->
+                        <TextBlock Text="{Binding Name}"
+                                   FlowDirection="{Binding Name, Converter={StaticResource ContentFlow}}"
+                                   FontSize="13.5" Foreground="{DynamicResource Brush.TextPrimary}"/>
+                        <TextBlock Text="{Binding Preview}"
+                                   FlowDirection="{Binding Preview, Converter={StaticResource ContentFlow}}"
+                                   FontSize="12" Margin="0,2,0,0"
                                    TextTrimming="CharacterEllipsis" FontFamily="{StaticResource Font.Mono}"
                                    Foreground="{DynamicResource Brush.TextMuted}"/>
                         <TextBlock Text="{Binding Detail}" FontSize="11.5" Margin="0,2,0,0"
@@ -40,9 +47,12 @@
         <DockPanel Grid.Row="3" Margin="0,14,0,0" LastChildFill="False">
             <Button DockPanel.Dock="Left" x:Name="RestoreButton" Style="{StaticResource DarkButtonPrimary}"
                     Padding="14,7" Click="OnRestore"/>
-            <Button DockPanel.Dock="Left" x:Name="DeleteButton" Style="{StaticResource DarkButton}"
-                    Padding="14,7" Margin="8,0,0,0" Click="OnDeleteForever"/>
-            <Button DockPanel.Dock="Left" x:Name="EmptyButton" Style="{StaticResource DarkButton}"
+            <!-- Both are irreversible and both sat in the same grey as Close, one button away from
+                 the primary Restore. Danger styling + a wider gap after Restore separate "puts it
+                 back" from "gone for good". -->
+            <Button DockPanel.Dock="Left" x:Name="DeleteButton" Style="{StaticResource DarkButtonDanger}"
+                    Padding="14,7" Margin="20,0,0,0" Click="OnDeleteForever"/>
+            <Button DockPanel.Dock="Left" x:Name="EmptyButton" Style="{StaticResource DarkButtonDanger}"
                     Padding="14,7" Margin="8,0,0,0" Click="OnEmptyTrash"/>
             <Button DockPanel.Dock="Right" x:Name="CloseButton" Style="{StaticResource DarkButton}"
                     Padding="14,7" Click="OnClose"/>

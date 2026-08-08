@@ -10,6 +10,7 @@
     <ui:HexToBrushConverter x:Key="HexBrush"/>
     <ui:ImagePathToSourceConverter x:Key="ImgSrc"/>
     <ui:NonEmptyToCollapsedConverter x:Key="NonEmptyToCollapsed"/>
+    <ui:ContentFlowDirectionConverter x:Key="ContentFlow"/>
     <BooleanToVisibilityConverter x:Key="BoolToVis"/>
 
     <!-- ============ palette · 夜行 (dark jade HUD) ============ -->
@@ -203,10 +204,26 @@
                 </Grid>
             </StackPanel>
 
-            <TextBlock Grid.Column="2" Text="&#x2192;" FontSize="16" VerticalAlignment="Center" Margin="12,0,2,0"
+            <!-- "this row is the one Enter sends" — so it must point the way the reader is going.
+                 WPF mirrors LAYOUT under RightToLeft but never the glyph inside a run (correct for
+                 text, wrong for a directional icon): in Arabic the arrow moved to the left edge and
+                 still pointed right, i.e. back into the row. Swap the character with the direction. -->
+            <TextBlock Grid.Column="2" FontSize="16" VerticalAlignment="Center" Margin="12,0,2,0"
                        Foreground="{DynamicResource Brush.Accent}"
                        Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                            Converter={StaticResource BoolToVis}}"/>
+                                            Converter={StaticResource BoolToVis}}">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Text" Value="&#x2192;"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding FlowDirection, RelativeSource={RelativeSource Self}}"
+                                         Value="RightToLeft">
+                                <Setter Property="Text" Value="&#x2190;"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
         </Grid>
     </DataTemplate>
 
@@ -322,6 +339,15 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!-- Irreversible actions (delete forever, empty trash). Keeps DarkButton's quiet surface — a
+         filled red button next to the primary would read as the recommended action — and marks the
+         consequence with the palette's error colour, so a destructive button can never be mistaken
+         for the neutral one sitting beside it. -->
+    <Style x:Key="DarkButtonDanger" TargetType="Button" BasedOn="{StaticResource DarkButton}">
+        <Setter Property="Foreground" Value="{DynamicResource Brush.Error}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource Brush.Error}"/>
     </Style>
 
     <Style x:Key="DarkButtonPrimary" TargetType="Button" BasedOn="{StaticResource DarkButton}">

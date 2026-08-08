@@ -118,3 +118,19 @@ public sealed class EmptyToCollapsedConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         => throw new NotSupportedException();
 }
+
+/// <summary>
+/// Resolves a piece of user text to the <see cref="FlowDirection"/> it should be rendered in, so an
+/// RTL layout does not re-order LTR content (and vice versa) — see <see cref="QuickText.Core.BidiText"/>.
+/// Bound to a TextBlock's FlowDirection; the element's POSITION still follows the surrounding
+/// layout, only the text inside it reads in its own direction.
+/// </summary>
+public sealed class ContentFlowDirectionConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        => QuickText.Core.BidiText.IsRightToLeft(value as string)
+            ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => throw new NotSupportedException();
+}

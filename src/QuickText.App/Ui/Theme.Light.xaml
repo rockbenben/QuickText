@@ -14,7 +14,11 @@
     <SolidColorBrush x:Key="Brush.Stroke" Color="#241B1E24"/>
     <SolidColorBrush x:Key="Brush.Divider" Color="#141B1E24"/>
     <SolidColorBrush x:Key="Brush.RowHover" Color="#0C1B1E24"/>
-    <SolidColorBrush x:Key="Brush.RowSelected" Color="#1F0E7A61"/>
+    <!-- 0x38, not 0x1F: the same 12% tint that reads clearly on a dark surface only reaches 1.17:1
+         against this near-white row background, and the Manager's snippet list has no other
+         selected-state cue (the search panel at least adds an accent bar and an arrow). 0x38 puts
+         light at 1.36:1, just past the dark theme's 1.31:1, without tinting the row green. -->
+    <SolidColorBrush x:Key="Brush.RowSelected" Color="#380E7A61"/>
     <SolidColorBrush x:Key="Brush.Accent" Color="#0E7A61"/>
     <SolidColorBrush x:Key="Brush.AccentHover" Color="#0B6350"/>
     <SolidColorBrush x:Key="Brush.OnAccent" Color="#FFFFFFFF"/>
