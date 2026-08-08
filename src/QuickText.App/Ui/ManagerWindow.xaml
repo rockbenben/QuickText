@@ -139,36 +139,59 @@
                            FontSize="12.5" Foreground="{DynamicResource Brush.Error}" Visibility="Collapsed"/>
             </StackPanel>
 
-            <DockPanel Grid.Row="4" Margin="2,18,0,6" LastChildFill="False">
-                <TextBlock DockPanel.Dock="Left" Style="{StaticResource FieldLabel}" Margin="0"
+            <!-- Was a DockPanel with LastChildFill="False": every Right-docked child takes its
+                 desired width and the LAST one absorbs whatever remains — which in French was
+                 nothing, so the line-numbers checkbox rendered as a box with no label. A label
+                 column plus a WrapPanel lets the controls drop to a second line instead. -->
+            <Grid Grid.Row="4" Margin="2,18,0,6">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Style="{StaticResource FieldLabel}" Margin="0,0,12,0"
                            VerticalAlignment="Center"
                            Text="{Binding [Manager.Body], Source={x:Static app:LocProxy.Instance}}"/>
-                <Button DockPanel.Dock="Right" Style="{StaticResource AccentTextIconButton}"
-                        Click="OnExpandBody" VerticalAlignment="Center"
-                        Content="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"
-                        ToolTip="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"/>
-                <CheckBox DockPanel.Dock="Right" x:Name="WrapToggle" Style="{StaticResource DarkCheckBox}"
-                          VerticalAlignment="Center" Margin="0,0,14,0"
-                          Checked="OnWrapToggled" Unchecked="OnWrapToggled"
-                          Content="{Binding [Manager.Wrap], Source={x:Static app:LocProxy.Instance}}"/>
-                <CheckBox DockPanel.Dock="Right" x:Name="LineNumberToggle" Style="{StaticResource DarkCheckBox}"
-                          VerticalAlignment="Center" Margin="0,0,14,0"
-                          Checked="OnLineNumbersToggled" Unchecked="OnLineNumbersToggled"
-                          Content="{Binding [Manager.LineNumbers], Source={x:Static app:LocProxy.Instance}}"/>
-            </DockPanel>
+                <WrapPanel Grid.Column="1" HorizontalAlignment="Right">
+                    <CheckBox x:Name="LineNumberToggle" Style="{StaticResource DarkCheckBox}"
+                              VerticalAlignment="Center" Margin="0,0,14,2"
+                              Checked="OnLineNumbersToggled" Unchecked="OnLineNumbersToggled"
+                              Content="{Binding [Manager.LineNumbers], Source={x:Static app:LocProxy.Instance}}"/>
+                    <CheckBox x:Name="WrapToggle" Style="{StaticResource DarkCheckBox}"
+                              VerticalAlignment="Center" Margin="0,0,14,2"
+                              Checked="OnWrapToggled" Unchecked="OnWrapToggled"
+                              Content="{Binding [Manager.Wrap], Source={x:Static app:LocProxy.Instance}}"/>
+                    <Button Style="{StaticResource AccentTextIconButton}" Margin="0,0,0,2"
+                            Click="OnExpandBody" VerticalAlignment="Center"
+                            Content="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"
+                            ToolTip="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"/>
+                </WrapPanel>
+            </Grid>
             <ui:BodyEditor Grid.Row="5" x:Name="Body" MinHeight="120" ShowStatusBar="True"/>
 
-            <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="2,12,0,0">
+            <!-- WrapPanel, not a horizontal StackPanel: a StackPanel measures its children at
+                 INFINITE width, so at the window's own MinWidth this row simply overflowed and the
+                 output-mode combo (and the Save button below it) were clipped by the card. Wrapping
+                 drops the output-mode pair onto its own line instead. The label and combo are one
+                 inner group so they can only wrap together. -->
+            <WrapPanel Grid.Row="6" Margin="2,12,0,0">
                 <CheckBox x:Name="UseVars" Style="{StaticResource DarkCheckBox}" VerticalAlignment="Center"
+                          Margin="0,0,28,4"
                           Checked="OnUseVarsToggled" Unchecked="OnUseVarsToggled"
                           Content="{Binding [Manager.UseVars], Source={x:Static app:LocProxy.Instance}}"
                           ToolTip="{Binding [Manager.UseVarsHint], Source={x:Static app:LocProxy.Instance}}"/>
-                <TextBlock VerticalAlignment="Center" Margin="28,0,8,0" FontSize="13"
-                           Foreground="{DynamicResource Brush.TextMuted}"
-                           Text="{Binding [Manager.OutputMode], Source={x:Static app:LocProxy.Instance}}"/>
-                <ComboBox x:Name="OutputMode" Width="140" VerticalAlignment="Center" Style="{StaticResource DarkComboBox}"
-                          ToolTip="{Binding [Manager.OutputModeHint], Source={x:Static app:LocProxy.Instance}}"/>
-            </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                    <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"
+                               Foreground="{DynamicResource Brush.TextMuted}"
+                               Text="{Binding [Manager.OutputMode], Source={x:Static app:LocProxy.Instance}}"/>
+                    <!-- MinWidth, not Width: the items are translated, and the longest ("Suivre les
+                         réglages globaux", fr) needs ~205 DIP against a hard 140. A ComboBox with no
+                         Width measures to its widest item, so every language gets the room it needs
+                         and 140 only sets the floor for the short ones. The WrapPanel above absorbs
+                         the extra width at narrow window sizes. -->
+                    <ComboBox x:Name="OutputMode" MinWidth="140" VerticalAlignment="Center" Style="{StaticResource DarkComboBox}"
+                              ToolTip="{Binding [Manager.OutputModeHint], Source={x:Static app:LocProxy.Instance}}"/>
+                </StackPanel>
+            </WrapPanel>
 
             <StackPanel Grid.Row="7" Margin="0,12,0,0">
                 <StackPanel Orientation="Horizontal">

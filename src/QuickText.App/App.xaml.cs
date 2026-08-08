@@ -71,10 +71,14 @@ public partial class App : Application
     /// successful SetForegroundWindow gets undone microseconds later when the system finishes
     /// transferring foreground to whatever sat behind the panel. So assert, then VERIFY with
     /// GetForegroundWindow for a short window afterwards, re-asserting whenever we have lost it.</summary>
-    internal static void BringToFront(Window w)
+    /// <param name="onSettled">Called on the UI thread once the guard disarms — the window is
+    /// holding the foreground, or we gave up. Until then the foreground is still in flight, so a
+    /// caller that reacts to foreground changes (the search panel auto-hides on them) must not
+    /// trust what it sees; this is how it learns the handoff is over.</param>
+    internal static void BringToFront(Window w, Action? onSettled = null)
     {
         var hwnd = new WindowInteropHelper(w).Handle;
-        if (hwnd == IntPtr.Zero) return;
+        if (hwnd == IntPtr.Zero) { onSettled?.Invoke(); return; }
         Interop.NativeMethods.StealForeground(hwnd);
 
         var deadline = DateTime.UtcNow + ForegroundGuardFor;
@@ -89,11 +93,12 @@ public partial class App : Application
             if (live == IntPtr.Zero || !w.IsVisible || DateTime.UtcNow > deadline)
             {
                 timer.Stop();
+                onSettled?.Invoke();
                 return;
             }
             if (Interop.NativeMethods.GetForegroundWindow() == live)
             {
-                if (++stable >= ForegroundStableTicks) timer.Stop();
+                if (++stable >= ForegroundStableTicks) { timer.Stop(); onSettled?.Invoke(); }
                 return;
             }
             stable = 0;
@@ -257,6 +262,7 @@ public partial class App : Application
 
         // Dev/CI smoke: parse every window's XAML (they load lazily in normal runs), then exit.
         if (e.Args.Contains("--smoke")) { RunSmoke(); return; }
+        if (e.Args.Contains("--shots")) { RunShots(e.Args); return; }
 
         // Single instance: a second launch would double-install the keyboard hook and expand
         // every abbreviation twice. Hand off to the running instance and bow out.
@@ -600,6 +606,131 @@ public partial class App : Application
             System.IO.File.WriteAllText(report, ex.ToString());
             Shutdown(1);
         }
+    }
+
+    /// <summary>
+    /// Dev design check, sibling of <see cref="RunSmoke"/>: render every window to PNG at the
+    /// work-area heights real setups produce, in both themes, so layout that only breaks on a short
+    /// screen or at a window's own MinWidth is visible without owning that hardware. Off-screen via
+    /// RenderTargetBitmap — it never takes focus, and it runs before the single-instance mutex, so
+    /// it cannot disturb a running QuickText. Usage: <c>QuickText.exe --shots &lt;dir&gt;</c>.
+    /// <para>Renders the CLIENT area only (WPF doesn't draw the native title bar), which is where
+    /// all of this app's chrome lives anyway.</para>
+    /// </summary>
+    private void RunShots(string[] args)
+    {
+        InSmoke = true;
+        string dir = args.SkipWhile(a => a != "--shots").Skip(1).FirstOrDefault()
+                     ?? System.IO.Path.GetTempPath();
+        System.IO.Directory.CreateDirectory(dir);
+
+        // Work-area heights in DIP that real setups produce: 1366x768@125% = 614,
+        // 1920x1080@150% = 720, 1920x1080@100% = 1040.
+        var waHeights = new[] { 614.0, 720.0, 1040.0 };
+
+        void Capture(Window w, string file)
+        {
+            w.UpdateLayout();
+            Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.Loaded);
+            w.UpdateLayout();
+            int pw = (int)Math.Ceiling(w.ActualWidth), ph = (int)Math.Ceiling(w.ActualHeight);
+            if (pw <= 0 || ph <= 0) return;
+            var rtb = new System.Windows.Media.Imaging.RenderTargetBitmap(
+                pw, ph, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+            rtb.Render(w);
+            var enc = new System.Windows.Media.Imaging.PngBitmapEncoder();
+            enc.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtb));
+            using var fs = System.IO.File.Create(System.IO.Path.Combine(dir, file + ".png"));
+            enc.Save(fs);
+        }
+
+        string activeTheme = Ui.ThemeService.Dark;
+        void Shot(string name, Func<Window> make, Action<Window>? tweak = null, bool allHeights = true)
+        {
+            foreach (var wa in allHeights ? waHeights : new[] { waHeights[^1] })
+            {
+                // Per window, not per pass: SettingsWindow's theme radio applies the SAVED theme as
+                // a side effect of initialising, which would repaint every window built after it.
+                Ui.ThemeService.Apply(activeTheme);
+                Window w;
+                try { w = make(); } catch (Exception ex) { System.IO.File.WriteAllText(System.IO.Path.Combine(dir, name + ".err.txt"), ex.ToString()); return; }
+                w.WindowStartupLocation = WindowStartupLocation.Manual;
+                w.Left = -32000; w.Top = -32000;
+                w.ShowActivated = false;
+                w.Show();
+                // AFTER Show: PlaceOnActiveMonitor sets MaxHeight from the REAL monitor in
+                // SourceInitialized, so a pre-Show cap would be overwritten. This is the same
+                // assignment it makes, just with the simulated work area.
+                w.MaxHeight = wa;
+                try { tweak?.Invoke(w); } catch { }
+                Capture(w, $"{name}@{wa:0}");
+                w.Close();
+            }
+        }
+
+        foreach (var theme in new[] { Ui.ThemeService.Dark, Ui.ThemeService.Light })
+        {
+            activeTheme = theme;
+            string t = theme == Ui.ThemeService.Light ? "light-" : "dark-";
+
+            Shot(t + "panel-browse", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill(""));
+            Shot(t + "panel-search", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill("a"), allHeights: false);
+            Shot(t + "panel-nomatch", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill("zzqqxx"), allHeights: false);
+            Shot(t + "panel-min", () => new SearchPanel(), w =>
+            {
+                w.SizeToContent = SizeToContent.Manual; w.Width = w.MinWidth; w.Height = w.MinHeight;
+                ((SearchPanel)w).ShotsFill("");
+            }, allHeights: false);
+
+            Shot(t + "manager", () => new ManagerWindow());
+            Shot(t + "manager-narrow", () => new ManagerWindow(), w => { w.Width = w.MinWidth; }, allHeights: false);
+            // Re-apply AFTER Show: the window's theme radio applies the saved theme on init.
+            Shot(t + "settings", () => new SettingsWindow(), _ => Ui.ThemeService.Apply(activeTheme));
+            Shot(t + "trash", () => new TrashDialog(), allHeights: false);
+            Shot(t + "editor-text", () => new BodyEditorWindow("欢迎语", "你好 {姓名}，\n感谢你的来信。\n\n祝好\n{光标}", true, 0, 0, null), allHeights: false);
+            Shot(t + "editor-code", () => new BodyEditorWindow("配置", "{\n  \"name\": \"quicktext\",\n  \"version\": 1\n}", false, 0, 0, "json"), allHeights: false);
+            Shot(t + "variables", () => new VariablesDialog(), w => ((VariablesDialog)w).Populate(new[]
+            {
+                new Core.Snippets.Placeholders.VariableSpec("姓名", "张三", Array.Empty<string>()),
+                new Core.Snippets.Placeholders.VariableSpec("称呼", "您", new[] { "您", "你" }),
+            }), allHeights: false);
+            Shot(t + "dialog-confirm", () => new AppDialog(), w =>
+            {
+                var d = (AppDialog)w;
+                d.MessageText.Text = LocalizationService.Instance["Trash.EmptyConfirm"];
+                d.InputBox.Visibility = Visibility.Collapsed;
+                d.OkButton.Content = LocalizationService.Instance["Dialog.OK"];
+                d.CancelButton.Content = LocalizationService.Instance["Dialog.Cancel"];
+            }, allHeights: false);
+        }
+
+        // Text-density pass: the longest translations, not just the authoring language. A fixed-width
+        // NoResize window (Settings is 860 DIP) has no way to absorb a label that grew 40% in German
+        // or Russian, so those are where clipped or wrapped copy shows up first.
+        Ui.ThemeService.Apply(Ui.ThemeService.Dark);
+        activeTheme = Ui.ThemeService.Dark;
+        // ar is RIGHT-TO-LEFT: WindowTheming.ApplyFlowDirection mirrors the whole layout, which is a
+        // second layout mode nothing else exercises. th/hi/bn are the tall-glyph scripts — their
+        // diacritics stack above and below the baseline and are what overflows a fixed-height row.
+        foreach (var lang in new[] { "en", "de", "ru", "ar", "th", "hi", "ja", "fr" })
+        {
+            LocalizationService.Instance.SetCulture(lang);
+            Shot($"{lang}-settings", () => new SettingsWindow(), _ => Ui.ThemeService.Apply(activeTheme), allHeights: false);
+            Shot($"{lang}-panel", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill(""), allHeights: false);
+            Shot($"{lang}-panel-nomatch", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill("zzqqxx"), allHeights: false);
+            Shot($"{lang}-trash", () => new TrashDialog(), allHeights: false);
+            Shot($"{lang}-manager-narrow", () => new ManagerWindow(), w => { w.Width = w.MinWidth; }, allHeights: false);
+            // Longest translations at the panel's narrowest allowed size — where the footer legend
+            // and the result count compete for the same strip.
+            Shot($"{lang}-panel-min", () => new SearchPanel(), w =>
+            {
+                w.SizeToContent = SizeToContent.Manual; w.Width = w.MinWidth; w.Height = w.MinHeight;
+                ((SearchPanel)w).ShotsFill("");
+            }, allHeights: false);
+        }
+
+        System.IO.File.WriteAllText(System.IO.Path.Combine(dir, "_done.txt"), "OK");
+        Shutdown(0);
     }
 
     /// <summary>Apply changed settings live so nothing needs a restart.</summary>

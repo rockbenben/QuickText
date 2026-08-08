@@ -169,9 +169,22 @@
 
             <!-- footer -->
             <Border Grid.Row="4" Background="{DynamicResource Brush.FooterBg}" CornerRadius="0,0,15,15" Padding="18,10">
+                <!-- Two COLUMNS, not two overlapping layers in one cell: the legend and the result
+                     count used to be stacked on top of each other, so at the panel's own MinWidth a
+                     long translation (Russian) ran straight under the count and both became
+                     illegible. The count now reserves its width, and the legend — progressive
+                     disclosure, least important on the right — clips instead of colliding. -->
                 <Grid>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <StackPanel Orientation="Horizontal" Margin="0,0,16,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <!-- The legend follows the state: with no rows there is nothing to select, and
+                         Enter creates instead of sends (see OnPreviewKeyDown). Two prebuilt Enter
+                         groups rather than retargeting one label, so the localized bindings stay
+                         live through a language switch. -->
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" ClipToBounds="True">
+                        <StackPanel x:Name="HintNav" Orientation="Horizontal" Margin="0,0,16,0">
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="↑↓" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.Nav], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>
@@ -179,16 +192,24 @@
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="←→" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.SwitchCat], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,16,0">
+                        <StackPanel x:Name="HintSend" Orientation="Horizontal" Margin="0,0,16,0">
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="↵" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.Send], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
+                        </StackPanel>
+                        <!-- Search.Hint.Create, NOT Search.Hint.New: this Enter runs the same action
+                             as the empty-state button (Search.CreateNew, "创建「x」"), and an action
+                             keeps one name everywhere. "新建" belongs to the + button, which makes a
+                             blank snippet instead. -->
+                        <StackPanel x:Name="HintCreate" Orientation="Horizontal" Margin="0,0,16,0" Visibility="Collapsed">
+                            <Border Style="{StaticResource HintKey}"><TextBlock Text="↵" Style="{StaticResource HintKeyText}"/></Border>
+                            <TextBlock Text="{Binding [Search.Hint.Create], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="esc" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.Close], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>
                     </StackPanel>
-                    <TextBlock x:Name="CountText" HorizontalAlignment="Right" VerticalAlignment="Center"
+                    <TextBlock Grid.Column="1" x:Name="CountText" VerticalAlignment="Center" Margin="12,0,0,0"
                                FontFamily="{StaticResource Font.Ui}" FontSize="11.5"
                                Foreground="{DynamicResource Brush.TextFaint}"/>
                 </Grid>

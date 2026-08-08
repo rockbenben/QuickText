@@ -42,6 +42,19 @@ public partial class SearchPanel : Window
     private IntPtr _fgHook;
     private NativeMethods.WinEventProc? _fgProc;   // kept alive to avoid GC of the delegate
 
+    /// <summary>
+    /// True while a summon's foreground handoff is still in flight. A tap-hook summon carries no
+    /// WM_HOTKEY foreground grant, so Windows can hand the foreground straight back to the app we
+    /// came from a few ms after our SetForegroundWindow — and the auto-hide below read that bounce
+    /// as "the user left us" and hid a panel that had just opened. That is the panel flashing on the
+    /// first summon after switching apps, and only the first: the flash itself made us the foreground
+    /// process, so the NEXT summon was already granted and stuck.
+    /// <para>While it's set, foreground changes are not the user's doing and must be ignored;
+    /// App.BringToFront clears it when the handoff is over, and re-checks then.</para>
+    /// </summary>
+    private bool _settling;
+    private int _summonId;   // bumped per summon, so a previous summon's guard can't disarm this one
+
     public SearchPanel()
     {
         InitializeComponent();
@@ -61,6 +74,9 @@ public partial class SearchPanel : Window
     /// <summary>--smoke only: seed one browse row so the shared <c>SnippetRowTemplate</c> actually
     /// inflates when the panel is laid out, letting the CI smoke pass catch a broken row template
     /// (which otherwise only fails at first real render).</summary>
+    /// <summary>--shots only: populate from the real library so the design audit sees real rows.</summary>
+    internal void ShotsFill(string query) { Query.Text = query; Refresh(); }
+
     internal void SmokeFill()
     {
         var s = new Core.Models.Snippet { Name = "smoke", Body = "smoke" };
@@ -84,10 +100,17 @@ public partial class SearchPanel : Window
 
     private void OnForegroundChanged(IntPtr hook, uint ev, IntPtr hwnd, int idObj, int idChild, uint thread, uint time)
     {
+        if (_settling) return;   // our own summon handoff bouncing, not the user leaving
+        HideIfForeignForeground(hwnd);
+    }
+
+    /// <summary>Hide unless <paramref name="hwnd"/> is one of OUR windows (the panel, its context
+    /// menu, the {变量} dialog) — those share our process. Any window in ANOTHER process holding the
+    /// foreground means the user left us. Process-based, so it works no matter which monitor the
+    /// new window is on.</summary>
+    private void HideIfForeignForeground(IntPtr hwnd)
+    {
         if (_pinned || hwnd == IntPtr.Zero) return;
-        // Ignore our OWN windows (the panel, its context menu, the {变量} dialog) — those share our
-        // process. Any window in ANOTHER process taking the foreground means the user left us: hide.
-        // Process-based, so it works no matter which monitor the new window is on.
         NativeMethods.GetWindowThreadProcessId(hwnd, out uint pid);
         if (pid != 0 && pid != (uint)Environment.ProcessId) Hide();
     }
@@ -105,9 +128,22 @@ public partial class SearchPanel : Window
         // Grab the foreground reliably even when summoned via the tap hook (which, unlike a
         // RegisterHotKey WM_HOTKEY, gets no foreground grant from Windows). Without this the
         // panel shows but never becomes active, so it never fires Deactivated to auto-hide.
-        // StealForeground (attach to the current foreground's thread), NOT ForceForeground(self)
-        // which no-ops on our own thread and stays lock-refused.
-        NativeMethods.StealForeground(new System.Windows.Interop.WindowInteropHelper(this).Handle);
+        // BringToFront, not a lone StealForeground: without the grant Windows completes — and can
+        // undo — the handoff asynchronously, so the assertion has to be verified and repeated. It
+        // also uses StealForeground (attach to the current foreground's thread), NOT
+        // ForceForeground(self), which no-ops on our own thread and stays lock-refused.
+        _settling = true;
+        int summon = ++_summonId;
+        App.BringToFront(this, () =>
+        {
+            // Hiding stops the guard, so a re-summon within one tick can leave the OLD guard to
+            // fire here — its verdict is about a handoff that no longer matters.
+            if (summon != _summonId) return;
+            _settling = false;
+            // Bounces were suppressed while settling and are never re-delivered, so ask once, now,
+            // where the foreground actually ended up: if the user really did leave, hide.
+            HideIfForeignForeground(NativeMethods.GetForegroundWindow());
+        });
         Activate();
         Query.Focus();
         PlayIntro();
@@ -292,6 +328,7 @@ public partial class SearchPanel : Window
             HintCat.Visibility = Visibility.Collapsed;
             ShowEmpty(loc["Search.Empty.Title"], loc["Search.Empty.Sub"]);
             CountText.Text = "";
+            SetHints(hasRows: false, canCreate: false);   // nothing saved yet: Enter does nothing
             return;
         }
 
@@ -314,6 +351,7 @@ public partial class SearchPanel : Window
         CategoryRail.ItemsSource = railItems;
         CategoryRail.SelectedItem = ResolveLastCategory(railItems) ?? railItems[0];
         PopulateBrowseList();
+        SetHints(hasRows: BrowseList.Items.Count > 0, canCreate: false);
     }
 
     // Stable keys so the remembered category survives a language switch
@@ -339,21 +377,31 @@ public partial class SearchPanel : Window
     private void OnSnippetSelectionChanged(object sender, SelectionChangedEventArgs e) => UpdatePreview();
 
     /// <summary>
-    /// Roughly how much of a body the row's own subtitle already shows. The subtitle renders the
-    /// first line at 12.5px across ~460 DIP, so a short single-line body is fully visible there and
-    /// the preview pane below would repeat it verbatim — a divider plus ~60 DIP of chrome saying
-    /// nothing new. Deliberately conservative: overshooting shows a redundant preview, undershooting
-    /// HIDES text the user cannot otherwise read.
+    /// Roughly how much of a body the row's own subtitle already shows, in half-width units. The
+    /// subtitle renders the first line at 12.5px across ~460 DIP: ~70 half-width characters, or ~35
+    /// full-width ones. Measured as WIDTH, not character count — a plain count is whichever script's
+    /// answer you picked, and was wrong by 2× for the other, which is how a Latin line that fitted
+    /// the subtitle entirely still got a preview pane repeating it verbatim.
+    /// Deliberately conservative: overshooting shows a redundant preview, undershooting HIDES text
+    /// the user cannot otherwise read.
     /// </summary>
-    private const int SubtitleVisibleChars = 34;
+    private const int SubtitleVisibleWidth = 70;
+
+    /// <summary>Below this the panel is too short to spend ~60 DIP on a preview: at the 340 DIP
+    /// minimum it left barely two rows of the list, which is the part you actually pick from.</summary>
+    private const double PreviewNeedsPanelHeight = 420;
 
     /// <summary>Does the preview pane show the user anything the row doesn't already?</summary>
     private static bool PreviewAddsAnything(string body) =>
-        body.IndexOfAny(new[] { '\r', '\n' }) >= 0 || body.Trim().Length > SubtitleVisibleChars;
+        body.IndexOfAny(new[] { '\r', '\n' }) >= 0
+        || Core.SnippetNaming.DisplayWidth(body.Trim()) > SubtitleVisibleWidth;
 
     private void UpdatePreview()
     {
-        if (ActiveList.SelectedItem is not SearchHit hit)
+        // A user who dragged the panel down to its minimum asked for a compact launcher; the list
+        // wins the remaining space over a preview of the row that is already on screen.
+        if (ActiveList.SelectedItem is not SearchHit hit
+            || (SizeToContent == SizeToContent.Manual && ActualHeight > 0 && ActualHeight < PreviewNeedsPanelHeight))
         {
             PreviewPane.Visibility = Visibility.Collapsed;
             return;
@@ -372,6 +420,9 @@ public partial class SearchPanel : Window
             // every wrapped line and stall selection. Preview only needs the head.
             const int previewMaxChars = 2000;
             PreviewText.Text = Core.SnippetNaming.Ellipsize(sn.Body, previewMaxChars, " …");
+            // The body is the user's text — read it in its own direction, not the UI's.
+            PreviewText.FlowDirection = Core.BidiText.IsRightToLeft(sn.Body)
+                ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
             PreviewText.Visibility = Visibility.Visible;
             PreviewImage.Visibility = Visibility.Collapsed;
             PreviewPane.Visibility = Visibility.Visible;
@@ -446,6 +497,7 @@ public partial class SearchPanel : Window
         Results.ItemsSource = hits;
         CountText.Text = hits.Count == 0 ? "" : string.Format(loc["Search.Count"], hits.Count);
 
+        SetHints(hasRows: hits.Count > 0, canCreate: true);   // Enter creates when nothing matched
         if (hits.Count > 0)
         {
             Results.SelectedIndex = 0;
@@ -461,6 +513,17 @@ public partial class SearchPanel : Window
             CreateButton.Content = string.Format(loc["Search.CreateNew"], keywords.Trim());
             CreateButton.Visibility = Visibility.Visible;
         }
+    }
+
+    /// <summary>
+    /// Point the footer legend at what the keys actually do right now. With no rows there is nothing
+    /// to select and Enter creates rather than sends — advertising "选择 / 发送" over an empty list
+    /// promises two things that don't happen.
+    /// </summary>
+    private void SetHints(bool hasRows, bool canCreate)
+    {
+        HintNav.Visibility = HintSend.Visibility = hasRows ? Visibility.Visible : Visibility.Collapsed;
+        HintCreate.Visibility = !hasRows && canCreate ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private void ShowEmpty(string title, string sub)
@@ -758,7 +821,9 @@ public partial class SearchPanel : Window
     {
         if (App.InSmoke) return;   // --smoke exercises the panel off-screen; never persist its bounds
         SaveBounds();
-        if (!_pinned) Hide();
+        // Same guard as the foreground hook: a summon that hasn't landed yet deactivates us
+        // spuriously, and hiding on it is the flash.
+        if (!_pinned && !_settling) Hide();
     }
 
     private void OnTogglePin(object sender, RoutedEventArgs e)
