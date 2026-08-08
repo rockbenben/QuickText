@@ -61,4 +61,27 @@ public class SnippetNamingTests
         var name = SnippetNaming.FromFirstLine(string.Concat(System.Linq.Enumerable.Repeat("😀", 15)));  // 30 chars
         Assert.Equal(string.Concat(System.Linq.Enumerable.Repeat("😀", 10)) + "…", name);   // 10 whole emoji + …
     }
+
+    [Theory]
+    [InlineData("", 0)]
+    [InlineData(null, 0)]
+    [InlineData("hello", 5)]                       // latin: one unit each
+    [InlineData("你好", 4)]                         // CJK: two units each
+    [InlineData("a你b好", 6)]                       // mixed
+    [InlineData("，。", 4)]                          // full-width punctuation is wide too
+    [InlineData("😀", 2)]                   // surrogate pair counts once, as wide
+    [InlineData("한글", 4)]                          // Hangul syllables
+    public void DisplayWidth_counts_full_width_characters_as_two(string? input, int expected)
+        => Assert.Equal(expected, SnippetNaming.DisplayWidth(input));
+
+    // The reason this exists: the old character count called these two equally wide, so whichever
+    // script the threshold was tuned for, the other was off by 2x.
+    [Fact]
+    public void DisplayWidth_separates_latin_from_CJK_of_the_same_length()
+    {
+        var latin = new string('a', 40);
+        var cjk = new string('字', 40);
+        Assert.Equal(40, SnippetNaming.DisplayWidth(latin));
+        Assert.Equal(80, SnippetNaming.DisplayWidth(cjk));
+    }
 }
