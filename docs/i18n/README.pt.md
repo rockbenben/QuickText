@@ -20,6 +20,12 @@
 
 **[⬇ Baixar a versão mais recente](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portátil em arquivo único. Não é assinado, então o SmartScreen avisa na primeira execução: **Mais informações → Executar assim mesmo**.
 
+- `QuickText-<version>-win-x64.zip` (~68 MB) — traz o runtime do .NET embutido, então roda em qualquer Windows 10/11 x64 sem pré-requisitos. Escolha este na dúvida: máquinas em intranet ou offline, ou para levar num pendrive.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 MB) — exige o [Runtime de Área de Trabalho do .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) instalado. Para o seu PC com internet: instale uma vez e cada atualização passa a ter só 1,5 MB.
+- `QuickText.exe` (~2,5 MB) — a mesma compilação sem o zip. Clique e execute, ou sobrescreva sua cópia atual para atualizar.
+
+Mesmos recursos e mesmos dados; a única diferença é se o runtime vem embutido.
+
 ---
 
 ## Onde você usaria
@@ -200,6 +206,7 @@ Publique uma build portátil de arquivo único (win-x64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
 ```
 
 Requer o SDK do .NET 10. Apenas Windows (tecla de atalho global / hook de teclado / área de transferência do Win32).

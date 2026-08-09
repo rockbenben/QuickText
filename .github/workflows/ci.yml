@@ -12,23 +12,15 @@ jobs:
     timeout-minutes: 15          # fail fast if a --smoke run deadlocks, instead of hanging to the 6h cap
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
+      # --minimum-expected-tests is Microsoft.Testing.Platform's own guard against a silent 0-test run
+      # (a mis-loaded adapter can make a test run exit 0 with nothing executed). It replaces the trx
+      # parsing this step used to do; see the test .csproj for the two properties that put xunit.v3
+      # on MTP. Verified both ways: `1` passes, `99999` exits 1.
       - name: Test (Core)
-        shell: pwsh
-        run: |
-          dotnet test tests/QuickText.Core.Tests -c Release --nologo --logger "trx;LogFileName=results.trx" --results-directory TestResults
-          if ($LASTEXITCODE -ne 0) { exit 1 }
-          # Guard against a silent 0-test run (a mis-loaded adapter can make `dotnet test` exit 0 with
-          # nothing run). Read the structured trx count — locale-independent and VSTest/MTP-agnostic,
-          # unlike scraping console text; an all-skipped run still counts as discovered (total >= 1).
-          $trx = Get-ChildItem TestResults -Filter results.trx -Recurse | Select-Object -First 1
-          if (-not $trx) { Write-Error 'no trx produced — tests did not run'; exit 1 }
-          [xml]$r = Get-Content -Raw $trx.FullName
-          $total = [int]$r.TestRun.ResultSummary.Counters.total
-          Write-Host "tests discovered: $total"
-          if ($total -lt 1) { Write-Error 'no tests ran (0 discovered)'; exit 1 }
+        run: dotnet test tests/QuickText.Core.Tests -c Release --nologo -- --minimum-expected-tests 1
       - name: Build (App)
         run: dotnet build src/QuickText.App -c Release --nologo
       - name: Smoke (parse every window's XAML)
@@ -47,34 +39,60 @@ jobs:
           Write-Host "smoke: exit=$($p.ExitCode) marker=$ok"
           if (-not $ok -or ($p.ExitCode -and $p.ExitCode -ne 0)) { exit 1 }
 
+  # One file, two jobs: `needs: test` is what makes a red tree unable to produce a release, and it
+  # costs nothing extra because the same run already did the testing. Splitting this into ci.yml +
+  # release.yml would lose that — `needs:` does not reach across workflow files.
   release:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: test
     runs-on: windows-latest
+    timeout-minutes: 20
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v7
-      - uses: actions/setup-dotnet@v5
+      - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
-      - name: Publish (single-file win-x64)
+      - name: Publish (single-file win-x64, with and without the .NET runtime)
         shell: pwsh
         run: |
           $v = "${{ github.ref_name }}" -replace '^v', ''   # tag v1.0.0 -> assembly version 1.0.0
           dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64 -p:Version=$v --nologo
+          # Both profiles share bin/obj and differ in runtimeconfig.json (self-contained pins the
+          # framework); publishing the second straight after the first regenerates it correctly —
+          # verified by running the framework-dependent exe with --smoke, so no rebuild is needed.
+          dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10 -p:Version=$v --nologo
       - name: Package
         shell: pwsh
         run: |
-          # The publish output is a single self-contained QuickText.exe. Attach it raw (one-click
-          # download-and-run for a portable app) AND zipped (smaller download; some browsers balk at
-          # a bare .exe).
-          Copy-Item src/QuickText.App/bin/Release/publish/QuickText.exe "QuickText-${{ github.ref_name }}-win-x64.exe"
-          Compress-Archive -Path src/QuickText.App/bin/Release/publish/* -DestinationPath "QuickText-${{ github.ref_name }}-win-x64.zip"
+          # Two zips — the variant lives in the ZIP name, so unpacking either always leaves a clean
+          # QuickText.exe instead of a name a portable install would keep forever.
+          Compress-Archive -Path src/QuickText.App/bin/Release/publish/QuickText.exe -DestinationPath "QuickText-${{ github.ref_name }}-win-x64.zip"
+          Compress-Archive -Path src/QuickText.App/bin/Release/publish-needs-dotnet10/QuickText.exe -DestinationPath "QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip"
       - name: Release
+        # Major-version tag on purpose: `v3` moves with each patch, which is how fixes arrive without
+        # anyone bumping anything. Dependabot still speaks up when a v4 shows up.
         uses: softprops/action-gh-release@v3
         with:
+          # The third asset is the framework-dependent build attached raw, straight from its publish
+          # directory so it lands under its plain name: one click to download and run, and it drops
+          # straight over an existing QuickText.exe to update. Only the small build gets that — a bare
+          # 68 MB exe is what browsers and SmartScreen fight hardest, and a plain, version-less name
+          # can only belong to one of the two.
+          # Spelled out rather than globbed: the names match what the Package step just produced,
+          # one line per asset, so nothing looks missing and nothing can be uploaded twice.
           files: |
-            QuickText-*-win-x64.exe
-            QuickText-*-win-x64.zip
+            QuickText-${{ github.ref_name }}-win-x64.zip
+            QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip
+            src/QuickText.App/bin/Release/publish-needs-dotnet10/QuickText.exe
+          # Picking a package happens on the download page, not in the README, so the note has to
+          # ride along with the release. GitHub appends the generated changelog after this body.
+          # Sizes are the assets as Windows reports them (MiB).
+          body: |
+            **Which package? / 下载哪个？**
+
+            - `QuickText-${{ github.ref_name }}-win-x64.zip` (~68 MB) — .NET runtime included; unzip and run on any Windows 10/11 x64. Take this if you're unsure. / 内含 .NET 运行时，解压即用；拿不准、内网机、离线机、U 盘随身带就选它。
+            - `QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip` (~1.5 MB) — same app without the bundled runtime; needs the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed. / 同一个程序，只是不带运行时；需要电脑上已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)。
+            - `QuickText.exe` (~2.5 MB) — the same build as the zip above, unzipped: click, run, or drop it over your existing QuickText.exe to update. Windows will offer the runtime download if it is missing. / 就是上面那个不含运行时的版本，只是没打包：点开即用，也可直接覆盖现有的 QuickText.exe 完成更新。缺运行时时 Windows 会自己提示下载。
           generate_release_notes: true

@@ -20,6 +20,12 @@
 
 **[⬇ En son sürümü indir](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, tek dosya taşınabilir. Kod imzalı değil, bu yüzden SmartScreen ilk çalıştırmada uyarır: **More info → Run anyway**.
 
+- `QuickText-<version>-win-x64.zip` (~68 MB) — .NET çalışma zamanı gömülü olduğu için hiçbir ön koşul olmadan her Windows 10/11 x64 makinede çalışır. Emin değilseniz bunu indirin: intranetteki veya internete bağlı olmayan bilgisayarlar ya da USB'de yanınızda taşımak için.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 MB) — [.NET 10 Masaüstü Çalışma Zamanı](https://dotnet.microsoft.com/download/dotnet/10.0) kurulu olmasını gerektirir. İnternete bağlı kendi bilgisayarınız için: bir kez kurun, sonrasında her güncelleme yalnızca 1,5 MB.
+- `QuickText.exe` (~2,5 MB) — aynı sürümün zip'siz hâli: tıklayıp çalıştırın veya güncellemek için mevcut kopyanın üzerine yazın.
+
+Özellikler ve veriler tamamen aynı; tek fark çalışma zamanının pakete dahil olup olmaması.
+
 ---
 
 ## Nerelerde kullanırsınız
@@ -200,6 +206,7 @@ Tek dosyalık taşınabilir bir derleme yayınlayın (win-x64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
 ```
 
 .NET 10 SDK gerektirir. Yalnızca Windows (Win32 global kısayol / klavye kancası / pano).

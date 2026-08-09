@@ -20,6 +20,12 @@
 
 **[⬇ ดาวน์โหลดเวอร์ชันล่าสุด](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64 แบบพกพาไฟล์เดียว ไม่ได้เซ็นรับรองโค้ด ครั้งแรกที่เปิด SmartScreen จะเตือน: **More info → Run anyway**
 
+- `QuickText-<version>-win-x64.zip` (~68 MB) — รวม .NET runtime มาให้แล้ว จึงรันบน Windows 10/11 x64 เครื่องไหนก็ได้โดยไม่ต้องติดตั้งอะไรเพิ่ม ถ้าไม่แน่ใจให้เลือกไฟล์นี้ เหมาะกับเครื่องในอินทราเน็ต เครื่องที่ไม่ต่อเน็ต หรือพกใส่ USB ไปใช้ที่อื่น
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1.5 MB) — ต้องติดตั้ง [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) ไว้ก่อน เหมาะกับเครื่องของคุณเองที่ต่อเน็ตได้ ติดตั้งครั้งเดียว จากนั้นอัปเดตแต่ละครั้งดาวน์โหลดเพียง 1.5 MB
+- `QuickText.exe` (~2.5 MB) — บิลด์เดียวกันแต่ไม่ได้บีบอัด: คลิกแล้วรันได้เลย หรือเขียนทับไฟล์เดิมเพื่ออัปเดต
+
+ฟีเจอร์และข้อมูลเหมือนกันทุกอย่าง ต่างกันแค่ว่ารวม runtime มาด้วยหรือไม่
+
 ---
 
 ## เหมาะกับสถานการณ์ไหนบ้าง
@@ -200,6 +206,7 @@ dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
 ```
 
 ต้องใช้ .NET 10 SDK เฉพาะ Windows เท่านั้น (Win32 global hotkey / keyboard hook / clipboard)

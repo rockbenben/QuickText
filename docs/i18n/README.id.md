@@ -20,6 +20,12 @@
 
 **[⬇ Unduh versi terbaru](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portabel satu file. Tidak ditandatangani, jadi SmartScreen memperingatkan saat pertama dijalankan: **More info → Run anyway**.
 
+- `QuickText-<version>-win-x64.zip` (~68 MB) — runtime .NET sudah disertakan, jadi langsung jalan di Windows 10/11 x64 mana pun tanpa prasyarat. Pilih ini kalau ragu: komputer di intranet atau tanpa internet, atau dibawa-bawa lewat USB.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 MB) — perlu [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) yang sudah terpasang. Untuk PC Anda sendiri yang terhubung internet: pasang sekali, setelah itu tiap pembaruan cuma 1,5 MB.
+- `QuickText.exe` (~2,5 MB) — build yang sama tanpa zip: klik dan jalankan, atau timpa salinan lama untuk memperbarui.
+
+Fitur dan datanya sama persis; bedanya hanya pada disertakan atau tidaknya runtime.
+
 ---
 
 ## Di mana Anda akan memakainya
@@ -200,6 +206,7 @@ Terbitkan build portabel file tunggal (win-x64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
 ```
 
 Membutuhkan .NET 10 SDK. Hanya Windows (hotkey global Win32 / keyboard hook / clipboard).

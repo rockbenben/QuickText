@@ -20,6 +20,12 @@
 
 **[⬇ Tải bản mới nhất](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable một tệp. Không được ký số nên lần chạy đầu SmartScreen sẽ cảnh báo: **More info → Run anyway**.
 
+- `QuickText-<version>-win-x64.zip` (~68 MB) — đã đóng gói sẵn .NET runtime nên chạy được trên mọi máy Windows 10/11 x64 mà không cần cài gì thêm. Không chắc thì chọn bản này: máy trong mạng nội bộ, máy không có mạng, hay mang theo trong USB.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 MB) — cần cài sẵn [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0). Dành cho máy có mạng của bạn: cài một lần, sau đó mỗi lần cập nhật chỉ tải 1,5 MB.
+- `QuickText.exe` (~2,5 MB) — cùng bản dựng đó nhưng không đóng gói zip: bấm là chạy, hoặc ghi đè lên bản hiện có để cập nhật.
+
+Tính năng và dữ liệu hoàn toàn giống nhau, khác biệt duy nhất là có kèm runtime hay không.
+
 ---
 
 ## Bạn sẽ dùng nó ở đâu
@@ -200,6 +206,7 @@ Xuất bản một bản dựng di động đơn tệp (win-x64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
 ```
 
 Yêu cầu .NET 10 SDK. Chỉ dành cho Windows (phím tắt toàn cục Win32 / keyboard hook / clipboard).

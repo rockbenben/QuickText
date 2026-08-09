@@ -20,6 +20,12 @@
 
 **[⬇ 최신 버전 내려받기](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, 단일 파일 포터블. 코드 서명이 없어 처음 실행할 때 SmartScreen이 경고합니다: **추가 정보 → 실행**을 클릭하세요.
 
+- `QuickText-<version>-win-x64.zip`(약 68 MB) — .NET 런타임이 포함되어 있어 사전 준비 없이 Windows 10/11 x64에서 바로 실행됩니다. 잘 모르겠으면 이것을 받으세요: 인트라넷·오프라인 PC, USB에 담아 들고 다닐 때도 좋습니다.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip`(약 1.5 MB) — [.NET 10 데스크톱 런타임](https://dotnet.microsoft.com/download/dotnet/10.0)이 설치되어 있어야 합니다. 인터넷이 되는 내 PC용: 한 번만 설치해 두면 이후 업데이트는 매번 1.5 MB만 받으면 됩니다.
+- `QuickText.exe`(약 2.5 MB) — 같은 빌드를 zip 없이 그대로 올린 것입니다. 클릭해서 바로 실행하거나, 기존 파일에 덮어써서 업데이트하세요.
+
+기능과 데이터는 완전히 동일하며, 차이는 런타임을 포함하느냐뿐입니다.
+
 ---
 
 ## 어디에 쓰나요
@@ -200,6 +206,7 @@ dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
 ```
 
 .NET 10 SDK가 필요합니다. Windows 전용(Win32 전역 단축키 / 키보드 후크 / 클립보드).

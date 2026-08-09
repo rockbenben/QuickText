@@ -24,7 +24,15 @@
 
 **[⬇ 下载最新版](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64。
 
-下 `QuickText-<版本>-win-x64.exe`（单文件绿色版，双击即用），或者下 `.zip` 自己解压。免安装、无需注册。
+两种构建，三个下载，都是免安装的绿色版、无需注册。
+
+| 文件 | 体积 | 前提 | 适合 |
+| --- | --- | --- | --- |
+| `QuickText-<版本>-win-x64.zip` | ~68 MB | 无 | **拿不准就下这个。** 内网机、离线机、U 盘随身带着到处插、不让装东西的公司电脑 |
+| `QuickText-<版本>-win-x64-needs-dotnet10.zip` | ~1.5 MB | 已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0) | 自己那台能联网的电脑：运行时装一次，以后每次更新只下 1.5 MB |
+| `QuickText.exe` | ~2.5 MB | 同上 | 同一个版本没套 zip：点开即用，也可以直接盖掉现有的那份完成更新 |
+
+三个拿到手都是同一个单文件 `QuickText.exe`。两种构建的区别只在**运行时从哪来**：第一个把 .NET 运行时打进了 exe，代价是体积；第二个用系统里已有的那份。功能、数据完全一致，随时可以换着下。
 
 程序没有代码签名，首次运行 Windows SmartScreen 会拦一下：点**更多信息 → 仍要运行**。
 
@@ -214,10 +222,11 @@ dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
 dotnet run  --project src/QuickText.App        # 或运行 bin 下的 QuickText.exe
 ```
 
-发布单文件绿色版（win-x64）：
+发布单文件绿色版（win-x64），含 / 不含 .NET 运行时：
 
 ```bash
-dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64                 # 绿色版，exe 约 73 MB
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10  # 约 2.5 MB，需要已装 .NET 10 桌面运行时
 ```
 
 需要 .NET 10 SDK。仅 Windows（依赖 Win32 全局热键 / 键盘钩子 / 剪贴板）。

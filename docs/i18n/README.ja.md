@@ -20,6 +20,12 @@
 
 **[⬇ 最新版をダウンロード](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64、単一ファイルのポータブル版。コード署名がないため初回起動時に SmartScreen が警告します：**詳細情報 → 実行**をクリックしてください。
 
+- `QuickText-<version>-win-x64.zip`（約 68 MB）—— .NET ランタイム同梱。前提条件なしで Windows 10/11 x64 ならそのまま動きます。迷ったらこちら：社内ネットワークやオフラインの PC、USB メモリーで持ち歩く場合にも。
+- `QuickText-<version>-win-x64-needs-dotnet10.zip`（約 1.5 MB）—— [.NET 10 デスクトップランタイム](https://dotnet.microsoft.com/download/dotnet/10.0) が別途必要です。ネットにつながる自分の PC 向け：一度入れておけば、以降の更新は毎回 1.5 MB で済みます。
+- `QuickText.exe`（約 2.5 MB）—— 同じビルドを zip なしで置いたものです。クリックしてすぐ実行でき、既存のファイルに上書きすれば更新になります。
+
+機能もデータも同じで、違いはランタイムを同梱するかどうかだけです。
+
 ---
 
 ## こんな場面で使えます
@@ -200,6 +206,7 @@ dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
 ```
 
 .NET 10 SDK が必要です。Windows のみ（Win32 グローバルホットキー / キーボードフック / クリップボード）。

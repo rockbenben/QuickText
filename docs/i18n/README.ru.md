@@ -20,6 +20,12 @@
 
 **[⬇ Скачать последнюю версию](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, портативный один файл. Не подписан, поэтому при первом запуске SmartScreen предупредит: **Подробнее → Выполнить в любом случае**.
 
+- `QuickText-<version>-win-x64.zip` (~68 МБ) — среда выполнения .NET уже внутри, поэтому запускается на любом Windows 10/11 x64 без предварительной установки. Берите этот вариант, если сомневаетесь: компьютеры во внутренней сети или без интернета, а также запуск с флешки.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 МБ) — требует установленной [среды выполнения .NET 10 Desktop](https://dotnet.microsoft.com/download/dotnet/10.0). Для своего компьютера с интернетом: установили один раз — и каждое обновление весит всего 1,5 МБ.
+- `QuickText.exe` (~2,5 МБ) — та же сборка без zip: запускается сразу, либо перезапишите ею существующую копию для обновления.
+
+Возможности и данные одинаковые, разница только в том, вшита ли среда выполнения.
+
 ---
 
 ## Где это пригодится
@@ -200,6 +206,7 @@ dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
 ```
 
 Требуется .NET 10 SDK. Только Windows (глобальная горячая клавиша Win32 / хук клавиатуры / буфер обмена).

@@ -24,7 +24,15 @@
 
 **[⬇ Get the latest release](https://github.com/rockbenben/QuickText/releases/latest)** — Windows x64.
 
-Grab `QuickText-<version>-win-x64.exe` (single-file portable — just run it) or the `.zip` if you'd rather unpack it yourself. No installer, no account.
+Two builds, three downloads — portable either way. No installer, no account.
+
+| File | Size | Needs | Good for |
+| --- | --- | --- | --- |
+| `QuickText-<version>-win-x64.zip` | ~68 MB | nothing | **take this one if unsure.** Air-gapped or intranet machines, a USB stick you carry between PCs, a work PC where you can't install anything |
+| `QuickText-<version>-win-x64-needs-dotnet10.zip` | ~1.5 MB | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed | your own online PC: install the runtime once, then every update is a 1.5 MB download |
+| `QuickText.exe` | ~2.5 MB | same as above | the same build with no zip around it: click and run, or drop it over your existing copy to update |
+
+Every one of them is (or unpacks to) the same single-file `QuickText.exe`. The only difference between the two builds is **where the runtime comes from** — the first bundles .NET into the exe and pays for it in size, the second uses the copy already on the machine. Same features, same data; switch between them any time.
 
 The exe isn't code-signed, so Windows SmartScreen warns on first run: click **More info → Run anyway**.
 
@@ -214,10 +222,11 @@ dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 
-Publish a single-file portable build (win-x64):
+Publish a single-file portable build (win-x64), with or without the .NET runtime bundled:
 
 ```bash
-dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64                 # standalone, ~73 MB exe
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10  # ~2.5 MB, needs the .NET 10 desktop runtime
 ```
 
 Requires the .NET 10 SDK. Windows only (Win32 global hotkey / keyboard hook / clipboard).

@@ -20,6 +20,12 @@
 
 **[⬇ 下載最新版](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64，單檔綠色版。程式未做程式碼簽章，首次執行 SmartScreen 會攔一下：點**其他資訊 → 仍要執行**。
 
+- `QuickText-<版本>-win-x64.zip`（約 68 MB）—— 已內建 .NET 執行階段，任何 Windows 10/11 x64 都能直接跑，沒有前置需求。拿不準就下這個：內網電腦、離線電腦，或用 USB 隨身帶著跑。
+- `QuickText-<版本>-win-x64-needs-dotnet10.zip`（約 1.5 MB）—— 需要先安裝 [.NET 10 桌面執行階段](https://dotnet.microsoft.com/download/dotnet/10.0)。適合自己那台能連網的電腦：裝一次，之後每次更新只要下載 1.5 MB。
+- `QuickText.exe`（約 2.5 MB）—— 同一個版本，只是沒套 zip：點開即用，也可以直接蓋掉現有的那份完成更新。
+
+功能與資料完全相同，差別只在有沒有把執行階段打包進去。
+
 ---
 
 ## 你會在哪裡用到它
@@ -200,6 +206,7 @@ dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
 ```
 
 需要 .NET 10 SDK。僅限 Windows（Win32 全域熱鍵／鍵盤掛勾／剪貼簿）。

@@ -20,6 +20,12 @@
 
 **[⬇ नवीनतम संस्करण डाउनलोड करें](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, सिंगल-फ़ाइल पोर्टेबल। कोड-साइन नहीं है, इसलिए पहली बार SmartScreen चेतावनी देगा: **More info → Run anyway**।
 
+- `QuickText-<version>-win-x64.zip` (~68 MB) — इसमें .NET रनटाइम पहले से शामिल है, इसलिए यह बिना किसी पूर्व-आवश्यकता के किसी भी Windows 10/11 x64 पर चलता है। असमंजस हो तो यही चुनें: इंट्रानेट या ऑफ़लाइन कंप्यूटर, या USB में साथ ले जाने के लिए।
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1.5 MB) — इसके लिए [.NET 10 डेस्कटॉप रनटाइम](https://dotnet.microsoft.com/download/dotnet/10.0) पहले से इंस्टॉल होना चाहिए। इंटरनेट वाले अपने PC के लिए: एक बार इंस्टॉल करें, उसके बाद हर अपडेट सिर्फ़ 1.5 MB का।
+- `QuickText.exe` (~2.5 MB) — वही बिल्ड, बिना zip के: क्लिक करें और चलाएँ, या अपडेट के लिए मौजूदा कॉपी पर ओवरराइट कर दें।
+
+सुविधाएँ और डेटा दोनों बिल्कुल एक जैसे हैं; फ़र्क़ सिर्फ़ इतना है कि रनटाइम साथ आता है या नहीं।
+
 ---
 
 ## आप इसे कहाँ इस्तेमाल करेंगे
@@ -200,6 +206,7 @@ dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
 ```
 
 .NET 10 SDK की आवश्यकता है। केवल Windows (Win32 वैश्विक हॉटकी / कीबोर्ड हुक / क्लिपबोर्ड)।
