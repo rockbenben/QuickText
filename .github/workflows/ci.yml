@@ -142,3 +142,40 @@ jobs:
             certutil -hashfile <file> SHA256                        # compare against SHA256SUMS.txt / 与 SHA256SUMS.txt 比对
             ```
           generate_release_notes: true
+
+      # --- winget ------------------------------------------------------------------------------
+      # NOT WIRED UP YET, and the order matters: `wingetcreate new` has to download a real asset to
+      # extract metadata from, so the first submission can only happen AFTER a release exists, and
+      # it is an interactive wizard — a human runs it once, locally:
+      #
+      #   wingetcreate new https://github.com/rockbenben/QuickText/releases/download/vX.Y.Z/QuickText-vX.Y.Z-win-x64.zip
+      #
+      # PackageIdentifier rockbenben.QuickText, InstallerType zip + NestedInstallerType portable,
+      # RelativeFilePath QuickText.exe (the zip holds exactly that one file, at its root).
+      # Only once that PR is merged does `update` have anything to update — enable the step below
+      # then. Enabling it earlier makes every tag fail on a package winget has never heard of,
+      # AFTER the release is already published, i.e. a red tail on a good release.
+      #
+      # WHICH ASSET: the SELF-CONTAINED zip, deliberately. winget picks an installer by
+      # architecture / installer type / scope / locale — "bundles the .NET runtime or not" is not
+      # one of those, so shipping both builds in one manifest gives the user no way to choose and
+      # the second entry is simply unreachable. Of the three assets it is also the only viable one:
+      # the bare QuickText.exe has no version in its name and winget requires a unique installer URL
+      # per version. Self-contained over framework-dependent because winget's whole promise is "one
+      # command and it runs", and its audience is exactly the "not sure which to pick" reader the
+      # self-contained build already exists for; a missing runtime would surface as "installs fine,
+      # won't start", which is far worse to diagnose than a larger download.
+      # To switch to the small build later (not a one-way door — users move over on their next
+      # `winget upgrade`): point --urls at the -needs-dotnet10 zip and add to the manifest
+      #   Dependencies: { PackageDependencies: [ { PackageIdentifier: Microsoft.DotNet.DesktopRuntime.10 } ] }
+      # (verified present in the winget source; dependency handling is no longer an experimental
+      # winget feature, but old winget clients on user machines still vary).
+      #
+      # - name: Submit to winget
+      #   shell: pwsh
+      #   run: |
+      #     $v = "${{ github.ref_name }}" -replace '^v', ''
+      #     Invoke-WebRequest https://aka.ms/wingetcreate/latest -OutFile wingetcreate.exe
+      #     .\wingetcreate.exe update rockbenben.QuickText --version $v `
+      #       --urls "https://github.com/rockbenben/QuickText/releases/download/${{ github.ref_name }}/QuickText-${{ github.ref_name }}-win-x64.zip" `
+      #       --token "${{ secrets.WINGET_TOKEN }}" --submit
