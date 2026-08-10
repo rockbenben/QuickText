@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" x:Name="TitleText" FontSize="16" FontWeight="SemiBold"
+        <TextBlock Grid.Row="0" x:Name="TitleText" FontSize="15" FontWeight="SemiBold"
                    Foreground="{DynamicResource Brush.TextPrimary}"/>
         <TextBlock Grid.Row="1" x:Name="HintText" FontSize="11.5" Margin="0,4,0,10"
                    Foreground="{DynamicResource Brush.TextFaint}" TextWrapping="Wrap"/>
@@ -29,10 +29,10 @@
                              our text and keeps inheriting the UI's direction. -->
                         <TextBlock Text="{Binding Name}"
                                    FlowDirection="{Binding Name, Converter={StaticResource ContentFlow}}"
-                                   FontSize="13.5" Foreground="{DynamicResource Brush.TextPrimary}"/>
+                                   FontSize="13" Foreground="{DynamicResource Brush.TextPrimary}"/>
                         <TextBlock Text="{Binding Preview}"
                                    FlowDirection="{Binding Preview, Converter={StaticResource ContentFlow}}"
-                                   FontSize="12" Margin="0,2,0,0"
+                                   FontSize="11" Margin="0,2,0,0"
                                    TextTrimming="CharacterEllipsis" FontFamily="{StaticResource Font.Mono}"
                                    Foreground="{DynamicResource Brush.TextMuted}"/>
                         <TextBlock Text="{Binding Detail}" FontSize="11.5" Margin="0,2,0,0"
@@ -44,18 +44,28 @@
         <TextBlock Grid.Row="2" x:Name="EmptyText" HorizontalAlignment="Center" VerticalAlignment="Center"
                    FontSize="13" Foreground="{DynamicResource Brush.TextFaint}" Visibility="Collapsed"/>
 
-        <DockPanel Grid.Row="3" Margin="0,14,0,0" LastChildFill="False">
-            <Button DockPanel.Dock="Left" x:Name="RestoreButton" Style="{StaticResource DarkButtonPrimary}"
-                    Padding="14,7" Click="OnRestore"/>
-            <!-- Both are irreversible and both sat in the same grey as Close, one button away from
-                 the primary Restore. Danger styling + a wider gap after Restore separate "puts it
-                 back" from "gone for good". -->
-            <Button DockPanel.Dock="Left" x:Name="DeleteButton" Style="{StaticResource DarkButtonDanger}"
-                    Padding="14,7" Margin="20,0,0,0" Click="OnDeleteForever"/>
-            <Button DockPanel.Dock="Left" x:Name="EmptyButton" Style="{StaticResource DarkButtonDanger}"
-                    Padding="14,7" Margin="8,0,0,0" Click="OnEmptyTrash"/>
-            <Button DockPanel.Dock="Right" x:Name="CloseButton" Style="{StaticResource DarkButton}"
-                    Padding="14,7" Click="OnClose"/>
-        </DockPanel>
+        <!-- Was a DockPanel: the three left buttons docked first and Close docked last, so Close only
+             got the width they left over — in Russian and German that was a few pixels, i.e. the way
+             out of the dialog was clipped to a sliver. Close now reserves its column first, and the
+             actions wrap to a second line instead of pushing it off. -->
+        <Grid Grid.Row="3" Margin="0,14,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <WrapPanel Grid.Column="0" Orientation="Horizontal">
+                <Button x:Name="RestoreButton" Style="{StaticResource DarkButtonPrimary}"
+                        Padding="14,7" Margin="0,0,0,6" Click="OnRestore"/>
+                <!-- Both are irreversible and both sat in the same grey as Close, one button away from
+                     the primary Restore. Danger styling + a wider gap after Restore separate "puts it
+                     back" from "gone for good". -->
+                <Button x:Name="DeleteButton" Style="{StaticResource DarkButtonDanger}"
+                        Padding="14,7" Margin="20,0,0,6" Click="OnDeleteForever"/>
+                <Button x:Name="EmptyButton" Style="{StaticResource DarkButtonDanger}"
+                        Padding="14,7" Margin="8,0,0,6" Click="OnEmptyTrash"/>
+            </WrapPanel>
+            <Button Grid.Column="1" x:Name="CloseButton" Style="{StaticResource DarkButton}"
+                    VerticalAlignment="Top" Padding="14,7" Margin="12,0,0,0" Click="OnClose"/>
+        </Grid>
     </Grid>
 </Window>

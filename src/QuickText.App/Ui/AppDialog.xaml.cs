@@ -44,12 +44,19 @@ public partial class AppDialog : Window
         return d.ShowDialog() == true ? d.InputBox.Text : null;
     }
 
-    /// <summary>Two-button confirmation. Returns true if the primary button was chosen.</summary>
+    /// <summary>Two-button confirmation. Returns true if the primary button was chosen.
+    /// <para>The confirm button carries DANGER styling, not the accent: every caller of this method
+    /// asks about something irreversible (delete a category and its snippets, overwrite the data
+    /// folder from a backup, purge the trash), and the trash dialog already paints exactly those
+    /// actions red. Confirming in the same green used for Save / Send / Restore told the reader the
+    /// opposite of what the button does. If a genuinely benign confirmation ever needs this method,
+    /// give it a parameter rather than quietly repainting the destructive ones.</para></summary>
     public static bool Confirm(Window owner, string title, string message, string okText, string? cancelText = null)
     {
         var d = new AppDialog { Owner = owner, Title = title };
         d.MessageText.Text = message;
         d.InputBox.Visibility = Visibility.Collapsed;
+        d.OkButton.Style = (Style)d.FindResource("DarkButtonDanger");
         d.OkButton.Content = okText;
         d.CancelButton.Content = cancelText ?? L("Dialog.Cancel");
         return d.ShowDialog() == true;

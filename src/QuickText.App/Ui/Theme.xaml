@@ -102,7 +102,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="bd" Background="Transparent" CornerRadius="9"
+                    <Border x:Name="bd" Background="Transparent" CornerRadius="7"
                             Padding="14,9" SnapsToDevicePixels="True">
                         <Grid>
                             <Border x:Name="bar" Width="3" HorizontalAlignment="Left" CornerRadius="2"
@@ -143,6 +143,12 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
+                    <!-- No MinWidth here, deliberately: forcing one makes this element wider than its
+                         cell, so the parent clips instead of the TextBlock trimming — and under the
+                         Arabic layout the clip takes the START of the name ("ui优化" rendered as "化",
+                         no ellipsis). Letting it trim normally costs a few characters at the panel's
+                         own MinWidth but stays correct in both flow directions. The chips are bounded
+                         below instead, which is what actually threatened the name. -->
                     <TextBlock Grid.Column="0" VerticalAlignment="Center"
                                FontFamily="{StaticResource Font.Ui}" FontSize="15" FontWeight="SemiBold"
                                Foreground="{DynamicResource Brush.TextPrimary}" TextTrimming="CharacterEllipsis"
@@ -151,7 +157,7 @@
                                ui:Highlight.Length="{Binding NameLength}"
                                ui:Highlight.Query="{Binding HighlightQuery, RelativeSource={RelativeSource AncestorType=Window}}"/>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,0,0">
-                        <TextBlock Text="&#x2605;" FontSize="12" VerticalAlignment="Center" Margin="0,0,7,0"
+                        <TextBlock Text="&#x2605;" FontSize="12.5" VerticalAlignment="Center" Margin="0,0,7,0"
                                    Foreground="{DynamicResource Brush.Star}"
                                    Visibility="{Binding Snippet.Id, Converter={StaticResource FavVis}}"/>
                         <!-- An abbreviation hit is the one case where the query appears in NO visible
@@ -184,8 +190,11 @@
                         </Border>
                         <Border Style="{StaticResource Chip}" Margin="6,0,0,0"
                                 Visibility="{Binding Category, Converter={StaticResource EmptyToCollapsed}}">
+                            <!-- A category name is free text: "Vorlagen für Kundenservice" would push
+                                 the snippet name off the row entirely. Bounded and trimmed instead. -->
                             <TextBlock Text="{Binding Category}" FontFamily="{StaticResource Font.Ui}"
-                                       FontSize="11" Foreground="{DynamicResource Brush.ChipText}"/>
+                                       MaxWidth="96" TextTrimming="CharacterEllipsis"
+                                       FontSize="11.5" Foreground="{DynamicResource Brush.ChipText}"/>
                         </Border>
                     </StackPanel>
                 </Grid>
@@ -208,7 +217,7 @@
                  WPF mirrors LAYOUT under RightToLeft but never the glyph inside a run (correct for
                  text, wrong for a directional icon): in Arabic the arrow moved to the left edge and
                  still pointed right, i.e. back into the row. Swap the character with the direction. -->
-            <TextBlock Grid.Column="2" FontSize="16" VerticalAlignment="Center" Margin="12,0,2,0"
+            <TextBlock Grid.Column="2" FontSize="17" VerticalAlignment="Center" Margin="12,0,2,0"
                        Foreground="{DynamicResource Brush.Accent}"
                        Visibility="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem},
                                             Converter={StaticResource BoolToVis}}">
@@ -261,7 +270,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <StackPanel Orientation="Horizontal">
-                        <Border Width="3" Height="14" CornerRadius="1.5" Margin="0,0,9,0"
+                        <Border Width="3" Height="14" CornerRadius="2" Margin="0,0,9,0"
                                 Background="{DynamicResource Brush.Amber}" VerticalAlignment="Center"/>
                         <TextBlock Text="{TemplateBinding Content}" VerticalAlignment="Center"
                                    FontFamily="{StaticResource Font.Ui}" FontSize="13" FontWeight="SemiBold"
@@ -381,16 +390,31 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
-                    <StackPanel Orientation="Horizontal" Background="Transparent">
-                        <Border x:Name="box" Width="19" Height="19" CornerRadius="6" VerticalAlignment="Center"
+                    <!-- Grid, not a horizontal StackPanel: a StackPanel measures its children with
+                         INFINITE width, so no checkbox label in the app could ever wrap — it ran past
+                         its card and was sliced mid-word by whatever clipped first (Russian's
+                         "Двойное нажатие (иначе одиночное)" was the visible case). The box keeps its
+                         19px; the label takes what is left. The implicit TextBlock the presenter
+                         creates for plain string content wraps too, so every call site benefits
+                         without passing an explicit TextBlock. -->
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Border x:Name="box" Width="19" Height="19" CornerRadius="7" VerticalAlignment="Center"
                                 Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1">
                             <Path x:Name="check" Stretch="Uniform" Margin="4" Visibility="Collapsed"
                                   Stroke="{DynamicResource Brush.OnAccent}" StrokeThickness="2"
                                   StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeLineJoin="Round"
                                   Data="M 0,5 L 4,9 L 11,1"/>
                         </Border>
-                        <ContentPresenter VerticalAlignment="Center" Margin="10,0,0,0"/>
-                    </StackPanel>
+                        <ContentPresenter Grid.Column="1" VerticalAlignment="Center" Margin="10,0,0,0">
+                            <ContentPresenter.Resources>
+                                <Style TargetType="TextBlock"><Setter Property="TextWrapping" Value="Wrap"/></Style>
+                            </ContentPresenter.Resources>
+                        </ContentPresenter>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="box" Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
@@ -417,7 +441,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
                     <Border x:Name="b" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
-                            BorderThickness="1" CornerRadius="8" Padding="14,7">
+                            BorderThickness="1" CornerRadius="7" Padding="14,7">
                         <ContentPresenter VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -446,7 +470,7 @@
             <Ellipse Grid.Column="0" Width="8" Height="8" Margin="0,0,9,0" VerticalAlignment="Center"
                      Fill="{Binding Color, Converter={StaticResource HexBrush}}"/>
             <TextBlock Grid.Column="1" Text="{Binding Name}" VerticalAlignment="Center"
-                       FontFamily="{StaticResource Font.Ui}" FontSize="13.5"
+                       FontFamily="{StaticResource Font.Ui}" FontSize="13"
                        Foreground="{DynamicResource Brush.TextPrimary}" TextTrimming="CharacterEllipsis"/>
             <TextBlock Grid.Column="2" Text="{Binding Snippets.Count}" VerticalAlignment="Center" Margin="8,0,0,0"
                        FontFamily="{StaticResource Font.Ui}" FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}"/>
@@ -461,7 +485,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="b" CornerRadius="10" Background="{TemplateBinding Background}"
+                    <Border x:Name="b" CornerRadius="7" Background="{TemplateBinding Background}"
                             BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1"/>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -514,7 +538,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
-                    <Border x:Name="bd" Background="Transparent" CornerRadius="6" Padding="5,3">
+                    <Border x:Name="bd" Background="Transparent" CornerRadius="7" Padding="5,3">
                         <StackPanel Orientation="Horizontal">
                             <Path x:Name="chevron" Width="8" Height="8" VerticalAlignment="Center"
                                   Stretch="Uniform" Fill="{DynamicResource Brush.TextMuted}"
@@ -552,10 +576,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="6"
+                    <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="7"
                             BorderBrush="{DynamicResource Brush.AbbrBorder}" BorderThickness="1" Padding="9,3">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="&#xE740;" FontFamily="Segoe MDL2 Assets" FontSize="12"
+                            <TextBlock Text="&#xE740;" FontFamily="Segoe MDL2 Assets" FontSize="12.5"
                                        VerticalAlignment="Center" Margin="0,0,7,0"/>
                             <ContentPresenter VerticalAlignment="Center"/>
                         </StackPanel>
@@ -582,7 +606,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="6">
+                    <Border x:Name="b" Background="{TemplateBinding Background}" CornerRadius="7">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -609,7 +633,7 @@
                                 <Thumb IsTabStop="False">
                                     <Thumb.Template>
                                         <ControlTemplate TargetType="Thumb">
-                                            <Border x:Name="t" CornerRadius="5" Margin="2" Background="#33FFFFFF"/>
+                                            <Border x:Name="t" CornerRadius="7" Margin="2" Background="#33FFFFFF"/>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
                                                     <Setter TargetName="t" Property="Background" Value="#59FFFFFF"/>
@@ -666,7 +690,7 @@
                                 <ContentPresenter Grid.Column="1" ContentSource="Header" VerticalAlignment="Center" Margin="11,0,6,0"/>
                                 <!-- submenu chevron, shown only for items that have children -->
                                 <TextBlock x:Name="arrow" Grid.Column="2" Text="&#xE76C;" FontFamily="Segoe MDL2 Assets"
-                                           FontSize="10" VerticalAlignment="Center" Margin="4,0,2,0" Visibility="Collapsed"
+                                           FontSize="12.5" VerticalAlignment="Center" Margin="4,0,2,0" Visibility="Collapsed"
                                            Foreground="{DynamicResource Brush.TextMuted}"/>
                             </Grid>
                         </Border>
@@ -675,7 +699,7 @@
                                IsOpen="{TemplateBinding IsSubmenuOpen}" AllowsTransparency="True"
                                Focusable="False" PopupAnimation="Fade">
                             <Border Background="{DynamicResource Brush.Panel}" BorderBrush="{DynamicResource Brush.Stroke}"
-                                    BorderThickness="1" CornerRadius="11" Padding="5" MinWidth="160" Margin="6">
+                                    BorderThickness="1" CornerRadius="12" Padding="5" MinWidth="160" Margin="6">
                                 <ItemsPresenter/>
                             </Border>
                         </Popup>
@@ -716,7 +740,7 @@
                     <!-- No Effect here: a blur on popup-hosted content inflates the
                          menu's bounds, which pushes it far from the tray corner. -->
                     <Border Background="{TemplateBinding Background}" BorderBrush="{DynamicResource Brush.Stroke}"
-                            BorderThickness="1" CornerRadius="11" Padding="5" MinWidth="190">
+                            BorderThickness="1" CornerRadius="12" Padding="5" MinWidth="190">
                         <ItemsPresenter/>
                     </Border>
                 </ControlTemplate>
@@ -734,7 +758,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
-                    <Border x:Name="b" Background="Transparent" CornerRadius="6" Padding="11,8" SnapsToDevicePixels="True">
+                    <Border x:Name="b" Background="Transparent" CornerRadius="7" Padding="11,8" SnapsToDevicePixels="True">
                         <ContentPresenter/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -757,7 +781,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
-                    <Border x:Name="Bd" Background="Transparent" CornerRadius="5" Margin="4,1"
+                    <Border x:Name="Bd" Background="Transparent" CornerRadius="7" Margin="4,1"
                             Padding="{TemplateBinding Padding}">
                         <ContentPresenter VerticalAlignment="Center"/>
                     </Border>
@@ -810,14 +834,14 @@
                                  Foreground="{DynamicResource Brush.TextPrimary}" CaretBrush="{DynamicResource Brush.TextPrimary}"
                                  VerticalContentAlignment="Center"
                                  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        <TextBlock Grid.Column="1" Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="10" IsHitTestVisible="False"
+                        <TextBlock Grid.Column="1" Text="&#xE70D;" FontFamily="Segoe MDL2 Assets" FontSize="12.5" IsHitTestVisible="False"
                                    Foreground="{DynamicResource Brush.TextMuted}" HorizontalAlignment="Center"
                                    VerticalAlignment="Center"/>
                         <Popup x:Name="PART_Popup" Placement="Bottom" VerticalOffset="4" StaysOpen="False"
                                AllowsTransparency="True" IsOpen="{TemplateBinding IsDropDownOpen}"
                                PopupAnimation="Fade">
                             <Border Background="{DynamicResource Brush.Panel}" BorderBrush="{DynamicResource Brush.Stroke}"
-                                    BorderThickness="1" CornerRadius="8" Padding="0,4"
+                                    BorderThickness="1" CornerRadius="7" Padding="0,4"
                                     MinWidth="{TemplateBinding ActualWidth}" MaxHeight="260">
                                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                                     <ItemsPresenter/>

@@ -144,7 +144,7 @@
                 <StackPanel x:Name="EmptyState" Visibility="Collapsed" MinHeight="118"
                             VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,16">
                     <TextBlock x:Name="EmptyText" HorizontalAlignment="Center"
-                               FontFamily="{StaticResource Font.Ui}" FontSize="13.5"
+                               FontFamily="{StaticResource Font.Ui}" FontSize="13"
                                Foreground="{DynamicResource Brush.TextMuted}"/>
                     <TextBlock x:Name="EmptySub" HorizontalAlignment="Center" Margin="0,5,0,0"
                                FontFamily="{StaticResource Font.Ui}" FontSize="11.5"
@@ -168,7 +168,7 @@
             </Border>
 
             <!-- footer -->
-            <Border Grid.Row="4" Background="{DynamicResource Brush.FooterBg}" CornerRadius="0,0,15,15" Padding="18,10">
+            <Border Grid.Row="4" Background="{DynamicResource Brush.FooterBg}" CornerRadius="0,0,16,16" Padding="18,10">
                 <!-- Two COLUMNS, not two overlapping layers in one cell: the legend and the result
                      count used to be stacked on top of each other, so at the panel's own MinWidth a
                      long translation (Russian) ran straight under the count and both became
@@ -183,7 +183,12 @@
                          Enter creates instead of sends (see OnPreviewKeyDown). Two prebuilt Enter
                          groups rather than retargeting one label, so the localized bindings stay
                          live through a language switch. -->
-                    <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" ClipToBounds="True">
+                    <!-- WrapPanel, not a clipped StackPanel: clipping cut at whatever pixel the edge
+                         fell on, which sliced a word in half — German showed "esc Scl", French left a
+                         one-pixel stub of "Fermer" that reads as a rendering artifact. Wrapping keeps
+                         every hint legible and costs one extra footer line only at the narrowest
+                         widths, where the alternative was losing the hint anyway. -->
+                    <WrapPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
                         <StackPanel x:Name="HintNav" Orientation="Horizontal" Margin="0,0,16,0">
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="↑↓" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.Nav], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
@@ -208,7 +213,7 @@
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="esc" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.Close], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>
-                    </StackPanel>
+                    </WrapPanel>
                     <TextBlock Grid.Column="1" x:Name="CountText" VerticalAlignment="Center" Margin="12,0,0,0"
                                FontFamily="{StaticResource Font.Ui}" FontSize="11.5"
                                Foreground="{DynamicResource Brush.TextFaint}"/>

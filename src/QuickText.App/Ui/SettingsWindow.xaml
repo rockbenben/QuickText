@@ -11,9 +11,9 @@
         <Grid DockPanel.Dock="Top" Margin="0,0,0,12">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="{Binding [Tray.Settings], Source={x:Static app:LocProxy.Instance}}"
-                           FontSize="20" FontWeight="SemiBold" Foreground="{DynamicResource Brush.TextPrimary}"/>
+                           FontSize="19" FontWeight="SemiBold" Foreground="{DynamicResource Brush.TextPrimary}"/>
                 <!-- brand motif: the text-insertion caret from the "text▮" mark -->
-                <Border Width="3" Height="21" CornerRadius="1.5" Margin="8,2,0,0" VerticalAlignment="Center"
+                <Border Width="3" Height="21" CornerRadius="2" Margin="8,2,0,0" VerticalAlignment="Center"
                         Background="{DynamicResource Brush.Amber}"/>
             </StackPanel>
             <TextBlock x:Name="VersionText" HorizontalAlignment="Right" VerticalAlignment="Center"
@@ -92,16 +92,26 @@
 
                         <!-- mode: tap a lone modifier (RegisterHotKey can't do a single modifier) -->
                         <StackPanel x:Name="TapModePanel" Margin="0,6,0,0">
-                            <StackPanel Orientation="Horizontal">
-                                <Border x:Name="SummonTapBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
+                            <!-- Grid, not a horizontal StackPanel: a StackPanel hands its children
+                                 infinite width, so the label never wrapped and Russian's "Двойное
+                                 нажатие (иначе одиночное)" ran past the card and was sliced mid-word.
+                                 The key box keeps its size; the label takes the rest and wraps. -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0" x:Name="SummonTapBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
                                         BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" MinWidth="88"
                                         MouseLeftButtonDown="OnSummonTapClick" PreviewKeyDown="OnSummonTapKeyDown" LostKeyboardFocus="OnSummonTapLostFocus">
                                     <TextBlock x:Name="SummonTapText" FontFamily="{StaticResource Font.Ui}" FontSize="14"
                                                Foreground="{DynamicResource Brush.TextPrimary}"/>
                                 </Border>
-                                <CheckBox x:Name="SummonTapDouble" Style="{StaticResource DarkCheckBox}" VerticalAlignment="Center" Margin="12,0,0,0"
-                                          Content="{Binding [Settings.SummonTapDouble], Source={x:Static app:LocProxy.Instance}}"/>
-                            </StackPanel>
+                                <CheckBox Grid.Column="1" x:Name="SummonTapDouble" Style="{StaticResource DarkCheckBox}" VerticalAlignment="Center" Margin="12,0,0,0">
+                                    <TextBlock Text="{Binding [Settings.SummonTapDouble], Source={x:Static app:LocProxy.Instance}}"
+                                               TextWrapping="Wrap"/>
+                                </CheckBox>
+                            </Grid>
                             <TextBlock Text="{Binding [Settings.SummonTapHint], Source={x:Static app:LocProxy.Instance}}"
                                        FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="2,6,0,0" TextWrapping="Wrap"/>
                         </StackPanel>
@@ -148,7 +158,7 @@
                             <TextBlock Text="{Binding [Settings.AbbrBlacklist], Source={x:Static app:LocProxy.Instance}}"
                                        Style="{StaticResource FieldLabel}"/>
                             <TextBox x:Name="AbbrBlacklist" Style="{StaticResource DarkTextBox}"
-                                     FontFamily="{StaticResource Font.Mono}" FontSize="12"/>
+                                     FontFamily="{StaticResource Font.Mono}" FontSize="13"/>
                             <TextBlock Text="{Binding [Settings.AbbrBlacklistHint], Source={x:Static app:LocProxy.Instance}}"
                                        FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="2,6,0,0" TextWrapping="Wrap"/>
                         </StackPanel>
@@ -193,7 +203,7 @@
                             <Button DockPanel.Dock="Right" Content="…" Width="38" Margin="8,0,0,0" Style="{StaticResource DarkButton}" Click="OnBrowse"/>
                             <Button DockPanel.Dock="Right" Width="38" Margin="8,0,0,0" Style="{StaticResource DarkButton}" Click="OnOpenFolder"
                                     ToolTip="{Binding [Settings.OpenFolder], Source={x:Static app:LocProxy.Instance}}">
-                                <TextBlock Text="&#xE838;" FontFamily="Segoe MDL2 Assets" FontSize="13"/>
+                                <TextBlock Text="&#xE838;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
                             </Button>
                             <TextBox x:Name="DataFolder" Style="{StaticResource DarkTextBox}"/>
                         </DockPanel>

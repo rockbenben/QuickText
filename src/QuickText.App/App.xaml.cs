@@ -712,6 +712,10 @@ public partial class App : Application
                 var d = (AppDialog)w;
                 d.MessageText.Text = LocalizationService.Instance["Trash.EmptyConfirm"];
                 d.InputBox.Visibility = Visibility.Collapsed;
+                // Mirrors AppDialog.Confirm (the source of truth for this dialog's styling) — this
+                // harness builds the window by hand, so without it the preview would show a green
+                // confirm button that the running app never renders.
+                d.OkButton.Style = (Style)d.FindResource("DarkButtonDanger");
                 d.OkButton.Content = LocalizationService.Instance["Dialog.OK"];
                 d.CancelButton.Content = LocalizationService.Instance["Dialog.Cancel"];
             }, allHeights: false);

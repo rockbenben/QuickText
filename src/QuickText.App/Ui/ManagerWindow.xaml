@@ -83,10 +83,10 @@
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="4" Margin="0,8,0,0">
-                    <TextBox x:Name="FilterBox" Style="{StaticResource DarkTextBox}" FontSize="12" Padding="8,5"
+                    <TextBox x:Name="FilterBox" Style="{StaticResource DarkTextBox}" FontSize="12.5" Padding="8,5"
                              TextChanged="OnFilterChanged"/>
                     <TextBlock Text="{Binding [Manager.Filter], Source={x:Static app:LocProxy.Instance}}"
-                               FontSize="12" Margin="10,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False"
+                               FontSize="12.5" Margin="10,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False"
                                Foreground="{DynamicResource Brush.TextFaint}">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
@@ -208,7 +208,7 @@
 
                 <StackPanel x:Name="ImageSection" Orientation="Horizontal" Margin="0,10,0,0"
                             Visibility="Collapsed">
-                    <Border Width="72" Height="72" CornerRadius="8" Background="{DynamicResource Brush.InputBg}"
+                    <Border Width="72" Height="72" CornerRadius="12" Background="{DynamicResource Brush.InputBg}"
                             BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1">
                         <Image x:Name="SnippetImage" Stretch="Uniform" Margin="4"/>
                     </Border>
@@ -227,15 +227,27 @@
                 </StackPanel>
             </StackPanel>
 
-            <TextBlock Grid.Row="8" x:Name="UsageStat" HorizontalAlignment="Left" VerticalAlignment="Center"
-                       Margin="2,16,0,0" FontSize="12" Foreground="{DynamicResource Brush.TextFaint}"/>
-            <StackPanel Grid.Row="8" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <!-- Two COLUMNS, not two layers in one cell — the same failure the search panel's footer
+                 already fixed: left-aligned stats and a right-aligned button in the SAME cell run
+                 into each other at the window's own MinWidth, where "已使用 88 次 · 最近 …" ends
+                 exactly where 保存 begins. The stats reserve what is left and trim; the button, which
+                 must always be hittable, keeps its size. -->
+            <Grid Grid.Row="8" Margin="0,16,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" x:Name="UsageStat" HorizontalAlignment="Left" VerticalAlignment="Center"
+                       Margin="2,0,12,0" FontSize="12.5" TextTrimming="CharacterEllipsis"
+                       Foreground="{DynamicResource Brush.TextFaint}"/>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
                 <TextBlock x:Name="SavedHint" VerticalAlignment="Center" Margin="0,0,14,0" Opacity="0"
                            FontFamily="{StaticResource Font.Ui}" FontSize="13" Foreground="{DynamicResource Brush.Accent}"
                            Text="{Binding [Manager.Saved], Source={x:Static app:LocProxy.Instance}}"/>
                 <Button MinWidth="100" Padding="18,8" Style="{StaticResource DarkButtonPrimary}" Click="OnSave"
                         Content="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}}"/>
             </StackPanel>
+            </Grid>
         </Grid>
         </Border>
     </Grid>
