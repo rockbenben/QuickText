@@ -20,9 +20,9 @@
 
 **[⬇ Télécharger la dernière version](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable en un seul fichier. Non signé, donc SmartScreen avertit au premier lancement : **Informations complémentaires → Exécuter quand même**.
 
-- `QuickText-<version>-win-x64.zip` (~68 Mo) — le runtime .NET est intégré : aucun prérequis, il tourne sur n'importe quel Windows 10/11 x64. À prendre en cas de doute : postes en intranet ou hors ligne, ou clé USB que vous transportez.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 Mo) — nécessite le [runtime de bureau .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) déjà installé. Pour votre PC connecté : une seule installation, puis chaque mise à jour ne pèse que 1,5 Mo.
-- `QuickText.exe` (~2,5 Mo) — la même version sans le zip : cliquez et lancez, ou écrasez votre copie actuelle pour mettre à jour.
+- `QuickText-<version>-win-x64.zip` — le runtime .NET est intégré : aucun prérequis, il tourne sur n'importe quel Windows 10/11 x64. À prendre en cas de doute : postes en intranet ou hors ligne, ou clé USB que vous transportez.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` — nécessite le [runtime de bureau .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) déjà installé. Pour votre PC connecté : une seule installation, puis chaque mise à jour ne pèse presque rien.
+- `QuickText.exe` — la même version sans le zip : cliquez et lancez, ou écrasez votre copie actuelle pour mettre à jour.
 
 Mêmes fonctions, mêmes données : la seule différence est l'inclusion ou non du runtime.
 
@@ -161,7 +161,7 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 - **Gestionnaire** : **éditeur de corps spacieux** (`⤢ Agrandir` l'ouvre dans sa propre fenêtre ; les modifications non enregistrées sont toujours confirmées : à la fermeture, et au passage à un autre élément), **coloration des espaces réservés** (colorée selon le type ; les références de fragment mortes / formats de date invalides / accolades non fermées sont soulignées en rouge ondulé avec la raison au survol ; rien n'est coloré quand les espaces réservés sont désactivés — la barre d'état l'indique à la place), **adapté au code** (la fenêtre agrandie affiche toujours les numéros de ligne et propose 13 formats de code pour la coloration syntaxique ; Entrée conserve l'indentation, `Tab` indente une sélection multiligne, mode sans retour à la ligne), 7 couleurs de catégorie, réorganisation / déplacement par glisser, **déplacement / suppression par lot en sélection multiple** (sélection Ctrl / Shift, puis clic droit), annulation de suppression, **corbeille (restauration sous 30 jours, avec aperçu du corps)**, avertissement de doublon d'abréviation, statistiques d'usage, retour après enregistrement.
 - **Données** : JSON local, rechargement à chaud (fusionne automatiquement les modifications externes / la synchronisation), avis de conflit de synchronisation, exporter / importer une sauvegarde, **sauvegarde automatique quotidienne (10 conservées)**, démarrer avec Windows.
 - **Localisation** : **18 langues d'interface** (chinois simplifié / traditionnel, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) avec **miroir de droite à gauche pour l'arabe**, changées en direct dans les Réglages. Thèmes sombre et clair (ou suivre Windows), également en direct.
-- **Robustesse** : instance unique (un second lancement appelle le panneau de recherche au lieu d'installer les hooks en double) ; la CI exécute les tests plus une vérification de fumée de fenêtre à chaque push et publie un exe en un seul fichier sur les étiquettes `v*`.
+- **Robustesse** : instance unique (un second lancement appelle le panneau de recherche au lieu d'installer les hooks en double) ; la CI exécute les tests plus une vérification de fumée de fenêtre à chaque push et publie les deux versions en un seul fichier sur les étiquettes `v*`.
 
 ## Données et synchronisation
 

@@ -20,9 +20,9 @@
 
 **[⬇ Baixar a versão mais recente](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portátil em arquivo único. Não é assinado, então o SmartScreen avisa na primeira execução: **Mais informações → Executar assim mesmo**.
 
-- `QuickText-<version>-win-x64.zip` (~68 MB) — traz o runtime do .NET embutido, então roda em qualquer Windows 10/11 x64 sem pré-requisitos. Escolha este na dúvida: máquinas em intranet ou offline, ou para levar num pendrive.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 MB) — exige o [Runtime de Área de Trabalho do .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) instalado. Para o seu PC com internet: instale uma vez e cada atualização passa a ter só 1,5 MB.
-- `QuickText.exe` (~2,5 MB) — a mesma compilação sem o zip. Clique e execute, ou sobrescreva sua cópia atual para atualizar.
+- `QuickText-<version>-win-x64.zip` — traz o runtime do .NET embutido, então roda em qualquer Windows 10/11 x64 sem pré-requisitos. Escolha este na dúvida: máquinas em intranet ou offline, ou para levar num pendrive.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` — exige o [Runtime de Área de Trabalho do .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) instalado. Para o seu PC com internet: instale uma vez e cada atualização passa a ser um download mínimo.
+- `QuickText.exe` — a mesma compilação sem o zip. Clique e execute, ou sobrescreva sua cópia atual para atualizar.
 
 Mesmos recursos e mesmos dados; a única diferença é se o runtime vem embutido.
 
@@ -161,7 +161,7 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 - **Gerenciador**: **editor de corpo espaçoso** (`⤢ Ampliar` abre-o na sua própria janela; as alterações não guardadas são sempre confirmadas: ao fechá-la e ao mudar para outro item), **realce de espaços reservados** (colorido por tipo; referências de trechos inexistentes / formatos de data inválidos / chaves não fechadas recebem um sublinhado ondulado vermelho com o motivo ao passar o mouse; nada é realçado quando os espaços reservados estão desativados — a barra de status avisa isso em vez disso), **compatível com código** (a janela ampliada sempre mostra números de linha e oferece 13 formatos de código para realce de sintaxe; o Enter preserva a indentação, `Tab` recua uma seleção com várias linhas, modo sem quebra de linha), 7 cores de categoria, reordenar / mover arrastando, **seleção múltipla para mover / excluir em lote** (selecione com Ctrl / Shift e clique com o botão direito), desfazer exclusão, **lixeira (restauração por 30 dias, com prévia do corpo)**, aviso de abreviação duplicada, estatísticas de uso, retorno de salvamento.
 - **Dados**: JSON local, recarga a quente (mescla automaticamente edições/sincronizações externas), aviso de conflito de sincronização, exportar / importar backup, **backup automático diário (10 mantidos)**, iniciar com o Windows.
 - **Localização**: **18 idiomas de interface** (chinês simplificado / tradicional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) com **espelhamento da direita para a esquerda para o árabe**, trocados ao vivo em Configurações. Temas escuro e claro (ou seguir o Windows), também na hora.
-- **Robustez**: instância única (uma segunda execução invoca o painel de busca em vez de instalar hooks em duplicidade); a CI executa testes mais uma verificação de fumaça de janela a cada push e publica um executável de arquivo único nas tags `v*`.
+- **Robustez**: instância única (uma segunda execução invoca o painel de busca em vez de instalar hooks em duplicidade); a CI executa testes mais uma verificação de fumaça de janela a cada push e publica ambas as compilações de arquivo único nas tags `v*`.
 
 ## Dados e sincronização
 

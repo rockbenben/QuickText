@@ -20,9 +20,9 @@
 
 **[⬇ Unduh versi terbaru](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portabel satu file. Tidak ditandatangani, jadi SmartScreen memperingatkan saat pertama dijalankan: **More info → Run anyway**.
 
-- `QuickText-<version>-win-x64.zip` (~68 MB) — runtime .NET sudah disertakan, jadi langsung jalan di Windows 10/11 x64 mana pun tanpa prasyarat. Pilih ini kalau ragu: komputer di intranet atau tanpa internet, atau dibawa-bawa lewat USB.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 MB) — perlu [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) yang sudah terpasang. Untuk PC Anda sendiri yang terhubung internet: pasang sekali, setelah itu tiap pembaruan cuma 1,5 MB.
-- `QuickText.exe` (~2,5 MB) — build yang sama tanpa zip: klik dan jalankan, atau timpa salinan lama untuk memperbarui.
+- `QuickText-<version>-win-x64.zip` — runtime .NET sudah disertakan, jadi langsung jalan di Windows 10/11 x64 mana pun tanpa prasyarat. Pilih ini kalau ragu: komputer di intranet atau tanpa internet, atau dibawa-bawa lewat USB.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` — perlu [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) yang sudah terpasang. Untuk PC Anda sendiri yang terhubung internet: pasang sekali, setelah itu tiap pembaruan cuma unduhan kecil.
+- `QuickText.exe` — build yang sama tanpa zip: klik dan jalankan, atau timpa salinan lama untuk memperbarui.
 
 Fitur dan datanya sama persis; bedanya hanya pada disertakan atau tidaknya runtime.
 
@@ -161,7 +161,7 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 - **Manager**: **editor isi yang lapang** (`⤢ Perbesar` membukanya di jendela sendiri; perubahan yang belum disimpan selalu dikonfirmasi — saat menutupnya dan saat beralih ke entri lain), **highlighting placeholder** (diwarnai menurut jenis; referensi snippet yang mati / format tanggal tidak valid / kurung kurawal tak tertutup diberi garis bawah bergelombang merah dengan alasan saat diarahkan kursor; tidak ada yang disorot saat placeholder nonaktif — status bar yang memberi tahu sebagai gantinya), **ramah kode** (jendela yang diperbesar selalu menampilkan nomor baris dan menawarkan 13 format kode untuk highlighting sintaks; Enter mempertahankan indentasi, `Tab` mengindentasi seleksi multi-baris, mode tanpa bungkus), 7 warna kategori, seret susun ulang / pindah, **pilih banyak untuk pindah / hapus massal** (pilih dengan Ctrl / Shift, lalu klik kanan), batalkan penghapusan, **tempat sampah (pulihkan 30 hari, dengan pratinjau isi)**, peringatan singkatan duplikat, statistik pemakaian, umpan balik penyimpanan.
 - **Data**: JSON lokal, hot-reload (menggabungkan otomatis suntingan eksternal / sinkronisasi), pemberitahuan konflik sinkronisasi, ekspor / impor cadangan, **cadangan otomatis harian (10 disimpan)**, mulai bersama Windows.
 - **Lokalisasi**: **18 bahasa UI** (Tionghoa Sederhana / Tradisional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) dengan **pencerminan kanan-ke-kiri untuk bahasa Arab**, diganti langsung di Pengaturan. Tema gelap dan terang (atau ikuti Windows), juga langsung.
-- **Ketahanan**: instance tunggal (peluncuran kedua memanggil panel pencarian alih-alih memasang hook dua kali); CI menjalankan tes plus pemeriksaan asap jendela pada setiap push dan menerbitkan exe file tunggal pada tag `v*`.
+- **Ketahanan**: instance tunggal (peluncuran kedua memanggil panel pencarian alih-alih memasang hook dua kali); CI menjalankan tes plus pemeriksaan asap jendela pada setiap push dan menerbitkan kedua build file tunggal pada tag `v*`.
 
 ## Data & sinkronisasi
 

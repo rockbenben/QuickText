@@ -77,9 +77,9 @@ jobs:
         with:
           # The third asset is the framework-dependent build attached raw, straight from its publish
           # directory so it lands under its plain name: one click to download and run, and it drops
-          # straight over an existing QuickText.exe to update. Only the small build gets that — a bare
-          # 68 MB exe is what browsers and SmartScreen fight hardest, and a plain, version-less name
-          # can only belong to one of the two.
+          # straight over an existing QuickText.exe to update. Only the small build gets that — a
+          # bare bundled-runtime exe is what browsers and SmartScreen fight hardest, and a plain,
+          # version-less name can only belong to one of the two.
           # Spelled out rather than globbed: the names match what the Package step just produced,
           # one line per asset, so nothing looks missing and nothing can be uploaded twice.
           files: |
@@ -88,11 +88,12 @@ jobs:
             src/QuickText.App/bin/Release/publish-needs-dotnet10/QuickText.exe
           # Picking a package happens on the download page, not in the README, so the note has to
           # ride along with the release. GitHub appends the generated changelog after this body.
-          # Sizes are the assets as Windows reports them (MiB).
+          # No sizes quoted here or in the READMEs: they move with every build and go stale silently,
+          # while the release page shows each asset's actual size right next to its download button.
           body: |
             **Which package? / 下载哪个？**
 
-            - `QuickText-${{ github.ref_name }}-win-x64.zip` (~68 MB) — .NET runtime included; unzip and run on any Windows 10/11 x64. Take this if you're unsure. / 内含 .NET 运行时，解压即用；拿不准、内网机、离线机、U 盘随身带就选它。
-            - `QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip` (~1.5 MB) — same app without the bundled runtime; needs the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed. / 同一个程序，只是不带运行时；需要电脑上已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)。
-            - `QuickText.exe` (~2.5 MB) — the same build as the zip above, unzipped: click, run, or drop it over your existing QuickText.exe to update. Windows will offer the runtime download if it is missing. / 就是上面那个不含运行时的版本，只是没打包：点开即用，也可直接覆盖现有的 QuickText.exe 完成更新。缺运行时时 Windows 会自己提示下载。
+            - `QuickText-${{ github.ref_name }}-win-x64.zip` — .NET runtime included; unzip and run on any Windows 10/11 x64. Take this if you're unsure. / 内含 .NET 运行时，解压即用；拿不准、内网机、离线机、U 盘随身带就选它。
+            - `QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip` — same app without the bundled runtime; needs the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed. / 同一个程序，只是不带运行时；需要电脑上已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)。
+            - `QuickText.exe` — the same build as the zip above, unzipped: click, run, or drop it over your existing QuickText.exe to update. Windows will offer the runtime download if it is missing. / 就是上面那个不含运行时的版本，只是没打包：点开即用，也可直接覆盖现有的 QuickText.exe 完成更新。缺运行时时 Windows 会自己提示下载。
           generate_release_notes: true

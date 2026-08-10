@@ -26,13 +26,13 @@
 
 两种构建，三个下载，都是免安装的绿色版、无需注册。
 
-| 文件 | 体积 | 前提 | 适合 |
-| --- | --- | --- | --- |
-| `QuickText-<版本>-win-x64.zip` | ~68 MB | 无 | **拿不准就下这个。** 内网机、离线机、U 盘随身带着到处插、不让装东西的公司电脑 |
-| `QuickText-<版本>-win-x64-needs-dotnet10.zip` | ~1.5 MB | 已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0) | 自己那台能联网的电脑：运行时装一次，以后每次更新只下 1.5 MB |
-| `QuickText.exe` | ~2.5 MB | 同上 | 同一个版本没套 zip：点开即用，也可以直接盖掉现有的那份完成更新 |
+| 文件 | 前提 | 适合 |
+| --- | --- | --- |
+| `QuickText-<版本>-win-x64.zip` | 无 | **拿不准就下这个。** 内网机、离线机、U 盘随身带着到处插、不让装东西的公司电脑 |
+| `QuickText-<版本>-win-x64-needs-dotnet10.zip` | 已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0) | 自己那台能联网的电脑：运行时装一次，以后每次更新都只下一个很小的包 |
+| `QuickText.exe` | 同上 | 同一个版本没套 zip：点开即用，也可以直接盖掉现有的那份完成更新 |
 
-三个拿到手都是同一个单文件 `QuickText.exe`。两种构建的区别只在**运行时从哪来**：第一个把 .NET 运行时打进了 exe，代价是体积；第二个用系统里已有的那份。功能、数据完全一致，随时可以换着下。
+三个拿到手都是同一个单文件 `QuickText.exe`。两种构建的区别只在**运行时从哪来**：第一个把 .NET 运行时打进了 exe，体积因此大出一大截；第二个用系统里已有的那份。各个包的确切大小，发布页上有。功能、数据完全一致，随时可以换着下。
 
 程序没有代码签名，首次运行 Windows SmartScreen 会拦一下：点**更多信息 → 仍要运行**。
 
@@ -171,7 +171,7 @@
 - **管理器**：**大正文编辑区**（`⤢ 放大编辑` 开独立大窗；有未保存的改动一律先问你 —— 关窗时问，切到别的条目时也问）、**占位符高亮**（按类型着色，找不到的片段 / 写错的日期格式 / 未闭合花括号标红并说明原因；未启用占位符时不高亮，只在状态栏提示）、**代码友好**（放大窗恒开行号并可选 13 种代码格式做语法高亮、回车保持缩进、多行 `Tab` 整块缩进、不换行模式）、分类 7 色、拖拽排序 / 移动、**多选批量移动 / 删除**（Ctrl / Shift 选中后右键）、撤销删除、**回收站（30 天可恢复，带正文预览）**、缩写冲突提示、使用次数统计、保存反馈。
 - **数据**：本地 JSON、热加载（外部编辑 / 同步后自动合并重载）、同步冲突提示、导出 / 导入备份、**每日自动备份（保留 10 份）**、开机自启。
 - **本地化**：**18 种界面语言**（简体 / 繁體 / English / 日本語 / 한국어 / Español / Français / Deutsch / Русский / العربية…），**阿拉伯语右到左镜像**，设置里即时切换。深色 / 浅色主题（也可跟随系统），同样即时切换。
-- **稳健**：单实例（重复启动会唤出搜索面板而不是跑出第二份钩子）；CI 每次提交跑测试与窗口冒烟检查，打 `v*` 标签自动发布单文件 exe。
+- **稳健**：单实例（重复启动会唤出搜索面板而不是跑出第二份钩子）；CI 每次提交跑测试与窗口冒烟检查，打 `v*` 标签自动发布两种单文件构建。
 
 ## 数据与同步
 
@@ -225,8 +225,8 @@ dotnet run  --project src/QuickText.App        # 或运行 bin 下的 QuickText.
 发布单文件绿色版（win-x64），含 / 不含 .NET 运行时：
 
 ```bash
-dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64                 # 绿色版，exe 约 73 MB
-dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10  # 约 2.5 MB，需要已装 .NET 10 桌面运行时
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64                 # 绿色版，不需要额外运行时
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10  # 体积小得多，需要已装 .NET 10 桌面运行时
 ```
 
 需要 .NET 10 SDK。仅 Windows（依赖 Win32 全局热键 / 键盘钩子 / 剪贴板）。

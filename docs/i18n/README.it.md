@@ -20,9 +20,9 @@
 
 **[⬇ Scarica l'ultima versione](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable in un solo file. Non è firmato, quindi SmartScreen avvisa al primo avvio: **Ulteriori informazioni → Esegui comunque**.
 
-- `QuickText-<version>-win-x64.zip` (~68 MB) — include il runtime .NET, quindi gira su qualsiasi Windows 10/11 x64 senza prerequisiti. Nel dubbio scegli questo: macchine in intranet o offline, o una chiavetta USB da portare in giro.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 MB) — richiede il [Desktop Runtime di .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) già installato. Per il tuo PC connesso: lo installi una volta e ogni aggiornamento pesa solo 1,5 MB.
-- `QuickText.exe` (~2,5 MB) — la stessa build senza lo zip: clicca ed esegui, oppure sovrascrivi la copia esistente per aggiornare.
+- `QuickText-<version>-win-x64.zip` — include il runtime .NET, quindi gira su qualsiasi Windows 10/11 x64 senza prerequisiti. Nel dubbio scegli questo: macchine in intranet o offline, o una chiavetta USB da portare in giro.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` — richiede il [Desktop Runtime di .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) già installato. Per il tuo PC connesso: lo installi una volta e ogni aggiornamento pesa pochissimo.
+- `QuickText.exe` — la stessa build senza lo zip: clicca ed esegui, oppure sovrascrivi la copia esistente per aggiornare.
 
 Funzioni e dati sono identici: l'unica differenza è se il runtime è incluso.
 
@@ -161,7 +161,7 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 - **Gestore**: **editor del corpo spazioso** (`⤢ Ingrandisci` lo apre in una finestra propria; le modifiche non salvate vengono sempre confermate: alla chiusura e passando a un altro elemento), **evidenziazione dei segnaposto** (colorata in base al tipo; riferimenti a snippet inesistenti / formati di data non validi / parentesi graffe non chiuse vengono sottolineati in rosso ondulato con il motivo al passaggio del mouse; nulla viene evidenziato quando i segnaposto sono disattivati — lo indica invece la barra di stato), **adatto al codice** (la finestra ingrandita mostra sempre i numeri di riga e offre 13 formati di codice per l'evidenziazione della sintassi; Invio mantiene l'indentazione, `Tab` indenta una selezione multiriga, modalità senza a capo), 7 colori di categoria, trascinamento per riordinare / spostare, **spostamento / eliminazione in blocco multiselezione** (selezione con Ctrl / Shift, poi clic destro), annullamento eliminazione, **cestino (ripristino a 30 giorni, con anteprima del corpo)**, avviso di abbreviazioni duplicate, statistiche d'uso, riscontro al salvataggio.
 - **Dati**: JSON locale, ricaricamento a caldo (unisce automaticamente le modifiche esterne / la sincronizzazione), avviso di conflitto di sincronizzazione, esporta / importa backup, **backup automatico giornaliero (10 conservati)**, avvio con Windows.
 - **Localizzazione**: **18 lingue dell'interfaccia** (cinese semplificato / tradizionale, inglese, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) con **rispecchiamento da destra a sinistra per l'arabo**, cambiate dal vivo nelle Impostazioni. Temi scuro e chiaro (o segui Windows), anche questi al volo.
-- **Robustezza**: istanza singola (un secondo avvio richiama il pannello di ricerca invece di installare due volte gli hook); la CI esegue i test più un controllo rapido della finestra a ogni push e pubblica un exe a file singolo sui tag `v*`.
+- **Robustezza**: istanza singola (un secondo avvio richiama il pannello di ricerca invece di installare due volte gli hook); la CI esegue i test più un controllo rapido della finestra a ogni push e pubblica entrambe le build a file singolo sui tag `v*`.
 
 ## Dati e sincronizzazione
 

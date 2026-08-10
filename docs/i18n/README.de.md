@@ -20,9 +20,9 @@
 
 **[⬇ Neueste Version herunterladen](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable Einzeldatei. Nicht signiert, daher warnt SmartScreen beim ersten Start: **Weitere Informationen → Trotzdem ausführen**.
 
-- `QuickText-<version>-win-x64.zip` (~68 MB) – die .NET-Runtime ist enthalten, läuft also ohne Voraussetzungen auf jedem Windows 10/11 x64. Im Zweifel diese nehmen: Intranet- oder Offline-Rechner oder ein USB-Stick zum Mitnehmen.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 MB) – setzt die installierte [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) voraus. Für den eigenen PC mit Internet: einmal installieren, danach sind Updates nur noch 1,5 MB groß.
-- `QuickText.exe` (~2,5 MB) – derselbe Build ohne Zip: anklicken und starten, oder über die vorhandene Kopie legen, um zu aktualisieren.
+- `QuickText-<version>-win-x64.zip` – die .NET-Runtime ist enthalten, läuft also ohne Voraussetzungen auf jedem Windows 10/11 x64. Im Zweifel diese nehmen: Intranet- oder Offline-Rechner oder ein USB-Stick zum Mitnehmen.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` – setzt die installierte [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) voraus. Für den eigenen PC mit Internet: einmal installieren, danach sind Updates nur noch winzig.
+- `QuickText.exe` – derselbe Build ohne Zip: anklicken und starten, oder über die vorhandene Kopie legen, um zu aktualisieren.
 
 Funktionen und Daten sind identisch; der einzige Unterschied ist, ob die Runtime mitgeliefert wird.
 
@@ -161,7 +161,7 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 - **Manager**: **geräumiger Text-Editor** (`⤢ Vergrößern` öffnet ihn in einem eigenen Fenster; ungespeicherte Änderungen werden immer abgefragt — beim Schließen und beim Wechsel zu einem anderen Eintrag), **Platzhalter-Hervorhebung** (je nach Art eingefärbt; ungültige Snippet-Verweise / ungültige Datumsformate / nicht geschlossene geschweifte Klammern erhalten eine rote Wellenlinie mit Grund beim Hovern; sind Platzhalter deaktiviert, wird nichts hervorgehoben — das steht dann stattdessen in der Statusleiste), **codefreundlich** (das vergrößerte Fenster zeigt immer Zeilennummern und bietet 13 Code-Formate zur Syntaxhervorhebung; Enter behält die Einrückung bei, `Tab` rückt eine mehrzeilige Auswahl komplett ein, Zeilenumbruch-aus-Modus), 7 Kategoriefarben, Ziehen zum Umsortieren / Verschieben, **Mehrfachauswahl für Stapel-Verschieben / -Löschen** (Ctrl / Shift auswählen, dann Rechtsklick), Löschen rückgängig, **Papierkorb (30-Tage-Wiederherstellung, mit Textvorschau)**, Duplikat-Kürzel-Warnung, Nutzungsstatistik, Speicher-Rückmeldung.
 - **Daten**: lokales JSON, Hot-Reload (führt externe Änderungen / Synchronisierung automatisch zusammen), Hinweis bei Synchronisierungskonflikten, Backup exportieren / importieren, **tägliches Auto-Backup (10 aufbewahrt)**, mit Windows starten.
 - **Lokalisierung**: **18 Oberflächensprachen** (vereinfachtes / traditionelles Chinesisch, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) mit **Rechts-nach-links-Spiegelung für Arabisch**, live in den Einstellungen umgeschaltet. Dunkles und helles Design (oder Windows folgen), ebenfalls sofort umschaltbar.
-- **Robustheit**: einzelne Instanz (ein zweiter Start ruft das Suchpanel auf, statt Hooks doppelt zu installieren); CI führt bei jedem Push Tests plus einen Fenster-Smoke-Check aus und veröffentlicht bei `v*`-Tags eine Einzeldatei-Exe.
+- **Robustheit**: einzelne Instanz (ein zweiter Start ruft das Suchpanel auf, statt Hooks doppelt zu installieren); CI führt bei jedem Push Tests plus einen Fenster-Smoke-Check aus und veröffentlicht bei `v*`-Tags beide Einzeldatei-Builds.
 
 ## Daten & Synchronisierung
 

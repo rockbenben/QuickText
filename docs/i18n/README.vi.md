@@ -20,9 +20,9 @@
 
 **[⬇ Tải bản mới nhất](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable một tệp. Không được ký số nên lần chạy đầu SmartScreen sẽ cảnh báo: **More info → Run anyway**.
 
-- `QuickText-<version>-win-x64.zip` (~68 MB) — đã đóng gói sẵn .NET runtime nên chạy được trên mọi máy Windows 10/11 x64 mà không cần cài gì thêm. Không chắc thì chọn bản này: máy trong mạng nội bộ, máy không có mạng, hay mang theo trong USB.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 MB) — cần cài sẵn [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0). Dành cho máy có mạng của bạn: cài một lần, sau đó mỗi lần cập nhật chỉ tải 1,5 MB.
-- `QuickText.exe` (~2,5 MB) — cùng bản dựng đó nhưng không đóng gói zip: bấm là chạy, hoặc ghi đè lên bản hiện có để cập nhật.
+- `QuickText-<version>-win-x64.zip` — đã đóng gói sẵn .NET runtime nên chạy được trên mọi máy Windows 10/11 x64 mà không cần cài gì thêm. Không chắc thì chọn bản này: máy trong mạng nội bộ, máy không có mạng, hay mang theo trong USB.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` — cần cài sẵn [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0). Dành cho máy có mạng của bạn: cài một lần, sau đó mỗi lần cập nhật chỉ tải một gói rất nhỏ.
+- `QuickText.exe` — cùng bản dựng đó nhưng không đóng gói zip: bấm là chạy, hoặc ghi đè lên bản hiện có để cập nhật.
 
 Tính năng và dữ liệu hoàn toàn giống nhau, khác biệt duy nhất là có kèm runtime hay không.
 
@@ -161,7 +161,7 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 - **Trình quản lý**: **trình soạn thảo nội dung rộng rãi** (`⤢ Phóng to` mở nó trong cửa sổ riêng; thay đổi chưa lưu luôn được hỏi lại — khi đóng cửa sổ và khi chuyển sang mục khác), **tô màu trình giữ chỗ** (tô theo loại; tham chiếu đoạn văn bản không tồn tại / định dạng ngày không hợp lệ / dấu ngoặc nhọn chưa đóng được gạch chân sóng đỏ kèm lý do khi di chuột qua; không có gì được tô màu khi trình giữ chỗ tắt — thay vào đó thanh trạng thái sẽ thông báo), **thân thiện với mã** (cửa sổ phóng to luôn hiển thị số dòng và cung cấp 13 định dạng mã để tô sáng cú pháp; Enter giữ nguyên thụt lề, `Tab` thụt lề một vùng chọn nhiều dòng, chế độ không ngắt dòng), 7 màu danh mục, kéo sắp xếp lại / chuyển, **chọn nhiều để chuyển / xóa hàng loạt** (chọn bằng Ctrl / Shift, rồi nhấp chuột phải), hoàn tác xóa, **thùng rác (khôi phục trong 30 ngày, có xem trước nội dung)**, cảnh báo trùng từ viết tắt, thống kê sử dụng, phản hồi khi lưu.
 - **Dữ liệu**: JSON cục bộ, tải lại nóng (tự động hợp nhất chỉnh sửa từ bên ngoài / đồng bộ), thông báo xung đột đồng bộ, xuất / nhập bản sao lưu, **tự động sao lưu hàng ngày (giữ 10 bản)**, khởi động cùng Windows.
 - **Bản địa hóa**: **18 ngôn ngữ giao diện** (Tiếng Trung Giản thể / Phồn thể, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) với **phản chiếu phải-sang-trái cho tiếng Ả Rập**, chuyển đổi trực tiếp trong Cài đặt. Giao diện tối và sáng (hoặc theo Windows), cũng đổi ngay.
-- **Độ bền bỉ**: một phiên bản duy nhất (lần khởi động thứ hai sẽ gọi bảng tìm kiếm ra thay vì cài đặt hook trùng lặp); CI chạy các bài kiểm thử cộng với kiểm tra nhanh cửa sổ ở mỗi lần push và xuất bản một exe đơn tệp trên các thẻ `v*`.
+- **Độ bền bỉ**: một phiên bản duy nhất (lần khởi động thứ hai sẽ gọi bảng tìm kiếm ra thay vì cài đặt hook trùng lặp); CI chạy các bài kiểm thử cộng với kiểm tra nhanh cửa sổ ở mỗi lần push và xuất bản cả hai bản dựng đơn tệp trên các thẻ `v*`.
 
 ## Dữ liệu & đồng bộ
 

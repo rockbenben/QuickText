@@ -20,9 +20,9 @@
 
 **[⬇ En son sürümü indir](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, tek dosya taşınabilir. Kod imzalı değil, bu yüzden SmartScreen ilk çalıştırmada uyarır: **More info → Run anyway**.
 
-- `QuickText-<version>-win-x64.zip` (~68 MB) — .NET çalışma zamanı gömülü olduğu için hiçbir ön koşul olmadan her Windows 10/11 x64 makinede çalışır. Emin değilseniz bunu indirin: intranetteki veya internete bağlı olmayan bilgisayarlar ya da USB'de yanınızda taşımak için.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` (~1,5 MB) — [.NET 10 Masaüstü Çalışma Zamanı](https://dotnet.microsoft.com/download/dotnet/10.0) kurulu olmasını gerektirir. İnternete bağlı kendi bilgisayarınız için: bir kez kurun, sonrasında her güncelleme yalnızca 1,5 MB.
-- `QuickText.exe` (~2,5 MB) — aynı sürümün zip'siz hâli: tıklayıp çalıştırın veya güncellemek için mevcut kopyanın üzerine yazın.
+- `QuickText-<version>-win-x64.zip` — .NET çalışma zamanı gömülü olduğu için hiçbir ön koşul olmadan her Windows 10/11 x64 makinede çalışır. Emin değilseniz bunu indirin: intranetteki veya internete bağlı olmayan bilgisayarlar ya da USB'de yanınızda taşımak için.
+- `QuickText-<version>-win-x64-needs-dotnet10.zip` — [.NET 10 Masaüstü Çalışma Zamanı](https://dotnet.microsoft.com/download/dotnet/10.0) kurulu olmasını gerektirir. İnternete bağlı kendi bilgisayarınız için: bir kez kurun, sonrasında her güncelleme çok küçük bir indirme.
+- `QuickText.exe` — aynı sürümün zip'siz hâli: tıklayıp çalıştırın veya güncellemek için mevcut kopyanın üzerine yazın.
 
 Özellikler ve veriler tamamen aynı; tek fark çalışma zamanının pakete dahil olup olmaması.
 
@@ -161,7 +161,7 @@ Ayrıntılar: eşleştirme **büyük/küçük harfe duyarlı değildir** (`;SIG`
 - **Yönetici**: **geniş gövde editörü** (`⤢ Büyüt` onu kendi penceresinde açar; kaydedilmemiş değişiklikler her zaman sorulur — pencereyi kapatırken ve başka bir kayda geçerken), **yer tutucu vurgulama** (türe göre renklendirilir; ölü snippet referansları / geçersiz tarih biçimleri / kapanmamış süslü parantezler, üzerine gelindiğinde nedeniyle birlikte kırmızı dalgalı çizgiyle gösterilir; yer tutucular kapalıyken hiçbir şey vurgulanmaz — bunun yerine durum çubuğu bunu belirtir), **koda uygun** (büyütülmüş pencere her zaman satır numaralarını gösterir ve sözdizimi vurgulama için 13 kod biçimi sunar; Enter girintiyi korur, `Tab` çok satırlı bir seçime girinti uygular, kaydırmasız mod), 7 kategori rengi, sürükleyerek sıralama / taşıma, **çoklu seçimle toplu taşıma / silme** (Ctrl / Shift ile seçin, sonra sağ tıklayın), silmeyi geri alma, **çöp kutusu (30 günlük geri yükleme, gövde önizlemesiyle)**, yinelenen kısaltma uyarısı, kullanım istatistikleri, kaydetme geri bildirimi.
 - **Veri**: yerel JSON, sıcak yeniden yükleme (dış düzenlemeleri / senkronizasyonu otomatik birleştirir), senkronizasyon çakışması bildirimi, yedeği dışa / içe aktarma, **günlük otomatik yedekleme (10 tanesi tutulur)**, Windows ile başlatma.
 - **Yerelleştirme**: **18 arayüz dili** (Basitleştirilmiş / Geleneksel Çince, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …), **Arapça için sağdan sola yansıtmayla**, Ayarlar'da canlı olarak değişir. Koyu ve açık tema (veya Windows’u izle) de anında değişir.
-- **Sağlamlık**: tek örnek (ikinci bir başlatma, kancaları iki kez kurmak yerine arama panelini çağırır); CI her push'ta testleri artı bir pencere duman kontrolü çalıştırır ve `v*` etiketlerinde tek dosyalık bir exe yayınlar.
+- **Sağlamlık**: tek örnek (ikinci bir başlatma, kancaları iki kez kurmak yerine arama panelini çağırır); CI her push'ta testleri artı bir pencere duman kontrolü çalıştırır ve `v*` etiketlerinde her iki tek dosyalık derlemeyi de yayınlar.
 
 ## Veri ve senkronizasyon
 

@@ -26,13 +26,13 @@
 
 Two builds, three downloads — portable either way. No installer, no account.
 
-| File | Size | Needs | Good for |
-| --- | --- | --- | --- |
-| `QuickText-<version>-win-x64.zip` | ~68 MB | nothing | **take this one if unsure.** Air-gapped or intranet machines, a USB stick you carry between PCs, a work PC where you can't install anything |
-| `QuickText-<version>-win-x64-needs-dotnet10.zip` | ~1.5 MB | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed | your own online PC: install the runtime once, then every update is a 1.5 MB download |
-| `QuickText.exe` | ~2.5 MB | same as above | the same build with no zip around it: click and run, or drop it over your existing copy to update |
+| File | Needs | Good for |
+| --- | --- | --- |
+| `QuickText-<version>-win-x64.zip` | nothing | **take this one if unsure.** Air-gapped or intranet machines, a USB stick you carry between PCs, a work PC where you can't install anything |
+| `QuickText-<version>-win-x64-needs-dotnet10.zip` | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed | your own online PC: install the runtime once, and every update after that is a small download |
+| `QuickText.exe` | same as above | the same build with no zip around it: click and run, or drop it over your existing copy to update |
 
-Every one of them is (or unpacks to) the same single-file `QuickText.exe`. The only difference between the two builds is **where the runtime comes from** — the first bundles .NET into the exe and pays for it in size, the second uses the copy already on the machine. Same features, same data; switch between them any time.
+Every one of them is (or unpacks to) the same single-file `QuickText.exe`. The only difference between the two builds is **where the runtime comes from** — the first bundles .NET into the exe, which is why it is so much larger; the second uses the copy already on the machine. The release page lists each asset's exact size. Same features, same data; switch between them any time.
 
 The exe isn't code-signed, so Windows SmartScreen warns on first run: click **More info → Run anyway**.
 
@@ -171,7 +171,7 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 - **Manager**: **roomy body editor** (`⤢ Enlarge` opens it in its own window; unsaved changes are always confirmed — on closing it, and on switching to another snippet), **placeholder highlighting** (tinted by kind; dead snippet refs / invalid date formats / unclosed braces are squiggled red with a reason on hover; nothing is highlighted when placeholders are off — the status bar says so instead), **code-friendly** (the enlarged window always shows line numbers and offers 13 code formats for syntax highlighting; Enter keeps indentation, `Tab` indents a multi-line selection, no-wrap mode), 7 category colors, drag reorder / move, **multi-select batch move / delete** (Ctrl / Shift select, then right-click), undo delete, **trash (30-day restore, with body preview)**, duplicate-abbr warning, usage stats, save feedback.
 - **Data**: local JSON, hot-reload (auto-merges external edits / sync), sync-conflict notice, export / import backup, **daily auto-backup (10 kept)**, start with Windows.
 - **Localization**: **18 UI languages** (Simplified / Traditional Chinese, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) with **right-to-left mirroring for Arabic**, switched live in Settings. Dark and light themes (or follow Windows), switched live too.
-- **Robustness**: single instance (a second launch summons the search panel instead of double-installing hooks); CI runs tests plus a window smoke-check on every push and publishes a single-file exe on `v*` tags.
+- **Robustness**: single instance (a second launch summons the search panel instead of double-installing hooks); CI runs tests plus a window smoke-check on every push and publishes both single-file builds on `v*` tags.
 
 ## Data & sync
 
@@ -225,8 +225,8 @@ dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 Publish a single-file portable build (win-x64), with or without the .NET runtime bundled:
 
 ```bash
-dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64                 # standalone, ~73 MB exe
-dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10  # ~2.5 MB, needs the .NET 10 desktop runtime
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64                 # standalone, no runtime needed
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10  # much smaller, needs the .NET 10 desktop runtime
 ```
 
 Requires the .NET 10 SDK. Windows only (Win32 global hotkey / keyboard hook / clipboard).
