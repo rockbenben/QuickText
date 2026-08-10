@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using QuickText.Core.Models;
 using QuickText.Core.Pinyin;
 
@@ -33,6 +34,11 @@ public sealed class SearchIndex
     private readonly IPinyinProvider _pinyin;
     private readonly List<Entry> _entries = new();
 
+    // The in-flight (or last) background build, and the lock that keeps builds serialized and
+    // readers joined to the newest one. See Build for why indexing runs off the caller's thread.
+    private Task? _building;
+    private readonly object _buildLock = new();
+
     public SearchIndex(IPinyinProvider pinyin) => _pinyin = pinyin;
 
     /// <summary>
@@ -47,7 +53,49 @@ public sealed class SearchIndex
         string NameLower, string PinyinFull, string Initials, string AbbrLower, string BodyLower,
         PinyinMap Map);
 
+    /// <summary>
+    /// Index the given library. The work happens on a BACKGROUND thread and every reader
+    /// (<see cref="Search"/>, <see cref="HasCategory"/>) joins it first, so callers still observe
+    /// a fully built index and need no change.
+    /// <para>Why: the very first pinyin lookup pays for ToolGood.Words' dictionary load, measured
+    /// at 766ms — over half of the app's whole startup — while indexing the snippets themselves
+    /// costs 3ms after it. That cost is fixed, independent of library size, and nothing can be
+    /// searched until the user summons the panel, which is seconds away at the earliest. Running
+    /// it off the startup path overlaps it with the window and tray work instead of adding to it.
+    /// </para>
+    /// <para>Builds are chained rather than run in parallel: a save triggers another Build, and two
+    /// concurrent writers to <c>_entries</c> (or two first-callers into the pinyin library) would
+    /// race. Readers join under the same lock, so they always see the LATEST build.</para>
+    /// </summary>
     public void Build(IEnumerable<Category> categories)
+    {
+        // Snapshot before handing to another thread: the Manager keeps editing its own list.
+        var snapshot = categories.ToList();
+        lock (_buildLock)
+        {
+            var previous = _building;
+            _building = Task.Run(() =>
+            {
+                previous?.Wait();
+                // Swallow, deliberately: this used to run inside the caller's try/catch, where a
+                // failure degraded to an empty library. Letting the task fault instead would rethrow
+                // it inside whatever later touches Search — i.e. crash the panel on a keystroke.
+                // An empty index is the same outcome the synchronous version already had.
+                try { BuildCore(snapshot); } catch { _entries.Clear(); }
+            });
+        }
+    }
+
+    /// <summary>Block until the pending build (if any) has finished. Cheap once it has: the task is
+    /// already completed, so this is a field read plus a no-op wait.</summary>
+    private void EnsureBuilt()
+    {
+        Task? pending;
+        lock (_buildLock) pending = _building;
+        pending?.Wait();
+    }
+
+    private void BuildCore(List<Category> categories)
     {
         _entries.Clear();
         foreach (var cat in categories)
@@ -73,6 +121,7 @@ public sealed class SearchIndex
     /// </summary>
     public IReadOnlyList<SearchHit> Search(string query, int limit = 200, string? category = null)
     {
+        EnsureBuilt();
         var entries = FilterByCategory(category);
 
         if (string.IsNullOrWhiteSpace(query))
@@ -100,7 +149,11 @@ public sealed class SearchIndex
     }
 
     /// <summary>Would an "@category" filter match anything? Callers fall back to a literal search when not.</summary>
-    public bool HasCategory(string category) => FilterByCategory(category).Count > 0;
+    public bool HasCategory(string category)
+    {
+        EnsureBuilt();
+        return FilterByCategory(category).Count > 0;
+    }
 
     private IReadOnlyList<Entry> FilterByCategory(string? category)
     {
