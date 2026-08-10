@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>「{0}」은(는) 다른 앱이 사용 중입니다. 패널이 열리지 않으니 설정에서 다른 단축키로 바꾸세요.</value></data>
   <data name="Msg.ConflictFiles"><value>동기화 충돌 파일이 감지됨</value></data>
   <data name="Msg.DataFolderUnavailable"><value>데이터 폴더를 사용할 수 없습니다(이동식 또는 네트워크 드라이브가 연결이 끊겼을 수 있습니다). 지금은 빈 라이브러리로 시작했습니다 — 설정에서 다시 지정하거나 다시 연결한 후 재실행하세요.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>검색 인덱스를 만들지 못했습니다. 당분간 패널에서 아무것도 찾을 수 없습니다. 항목은 사라지지 않았으며 관리자에는 그대로 있습니다. 다시 실행하면 재시도합니다.</value></data>
   <data name="Search.Hint.Nav"><value>이동</value></data>
   <data name="Search.Hint.Send"><value>보내기</value></data>
   <data name="Search.Hint.Close"><value>닫기</value></data>

@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>「{0}」は他のアプリが使用中です。パネルを呼び出せないので、設定で別のホットキーに変えてください。</value></data>
   <data name="Msg.ConflictFiles"><value>同期の競合ファイルを検出</value></data>
   <data name="Msg.DataFolderUnavailable"><value>データフォルダーにアクセスできません（リムーバブル／ネットワークドライブが未接続の可能性）。一時的に空のライブラリで起動しました。設定で指定し直すか、接続し直して再起動してください。</value></data>
+  <data name="Msg.SearchIndexFailed"><value>検索インデックスの作成に失敗しました。パネルでは当面何も見つかりません。データは失われておらず、マネージャーには全件表示されます。再起動すると再試行します。</value></data>
   <data name="Search.Hint.Nav"><value>選択</value></data>
   <data name="Search.Hint.Send"><value>送信</value></data>
   <data name="Search.Hint.Close"><value>閉じる</value></data>

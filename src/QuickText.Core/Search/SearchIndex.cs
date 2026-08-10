@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using QuickText.Core.Models;
 using QuickText.Core.Pinyin;
 
@@ -39,6 +38,26 @@ public sealed class SearchIndex
     private Task? _building;
     private readonly object _buildLock = new();
 
+    /// <summary>Has the pending build finished? A UI-thread caller must check this BEFORE reading:
+    /// the readers below join the build unconditionally, and the app's UI thread is the one its two
+    /// WH_KEYBOARD_LL hooks are dispatched on — block it past Windows' LowLevelHooksTimeout (300ms)
+    /// and the OS drops those hooks for the rest of the session, killing abbreviation expansion and
+    /// tap-summon silently. Skip the read and wait for <see cref="BuildCompleted"/> instead.
+    /// <para>A bounded wait inside the readers was tried and is the wrong shape: it makes Search
+    /// answer from a half-built index, i.e. return "no matches" for snippets that exist, which is a
+    /// worse failure than being briefly unavailable and one the caller cannot even detect.</para></summary>
+    public bool IsBuilt
+    {
+        get { lock (_buildLock) return _building is null or { IsCompleted: true }; }
+    }
+
+    /// <summary>Raised on a background thread when a build finishes — carrying the exception if it
+    /// failed, null if it succeeded. Both cases need an owner: a failed build leaves an index that
+    /// answers every query with nothing, which the user cannot tell apart from an empty library
+    /// unless something says so; and a reader that hit <see cref="ReaderJoinTimeout"/> needs to know
+    /// when there is finally something to re-query.</summary>
+    public event Action<Exception?>? BuildCompleted;
+
     public SearchIndex(IPinyinProvider pinyin) => _pinyin = pinyin;
 
     /// <summary>
@@ -73,21 +92,37 @@ public sealed class SearchIndex
         var snapshot = categories.ToList();
         lock (_buildLock)
         {
-            var previous = _building;
-            _building = Task.Run(() =>
-            {
-                previous?.Wait();
-                // Swallow, deliberately: this used to run inside the caller's try/catch, where a
-                // failure degraded to an empty library. Letting the task fault instead would rethrow
-                // it inside whatever later touches Search — i.e. crash the panel on a keystroke.
-                // An empty index is the same outcome the synchronous version already had.
-                try { BuildCore(snapshot); } catch { _entries.Clear(); }
-            });
+            // Chained with ContinueWith, NOT `previous.Wait()` inside the task: waiting parks a whole
+            // thread-pool worker per queued build doing nothing but blocking, and the Manager queues
+            // one on every drag-reorder, batch move, save and close. A burst of those starves the
+            // pool, so the newest build is not even scheduled while a reader is waiting on it.
+            _building = _building == null
+                ? Task.Run(() => BuildGuarded(snapshot))
+                : _building.ContinueWith(_ => BuildGuarded(snapshot), TaskScheduler.Default);
         }
     }
 
-    /// <summary>Block until the pending build (if any) has finished. Cheap once it has: the task is
-    /// already completed, so this is a field read plus a no-op wait.</summary>
+    /// <summary>Run one build without ever faulting the task. A faulted task would rethrow inside
+    /// whatever touched <see cref="Search"/> next — i.e. crash the panel on a keystroke — so the
+    /// failure travels out through <see cref="BuildCompleted"/> instead.
+    /// <para>Reported, not swallowed. While this ran synchronously the exception reached
+    /// App.OnStartup, which came up empty AND warned the user. Dropping it on a thread-pool thread
+    /// would leave someone whose pinyin dictionary failed to load with a Manager listing every
+    /// snippet, working abbreviations, and a search panel that finds none of them — with nothing
+    /// anywhere to explain it.</para></summary>
+    private void BuildGuarded(List<Category> snapshot)
+    {
+        Exception? error = null;
+        try { BuildCore(snapshot); }
+        catch (Exception ex) { error = ex; _entries.Clear(); }
+        BuildCompleted?.Invoke(error);
+    }
+
+    /// <summary>Block until the pending build has finished, so every reader sees a COMPLETE index —
+    /// a partial answer here is indistinguishable from "that snippet does not exist". Free once the
+    /// build is done: waiting on a completed task returns immediately. A caller that cannot afford
+    /// to block (the UI thread — see <see cref="IsBuilt"/>) must check first rather than ask for a
+    /// shorter wait.</summary>
     private void EnsureBuilt()
     {
         Task? pending;

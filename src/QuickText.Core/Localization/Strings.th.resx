@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} ถูกแอปอื่นใช้อยู่แล้ว — แผงจะไม่เปิดจนกว่าคุณจะตั้งคีย์ลัดอื่นในการตั้งค่า</value></data>
   <data name="Msg.ConflictFiles"><value>พบไฟล์ที่ขัดแย้งจากการซิงค์</value></data>
   <data name="Msg.DataFolderUnavailable"><value>ไม่สามารถเข้าถึงโฟลเดอร์ข้อมูล (ไดรฟ์แบบถอดได้หรือไดรฟ์เครือข่ายอาจถูกตัดการเชื่อมต่อ) เริ่มด้วยคลังว่างไปก่อน — กำหนดใหม่ในการตั้งค่า หรือเชื่อมต่อใหม่แล้วเปิดโปรแกรมอีกครั้ง</value></data>
+  <data name="Msg.SearchIndexFailed"><value>สร้างดัชนีการค้นหาไม่สำเร็จ แผงค้นหาจะยังไม่พบอะไรเลย ข้อความของคุณไม่ได้หายไป ตัวจัดการยังแสดงครบทั้งหมด เปิดโปรแกรมใหม่เพื่อลองอีกครั้ง</value></data>
   <data name="Search.Hint.Nav"><value>เลื่อน</value></data>
   <data name="Search.Hint.Send"><value>ส่ง</value></data>
   <data name="Search.Hint.Close"><value>ปิด</value></data>

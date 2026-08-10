@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} đã bị ứng dụng khác chiếm — bảng sẽ không mở cho đến khi bạn chọn phím tắt khác trong Cài đặt.</value></data>
   <data name="Msg.ConflictFiles"><value>Phát hiện tệp xung đột đồng bộ</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Không truy cập được thư mục dữ liệu (ổ di động hoặc ổ mạng có thể đã ngắt kết nối). Tạm khởi động với thư viện trống — chỉ lại trong Cài đặt, hoặc kết nối lại và khởi động lại.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>Không tạo được chỉ mục tìm kiếm — bảng tìm kiếm tạm thời sẽ không thấy gì. Nội dung của bạn không mất, Trình quản lý vẫn liệt kê đầy đủ. Khởi động lại để thử lại.</value></data>
   <data name="Search.Hint.Nav"><value>Điều hướng</value></data>
   <data name="Search.Hint.Send"><value>Gửi</value></data>
   <data name="Search.Hint.Close"><value>Đóng</value></data>

@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} è già usato da un’altra app: il pannello non si aprirà finché non scegli un’altra scorciatoia nelle Impostazioni.</value></data>
   <data name="Msg.ConflictFiles"><value>Rilevati file in conflitto di sincronizzazione</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Cartella dati non disponibile (un'unità rimovibile o di rete potrebbe essere scollegata). Per ora avviato con una libreria vuota — reimpostala nelle Impostazioni, oppure riconnetti e riavvia.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>Impossibile creare l'indice di ricerca: per ora il pannello non troverà nulla. I tuoi testi non sono persi, la Gestione li elenca ancora tutti. Riavvia per riprovare.</value></data>
   <data name="Search.Hint.Nav"><value>Naviga</value></data>
   <data name="Search.Hint.Send"><value>Invia</value></data>
   <data name="Search.Hint.Close"><value>Chiudi</value></data>

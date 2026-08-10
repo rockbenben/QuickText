@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} уже занята другим приложением — панель не откроется, пока вы не выберете другое сочетание в настройках.</value></data>
   <data name="Msg.ConflictFiles"><value>Обнаружены файлы конфликтов синхронизации</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Папка данных недоступна (возможно, отключён съёмный или сетевой диск). Пока запущено с пустой библиотекой — укажите её заново в настройках или подключите диск и перезапустите.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>Не удалось построить поисковый индекс — панель пока ничего не найдёт. Записи не потеряны, в менеджере они по-прежнему все на месте. Перезапустите, чтобы повторить попытку.</value></data>
   <data name="Search.Hint.Nav"><value>Навигация</value></data>
   <data name="Search.Hint.Send"><value>Отправить</value></data>
   <data name="Search.Hint.Close"><value>Закрыть</value></data>

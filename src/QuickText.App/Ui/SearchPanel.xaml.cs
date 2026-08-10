@@ -316,6 +316,16 @@ public partial class SearchPanel : Window
         else ShowSearch();
     }
 
+    /// <summary>Re-run the current query because the index finished building underneath it. Readers
+    /// only join an unfinished build for a bounded time (SearchIndex.ReaderJoinTimeout — the UI
+    /// thread carries the keyboard hooks and cannot be blocked longer), so a panel summoned during a
+    /// cold start can have shown "no results" from a half-built index. Only the typed case: browsing
+    /// reads AppState.Categories, which never went through the index.</summary>
+    internal void RefreshAfterIndexBuild()
+    {
+        if (!string.IsNullOrWhiteSpace(Query.Text)) ShowSearch();
+    }
+
     private void ShowBrowse()
     {
         var loc = LocalizationService.Instance;
@@ -480,6 +490,13 @@ public partial class SearchPanel : Window
 
     private void ShowSearch()
     {
+        // The index builds on a background thread (see SearchIndex.Build) and its readers join that
+        // build. Joining from HERE would block the UI thread — the same thread the two keyboard
+        // hooks are dispatched on — and past 300ms Windows drops those hooks for the session. On a
+        // cold start the user can out-run the build, so leave the current view alone; App's
+        // BuildCompleted handler calls RefreshAfterIndexBuild the moment there is something to find.
+        if (!AppState.Current.Search.IsBuilt) return;
+
         var loc = LocalizationService.Instance;
         BrowseView.Visibility = Visibility.Collapsed;
         HintCat.Visibility = Visibility.Collapsed;

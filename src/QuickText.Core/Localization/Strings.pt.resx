@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} já está em uso por outra aplicação — o painel não abrirá até você escolher outro atalho nas Definições.</value></data>
   <data name="Msg.ConflictFiles"><value>Detetados ficheiros de conflito de sincronização</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Pasta de dados indisponível (um disco removível ou de rede pode estar desligado). Iniciado com uma biblioteca vazia por agora — redefina-a nas Definições, ou reconecte e reinicie.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>Não foi possível criar o índice de pesquisa — por agora o painel não encontrará nada. Os seus itens não se perderam, o Gestor continua a listá-los. Reinicie para tentar de novo.</value></data>
   <data name="Search.Hint.Nav"><value>Navegar</value></data>
   <data name="Search.Hint.Send"><value>Enviar</value></data>
   <data name="Search.Hint.Close"><value>Fechar</value></data>

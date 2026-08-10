@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} पहले से किसी और ऐप के पास है — जब तक आप सेटिंग्स में दूसरी हॉटकी न चुनें, पैनल नहीं खुलेगा।</value></data>
   <data name="Msg.ConflictFiles"><value>सिंक विरोध फ़ाइलें मिलीं</value></data>
   <data name="Msg.DataFolderUnavailable"><value>डेटा फ़ोल्डर अनुपलब्ध (कोई हटाने योग्य या नेटवर्क ड्राइव डिस्कनेक्ट हो सकती है)। अभी खाली लाइब्रेरी के साथ शुरू किया गया — सेटिंग्स में इसे फिर से सेट करें, या फिर से कनेक्ट कर पुनः लॉन्च करें।</value></data>
+  <data name="Msg.SearchIndexFailed"><value>खोज इंडेक्स नहीं बन सका — फ़िलहाल पैनल में कुछ नहीं मिलेगा। आपका टेक्स्ट खोया नहीं है, मैनेजर में सब कुछ मौजूद है। दोबारा कोशिश के लिए ऐप फिर से चलाएँ।</value></data>
   <data name="Search.Hint.Nav"><value>नेविगेट करें</value></data>
   <data name="Search.Hint.Send"><value>भेजें</value></data>
   <data name="Search.Hint.Close"><value>बंद करें</value></data>

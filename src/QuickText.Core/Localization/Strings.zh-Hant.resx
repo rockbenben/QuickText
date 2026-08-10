@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>「{0}」已被其他程式占用，面板呼叫不出來。請在設定裡換一個熱鍵。</value></data>
   <data name="Msg.ConflictFiles"><value>偵測到同步衝突檔案</value></data>
   <data name="Msg.DataFolderUnavailable"><value>資料夾無法存取（可能是行動碟未插入或網路磁碟離線），已暫時以空庫啟動。請在設定中重新指定，或接回後重新啟動。</value></data>
+  <data name="Msg.SearchIndexFailed"><value>搜尋索引建立失敗，面板暫時搜不到任何內容。文字沒有遺失，管理器裡仍然完整；重新啟動應用程式可重試。</value></data>
   <data name="Search.Hint.Nav"><value>選擇</value></data>
   <data name="Search.Hint.Send"><value>發送</value></data>
   <data name="Search.Hint.Close"><value>關閉</value></data>

@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} sudah dipakai aplikasi lain — panel tidak akan terbuka sampai Anda memilih pintasan lain di Pengaturan.</value></data>
   <data name="Msg.ConflictFiles"><value>Berkas konflik sinkronisasi terdeteksi</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Folder data tidak tersedia (drive lepasan atau jaringan mungkin terputus). Dimulai dengan pustaka kosong untuk sekarang — arahkan ulang di Pengaturan, atau sambungkan lagi lalu jalankan ulang.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>Indeks pencarian gagal dibuat — untuk sekarang panel tidak akan menemukan apa pun. Cuplikan Anda tidak hilang, Pengelola masih menampilkan semuanya. Jalankan ulang untuk mencoba lagi.</value></data>
   <data name="Search.Hint.Nav"><value>Navigasi</value></data>
   <data name="Search.Hint.Send"><value>Kirim</value></data>
   <data name="Search.Hint.Close"><value>Tutup</value></data>

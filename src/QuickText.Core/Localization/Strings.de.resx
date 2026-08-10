@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} ist bereits von einer anderen App belegt — das Panel öffnet sich nicht, bis du in den Einstellungen ein anderes Tastenkürzel wählst.</value></data>
   <data name="Msg.ConflictFiles"><value>Synchronisierungs-Konfliktdateien erkannt</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Datenordner nicht verfügbar (evtl. ist ein Wechsel- oder Netzlaufwerk getrennt). Vorerst mit leerer Bibliothek gestartet – in den Einstellungen neu zuweisen oder Laufwerk verbinden und neu starten.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>Suchindex konnte nicht erstellt werden – das Panel findet vorerst nichts. Ihre Textbausteine sind nicht verloren, der Manager zeigt weiterhin alle an. Zum erneuten Versuch neu starten.</value></data>
   <data name="Search.Hint.Nav"><value>Navigieren</value></data>
   <data name="Search.Hint.Send"><value>Senden</value></data>
   <data name="Search.Hint.Close"><value>Schließen</value></data>

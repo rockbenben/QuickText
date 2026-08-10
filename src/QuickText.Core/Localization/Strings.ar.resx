@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} مستخدَم بالفعل من تطبيق آخر — لن تُفتح اللوحة حتى تختار اختصارًا آخر في الإعدادات.</value></data>
   <data name="Msg.ConflictFiles"><value>تم اكتشاف ملفات تعارض المزامنة</value></data>
   <data name="Msg.DataFolderUnavailable"><value>مجلد البيانات غير متاح (قد يكون قرص قابل للإزالة أو قرص شبكة غير متصل). بدأنا بمكتبة فارغة مؤقتًا — أعد توجيهه في الإعدادات، أو أعد التوصيل وأعد التشغيل.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>تعذّر إنشاء فهرس البحث — لن تجد اللوحة أي شيء في الوقت الحالي. نصوصك لم تُفقد، وما زال المدير يعرضها كلها. أعد تشغيل التطبيق للمحاولة مرة أخرى.</value></data>
   <data name="Search.Hint.Nav"><value>تنقّل</value></data>
   <data name="Search.Hint.Send"><value>إرسال</value></data>
   <data name="Search.Hint.Close"><value>إغلاق</value></data>

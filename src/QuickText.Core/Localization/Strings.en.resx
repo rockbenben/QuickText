@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} is already taken by another app — the panel won’t open until you set a different hotkey in Settings.</value></data>
   <data name="Msg.ConflictFiles"><value>Sync conflict files detected</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Data folder unavailable (a removable or network drive may be disconnected). Started with an empty library for now — re-point it in Settings, or reconnect and relaunch.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>Search index could not be built — the panel will find nothing for now. Your snippets are not lost; the Manager still lists them all. Relaunch to retry.</value></data>
   <data name="Search.Hint.Nav"><value>Navigate</value></data>
   <data name="Search.Hint.Send"><value>Send</value></data>
   <data name="Search.Hint.Close"><value>Close</value></data>

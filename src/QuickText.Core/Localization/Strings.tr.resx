@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} başka bir uygulama tarafından kullanılıyor — Ayarlar’dan farklı bir kısayol seçene kadar panel açılmaz.</value></data>
   <data name="Msg.ConflictFiles"><value>Eşitleme çakışma dosyaları algılandı</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Veri klasörü kullanılamıyor (çıkarılabilir veya ağ sürücüsü bağlı olmayabilir). Şimdilik boş bir kitaplıkla başlatıldı — Ayarlar'dan yeniden yönlendirin ya da yeniden bağlanıp uygulamayı yeniden başlatın.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>Arama dizini oluşturulamadı — panel şimdilik hiçbir şey bulamayacak. Metinleriniz kaybolmadı, Yönetici hepsini listelemeye devam ediyor. Yeniden denemek için uygulamayı yeniden başlatın.</value></data>
   <data name="Search.Hint.Nav"><value>Gezin</value></data>
   <data name="Search.Hint.Send"><value>Gönder</value></data>
   <data name="Search.Hint.Close"><value>Kapat</value></data>

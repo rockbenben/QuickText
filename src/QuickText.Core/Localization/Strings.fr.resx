@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} est déjà utilisé par une autre application : le panneau ne s’ouvrira pas tant que vous n’aurez pas choisi un autre raccourci dans les Paramètres.</value></data>
   <data name="Msg.ConflictFiles"><value>Fichiers de conflit de synchronisation détectés</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Dossier de données indisponible (un lecteur amovible ou réseau est peut-être déconnecté). Démarré avec une bibliothèque vide pour l'instant — redéfinissez-le dans les Paramètres, ou reconnectez et relancez.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>Impossible de construire l'index de recherche — le panneau ne trouvera rien pour l'instant. Vos extraits ne sont pas perdus, le Gestionnaire les affiche toujours tous. Relancez pour réessayer.</value></data>
   <data name="Search.Hint.Nav"><value>Naviguer</value></data>
   <data name="Search.Hint.Send"><value>Envoyer</value></data>
   <data name="Search.Hint.Close"><value>Fermer</value></data>

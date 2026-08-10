@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} ইতিমধ্যে অন্য অ্যাপ ব্যবহার করছে — সেটিংসে অন্য হটকি না বেছে নেওয়া পর্যন্ত প্যানেল খুলবে না।</value></data>
   <data name="Msg.ConflictFiles"><value>সিঙ্ক কনফ্লিক্ট ফাইল শনাক্ত হয়েছে</value></data>
   <data name="Msg.DataFolderUnavailable"><value>ডেটা ফোল্ডার অনুপলব্ধ (একটি অপসারণযোগ্য বা নেটওয়ার্ক ড্রাইভ সংযোগ বিচ্ছিন্ন হতে পারে)। আপাতত খালি লাইব্রেরি নিয়ে শুরু হয়েছে — সেটিংসে পুনরায় নির্দেশ করুন, বা পুনঃসংযোগ করে আবার চালু করুন।</value></data>
+  <data name="Msg.SearchIndexFailed"><value>সার্চ ইনডেক্স তৈরি করা যায়নি — আপাতত প্যানেলে কিছুই পাওয়া যাবে না। আপনার লেখা হারায়নি, ম্যানেজারে সব আগের মতোই আছে। আবার চেষ্টা করতে অ্যাপটি পুনরায় চালু করুন।</value></data>
   <data name="Search.Hint.Nav"><value>নেভিগেট</value></data>
   <data name="Search.Hint.Send"><value>পাঠান</value></data>
   <data name="Search.Hint.Close"><value>বন্ধ</value></data>

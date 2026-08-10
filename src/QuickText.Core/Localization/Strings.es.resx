@@ -194,6 +194,7 @@
   <data name="Msg.HotkeyTaken"><value>{0} ya lo usa otra aplicación: el panel no se abrirá hasta que elijas otro atajo en Configuración.</value></data>
   <data name="Msg.ConflictFiles"><value>Se detectaron archivos de conflicto de sincronización</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Carpeta de datos no disponible (puede que una unidad extraíble o de red esté desconectada). Se inició con una biblioteca vacía por ahora: vuelve a indicarla en Configuración, o reconéctala y reinicia.</value></data>
+  <data name="Msg.SearchIndexFailed"><value>No se pudo crear el índice de búsqueda: por ahora el panel no encontrará nada. Tus fragmentos no se han perdido, el Gestor los sigue mostrando todos. Reinicia para reintentar.</value></data>
   <data name="Search.Hint.Nav"><value>Navegar</value></data>
   <data name="Search.Hint.Send"><value>Enviar</value></data>
   <data name="Search.Hint.Close"><value>Cerrar</value></data>

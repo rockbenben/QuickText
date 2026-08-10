@@ -244,6 +244,7 @@
   <data name="Msg.HotkeyTaken"><value>「{0}」已被其它程序占用，面板呼不出来。请在设置里换一个热键。</value></data>
   <data name="Msg.ConflictFiles"><value>检测到同步冲突文件</value></data>
   <data name="Msg.DataFolderUnavailable"><value>数据文件夹不可用（可能是移动盘未插入或网络盘离线），已暂时以空库启动。请在设置中重新指定，或接回后重启。</value></data>
+  <data name="Msg.SearchIndexFailed"><value>搜索索引建立失败，面板暂时搜不到任何内容。文本没有丢失，管理器里仍然完整；重启应用可重试。</value></data>
   <data name="Search.Hint.Nav"><value>选择</value></data>
   <data name="Search.Hint.Send"><value>发送</value></data>
   <data name="Search.Hint.Close"><value>关闭</value></data>
