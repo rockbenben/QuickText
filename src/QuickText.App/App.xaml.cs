@@ -2,7 +2,8 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interop;
-using Hardcodet.Wpf.TaskbarNotification;
+using H.NotifyIcon;
+using H.NotifyIcon.Core;
 using QuickText.App.Interop;
 using QuickText.App.Ui;
 using QuickText.Core.Interop;
@@ -79,6 +80,9 @@ public partial class App : Application
     {
         var hwnd = new WindowInteropHelper(w).Handle;
         if (hwnd == IntPtr.Zero) { onSettled?.Invoke(); return; }
+        // Who held the foreground when we started, i.e. the window we are about to fight. The
+        // last-resort raise below only ever goes above THIS window — see RaiseAboveBlocker.
+        var blocker = Interop.NativeMethods.GetForegroundWindow();
         Interop.NativeMethods.StealForeground(hwnd);
 
         var deadline = DateTime.UtcNow + ForegroundGuardFor;
@@ -90,22 +94,14 @@ public partial class App : Application
             // A stray guard that outlives its window would keep yanking focus from whatever the
             // user moved on to, so it also stops the moment the window closes or hides.
             var live = new WindowInteropHelper(w).Handle;
-            if (live == IntPtr.Zero || !w.IsVisible || DateTime.UtcNow > deadline)
+            bool gaveUp = DateTime.UtcNow > deadline;
+            if (live == IntPtr.Zero || !w.IsVisible || gaveUp)
             {
                 timer.Stop();
-                // Gave up without ever holding the foreground: Windows refused the grant for the
-                // whole window. Foreground is not ours to take, but Z-ORDER is — a topmost flip
-                // puts the window in front of the app that kept winning, which is what the user
-                // asked for when they clicked "Settings". Dropped back to non-topmost immediately
-                // so it does not float over everything afterwards.
-                if (live != IntPtr.Zero && stable == 0 &&
-                    Interop.NativeMethods.GetForegroundWindow() != live)
-                {
-                    const uint f = Interop.NativeMethods.SWP_NOMOVE | Interop.NativeMethods.SWP_NOSIZE
-                                 | Interop.NativeMethods.SWP_NOACTIVATE;
-                    Interop.NativeMethods.SetWindowPos(live, Interop.NativeMethods.HWND_TOPMOST, 0, 0, 0, 0, f);
-                    Interop.NativeMethods.SetWindowPos(live, Interop.NativeMethods.HWND_NOTOPMOST, 0, 0, 0, 0, f);
-                }
+                // Only on the give-up path. The same branch is also how the guard exits when the
+                // window was closed or hidden mid-flight, and raising a window the user just
+                // dismissed is at best wasted interop.
+                if (gaveUp && stable == 0) RaiseAboveBlocker(w, live, blocker);
                 onSettled?.Invoke();
                 return;
             }
@@ -118,6 +114,31 @@ public partial class App : Application
             Interop.NativeMethods.StealForeground(live);
         };
         timer.Start();
+    }
+
+    /// <summary>Last resort after the guard expired without EVER holding the foreground: Windows
+    /// refused the grant for this window. Foreground is not ours to take, but Z-ORDER is — a topmost
+    /// flip puts the window in front of the app that kept winning, which is what the user asked for
+    /// when they clicked "Settings", and dropping straight back to non-topmost keeps it from
+    /// floating over everything afterwards.
+    /// <para>NEVER for a <see cref="Window.Topmost"/> window. SetWindowPos writes WS_EX_TOPMOST
+    /// directly, behind WPF's back: the Topmost property still reads true afterwards, so it never
+    /// changes, WPF never re-applies the style, and the search panel — Topmost="True", one instance
+    /// for the whole process — would silently stop being topmost for the rest of the session and
+    /// start opening behind full-screen apps. It would buy nothing there anyway: the panel's own
+    /// onSettled hides it a moment later when the foreground turns out to be foreign.</para>
+    /// <para>Only while the SAME app is still in front. If the foreground has moved on to a third
+    /// window, the user switched away deliberately during the guard, and shoving our window over
+    /// the one they are now typing into is a jump scare with no click to explain it.</para></summary>
+    private static void RaiseAboveBlocker(Window w, IntPtr live, IntPtr blocker)
+    {
+        if (live == IntPtr.Zero || w.Topmost) return;
+        var fg = Interop.NativeMethods.GetForegroundWindow();
+        if (fg == live || fg != blocker) return;
+        const uint f = Interop.NativeMethods.SWP_NOMOVE | Interop.NativeMethods.SWP_NOSIZE
+                     | Interop.NativeMethods.SWP_NOACTIVATE;
+        Interop.NativeMethods.SetWindowPos(live, Interop.NativeMethods.HWND_TOPMOST, 0, 0, 0, 0, f);
+        Interop.NativeMethods.SetWindowPos(live, Interop.NativeMethods.HWND_NOTOPMOST, 0, 0, 0, 0, f);
     }
 
     private IntPtr _hotkeyHwnd;
@@ -244,9 +265,22 @@ public partial class App : Application
         // not silently kill the process (which reads to the user as "卡住 then it vanished").
         DispatcherUnhandledException += (_, ex) =>
         {
-            try { Balloon(ex.Exception.Message, BalloonIcon.Warning); }
+            Core.Log.Error("ui thread", ex.Exception);
+            try { Balloon(ex.Exception.Message, NotificationIcon.Warning); }
             catch { }
             ex.Handled = true;
+        };
+        // The other two entry points. Only the handler above can RESCUE anything — `Handled = true`
+        // keeps the app running; by the time these fire the process (or the task) is already
+        // unwinding and all that is left to do is leave a trace. Without them a background failure
+        // — the daily backup, a chained index build, anything on the thread pool — vanishes with
+        // nothing written down anywhere, which is exactly the report that cannot be acted on.
+        AppDomain.CurrentDomain.UnhandledException += (_, ex) =>
+            Core.Log.Error("unhandled", ex.ExceptionObject as Exception);
+        System.Threading.Tasks.TaskScheduler.UnobservedTaskException += (_, ex) =>
+        {
+            Core.Log.Error("unobserved task", ex.Exception);
+            ex.SetObserved();
         };
 
         bool firstRun = !System.IO.File.Exists(Core.Settings.SettingsStore.DefaultPath);
@@ -256,6 +290,13 @@ public partial class App : Application
         LocalizationService.Instance.SetCulture(state.Settings.Language);
         // Before any window is created, so the first paint is already in the chosen theme.
         Ui.ThemeService.Apply(state.Settings.Theme);
+        // Subscribed BEFORE the first Build (inside ReloadData, below) — the index builds on a
+        // background thread, so a fast failure could otherwise land before anyone is listening.
+        // BeginInvoke rather than a direct call: the event arrives on a thread-pool thread, and at
+        // this point in startup the tray does not exist yet, so the handler has to run later on the
+        // UI thread anyway.
+        state.Search.BuildCompleted += err => Dispatcher.BeginInvoke(() => OnIndexBuilt(err));
+
         bool dataFolderUnavailable = false;
         try
         {
@@ -300,6 +341,11 @@ public partial class App : Application
         CreateMessageWindow();
 
         _tray = (TaskbarIcon)FindResource("Tray");   // icon comes from IconSource (Assets/quicktext.ico)
+        // ForceCreate is REQUIRED here, unlike under the old Hardcodet package, which added the
+        // shell icon from the constructor. H.NotifyIcon defers that to the Loaded event — and this
+        // TaskbarIcon lives in App.xaml's resources, so it is never in a visual tree and never
+        // loads. Without this the whole app runs with no tray icon at all: the only UI is a hotkey.
+        if (!_tray.IsCreated) _tray.ForceCreate();
         // Clicking the "new version available" balloon opens the release page. _updateUrl is armed
         // only while that balloon is current — the Balloon() helper clears it whenever any other
         // balloon shows — and consumed on click, so a click on an unrelated balloon never opens it.
@@ -314,11 +360,11 @@ public partial class App : Application
 
         state.StartWatching();
         if (dataFolderUnavailable)
-            Balloon(LocalizationService.Instance["Msg.DataFolderUnavailable"], BalloonIcon.Warning);
+            Balloon(LocalizationService.Instance["Msg.DataFolderUnavailable"], NotificationIcon.Warning);
         if (state.Store.FindConflictFiles().Count > 0)
-            Balloon(LocalizationService.Instance["Msg.ConflictFiles"], BalloonIcon.Warning);
+            Balloon(LocalizationService.Instance["Msg.ConflictFiles"], NotificationIcon.Warning);
         if (firstRun)
-            Balloon(string.Format(LocalizationService.Instance["Msg.FirstRunHint"], state.Settings.Hotkey), BalloonIcon.Info);
+            Balloon(string.Format(LocalizationService.Instance["Msg.FirstRunHint"], state.Settings.Hotkey), NotificationIcon.Info);
 
         ApplyMenu();
         LocalizationService.Instance.PropertyChanged += (_, _) => Dispatcher.Invoke(ApplyMenu);
@@ -339,15 +385,21 @@ public partial class App : Application
         // user action, so the 30-day cleanup needs this daily nudge), then the daily backup.
         System.Threading.Tasks.Task.Run(() =>
         {
-            try { state.MarkSelfWrite(); state.Store.LoadTrash(); } catch { }
-            state.AutoBackupIfDue();
+            // Two try blocks, not one: the purge failing must not cost the user that day's backup.
+            // And both are logged — the backup zips the whole data folder, so "disk full" and "file
+            // locked by the sync client" are ordinary outcomes here, and swallowing them silently
+            // meant a user could go weeks with no backups and no way to find out.
+            try { state.MarkSelfWrite(); state.Store.LoadTrash(); }
+            catch (Exception ex) { Core.Log.Error("trash purge", ex); }
+            try { state.AutoBackupIfDue(); }
+            catch (Exception ex) { Core.Log.Error("auto backup", ex); }
         });
 
         // Duplicate abbreviations are silent last-wins in the matcher (case-insensitive, and
         // images expand now too) — tell the user which triggers are shadowed.
         if (state.AbbrConflicts.Count > 0)
             Balloon(string.Format(LocalizationService.Instance["Msg.AbbrConflicts"],
-                string.Join("、", state.AbbrConflicts)), BalloonIcon.Warning);
+                string.Join("、", state.AbbrConflicts)), NotificationIcon.Warning);
 
         // Opt-in, off by default (the ONLY network call the app ever makes): notify if GitHub has a
         // newer release. Fire-and-forget so a slow/absent network never delays the tray coming up.
@@ -386,30 +438,54 @@ public partial class App : Application
             if (Core.UpdateCheck.IsNewer(tag, current))
             {
                 var link = string.IsNullOrWhiteSpace(url) ? "https://github.com/rockbenben/QuickText/releases" : url;
-                Balloon(string.Format(loc["Msg.UpdateAvailable"], tag), BalloonIcon.Info, link);   // arms the click-to-download link
+                Balloon(string.Format(loc["Msg.UpdateAvailable"], tag), NotificationIcon.Info, link);   // arms the click-to-download link
             }
             else if (manual)
-                Balloon(loc["Msg.UpToDate"], BalloonIcon.Info);
+                Balloon(loc["Msg.UpToDate"], NotificationIcon.Info);
         }
         catch
         {
-            if (manual) Balloon(loc["Msg.UpdateCheckFailed"], BalloonIcon.Warning);
+            if (manual) Balloon(loc["Msg.UpdateCheckFailed"], NotificationIcon.Warning);
         }
+    }
+
+    /// <summary>A background index build finished. Two things hang off it.
+    /// <para>A FAILURE has to be visible. An index that answers every query with nothing is
+    /// indistinguishable from an empty library, except that the Manager still lists every snippet
+    /// and abbreviations still expand — "my text is gone from search but fine everywhere else",
+    /// with no error to act on. While the build was synchronous this reached OnStartup's catch and
+    /// warned; the balloon is that warning, kept.</para>
+    /// <para>A SUCCESS may need a re-query. Readers only join an unfinished build for
+    /// SearchIndex.ReaderJoinTimeout, so a panel summoned during a cold start can have answered a
+    /// keystroke from a half-built index. Refreshing a visible panel here is what turns that into a
+    /// brief flicker instead of a wrong "no results" the user has to type through.</para></summary>
+    private void OnIndexBuilt(Exception? error)
+    {
+        if (error != null)
+        {
+            Balloon(LocalizationService.Instance["Msg.SearchIndexFailed"], NotificationIcon.Warning);
+            return;
+        }
+        if (_panel is { IsVisible: true } p) p.RefreshAfterIndexBuild();
     }
 
     /// <summary>Every tray balloon goes through here so that showing any balloon OTHER than "update
     /// available" disarms its click-to-download link (only that one passes a <paramref name="url"/>).
     /// Otherwise an ignored update balloon would leave the link live, and the next click on an
     /// unrelated balloon (captured / conflict / up-to-date) would open the browser.</summary>
-    private void Balloon(string message, BalloonIcon icon, string? url = null)
+    private void Balloon(string message, NotificationIcon icon, string? url = null)
     {
         _updateUrl = url;
-        _tray?.ShowBalloonTip(LocalizationService.Instance["App.Name"], message, icon);
+        _tray?.ShowNotification(LocalizationService.Instance["App.Name"], message, icon);
     }
 
     protected override void OnExit(ExitEventArgs e)
     {
         AppState.Current.Usage.Flush();   // persist any debounced usage/favorite changes
+        // Hand the shell icon back explicitly. It is removed on process exit either way, but a
+        // lingering icon that only disappears when the user mouses over it is the classic symptom
+        // of skipping this, and ForceCreate above means we own the lifetime now.
+        _tray?.Dispose();
         base.OnExit(e);
     }
 
@@ -507,13 +583,13 @@ public partial class App : Application
                 // dead summon hotkey otherwise looks like the app itself is broken.
                 if (!_hotkey.TryRegister(out _))
                     Balloon(string.Format(LocalizationService.Instance["Msg.HotkeyTaken"], settings.Hotkey),
-                        BalloonIcon.Warning);
+                        NotificationIcon.Warning);
             }
         }
         catch (FormatException)
         {
             Balloon(string.Format(LocalizationService.Instance["Msg.HotkeyInvalid"], settings.Hotkey),
-                BalloonIcon.Warning);
+                NotificationIcon.Warning);
         }
 
         // Optional second hotkey: save the clipboard as a snippet without any window.
@@ -526,13 +602,13 @@ public partial class App : Application
                 _captureHotkey.Pressed += CaptureClipboard;
                 if (!_captureHotkey.TryRegister(out _))
                     Balloon(string.Format(LocalizationService.Instance["Msg.HotkeyTaken"], settings.CaptureHotkey),
-                        BalloonIcon.Warning);
+                        NotificationIcon.Warning);
             }
         }
         catch (FormatException)
         {
             Balloon(string.Format(LocalizationService.Instance["Msg.HotkeyInvalid"], settings.CaptureHotkey),
-                BalloonIcon.Warning);
+                NotificationIcon.Warning);
         }
     }
 
@@ -587,6 +663,20 @@ public partial class App : Application
             // This one line also covers SwapSurface's code branch, HighlightingCatalog.Get,
             // SyntaxTheme.ApplyDark and PlaceholderColorizer end to end.
             Exercise(new BodyEditorWindow("", "", false, 0, 0, "json"));
+            // The tray icon is the app's ONLY persistent UI, and it is the one resource that has to
+            // be created by hand: it lives in App.xaml's resources, so it never joins a visual tree
+            // and never fires Loaded — the event H.NotifyIcon creates the shell icon from. A missing
+            // ForceCreate, or an IconSource that stops resolving, leaves an app with no tray icon at
+            // all and nothing but the hotkey, which no other check here would notice.
+            var tray = (TaskbarIcon)FindResource("Tray");
+            try
+            {
+                tray.ForceCreate();
+                if (!tray.IsCreated)
+                    throw new InvalidOperationException("Tray icon did not materialize (TaskbarIcon.IsCreated == false).");
+            }
+            finally { tray.Dispose(); }
+
             // An embedded .xshd that didn't get embedded is invisible at build time — the app
             // starts fine and only the user who picks that one format ever finds out. CI runs
             // this on every commit, so it's the right place to catch it.
@@ -882,9 +972,9 @@ public partial class App : Application
     {
         var loc = LocalizationService.Instance;
         if (SaveClipboardSnippet() is { } sn)
-            Balloon(string.Format(loc["Msg.Captured"], sn.Name), BalloonIcon.Info);
+            Balloon(string.Format(loc["Msg.Captured"], sn.Name), NotificationIcon.Info);
         else
-            Balloon(loc["Msg.CaptureEmpty"], BalloonIcon.Warning);
+            Balloon(loc["Msg.CaptureEmpty"], NotificationIcon.Warning);
     }
     private void OnSettings(object s, RoutedEventArgs e) => ShowSingleton(() => new SettingsWindow());
     private void OnExit(object s, RoutedEventArgs e)
