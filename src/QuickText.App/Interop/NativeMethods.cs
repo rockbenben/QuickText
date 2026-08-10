@@ -253,6 +253,21 @@ internal static class NativeMethods
     // --- dark window chrome (Win10 2004+/Win11) ---
     public const int DWMWA_USE_IMMERSIVE_DARK_MODE = 20;
 
+    /// <summary>Hide a window from DWM composition entirely while it is "shown" — the same flag the
+    /// OS uses for windows on inactive virtual desktops. Used to keep a window invisible between
+    /// ShowWindow and WPF's first presented frame (see WindowTheming.UseDarkChrome).</summary>
+    public const int DWMWA_CLOAK = 13;
+
+    // --- z-order fallback when the foreground grant is refused ---
+    public static readonly IntPtr HWND_TOPMOST = new(-1);
+    public static readonly IntPtr HWND_NOTOPMOST = new(-2);
+    public const uint SWP_NOMOVE = 0x0002;
+    public const uint SWP_NOSIZE = 0x0001;
+    public const uint SWP_NOACTIVATE = 0x0010;
+
+    [DllImport("user32.dll", SetLastError = true)]
+    public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+
     [DllImport("dwmapi.dll")]
     public static extern int DwmSetWindowAttribute(IntPtr hwnd, int attr, ref int attrValue, int attrSize);
 }

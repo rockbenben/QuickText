@@ -29,6 +29,28 @@ internal static class WindowTheming
                     hwnd, NativeMethods.DWMWA_USE_IMMERSIVE_DARK_MODE, ref on, sizeof(int));
             }
             catch { /* older OS without the attribute — harmless */ }
+            // Cloak until WPF has presented its first frame. Between ShowWindow and that first
+            // present there is a real gap. Measured by sampling screen pixels while a window opened:
+            // the window's first DWM-composed frame arrives ~50ms BEFORE the content and is plain
+            // white, i.e. a white flash on every dark-theme open. A WM_ERASEBKGND hook was tried
+            // first and disproven — the white is the surface's initial composition, before any
+            // erase cycle.
+            // Cloaking (the flag DWM itself uses for windows on inactive virtual desktops) keeps
+            // the window out of composition until the content frame exists, and costs no perceived
+            // latency: the measured white phase is replaced by the same duration of nothing.
+            int cloak = 1;
+            try { NativeMethods.DwmSetWindowAttribute(hwnd, NativeMethods.DWMWA_CLOAK, ref cloak, sizeof(int)); }
+            catch { /* cloaking unavailable — behavior falls back to the flash, not a failure */ }
+        };
+        w.ContentRendered += (_, _) =>
+        {
+            // First frame is committed; let DWM show the window. Runs on every ContentRendered but
+            // uncloaking an uncloaked window is a no-op.
+            var hwnd = new WindowInteropHelper(w).Handle;
+            if (hwnd == IntPtr.Zero) return;
+            int cloak = 0;
+            try { NativeMethods.DwmSetWindowAttribute(hwnd, NativeMethods.DWMWA_CLOAK, ref cloak, sizeof(int)); }
+            catch { }
         };
     }
 

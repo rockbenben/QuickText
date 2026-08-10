@@ -93,6 +93,19 @@ public partial class App : Application
             if (live == IntPtr.Zero || !w.IsVisible || DateTime.UtcNow > deadline)
             {
                 timer.Stop();
+                // Gave up without ever holding the foreground: Windows refused the grant for the
+                // whole window. Foreground is not ours to take, but Z-ORDER is — a topmost flip
+                // puts the window in front of the app that kept winning, which is what the user
+                // asked for when they clicked "Settings". Dropped back to non-topmost immediately
+                // so it does not float over everything afterwards.
+                if (live != IntPtr.Zero && stable == 0 &&
+                    Interop.NativeMethods.GetForegroundWindow() != live)
+                {
+                    const uint f = Interop.NativeMethods.SWP_NOMOVE | Interop.NativeMethods.SWP_NOSIZE
+                                 | Interop.NativeMethods.SWP_NOACTIVATE;
+                    Interop.NativeMethods.SetWindowPos(live, Interop.NativeMethods.HWND_TOPMOST, 0, 0, 0, 0, f);
+                    Interop.NativeMethods.SetWindowPos(live, Interop.NativeMethods.HWND_NOTOPMOST, 0, 0, 0, 0, f);
+                }
                 onSettled?.Invoke();
                 return;
             }
