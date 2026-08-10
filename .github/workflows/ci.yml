@@ -12,6 +12,11 @@ jobs:
     timeout-minutes: 15          # fail fast if a --smoke run deadlocks, instead of hanging to the 6h cap
     steps:
       - uses: actions/checkout@v7
+        # fetch-depth: 0 for the tags. VersionFromGitTag in the csproj derives the version from
+        # `git describe --tags`, and checkout clones shallow WITHOUT tags by default — so the
+        # build would silently stamp VersionFallback instead of the release being built.
+        with:
+          fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
@@ -48,9 +53,16 @@ jobs:
     runs-on: windows-latest
     timeout-minutes: 20
     permissions:
-      contents: write
+      contents: write        # creating the Release
+      id-token: write        # the attest step below: exchange an OIDC token to sign the provenance
+      attestations: write    # ...and write that attestation back to the repo
     steps:
       - uses: actions/checkout@v7
+        # fetch-depth: 0 for the tags. VersionFromGitTag in the csproj derives the version from
+        # `git describe --tags`, and checkout clones shallow WITHOUT tags by default — so the
+        # build would silently stamp VersionFallback instead of the release being built.
+        with:
+          fetch-depth: 0
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
@@ -63,13 +75,38 @@ jobs:
           # framework); publishing the second straight after the first regenerates it correctly —
           # verified by running the framework-dependent exe with --smoke, so no rebuild is needed.
           dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10 -p:Version=$v --nologo
-      - name: Package
+      - name: Package + SHA256
         shell: pwsh
         run: |
           # Two zips — the variant lives in the ZIP name, so unpacking either always leaves a clean
           # QuickText.exe instead of a name a portable install would keep forever.
           Compress-Archive -Path src/QuickText.App/bin/Release/publish/QuickText.exe -DestinationPath "QuickText-${{ github.ref_name }}-win-x64.zip"
           Compress-Archive -Path src/QuickText.App/bin/Release/publish-needs-dotnet10/QuickText.exe -DestinationPath "QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip"
+          # Every downloadable asset gets a line — the two builds go to two different audiences, and
+          # signing only one of them leaves the other group holding a file they cannot check.
+          # THIS LINE IS THE ASSET LIST. The attest step below consumes this file rather than
+          # repeating the paths, so adding an asset here carries the attestation with it; listing
+          # them again over there is how a new asset ends up silently unsigned.
+          # Format is shasum's: hex digest, a separating space, a mode flag (space = text,
+          # '*' = binary), then the name — which is exactly what the two spaces below produce.
+          # Encoding pinned to ascii so this does not depend on which PowerShell runs it: 5.1
+          # defaults to a BOM that breaks line-by-line parsing of the first entry.
+          Get-FileHash *.zip, src/QuickText.App/bin/Release/publish-needs-dotnet10/QuickText.exe -Algorithm SHA256 |
+            ForEach-Object { "{0}  {1}" -f $_.Hash.ToLower(), (Split-Path $_.Path -Leaf) } |
+            Set-Content SHA256SUMS.txt -Encoding ascii
+      # Signed build provenance, and the closest thing this project has to a code signature: the exe
+      # is unsigned, so a downloader's only other signal is SmartScreen telling them it is unknown.
+      # This lets them check the file actually came out of THIS repo's workflow rather than merely
+      # "is unmodified" — the attestation lives on GitHub's side, not next to the asset it vouches
+      # for, so replacing the release does not let an attacker replace the proof along with it.
+      # Runs BEFORE the Release step on purpose: a failure here should mean no release at all,
+      # rather than published assets whose provenance quietly went missing.
+      # Fed the checksums file rather than a repeated list of paths — the asset list then lives in
+      # exactly one place (the Get-FileHash above) and new assets are covered automatically.
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-checksums: SHA256SUMS.txt
       - name: Release
         # Major-version tag on purpose: `v3` moves with each patch, which is how fixes arrive without
         # anyone bumping anything. Dependabot still speaks up when a v4 shows up.
@@ -86,6 +123,7 @@ jobs:
             QuickText-${{ github.ref_name }}-win-x64.zip
             QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip
             src/QuickText.App/bin/Release/publish-needs-dotnet10/QuickText.exe
+            SHA256SUMS.txt
           # Picking a package happens on the download page, not in the README, so the note has to
           # ride along with the release. GitHub appends the generated changelog after this body.
           # No sizes quoted here or in the READMEs: they move with every build and go stale silently,
@@ -96,4 +134,11 @@ jobs:
             - `QuickText-${{ github.ref_name }}-win-x64.zip` — .NET runtime included; unzip and run on any Windows 10/11 x64. Take this if you're unsure. / 内含 .NET 运行时，解压即用；拿不准、内网机、离线机、U 盘随身带就选它。
             - `QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip` — same app without the bundled runtime; needs the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed. / 同一个程序，只是不带运行时；需要电脑上已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)。
             - `QuickText.exe` — the same build as the zip above, unzipped: click, run, or drop it over your existing QuickText.exe to update. Windows will offer the runtime download if it is missing. / 就是上面那个不含运行时的版本，只是没打包：点开即用，也可直接覆盖现有的 QuickText.exe 完成更新。缺运行时时 Windows 会自己提示下载。
+
+            **Verify your download / 校验下载** — the exe isn't code-signed. Two ways, pick either: / 程序没有代码签名，两种校验方式任选：
+
+            ```
+            gh attestation verify <file> -R rockbenben/QuickText   # proves it was built by this repo / 证明由本仓库构建
+            certutil -hashfile <file> SHA256                        # compare against SHA256SUMS.txt / 与 SHA256SUMS.txt 比对
+            ```
           generate_release_notes: true
