@@ -4,9 +4,21 @@
         Width="420" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen" ShowInTaskbar="False" Topmost="True"
         Background="{DynamicResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
-    <StackPanel Margin="24,20,24,20">
-        <TextBlock x:Name="TitleText" Foreground="{DynamicResource Brush.TextPrimary}"
+    <!-- Grid with a * row, not a StackPanel: this window is SizeToContent="Height" NoResize and one
+         row is added per {variable}, so a snippet with enough of them (they also accumulate across
+         three levels of {snippet:x} nesting) grew the window straight off the bottom of a 1366x768
+         laptop — taking the OK button with it, on a dialog that can neither be resized nor scrolled.
+         The field list now scrolls and CapHeightToMonitor bounds the window; the title and buttons
+         stay put. -->
+    <Grid Margin="24,20,24,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" x:Name="TitleText" Foreground="{DynamicResource Brush.TextPrimary}"
                    FontSize="15" FontWeight="SemiBold" Margin="0,0,0,16"/>
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
         <ItemsControl x:Name="Fields">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -26,9 +38,12 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,6,0,0">
-            <Button x:Name="CancelButton" Style="{StaticResource DarkButton}" MinWidth="84" Padding="16,7" Margin="0,0,10,0" Click="OnCancel"/>
-            <Button x:Name="OkButton" Style="{StaticResource DarkButtonPrimary}" MinWidth="84" Padding="16,7" Click="OnOk" IsDefault="True"/>
-        </StackPanel>
-    </StackPanel>
+        </ScrollViewer>
+        <!-- WrapPanel for the same reason as AppDialog: 420 DIP minus margins leaves 372 for two
+             buttons whose labels grow in translation. -->
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,6,0,-8">
+            <Button x:Name="CancelButton" Style="{StaticResource DarkButton}" MinWidth="84" Padding="16,7" Margin="0,0,10,8" Click="OnCancel"/>
+            <Button x:Name="OkButton" Style="{StaticResource DarkButtonPrimary}" MinWidth="84" Padding="16,7" Margin="0,0,0,8" Click="OnOk" IsDefault="True"/>
+        </WrapPanel>
+    </Grid>
 </Window>

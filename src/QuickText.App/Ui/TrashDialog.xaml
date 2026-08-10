@@ -53,16 +53,20 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <WrapPanel Grid.Column="0" Orientation="Horizontal">
-                <Button x:Name="RestoreButton" Style="{StaticResource DarkButtonPrimary}"
-                        Padding="14,7" Margin="0,0,0,6" Click="OnRestore"/>
+            <!-- Gaps ride on each button's RIGHT edge, and the -6 here cancels the per-button 6 when
+                 nothing wraps. A left inset survives a wrap: put the separator on Delete's left and
+                 the moment the row breaks, Delete lands first on line two still carrying it, indented
+                 20px under Restore — ragged in exactly the locales the wrapping exists for. -->
+            <WrapPanel Grid.Column="0" Orientation="Horizontal" Margin="0,0,0,-6">
                 <!-- Both are irreversible and both sat in the same grey as Close, one button away from
                      the primary Restore. Danger styling + a wider gap after Restore separate "puts it
                      back" from "gone for good". -->
+                <Button x:Name="RestoreButton" Style="{StaticResource DarkButtonPrimary}"
+                        Padding="14,7" Margin="0,0,20,6" Click="OnRestore"/>
                 <Button x:Name="DeleteButton" Style="{StaticResource DarkButtonDanger}"
-                        Padding="14,7" Margin="20,0,0,6" Click="OnDeleteForever"/>
+                        Padding="14,7" Margin="0,0,8,6" Click="OnDeleteForever"/>
                 <Button x:Name="EmptyButton" Style="{StaticResource DarkButtonDanger}"
-                        Padding="14,7" Margin="8,0,0,6" Click="OnEmptyTrash"/>
+                        Padding="14,7" Margin="0,0,0,6" Click="OnEmptyTrash"/>
             </WrapPanel>
             <Button Grid.Column="1" x:Name="CloseButton" Style="{StaticResource DarkButton}"
                     VerticalAlignment="Top" Padding="14,7" Margin="12,0,0,0" Click="OnClose"/>

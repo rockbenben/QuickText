@@ -188,16 +188,18 @@
                          one-pixel stub of "Fermer" that reads as a rendering artifact. Wrapping keeps
                          every hint legible and costs one extra footer line only at the narrowest
                          widths, where the alternative was losing the hint anyway. -->
-                    <WrapPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                        <StackPanel x:Name="HintNav" Orientation="Horizontal" Margin="0,0,16,0">
+                    <!-- The 4px bottom on each group is the gutter BETWEEN wrapped lines; the -4 here cancels
+                         it again when nothing wraps, so the common single-line footer keeps its old height. -->
+                    <WrapPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,0,0,-4">
+                        <StackPanel x:Name="HintNav" Orientation="Horizontal" Margin="0,0,16,4">
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="↑↓" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.Nav], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>
-                        <StackPanel x:Name="HintCat" Orientation="Horizontal" Margin="0,0,16,0">
+                        <StackPanel x:Name="HintCat" Orientation="Horizontal" Margin="0,0,16,4">
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="←→" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.SwitchCat], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>
-                        <StackPanel x:Name="HintSend" Orientation="Horizontal" Margin="0,0,16,0">
+                        <StackPanel x:Name="HintSend" Orientation="Horizontal" Margin="0,0,16,4">
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="↵" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.Send], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>
@@ -205,11 +207,11 @@
                              as the empty-state button (Search.CreateNew, "创建「x」"), and an action
                              keeps one name everywhere. "新建" belongs to the + button, which makes a
                              blank snippet instead. -->
-                        <StackPanel x:Name="HintCreate" Orientation="Horizontal" Margin="0,0,16,0" Visibility="Collapsed">
+                        <StackPanel x:Name="HintCreate" Orientation="Horizontal" Margin="0,0,16,4" Visibility="Collapsed">
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="↵" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.Create], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="esc" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.Close], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>

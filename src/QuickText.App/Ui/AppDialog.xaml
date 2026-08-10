@@ -4,14 +4,31 @@
         Width="400" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
         Background="{DynamicResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
-    <StackPanel Margin="24,20,24,20">
-        <TextBlock x:Name="MessageText" Foreground="{DynamicResource Brush.TextPrimary}" FontSize="14"
-                   TextWrapping="Wrap" Margin="0,0,0,14"/>
-        <TextBox x:Name="InputBox" Style="{StaticResource DarkTextBox}" FontSize="14"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,18,0,0">
-            <Button x:Name="CancelButton" Style="{StaticResource DarkButton}" MinWidth="84" Padding="16,7" Margin="0,0,10,0" Click="OnCancel"/>
-            <Button x:Name="DiscardButton" Style="{StaticResource DarkButton}" MinWidth="84" Padding="16,7" Margin="0,0,10,0" Click="OnDiscard" Visibility="Collapsed"/>
-            <Button x:Name="OkButton" Style="{StaticResource DarkButtonPrimary}" MinWidth="84" Padding="16,7" Click="OnOk" IsDefault="True"/>
-        </StackPanel>
-    </StackPanel>
+    <!-- Grid with a * row, not a StackPanel: the window is SizeToContent="Height" NoResize, so the
+         message alone decides how tall it gets. Under SizeToContent the * row still measures to its
+         content (nothing is stretched), but once CapHeightToMonitor clamps the window on a short
+         screen the * row is the one that gives, and the message scrolls instead of pushing the
+         buttons off the bottom of a dialog that cannot be resized. -->
+    <Grid Margin="24,20,24,20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+            <TextBlock x:Name="MessageText" Foreground="{DynamicResource Brush.TextPrimary}" FontSize="14"
+                       TextWrapping="Wrap" Margin="0,0,0,14"/>
+        </ScrollViewer>
+        <TextBox Grid.Row="1" x:Name="InputBox" Style="{StaticResource DarkTextBox}" FontSize="14"/>
+        <!-- WrapPanel, not a horizontal StackPanel: this window is Width="400" NoResize, so after
+             the 24px margins the row has 352 DIP and no way to grow. A StackPanel measures its
+             children at INFINITE width, so three buttons whose labels grew in translation (th / hi /
+             ru) simply overflowed and, right-aligned, were clipped from the LEFT — Cancel, the way
+             out, lost first. Wrapping costs a second line in those languages instead. -->
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,18,0,-8">
+            <Button x:Name="CancelButton" Style="{StaticResource DarkButton}" MinWidth="84" Padding="16,7" Margin="0,0,10,8" Click="OnCancel"/>
+            <Button x:Name="DiscardButton" Style="{StaticResource DarkButtonDanger}" MinWidth="84" Padding="16,7" Margin="0,0,10,8" Click="OnDiscard" Visibility="Collapsed"/>
+            <Button x:Name="OkButton" Style="{StaticResource DarkButtonPrimary}" MinWidth="84" Padding="16,7" Margin="0,0,0,8" Click="OnOk" IsDefault="True"/>
+        </WrapPanel>
+    </Grid>
 </Window>

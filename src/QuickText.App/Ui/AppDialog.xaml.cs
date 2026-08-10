@@ -11,6 +11,7 @@ public partial class AppDialog : Window
     {
         InitializeComponent();
         WindowTheming.UseDarkChrome(this);
+        WindowTheming.CapHeightToMonitor(this);   // SizeToContent=Height + NoResize: bound it or the OK button leaves the screen
         WindowTheming.ApplyFlowDirection(this);
         // Esc always means cancel — never set DialogResult here, so ShowDialog() returns null
         // exactly as it does when the window is closed via its native close button (X). Both
@@ -65,7 +66,13 @@ public partial class AppDialog : Window
     /// <summary>Three-way question (e.g. Save / Don't save / Cancel). Returns true if
     /// <paramref name="saveText"/> was chosen, false for <paramref name="discardText"/>, or null
     /// if the user cancelled (Esc or the window's close button) — cancel must never be treated
-    /// as a silent discard by the caller.</summary>
+    /// as a silent discard by the caller.
+    /// <para>Discard carries DANGER styling for the same reason <see cref="Confirm"/>'s OK does:
+    /// it is the button that throws the user's unsaved edits away. Left in the default grey it was
+    /// pixel-identical to Cancel right beside it — two buttons that look the same and do opposite
+    /// things, in the one dialog where the wrong click costs work. It is styled in the XAML rather
+    /// than here because DiscardButton exists for this method alone (OkButton cannot be: Prompt and
+    /// Alert need it primary).</para></summary>
     public static bool? ConfirmSaveDiscard(Window owner, string title, string message,
                                             string saveText, string discardText, string cancelText)
     {

@@ -2,8 +2,6 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
-using QuickText.App.Interop;
 using QuickText.Core.Localization;
 using QuickText.Core.Snippets;
 
@@ -224,7 +222,7 @@ public partial class BodyEditorWindow : Window
     private void PlaceOnOwnerMonitor(Core.Settings.AppSettings settings)
     {
         if (App.InSmoke) return;   // --smoke parks windows off-screen and never shows them
-        var area = OwnerWorkArea();
+        var area = WindowTheming.OwnerOrCursorWorkArea(this);
 
         bool hasSavedSize = settings.BodyWinW > 200 && settings.BodyWinH > 150;
         // Math.Clamp would throw if the floor (900/640) exceeds area.Width/Height on a very small
@@ -244,36 +242,6 @@ public partial class BodyEditorWindow : Window
         Height = height;
         Left = area.Left + Math.Max(0, (area.Width - width) / 2);
         Top = area.Top + Math.Max(0, (area.Height - height) / 2);
-    }
-
-    /// <summary>Work area (DIPs) of the monitor the owner (the Manager) is on; the cursor's monitor
-    /// as a fallback when there is no owner.</summary>
-    private Rect OwnerWorkArea()
-    {
-        if (Owner != null)
-        {
-            var hwnd = new WindowInteropHelper(Owner).Handle;
-            if (hwnd != IntPtr.Zero)
-                return WindowTheming.MonitorWorkAreaDip(
-                    NativeMethods.MonitorFromWindow(hwnd, NativeMethods.MONITOR_DEFAULTTONEAREST));
-        }
-        return CursorWorkArea();
-    }
-
-    /// <summary>Work area (DIPs) of the monitor under the mouse cursor; the primary work area as a
-    /// fallback. Mirrors WindowTheming's own cursor-monitor lookup (shares its DIP conversion via
-    /// the internal <see cref="WindowTheming.MonitorWorkAreaDip"/>), duplicated here in miniature
-    /// because that helper's own cursor lookup is private.</summary>
-    private static Rect CursorWorkArea()
-    {
-        try
-        {
-            if (NativeMethods.GetCursorPos(out var pt))
-                return WindowTheming.MonitorWorkAreaDip(
-                    NativeMethods.MonitorFromPoint(pt, NativeMethods.MONITOR_DEFAULTTONEAREST));
-        }
-        catch { /* fall through to the primary work area */ }
-        return SystemParameters.WorkArea;
     }
 
     protected override void OnPreviewKeyDown(KeyEventArgs e)

@@ -147,8 +147,8 @@
                          cell, so the parent clips instead of the TextBlock trimming — and under the
                          Arabic layout the clip takes the START of the name ("ui优化" rendered as "化",
                          no ellipsis). Letting it trim normally costs a few characters at the panel's
-                         own MinWidth but stays correct in both flow directions. The chips are bounded
-                         below instead, which is what actually threatened the name. -->
+                         own MinWidth but stays correct in both flow directions. Both chips are
+                         bounded below instead, which is what actually threatened the name. -->
                     <TextBlock Grid.Column="0" VerticalAlignment="Center"
                                FontFamily="{StaticResource Font.Ui}" FontSize="15" FontWeight="SemiBold"
                                Foreground="{DynamicResource Brush.TextPrimary}" TextTrimming="CharacterEllipsis"
@@ -174,7 +174,12 @@
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
-                            <TextBlock Text="{Binding Snippet.Abbr}" FontFamily="{StaticResource Font.Mono}" FontSize="11">
+                            <!-- Bounded like the category chip beside it, and for the same reason:
+                                 an abbreviation is free text with no MaxLength on the Manager field,
+                                 so ";kundenservice-vorlage" would eat the row and ellipse the name
+                                 down to a character or two. -->
+                            <TextBlock Text="{Binding Snippet.Abbr}" FontFamily="{StaticResource Font.Mono}" FontSize="11"
+                                       MaxWidth="120" TextTrimming="CharacterEllipsis">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="{DynamicResource Brush.AbbrText}"/>

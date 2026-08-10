@@ -33,6 +33,7 @@ public partial class VariablesDialog : Window
     {
         InitializeComponent();
         WindowTheming.UseDarkChrome(this);
+        WindowTheming.CapHeightToMonitor(this);   // SizeToContent=Height + NoResize: bound it or the OK button leaves the screen
         WindowTheming.ApplyFlowDirection(this);
         var loc = LocalizationService.Instance;
         Title = loc["App.Name"];

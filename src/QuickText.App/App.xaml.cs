@@ -637,9 +637,19 @@ public partial class App : Application
                      ?? System.IO.Path.GetTempPath();
         System.IO.Directory.CreateDirectory(dir);
 
-        // Work-area heights in DIP that real setups produce: 1366x768@125% = 614,
-        // 1920x1080@150% = 720, 1920x1080@100% = 1040.
-        var waHeights = new[] { 614.0, 720.0, 1040.0 };
+        // Work-area height (DIP) = screen height / scale - taskbar. The taskbar scales with the DPI,
+        // so in DIP it is a constant: ~40 on Win10, ~48 on Win11, 0 when auto-hidden.
+        // Subtracting it is the whole point of this array. A window's height cap comes from the WORK
+        // area, not the screen — and two of these three used to be raw screen heights (614 = 768/1.25,
+        // 720 = 1080/1.5) while only the third had the taskbar taken off. That made the tightest row,
+        // the one that exists to catch overflow, 40 DIP MORE forgiving than any real laptop.
+        const double taskbar = 40;
+        var waHeights = new[]
+        {
+            768 / 1.25 - taskbar,    // 1366x768  @125% -> ~574, the row that catches things
+            1080 / 1.50 - taskbar,   // 1920x1080 @150% -> ~680
+            1080 / 1.00 - taskbar,   // 1920x1080 @100% -> 1040
+        };
 
         void Capture(Window w, string file)
         {
@@ -681,6 +691,34 @@ public partial class App : Application
             }
         }
 
+        // AppDialog is shown through static helpers that block on ShowDialog(), so the harness has to
+        // build it by hand — these mirror those helpers. Kept as named functions used by BOTH passes
+        // rather than inline lambdas: the theme pass and the language pass must render the same
+        // dialog, or one of them is checking something the app never shows.
+        void DressConfirm(Window w)
+        {
+            var loc = LocalizationService.Instance;
+            var d = (AppDialog)w;
+            d.MessageText.Text = loc["Trash.EmptyConfirm"];
+            d.InputBox.Visibility = Visibility.Collapsed;
+            d.OkButton.Style = (Style)d.FindResource("DarkButtonDanger");   // as AppDialog.Confirm does
+            d.OkButton.Content = loc["Dialog.OK"];
+            d.CancelButton.Content = loc["Dialog.Cancel"];
+        }
+        // The three-button case: the widest row this fixed-width NoResize window ever has to fit, and
+        // the one that overflowed 352 DIP in the longest translations.
+        void DressSaveDiscard(Window w)
+        {
+            var loc = LocalizationService.Instance;
+            var d = (AppDialog)w;
+            d.MessageText.Text = loc["Manager.UnsavedConfirm"];
+            d.InputBox.Visibility = Visibility.Collapsed;
+            d.OkButton.Content = loc["Manager.Save"];
+            d.DiscardButton.Content = loc["Manager.DontSave"];
+            d.DiscardButton.Visibility = Visibility.Visible;
+            d.CancelButton.Content = loc["Dialog.Cancel"];
+        }
+
         foreach (var theme in new[] { Ui.ThemeService.Dark, Ui.ThemeService.Light })
         {
             activeTheme = theme;
@@ -707,18 +745,15 @@ public partial class App : Application
                 new Core.Snippets.Placeholders.VariableSpec("姓名", "张三", Array.Empty<string>()),
                 new Core.Snippets.Placeholders.VariableSpec("称呼", "您", new[] { "您", "你" }),
             }), allHeights: false);
-            Shot(t + "dialog-confirm", () => new AppDialog(), w =>
-            {
-                var d = (AppDialog)w;
-                d.MessageText.Text = LocalizationService.Instance["Trash.EmptyConfirm"];
-                d.InputBox.Visibility = Visibility.Collapsed;
-                // Mirrors AppDialog.Confirm (the source of truth for this dialog's styling) — this
-                // harness builds the window by hand, so without it the preview would show a green
-                // confirm button that the running app never renders.
-                d.OkButton.Style = (Style)d.FindResource("DarkButtonDanger");
-                d.OkButton.Content = LocalizationService.Instance["Dialog.OK"];
-                d.CancelButton.Content = LocalizationService.Instance["Dialog.Cancel"];
-            }, allHeights: false);
+            // allHeights on purpose — this is the one view whose height is driven by DATA rather than
+            // by layout, so the short work areas are the whole point. One row per {variable}, and they
+            // accumulate across three levels of {snippet:x} nesting, so a dozen is reachable; the
+            // window is SizeToContent="Height" NoResize, which used to mean OK simply left the screen.
+            Shot(t + "variables-many", () => new VariablesDialog(), w => ((VariablesDialog)w).Populate(
+                Enumerable.Range(1, 12).Select(i =>
+                    new Core.Snippets.Placeholders.VariableSpec($"变量{i}", $"默认值 {i}", Array.Empty<string>())).ToArray()));
+            Shot(t + "dialog-confirm", () => new AppDialog(), DressConfirm, allHeights: false);
+            Shot(t + "dialog-discard", () => new AppDialog(), DressSaveDiscard, allHeights: false);
         }
 
         // Text-density pass: the longest translations, not just the authoring language. A fixed-width
@@ -737,6 +772,11 @@ public partial class App : Application
             Shot($"{lang}-panel-nomatch", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill("zzqqxx"), allHeights: false);
             Shot($"{lang}-trash", () => new TrashDialog(), allHeights: false);
             Shot($"{lang}-manager-narrow", () => new ManagerWindow(), w => { w.Width = w.MinWidth; }, allHeights: false);
+            // AppDialog is 400 DIP and NoResize — the narrowest fixed window in the app, so it has
+            // the least room to absorb a grown label. It used to be shot in the theme pass only,
+            // i.e. never in a language that could overflow it.
+            Shot($"{lang}-dialog-confirm", () => new AppDialog(), DressConfirm, allHeights: false);
+            Shot($"{lang}-dialog-discard", () => new AppDialog(), DressSaveDiscard, allHeights: false);
             // Longest translations at the panel's narrowest allowed size — where the footer legend
             // and the result count compete for the same strip.
             Shot($"{lang}-panel-min", () => new SearchPanel(), w =>

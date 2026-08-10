@@ -38,20 +38,81 @@ internal static class WindowTheming
             // Cloaking (the flag DWM itself uses for windows on inactive virtual desktops) keeps
             // the window out of composition until the content frame exists, and costs no perceived
             // latency: the measured white phase is replaced by the same duration of nothing.
-            int cloak = 1;
-            try { NativeMethods.DwmSetWindowAttribute(hwnd, NativeMethods.DWMWA_CLOAK, ref cloak, sizeof(int)); }
-            catch { /* cloaking unavailable — behavior falls back to the flash, not a failure */ }
+            Cloak(hwnd, true);
+            // Backstop. ContentRendered below is the normal reveal, but WPF does not promise it: it
+            // never fires for a window with no content, and it is a low-priority dispatcher callback
+            // that a window closed or hidden before its first render can miss. With only that one
+            // path, a miss leaves a window that is invisible on screen yet holds focus and sits in
+            // alt-tab — and for the ShowDialog() windows (AppDialog, VariablesDialog, BodyEditor)
+            // that is an invisible MODAL: the owner stops responding and there is nothing to click.
+            // A flash is a blemish; an unclosable window is a lost session, so the reveal gets a
+            // timer that fires regardless. Uncloaking twice is a no-op.
+            var reveal = new System.Windows.Threading.DispatcherTimer(
+                System.Windows.Threading.DispatcherPriority.Loaded, w.Dispatcher)
+                { Interval = TimeSpan.FromMilliseconds(600) };
+            reveal.Tick += (_, _) => { reveal.Stop(); Cloak(new WindowInteropHelper(w).Handle, false); };
+            reveal.Start();
         };
-        w.ContentRendered += (_, _) =>
+        // First frame is committed; let DWM show the window.
+        w.ContentRendered += (_, _) => Cloak(new WindowInteropHelper(w).Handle, false);
+    }
+
+    /// <summary>Hide or reveal a window at the DWM level. Note this cannot report failure: the API
+    /// returns an HRESULT rather than throwing, so a refused uncloak is invisible here — which is
+    /// exactly why the reveal has two independent triggers rather than one.</summary>
+    private static void Cloak(IntPtr hwnd, bool on)
+    {
+        if (hwnd == IntPtr.Zero) return;
+        int v = on ? 1 : 0;
+        try { NativeMethods.DwmSetWindowAttribute(hwnd, NativeMethods.DWMWA_CLOAK, ref v, sizeof(int)); }
+        catch { /* pre-Win8 dwmapi without the attribute — falls back to the flash, not a failure */ }
+    }
+
+    /// <summary>Breathing room left below a capped dialog so it does not sit flush against the
+    /// taskbar edge.</summary>
+    private const double HeightCapMargin = 72;
+
+    /// <summary>Cap a <c>SizeToContent="Height"</c> dialog to the work area of the monitor it opens
+    /// on, WITHOUT touching where it opens (unlike <see cref="PlaceOnActiveMonitor"/>, which also
+    /// repositions — wrong for a CenterOwner modal).
+    /// <para>A window whose height is decided entirely by its content has no upper bound. Enough
+    /// <c>{variables}</c> in one snippet, or a long enough message, and it grows past the bottom of
+    /// the screen — and because these dialogs are <c>ResizeMode="NoResize"</c>, what goes off the
+    /// bottom is the OK button, with no way to resize or scroll down to it. The user cannot finish
+    /// the action at all, only Esc out of it.</para>
+    /// <para>The cap cannot be a constant: the same number has to serve a 1366x768 laptop (about
+    /// 614 DIP of work area) and a 4K display, and it is wrong at one end or the other.</para>
+    /// <para>Measured against the OWNER's monitor rather than this window's. At SourceInitialized a
+    /// CenterOwner / CenterScreen dialog has not been positioned yet, so asking which monitor IT is
+    /// on describes where it started, not where it will land.</para>
+    /// <para>Pair this with a ScrollViewer around the part that grows. Capping alone only moves the
+    /// clip — the buttons still disappear, just at a different height.</para></summary>
+    public static void CapHeightToMonitor(Window w)
+    {
+        w.SourceInitialized += (_, _) =>
         {
-            // First frame is committed; let DWM show the window. Runs on every ContentRendered but
-            // uncloaking an uncloaked window is a no-op.
-            var hwnd = new WindowInteropHelper(w).Handle;
-            if (hwnd == IntPtr.Zero) return;
-            int cloak = 0;
-            try { NativeMethods.DwmSetWindowAttribute(hwnd, NativeMethods.DWMWA_CLOAK, ref cloak, sizeof(int)); }
-            catch { }
+            if (App.InSmoke) return;   // --shots sets its own simulated work-area cap after Show
+            double cap = OwnerOrCursorWorkArea(w).Height - HeightCapMargin;
+            w.MaxHeight = Math.Max(cap, w.MinHeight);
         };
+    }
+
+    /// <summary>Work area (DIPs) of the monitor the owner window is on; the cursor's monitor when
+    /// there is no owner (VariablesDialog is summoned from the panel and can be ownerless, and the
+    /// parameterless BodyEditorWindow ctor used by --smoke has none either).
+    /// <para>"Where will this child window land?" — the question every owned window has to answer
+    /// before it can size or cap itself, and it cannot ask its OWN handle: at SourceInitialized a
+    /// CenterOwner / CenterScreen window has not been positioned yet.</para></summary>
+    internal static Rect OwnerOrCursorWorkArea(Window w)
+    {
+        if (w.Owner is { } owner)
+        {
+            var oh = new WindowInteropHelper(owner).Handle;
+            if (oh != IntPtr.Zero)
+                return MonitorWorkAreaDip(
+                    NativeMethods.MonitorFromWindow(oh, NativeMethods.MONITOR_DEFAULTTONEAREST));
+        }
+        return CursorWorkArea();
     }
 
     /// <summary>
