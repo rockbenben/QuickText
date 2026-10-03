@@ -38,7 +38,7 @@ public partial class VariablesDialog : Window
         var loc = LocalizationService.Instance;
         Title = loc["App.Name"];
         TitleText.Text = loc["Dialog.FillVariables"];
-        OkButton.Content = loc["Search.Hint.Send"];
+        OkButton.Content = loc["Dialog.Send"];   // its own key: a button label is not the footer hint
         CancelButton.Content = loc["Dialog.Cancel"];
         Fields.ItemsSource = _fields;
     }

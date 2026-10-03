@@ -70,11 +70,11 @@
   <data name="Manager.Name"><value>Nom</value></data>
   <data name="Manager.Abbr"><value>Abréviation</value></data>
   <data name="Manager.Body"><value>Contenu</value></data>
-  <data name="Manager.Add"><value>Ajouter</value></data>
   <data name="Manager.Delete"><value>Supprimer</value></data>
   <data name="Manager.Save"><value>Enregistrer</value></data>
   <data name="Manager.Rename"><value>Renommer</value></data>
   <data name="Manager.NewCategory"><value>Nouvelle catégorie</value></data>
+  <data name="Manager.AddSnippet"><value>Ajouter un extrait</value></data>
   <data name="Manager.RenameCategory"><value>Renommer la catégorie</value></data>
   <data name="Manager.CategoryName"><value>Nom de la catégorie</value></data>
   <data name="Manager.NewCategoryName"><value>Nouvelle catégorie</value></data>
@@ -110,7 +110,6 @@
   <data name="Msg.CaptureEmpty"><value>Aucun texte dans le presse-papiers</value></data>
   <data name="Manager.UseVars"><value>Activer les espaces réservés {variable}</value></data>
   <data name="Manager.UseVarsHint"><value>Si coché, les jetons {variable}, {clipboard}, {date} et {cursor} sont traités à l'envoi ; sinon, le contenu est envoyé tel quel (idéal pour du code/script contenant des {…} littéraux).</value></data>
-  <data name="Manager.Image"><value>Image</value></data>
   <data name="Manager.FromClipboard"><value>Depuis le presse-papiers</value></data>
   <data name="Manager.FromFile"><value>Choisir un fichier</value></data>
   <data name="Manager.RemoveImage"><value>Retirer</value></data>
@@ -125,8 +124,8 @@
   <data name="Manager.LongLinePlainText"><value>Ligne trop longue — affichée en texte brut</value></data>
   <data name="Manager.BodyEditorTitle"><value>Corps · {0}</value></data>
   <data name="Manager.Done"><value>Terminé</value></data>
-  <data name="Manager.BodyStats"><value>Lignes {0} · Caractères {1}</value></data>
-  <data name="Manager.BodyCaret"><value>L {0} : Col {1}</value></data>
+  <data name="Manager.BodyStats"><value>{0} lignes · {1} caractères</value></data>
+  <data name="Manager.BodyCaret"><value>Ligne {0} : Col {1}</value></data>
   <data name="Manager.BodyVars"><value>Variables : {0}</value></data>
   <data name="Manager.BodyVarsOff"><value>Espaces réservés désactivés · {0} {{…}} seront affichés tels quels</value></data>
   <data name="Manager.BodyInvalid"><value>{0} jeton(s) invalide(s)</value></data>
@@ -167,6 +166,7 @@
   <data name="Manager.DeleteCategoryConfirm"><value>Supprimer la catégorie « {0} » ? Ses extraits seront également supprimés.</value></data>
   <data name="Dialog.OK"><value>OK</value></data>
   <data name="Dialog.Cancel"><value>Annuler</value></data>
+  <data name="Dialog.Send"><value>Envoyer</value></data>
   <data name="Search.Recents"><value>Récents</value></data>
   <data name="Search.Favorites"><value>Favoris</value></data>
   <data name="Search.KeepOpen"><value>Garder ouvert (envoyer plusieurs)</value></data>
@@ -174,7 +174,6 @@
   <data name="Settings.AutoSend"><value>Appuyer sur Enter après le collage</value></data>
   <data name="Settings.ClickToSend"><value>Envoyer d'un seul clic</value></data>
   <data name="Settings.ClickToSendHint"><value>Dans le panneau de recherche, un simple clic envoie l'extrait ; par défaut, il faut double-cliquer ou appuyer sur Enter.</value></data>
-  <data name="Settings.Output"><value>Méthode de sortie</value></data>
   <data name="Settings.OutputPaste"><value>Coller dans l'application active</value></data>
   <data name="Settings.OutputClipboard"><value>Copier uniquement dans le presse-papiers</value></data>
   <data name="Settings.Hotkey"><value>Raccourci</value></data>
@@ -192,7 +191,7 @@
   <data name="Settings.RestoreClipboardHint"><value>Le collage utilise brièvement le presse-papiers, puis restaure ce que vous aviez copié. Désactivé par défaut : les applications qui lisent lentement le presse-papiers risquent de coller l’ancien contenu.</value></data>
   <data name="Settings.FollowSystem"><value>Suivre le système</value></data>
   <data name="Msg.HotkeyTaken"><value>{0} est déjà utilisé par une autre application : le panneau ne s’ouvrira pas tant que vous n’aurez pas choisi un autre raccourci dans les Paramètres.</value></data>
-  <data name="Msg.ConflictFiles"><value>Fichiers de conflit de synchronisation détectés</value></data>
+  <data name="Msg.ConflictFiles"><value>{0} fichiers de conflit de synchronisation ignorés — vérifiez-les dans le dossier de données puis supprimez-les</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Dossier de données indisponible (un lecteur amovible ou réseau est peut-être déconnecté). Démarré avec une bibliothèque vide pour l'instant — redéfinissez-le dans les Paramètres, ou reconnectez et relancez.</value></data>
   <data name="Msg.SearchIndexFailed"><value>Impossible de construire l'index de recherche — le panneau ne trouvera rien pour l'instant. Vos extraits ne sont pas perdus, le Gestionnaire les affiche toujours tous. Relancez pour réessayer.</value></data>
   <data name="Search.Hint.Nav"><value>Naviguer</value></data>
@@ -200,10 +199,12 @@
   <data name="Search.Hint.Close"><value>Fermer</value></data>
   <data name="Search.Hint.SwitchCat"><value>Catégorie</value></data>
   <data name="Search.Empty.Title"><value>Aucun extrait pour l'instant</value></data>
-  <data name="Search.Empty.Sub"><value>Ouvrez le gestionnaire depuis le menu de la barre d'état pour ajouter votre premier extrait</value></data>
+  <data name="Search.Empty.Sub"><value>Ajoutez votre premier extrait — le raccourci l'affiche à tout moment</value></data>
+  <data name="Search.Empty.Action"><value>Ajouter un extrait</value></data>
   <data name="Search.NoMatch"><value>Aucun extrait ne correspond à « {0} »</value></data>
-  <data name="Search.NoMatch.Sub"><value>Essayez un autre mot-clé, ou pinyin / initiales / une abréviation</value></data>
-  <data name="Search.Count"><value>Résultats : {0}</value></data>
+  <data name="Search.NoMatch.Sub"><value>Essayez un autre mot-clé ou une abréviation</value></data>
+  <data name="Search.Count.Browse"><value>{0} éléments</value></data>
+  <data name="Search.Count.Hits"><value>Résultats : {0}</value></data>
   <data name="Settings.HotkeyHint"><value>Cliquez, puis appuyez sur une touche ; les touches ordinaires nécessitent Ctrl / Alt / Shift / Win, les touches de fonction F1–F24 peuvent être utilisées seules</value></data>
   <data name="Settings.HotkeyPrompt"><value>Appuyez sur des touches… (Esc pour annuler)</value></data>
   <data name="Settings.Portable"><value>Mode portable</value></data>

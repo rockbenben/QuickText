@@ -70,11 +70,11 @@
   <data name="Manager.Name"><value>名稱</value></data>
   <data name="Manager.Abbr"><value>縮寫</value></data>
   <data name="Manager.Body"><value>內文</value></data>
-  <data name="Manager.Add"><value>新增</value></data>
   <data name="Manager.Delete"><value>刪除</value></data>
   <data name="Manager.Save"><value>儲存</value></data>
   <data name="Manager.Rename"><value>重新命名</value></data>
   <data name="Manager.NewCategory"><value>新增分類</value></data>
+  <data name="Manager.AddSnippet"><value>新增文字</value></data>
   <data name="Manager.RenameCategory"><value>重新命名分類</value></data>
   <data name="Manager.CategoryName"><value>分類名稱</value></data>
   <data name="Manager.NewCategoryName"><value>新分類</value></data>
@@ -97,7 +97,7 @@
   <data name="Trash.Close"><value>關閉</value></data>
   <data name="Trash.EmptyState"><value>回收站是空的</value></data>
   <data name="Trash.Hint"><value>刪除的條目在這裡保留 {0} 天，之後自動清除。還原會放回原分類（不存在則重建）。</value></data>
-  <data name="Trash.EmptyConfirm"><value>清空回收桶？裡面的片語將無法復原。</value></data>
+  <data name="Trash.EmptyConfirm"><value>清空回收桶？裡面的文字將無法復原。</value></data>
   <data name="Tray.PauseAbbr"><value>暫停縮寫展開</value></data>
   <data name="Tray.ResumeAbbr"><value>恢復縮寫展開</value></data>
   <data name="Tray.PausedTip"><value>縮寫展開已暫停</value></data>
@@ -110,7 +110,6 @@
   <data name="Msg.CaptureEmpty"><value>剪貼簿中沒有文字</value></data>
   <data name="Manager.UseVars"><value>啟用 {變數} 佔位符</value></data>
   <data name="Manager.UseVarsHint"><value>勾選後，傳送時處理 {變數}、{clipboard}、{date}、{cursor} 等佔位符；未勾選則內文按原樣輸出（適合存放含 {…} 的程式碼／指令碼）。</value></data>
-  <data name="Manager.Image"><value>圖片</value></data>
   <data name="Manager.FromClipboard"><value>從剪貼簿</value></data>
   <data name="Manager.FromFile"><value>選擇檔案</value></data>
   <data name="Manager.RemoveImage"><value>移除</value></data>
@@ -163,10 +162,11 @@
   <data name="Settings.SectionGeneral"><value>一般</value></data>
   <data name="Manager.Color"><value>顏色</value></data>
   <data name="Manager.DuplicateCategory"><value>已存在同名分類</value></data>
-  <data name="Manager.SaveFailed"><value>儲存失敗：資料資料夾唯讀，或正被其他程式占用。請解除占用，或在設定裡換一個資料夾。</value></data>
+  <data name="Manager.SaveFailed"><value>儲存失敗：資料夾唯讀，或正被其他程式占用。請解除占用，或在設定裡換一個資料夾。</value></data>
   <data name="Manager.DeleteCategoryConfirm"><value>刪除分類「{0}」？其中的文字會一併刪除。</value></data>
   <data name="Dialog.OK"><value>確定</value></data>
   <data name="Dialog.Cancel"><value>取消</value></data>
+  <data name="Dialog.Send"><value>發送</value></data>
   <data name="Search.Recents"><value>最近常用</value></data>
   <data name="Search.Favorites"><value>收藏</value></data>
   <data name="Search.KeepOpen"><value>釘選面板（連發多條）</value></data>
@@ -174,7 +174,6 @@
   <data name="Settings.AutoSend"><value>貼上後自動按 Enter</value></data>
   <data name="Settings.ClickToSend"><value>單擊即發送</value></data>
   <data name="Settings.ClickToSendHint"><value>在搜尋面板裡，單擊一條就直接發送；預設是雙擊或 Enter 才發送。</value></data>
-  <data name="Settings.Output"><value>輸出方式</value></data>
   <data name="Settings.OutputPaste"><value>直接貼上到目前位置</value></data>
   <data name="Settings.OutputClipboard"><value>僅複製到剪貼簿</value></data>
   <data name="Settings.Hotkey"><value>呼出熱鍵</value></data>
@@ -192,7 +191,7 @@
   <data name="Settings.RestoreClipboardHint"><value>貼上時會暫時佔用剪貼簿，之後放回你原來複製的內容。預設關閉：少數程式讀取剪貼簿較慢，還原可能趕在它讀取之前，導致貼出舊內容。</value></data>
   <data name="Settings.FollowSystem"><value>跟隨系統</value></data>
   <data name="Msg.HotkeyTaken"><value>「{0}」已被其他程式占用，面板呼叫不出來。請在設定裡換一個熱鍵。</value></data>
-  <data name="Msg.ConflictFiles"><value>偵測到同步衝突檔案</value></data>
+  <data name="Msg.ConflictFiles"><value>偵測到 {0} 個同步衝突檔案，未載入文字庫。請在資料夾核對後刪除。</value></data>
   <data name="Msg.DataFolderUnavailable"><value>資料夾無法存取（可能是行動碟未插入或網路磁碟離線），已暫時以空庫啟動。請在設定中重新指定，或接回後重新啟動。</value></data>
   <data name="Msg.SearchIndexFailed"><value>搜尋索引建立失敗，面板暫時搜不到任何內容。文字沒有遺失，管理器裡仍然完整；重新啟動應用程式可重試。</value></data>
   <data name="Search.Hint.Nav"><value>選擇</value></data>
@@ -200,10 +199,12 @@
   <data name="Search.Hint.Close"><value>關閉</value></data>
   <data name="Search.Hint.SwitchCat"><value>切分類</value></data>
   <data name="Search.Empty.Title"><value>還沒有內容</value></data>
-  <data name="Search.Empty.Sub"><value>在系統匣選單開啟「管理器」新增第一條文字</value></data>
+  <data name="Search.Empty.Sub"><value>新增第一條文字，隨時按熱鍵呼叫</value></data>
+  <data name="Search.Empty.Action"><value>新增文字</value></data>
   <data name="Search.NoMatch"><value>沒有符合「{0}」的內容</value></data>
   <data name="Search.NoMatch.Sub"><value>換個關鍵字，或用拼音 / 首字母 / 縮寫試試</value></data>
-  <data name="Search.Count"><value>{0} 條</value></data>
+  <data name="Search.Count.Browse"><value>{0} 條</value></data>
+  <data name="Search.Count.Hits"><value>找到 {0} 條</value></data>
   <data name="Settings.HotkeyHint"><value>點擊後按下按鍵；一般鍵需配合 Ctrl / Alt / Shift / Win，功能鍵 F1–F24 可單獨使用</value></data>
   <data name="Settings.HotkeyPrompt"><value>按下快捷鍵…（Esc 取消）</value></data>
   <data name="Settings.Portable"><value>便攜模式</value></data>

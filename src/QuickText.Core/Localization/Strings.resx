@@ -120,11 +120,11 @@
   <data name="Manager.Name"><value>名称</value></data>
   <data name="Manager.Abbr"><value>缩写</value></data>
   <data name="Manager.Body"><value>正文</value></data>
-  <data name="Manager.Add"><value>新增</value></data>
   <data name="Manager.Delete"><value>删除</value></data>
   <data name="Manager.Save"><value>保存</value></data>
   <data name="Manager.Rename"><value>重命名</value></data>
   <data name="Manager.NewCategory"><value>新建分类</value></data>
+  <data name="Manager.AddSnippet"><value>新增文本</value></data>
   <data name="Manager.RenameCategory"><value>重命名分类</value></data>
   <data name="Manager.CategoryName"><value>分类名称</value></data>
   <data name="Manager.NewCategoryName"><value>新分类</value></data>
@@ -160,7 +160,6 @@
   <data name="Msg.CaptureEmpty"><value>剪贴板中没有文本</value></data>
   <data name="Manager.UseVars"><value>启用 {变量} 占位符</value></data>
   <data name="Manager.UseVarsHint"><value>勾选后，发送时处理 {变量}、{剪贴板}、{日期}、{光标} 等占位符；不勾选则正文按原样输出（适合存放含 {…} 的代码/脚本）。</value></data>
-  <data name="Manager.Image"><value>图片</value></data>
   <data name="Manager.FromClipboard"><value>从剪贴板</value></data>
   <data name="Manager.FromFile"><value>选择文件</value></data>
   <data name="Manager.RemoveImage"><value>移除</value></data>
@@ -217,6 +216,7 @@
   <data name="Manager.DeleteCategoryConfirm"><value>删除分类「{0}」？其中的文本会一并删除。</value></data>
   <data name="Dialog.OK"><value>确定</value></data>
   <data name="Dialog.Cancel"><value>取消</value></data>
+  <data name="Dialog.Send"><value>发送</value></data>
   <data name="Search.Recents"><value>最近常用</value></data>
   <data name="Search.Favorites"><value>收藏</value></data>
   <data name="Search.KeepOpen"><value>固定面板（连发多条）</value></data>
@@ -224,7 +224,6 @@
   <data name="Settings.AutoSend"><value>粘贴后自动回车</value></data>
   <data name="Settings.ClickToSend"><value>单击即发送</value></data>
   <data name="Settings.ClickToSendHint"><value>在搜索面板里，单击一条就直接发送；默认是双击或回车才发送。</value></data>
-  <data name="Settings.Output"><value>输出方式</value></data>
   <data name="Settings.OutputPaste"><value>直接粘贴到当前位置</value></data>
   <data name="Settings.OutputClipboard"><value>仅复制到剪贴板</value></data>
   <data name="Settings.Hotkey"><value>呼出热键</value></data>
@@ -242,7 +241,7 @@
   <data name="Settings.RestoreClipboardHint"><value>粘贴时会临时占用剪贴板，之后放回你原来复制的内容。默认关闭：少数程序读剪贴板较慢，还原可能赶在它读取之前，导致贴出旧内容。</value></data>
   <data name="Settings.FollowSystem"><value>跟随系统</value></data>
   <data name="Msg.HotkeyTaken"><value>「{0}」已被其它程序占用，面板呼不出来。请在设置里换一个热键。</value></data>
-  <data name="Msg.ConflictFiles"><value>检测到同步冲突文件</value></data>
+  <data name="Msg.ConflictFiles"><value>检测到 {0} 个同步冲突文件，未载入文本库。请在数据文件夹核对后删除。</value></data>
   <data name="Msg.DataFolderUnavailable"><value>数据文件夹不可用（可能是移动盘未插入或网络盘离线），已暂时以空库启动。请在设置中重新指定，或接回后重启。</value></data>
   <data name="Msg.SearchIndexFailed"><value>搜索索引建立失败，面板暂时搜不到任何内容。文本没有丢失，管理器里仍然完整；重启应用可重试。</value></data>
   <data name="Search.Hint.Nav"><value>选择</value></data>
@@ -250,10 +249,12 @@
   <data name="Search.Hint.Close"><value>关闭</value></data>
   <data name="Search.Hint.SwitchCat"><value>切分类</value></data>
   <data name="Search.Empty.Title"><value>还没有内容</value></data>
-  <data name="Search.Empty.Sub"><value>在托盘菜单打开「管理器」添加你的第一条文本</value></data>
+  <data name="Search.Empty.Sub"><value>添加第一条文本，随时按热键呼出</value></data>
+  <data name="Search.Empty.Action"><value>新增文本</value></data>
   <data name="Search.NoMatch"><value>没有匹配「{0}」的内容</value></data>
   <data name="Search.NoMatch.Sub"><value>换个关键词，或用拼音 / 首字母 / 缩写试试</value></data>
-  <data name="Search.Count"><value>{0} 条</value></data>
+  <data name="Search.Count.Browse"><value>{0} 条</value></data>
+  <data name="Search.Count.Hits"><value>找到 {0} 条</value></data>
   <data name="Settings.HotkeyHint"><value>点击后按下按键；普通键需配合 Ctrl / Alt / Shift / Win，功能键 F1–F24 可单独用</value></data>
   <data name="Settings.HotkeyPrompt"><value>按下快捷键…（Esc 取消）</value></data>
   <data name="Settings.Portable"><value>便携模式</value></data>

@@ -70,11 +70,11 @@
   <data name="Manager.Name"><value>Name</value></data>
   <data name="Manager.Abbr"><value>Abbreviation</value></data>
   <data name="Manager.Body"><value>Body</value></data>
-  <data name="Manager.Add"><value>Add</value></data>
   <data name="Manager.Delete"><value>Delete</value></data>
   <data name="Manager.Save"><value>Save</value></data>
   <data name="Manager.Rename"><value>Rename</value></data>
   <data name="Manager.NewCategory"><value>New category</value></data>
+  <data name="Manager.AddSnippet"><value>Add snippet</value></data>
   <data name="Manager.RenameCategory"><value>Rename category</value></data>
   <data name="Manager.CategoryName"><value>Category name</value></data>
   <data name="Manager.NewCategoryName"><value>New category</value></data>
@@ -110,7 +110,6 @@
   <data name="Msg.CaptureEmpty"><value>No text on the clipboard</value></data>
   <data name="Manager.UseVars"><value>Enable {variable} placeholders</value></data>
   <data name="Manager.UseVarsHint"><value>When checked, {variable}, {clipboard}, {date} and {cursor} tokens are processed on send; unchecked, the body is sent verbatim (best for code/scripts containing literal {…}).</value></data>
-  <data name="Manager.Image"><value>Image</value></data>
   <data name="Manager.FromClipboard"><value>From clipboard</value></data>
   <data name="Manager.FromFile"><value>Choose file</value></data>
   <data name="Manager.RemoveImage"><value>Remove</value></data>
@@ -125,7 +124,7 @@
   <data name="Manager.LongLinePlainText"><value>Line too long — shown as plain text</value></data>
   <data name="Manager.BodyEditorTitle"><value>Body · {0}</value></data>
   <data name="Manager.Done"><value>Done</value></data>
-  <data name="Manager.BodyStats"><value>Lines {0} · Chars {1}</value></data>
+  <data name="Manager.BodyStats"><value>{0} lines · {1} chars</value></data>
   <data name="Manager.BodyCaret"><value>Ln {0} : Col {1}</value></data>
   <data name="Manager.BodyVars"><value>Variables: {0}</value></data>
   <data name="Manager.BodyVarsOff"><value>Placeholders off · {0} {{…}} will be output verbatim</value></data>
@@ -167,6 +166,7 @@
   <data name="Manager.DeleteCategoryConfirm"><value>Delete category “{0}”? Its snippets will be removed too.</value></data>
   <data name="Dialog.OK"><value>OK</value></data>
   <data name="Dialog.Cancel"><value>Cancel</value></data>
+  <data name="Dialog.Send"><value>Send</value></data>
   <data name="Search.Recents"><value>Recent</value></data>
   <data name="Search.Favorites"><value>Favorites</value></data>
   <data name="Search.KeepOpen"><value>Keep open (send several)</value></data>
@@ -174,14 +174,13 @@
   <data name="Settings.AutoSend"><value>Press Enter after pasting</value></data>
   <data name="Settings.ClickToSend"><value>Single-click to send</value></data>
   <data name="Settings.ClickToSendHint"><value>In the search panel, a single click sends the snippet; by default you double-click or press Enter.</value></data>
-  <data name="Settings.Output"><value>Output method</value></data>
   <data name="Settings.OutputPaste"><value>Paste into the active app</value></data>
   <data name="Settings.OutputClipboard"><value>Copy to clipboard only</value></data>
   <data name="Settings.Hotkey"><value>Hotkey</value></data>
   <data name="Settings.SummonMode"><value>Summon by</value></data>
   <data name="Settings.SummonModeHotkey"><value>Key combo</value></data>
   <data name="Settings.SummonModeTap"><value>Tap a modifier</value></data>
-  <data name="Settings.SummonTapDouble"><value>Double-tap (else single)</value></data>
+  <data name="Settings.SummonTapDouble"><value>Double-tap to summon (single tap otherwise)</value></data>
   <data name="Settings.SummonTapHint"><value>Click here and press a modifier (e.g. Right Ctrl); tapping it then summons the panel. Press Delete to clear. (A lone modifier can't be a normal hotkey, so it's detected by tap.)</value></data>
   <data name="Settings.DataFolder"><value>Data folder</value></data>
   <data name="Settings.Language"><value>Language</value></data>
@@ -191,8 +190,8 @@
   <data name="Settings.RestoreClipboard"><value>Keep my clipboard intact</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Pasting briefly uses the clipboard, then puts back what you had copied. Off by default: apps that read the clipboard slowly can end up pasting the old content instead.</value></data>
   <data name="Settings.FollowSystem"><value>Follow system</value></data>
-  <data name="Msg.HotkeyTaken"><value>{0} is already taken by another app — the panel won’t open until you set a different hotkey in Settings.</value></data>
-  <data name="Msg.ConflictFiles"><value>Sync conflict files detected</value></data>
+  <data name="Msg.HotkeyTaken"><value>“{0}” is already taken by another app — the panel won’t open until you set a different hotkey in Settings.</value></data>
+  <data name="Msg.ConflictFiles"><value>{0} sync conflict files were skipped — check them in the data folder, then delete</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Data folder unavailable (a removable or network drive may be disconnected). Started with an empty library for now — re-point it in Settings, or reconnect and relaunch.</value></data>
   <data name="Msg.SearchIndexFailed"><value>Search index could not be built — the panel will find nothing for now. Your snippets are not lost; the Manager still lists them all. Relaunch to retry.</value></data>
   <data name="Search.Hint.Nav"><value>Navigate</value></data>
@@ -200,10 +199,12 @@
   <data name="Search.Hint.Close"><value>Close</value></data>
   <data name="Search.Hint.SwitchCat"><value>Category</value></data>
   <data name="Search.Empty.Title"><value>No snippets yet</value></data>
-  <data name="Search.Empty.Sub"><value>Open Manager from the tray menu to add your first snippet</value></data>
+  <data name="Search.Empty.Sub"><value>Add your first snippet — then summon the panel anytime with the hotkey</value></data>
+  <data name="Search.Empty.Action"><value>Add a snippet</value></data>
   <data name="Search.NoMatch"><value>No snippets match “{0}”</value></data>
-  <data name="Search.NoMatch.Sub"><value>Try another keyword, or pinyin / initials / an abbreviation</value></data>
-  <data name="Search.Count"><value>Matches: {0}</value></data>
+  <data name="Search.NoMatch.Sub"><value>Try another keyword, or an abbreviation</value></data>
+  <data name="Search.Count.Browse"><value>{0} items</value></data>
+  <data name="Search.Count.Hits"><value>{0} matches</value></data>
   <data name="Settings.HotkeyHint"><value>Click, then press a key; ordinary keys need Ctrl / Alt / Shift / Win, function keys F1–F24 can be used alone</value></data>
   <data name="Settings.HotkeyPrompt"><value>Press keys… (Esc to cancel)</value></data>
   <data name="Settings.Portable"><value>Portable mode</value></data>
@@ -218,7 +219,7 @@
   <data name="Msg.UpdateCheckFailed"><value>Couldn't check for updates. Try again later.</value></data>
   <data name="Manager.UnsavedConfirm"><value>You have unsaved changes. Save them?</value></data>
   <data name="Manager.DontSave"><value>Don't save</value></data>
-  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} isn’t a valid hotkey — set a new one in Settings.</value></data>
+  <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>“{0}” isn’t a valid hotkey — set a new one in Settings.</value></data>
   <data name="Ctx.Favorite" xml:space="preserve"><value>Toggle favorite</value></data>
   <data name="Settings.Theme" xml:space="preserve"><value>Theme</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Dark</value></data>

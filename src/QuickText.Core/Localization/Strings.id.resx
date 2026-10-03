@@ -70,11 +70,11 @@
   <data name="Manager.Name"><value>Nama</value></data>
   <data name="Manager.Abbr"><value>Singkatan</value></data>
   <data name="Manager.Body"><value>Isi</value></data>
-  <data name="Manager.Add"><value>Tambah</value></data>
   <data name="Manager.Delete"><value>Hapus</value></data>
   <data name="Manager.Save"><value>Simpan</value></data>
   <data name="Manager.Rename"><value>Ganti nama</value></data>
   <data name="Manager.NewCategory"><value>Kategori baru</value></data>
+  <data name="Manager.AddSnippet"><value>Tambah snippet</value></data>
   <data name="Manager.RenameCategory"><value>Ganti nama kategori</value></data>
   <data name="Manager.CategoryName"><value>Nama kategori</value></data>
   <data name="Manager.NewCategoryName"><value>Kategori baru</value></data>
@@ -110,7 +110,6 @@
   <data name="Msg.CaptureEmpty"><value>Tidak ada teks di clipboard</value></data>
   <data name="Manager.UseVars"><value>Aktifkan placeholder {variable}</value></data>
   <data name="Manager.UseVarsHint"><value>Jika dicentang, token {variable}, {clipboard}, {date} dan {cursor} diproses saat dikirim; jika tidak, isi dikirim apa adanya (cocok untuk kode/skrip yang memuat {…} literal).</value></data>
-  <data name="Manager.Image"><value>Gambar</value></data>
   <data name="Manager.FromClipboard"><value>Dari clipboard</value></data>
   <data name="Manager.FromFile"><value>Pilih berkas</value></data>
   <data name="Manager.RemoveImage"><value>Hapus</value></data>
@@ -126,7 +125,7 @@
   <data name="Manager.BodyEditorTitle"><value>Isi · {0}</value></data>
   <data name="Manager.Done"><value>Selesai</value></data>
   <data name="Manager.BodyStats"><value>{0} baris · {1} karakter</value></data>
-  <data name="Manager.BodyCaret"><value>Brs {0} : Kol {1}</value></data>
+  <data name="Manager.BodyCaret"><value>Baris {0} : Kol {1}</value></data>
   <data name="Manager.BodyVars"><value>Variabel: {0}</value></data>
   <data name="Manager.BodyVarsOff"><value>Placeholder nonaktif · {0} {{…}} akan ditampilkan apa adanya</value></data>
   <data name="Manager.BodyInvalid"><value>{0} token tidak valid</value></data>
@@ -167,6 +166,7 @@
   <data name="Manager.DeleteCategoryConfirm"><value>Hapus kategori “{0}”? Snippet di dalamnya juga akan terhapus.</value></data>
   <data name="Dialog.OK"><value>OK</value></data>
   <data name="Dialog.Cancel"><value>Batal</value></data>
+  <data name="Dialog.Send"><value>Kirim</value></data>
   <data name="Search.Recents"><value>Terbaru</value></data>
   <data name="Search.Favorites"><value>Favorit</value></data>
   <data name="Search.KeepOpen"><value>Biarkan terbuka (kirim beberapa)</value></data>
@@ -174,7 +174,6 @@
   <data name="Settings.AutoSend"><value>Tekan Enter setelah menempel</value></data>
   <data name="Settings.ClickToSend"><value>Klik sekali untuk kirim</value></data>
   <data name="Settings.ClickToSendHint"><value>Di panel pencarian, klik sekali langsung mengirim snippet; secara default Anda klik ganda atau tekan Enter.</value></data>
-  <data name="Settings.Output"><value>Metode keluaran</value></data>
   <data name="Settings.OutputPaste"><value>Tempel ke aplikasi aktif</value></data>
   <data name="Settings.OutputClipboard"><value>Salin ke clipboard saja</value></data>
   <data name="Settings.Hotkey"><value>Tombol pintas</value></data>
@@ -192,7 +191,7 @@
   <data name="Settings.RestoreClipboardHint"><value>Saat menempel, clipboard dipakai sebentar lalu isi lama dikembalikan. Nonaktif secara bawaan: aplikasi yang membaca clipboard dengan lambat bisa menempelkan konten lama.</value></data>
   <data name="Settings.FollowSystem"><value>Ikuti sistem</value></data>
   <data name="Msg.HotkeyTaken"><value>{0} sudah dipakai aplikasi lain — panel tidak akan terbuka sampai Anda memilih pintasan lain di Pengaturan.</value></data>
-  <data name="Msg.ConflictFiles"><value>Berkas konflik sinkronisasi terdeteksi</value></data>
+  <data name="Msg.ConflictFiles"><value>{0} berkas konflik sinkronisasi tidak dimuat — periksa di folder data, lalu hapus</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Folder data tidak tersedia (drive lepasan atau jaringan mungkin terputus). Dimulai dengan pustaka kosong untuk sekarang — arahkan ulang di Pengaturan, atau sambungkan lagi lalu jalankan ulang.</value></data>
   <data name="Msg.SearchIndexFailed"><value>Indeks pencarian gagal dibuat — untuk sekarang panel tidak akan menemukan apa pun. Cuplikan Anda tidak hilang, Pengelola masih menampilkan semuanya. Jalankan ulang untuk mencoba lagi.</value></data>
   <data name="Search.Hint.Nav"><value>Navigasi</value></data>
@@ -200,10 +199,12 @@
   <data name="Search.Hint.Close"><value>Tutup</value></data>
   <data name="Search.Hint.SwitchCat"><value>Kategori</value></data>
   <data name="Search.Empty.Title"><value>Belum ada snippet</value></data>
-  <data name="Search.Empty.Sub"><value>Buka Pengelola dari menu tray untuk menambah snippet pertama Anda</value></data>
+  <data name="Search.Empty.Sub"><value>Tambah snippet pertama — panel dipanggil kapan saja lewat hotkey</value></data>
+  <data name="Search.Empty.Action"><value>Tambah snippet</value></data>
   <data name="Search.NoMatch"><value>Tidak ada snippet cocok dengan “{0}”</value></data>
-  <data name="Search.NoMatch.Sub"><value>Coba kata kunci lain, atau pinyin / inisial / singkatan</value></data>
-  <data name="Search.Count"><value>{0} hasil</value></data>
+  <data name="Search.NoMatch.Sub"><value>Coba kata kunci lain atau singkatan</value></data>
+  <data name="Search.Count.Browse"><value>{0} item</value></data>
+  <data name="Search.Count.Hits"><value>{0} hasil</value></data>
   <data name="Settings.HotkeyHint"><value>Klik, lalu tekan tombol; tombol biasa perlu Ctrl / Alt / Shift / Win, tombol fungsi F1–F24 bisa dipakai sendiri</value></data>
   <data name="Settings.HotkeyPrompt"><value>Tekan tombol… (Esc untuk batal)</value></data>
   <data name="Settings.Portable"><value>Mode portabel</value></data>

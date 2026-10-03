@@ -70,11 +70,11 @@
   <data name="Manager.Name"><value>Nombre</value></data>
   <data name="Manager.Abbr"><value>Abreviatura</value></data>
   <data name="Manager.Body"><value>Contenido</value></data>
-  <data name="Manager.Add"><value>Agregar</value></data>
   <data name="Manager.Delete"><value>Eliminar</value></data>
   <data name="Manager.Save"><value>Guardar</value></data>
   <data name="Manager.Rename"><value>Cambiar nombre</value></data>
   <data name="Manager.NewCategory"><value>Nueva categoría</value></data>
+  <data name="Manager.AddSnippet"><value>Añadir fragmento</value></data>
   <data name="Manager.RenameCategory"><value>Cambiar nombre de categoría</value></data>
   <data name="Manager.CategoryName"><value>Nombre de categoría</value></data>
   <data name="Manager.NewCategoryName"><value>Nueva categoría</value></data>
@@ -110,7 +110,6 @@
   <data name="Msg.CaptureEmpty"><value>No hay texto en el portapapeles</value></data>
   <data name="Manager.UseVars"><value>Activar marcadores {variable}</value></data>
   <data name="Manager.UseVarsHint"><value>Si se marca, los tokens {variable}, {clipboard}, {date} y {cursor} se procesan al enviar; si no, el contenido se envía tal cual (ideal para código/scripts con {…} literales).</value></data>
-  <data name="Manager.Image"><value>Imagen</value></data>
   <data name="Manager.FromClipboard"><value>Desde el portapapeles</value></data>
   <data name="Manager.FromFile"><value>Elegir archivo</value></data>
   <data name="Manager.RemoveImage"><value>Quitar</value></data>
@@ -125,8 +124,8 @@
   <data name="Manager.LongLinePlainText"><value>Línea demasiado larga: mostrada como texto sin formato</value></data>
   <data name="Manager.BodyEditorTitle"><value>Cuerpo · {0}</value></data>
   <data name="Manager.Done"><value>Listo</value></data>
-  <data name="Manager.BodyStats"><value>Líneas {0} · Caracteres {1}</value></data>
-  <data name="Manager.BodyCaret"><value>Lín {0} : Col {1}</value></data>
+  <data name="Manager.BodyStats"><value>{0} líneas · {1} caracteres</value></data>
+  <data name="Manager.BodyCaret"><value>Línea {0} : Col {1}</value></data>
   <data name="Manager.BodyVars"><value>Variables: {0}</value></data>
   <data name="Manager.BodyVarsOff"><value>Marcadores desactivados · {0} {{…}} se mostrarán tal cual</value></data>
   <data name="Manager.BodyInvalid"><value>{0} token(s) no válido(s)</value></data>
@@ -167,6 +166,7 @@
   <data name="Manager.DeleteCategoryConfirm"><value>¿Eliminar la categoría «{0}»? También se eliminarán sus fragmentos.</value></data>
   <data name="Dialog.OK"><value>Aceptar</value></data>
   <data name="Dialog.Cancel"><value>Cancelar</value></data>
+  <data name="Dialog.Send"><value>Enviar</value></data>
   <data name="Search.Recents"><value>Recientes</value></data>
   <data name="Search.Favorites"><value>Favoritos</value></data>
   <data name="Search.KeepOpen"><value>Mantener abierto (enviar varios)</value></data>
@@ -174,7 +174,6 @@
   <data name="Settings.AutoSend"><value>Pulsar Enter tras pegar</value></data>
   <data name="Settings.ClickToSend"><value>Un clic para enviar</value></data>
   <data name="Settings.ClickToSendHint"><value>En el panel de búsqueda, un solo clic envía el fragmento; por defecto haces doble clic o pulsas Enter.</value></data>
-  <data name="Settings.Output"><value>Método de salida</value></data>
   <data name="Settings.OutputPaste"><value>Pegar en la app activa</value></data>
   <data name="Settings.OutputClipboard"><value>Solo copiar al portapapeles</value></data>
   <data name="Settings.Hotkey"><value>Tecla de acceso</value></data>
@@ -192,7 +191,7 @@
   <data name="Settings.RestoreClipboardHint"><value>Al pegar se usa el portapapeles un momento y luego se restaura lo que tenías copiado. Desactivado por defecto: las aplicaciones que leen el portapapeles con lentitud pueden pegar el contenido antiguo.</value></data>
   <data name="Settings.FollowSystem"><value>Seguir el sistema</value></data>
   <data name="Msg.HotkeyTaken"><value>{0} ya lo usa otra aplicación: el panel no se abrirá hasta que elijas otro atajo en Configuración.</value></data>
-  <data name="Msg.ConflictFiles"><value>Se detectaron archivos de conflicto de sincronización</value></data>
+  <data name="Msg.ConflictFiles"><value>{0} archivos de conflicto de sincronización no cargados; revísalos en la carpeta de datos y elimínalos</value></data>
   <data name="Msg.DataFolderUnavailable"><value>Carpeta de datos no disponible (puede que una unidad extraíble o de red esté desconectada). Se inició con una biblioteca vacía por ahora: vuelve a indicarla en Configuración, o reconéctala y reinicia.</value></data>
   <data name="Msg.SearchIndexFailed"><value>No se pudo crear el índice de búsqueda: por ahora el panel no encontrará nada. Tus fragmentos no se han perdido, el Gestor los sigue mostrando todos. Reinicia para reintentar.</value></data>
   <data name="Search.Hint.Nav"><value>Navegar</value></data>
@@ -200,10 +199,12 @@
   <data name="Search.Hint.Close"><value>Cerrar</value></data>
   <data name="Search.Hint.SwitchCat"><value>Categoría</value></data>
   <data name="Search.Empty.Title"><value>Aún no hay fragmentos</value></data>
-  <data name="Search.Empty.Sub"><value>Abre el administrador desde el menú de la bandeja para agregar tu primer fragmento</value></data>
+  <data name="Search.Empty.Sub"><value>Añade tu primer fragmento; luego invocas el panel con el atajo</value></data>
+  <data name="Search.Empty.Action"><value>Añadir un fragmento</value></data>
   <data name="Search.NoMatch"><value>Ningún fragmento coincide con «{0}»</value></data>
-  <data name="Search.NoMatch.Sub"><value>Prueba otra palabra clave, o pinyin / iniciales / una abreviatura</value></data>
-  <data name="Search.Count"><value>Resultados: {0}</value></data>
+  <data name="Search.NoMatch.Sub"><value>Prueba otra palabra clave o una abreviatura</value></data>
+  <data name="Search.Count.Browse"><value>{0} elementos</value></data>
+  <data name="Search.Count.Hits"><value>Resultados: {0}</value></data>
   <data name="Settings.HotkeyHint"><value>Haz clic y pulsa una tecla; las teclas normales necesitan Ctrl / Alt / Shift / Win, las de función F1–F24 pueden usarse solas</value></data>
   <data name="Settings.HotkeyPrompt"><value>Pulsa teclas… (Esc para cancelar)</value></data>
   <data name="Settings.Portable"><value>Modo portátil</value></data>
