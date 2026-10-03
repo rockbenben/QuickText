@@ -6,3 +6,6 @@ publish/
 *.log
 .claude/
 TestResults/
+
+design-preview/
+.qoder*
