@@ -43,7 +43,7 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button TabIndex="1" Content="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}}"
+            <Button TabIndex="1" x:Name="SaveButton" Content="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}}"
                     HorizontalAlignment="Right" MinWidth="104" Padding="18,9"
                     Style="{StaticResource DarkButtonPrimary}" Click="OnSave"/>
         </Grid>
@@ -80,7 +80,7 @@
                         <!-- mode: key combo -->
                         <StackPanel x:Name="HotkeyModePanel" Margin="0,6,0,0">
                             <Border x:Name="HotkeyBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
-                                    BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand"
+                                    BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}"
                                     MouseLeftButtonDown="OnHotkeyBoxClick" PreviewKeyDown="OnHotkeyKeyDown"
                                     LostKeyboardFocus="OnHotkeyLostFocus">
                                 <TextBlock x:Name="HotkeyText" FontFamily="{StaticResource Font.Ui}" FontSize="14"
@@ -102,7 +102,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Border Grid.Column="0" x:Name="SummonTapBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
-                                        BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" MinWidth="88"
+                                        BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}" MinWidth="88"
                                         MouseLeftButtonDown="OnSummonTapClick" PreviewKeyDown="OnSummonTapKeyDown" LostKeyboardFocus="OnSummonTapLostFocus">
                                     <TextBlock x:Name="SummonTapText" FontFamily="{StaticResource Font.Ui}" FontSize="14"
                                                Foreground="{DynamicResource Brush.TextPrimary}"/>
@@ -119,7 +119,7 @@
                         <TextBlock Text="{Binding [Settings.CaptureHotkey], Source={x:Static app:LocProxy.Instance}}"
                                    Style="{StaticResource FieldLabel}" Margin="2,12,0,6"/>
                         <Border x:Name="CaptureBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
-                                BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand"
+                                BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}"
                                 MouseLeftButtonDown="OnCaptureBoxClick" PreviewKeyDown="OnHotkeyKeyDown"
                                 LostKeyboardFocus="OnHotkeyLostFocus">
                             <TextBlock x:Name="CaptureText" FontFamily="{StaticResource Font.Ui}" FontSize="14"
@@ -205,7 +205,28 @@
                                     ToolTip="{Binding [Settings.OpenFolder], Source={x:Static app:LocProxy.Instance}}">
                                 <TextBlock Text="&#xE838;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
                             </Button>
-                            <TextBox x:Name="DataFolder" Style="{StaticResource DarkTextBox}"/>
+                            <!-- The box bound the RAW setting, which is empty until the user picks a
+                                 folder — a blank input read as "broken", not as "default". The
+                                 placeholder shows where the library actually lives (same resolution
+                                 the store uses), and vanishes the moment anything is typed. -->
+                            <Grid>
+                                <TextBox x:Name="DataFolder" Style="{StaticResource DarkTextBox}"/>
+                                <TextBlock x:Name="DataFolderPlaceholder" Margin="10,0,0,0" VerticalAlignment="Center"
+                                           IsHitTestVisible="False" TextTrimming="CharacterEllipsis"
+                                           FontFamily="{StaticResource Font.Ui}" FontSize="13"
+                                           Foreground="{DynamicResource Brush.TextFaint}">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Text, ElementName=DataFolder}" Value="">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
                         </DockPanel>
                         <!-- WrapPanel so the three buttons wrap instead of overflowing the card when
                              the labels are longer (English / 日本語) or the column is narrow. -->

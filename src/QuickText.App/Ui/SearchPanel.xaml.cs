@@ -36,6 +36,20 @@ public partial class SearchPanel : Window
         set => SetValue(HighlightQueryProperty, value);
     }
 
+    /// <summary>True below <see cref="NarrowWidth"/>: result rows shed their category chip and trim
+    /// the abbreviation keycap so the NAME — the one thing you pick by — keeps room to read. The
+    /// row template binds this off the Window (see SnippetRowTemplate in Theme.xaml).</summary>
+    public static readonly DependencyProperty NarrowModeProperty =
+        DependencyProperty.Register(nameof(NarrowMode), typeof(bool), typeof(SearchPanel), new PropertyMetadata(false));
+
+    public bool NarrowMode
+    {
+        get => (bool)GetValue(NarrowModeProperty);
+        set => SetValue(NarrowModeProperty, value);
+    }
+
+    private const double NarrowWidth = 560;
+
     // Foreground-change hook: the reliable auto-hide. Window.Deactivated alone misses cross-monitor
     // focus changes and never fires if the panel showed without truly activating (both reported), so
     // we also watch the system foreground and hide when it moves to another process's window.
@@ -59,23 +73,56 @@ public partial class SearchPanel : Window
     {
         InitializeComponent();
         WindowTheming.ApplyFlowDirection(this);   // mirror for a right-to-left UI language (Arabic)
+        ApplyMenuFlow();
         // This panel is a process-lifetime singleton (only Show/Hide'd, never rebuilt), so unlike
         // the other windows its ctor-time mirroring would freeze — re-apply on a live language
         // switch so an RTL⇄LTR change flips the layout, not just the (bound) text. Both this
         // window and the service live for the whole process, so the subscription can't leak.
         Core.Localization.LocalizationService.Instance.PropertyChanged +=
-            (_, _) => Dispatcher.Invoke(() => WindowTheming.ApplyFlowDirection(this));
+            (_, _) => Dispatcher.Invoke(() => { WindowTheming.ApplyFlowDirection(this); ApplyMenuFlow(); });
         _debounce = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(80) };
         _debounce.Tick += (_, _) => { _debounce.Stop(); Refresh(); };
+        SizeChanged += (_, _) => { NarrowMode = ActualWidth < NarrowWidth; CapPreview(); };
         // Hook only while the panel is on screen; hiding (or the process exit) tears it down.
         IsVisibleChanged += (_, _) => { if (IsVisible) HookForeground(); else UnhookForeground(); };
     }
+
+    /// <summary>The row menu is a popup — it does not inherit the window's mirrored layout, so an
+    /// Arabic panel showed an LTR skeleton with RTL text. Follow the window explicitly.</summary>
+    private void ApplyMenuFlow() =>
+        ((ContextMenu)Resources["RowMenu"]).FlowDirection = FlowDirection;
 
     /// <summary>--smoke only: seed one browse row so the shared <c>SnippetRowTemplate</c> actually
     /// inflates when the panel is laid out, letting the CI smoke pass catch a broken row template
     /// (which otherwise only fails at first real render).</summary>
     /// <summary>--shots only: populate from the real library so the design audit sees real rows.</summary>
     internal void ShotsFill(string query) { Query.Text = query; Refresh(); }
+
+    /// <summary>--shots only: render the pinned (连发) state so the glyph/colour switch has a fixture.</summary>
+    internal void ShotsPin() => OnTogglePin(PinButton, new RoutedEventArgs());
+
+    /// <summary>--shots only: the first-run empty library screen (no snippets at all) — the real
+    /// ShowBrowse takes the same branch when the store is empty, this just skips the store check.</summary>
+    internal void ShotsEmpty()
+    {
+        var loc = LocalizationService.Instance;
+        BrowseView.Visibility = Visibility.Collapsed;
+        Results.Visibility = Visibility.Collapsed;
+        HintCat.Visibility = Visibility.Collapsed;
+        ShowEmpty(loc["Search.Empty.Title"], loc["Search.Empty.Sub"]);
+        CreateButton.Content = loc["Search.Empty.Action"];
+        CreateButton.Visibility = Visibility.Visible;
+        CountText.Text = "";
+        SetHints(hasRows: false, canCreate: false);   // nothing saved yet: Enter does nothing
+    }
+
+    /// <summary>--shots only: browse rows with one selected, and the row context menu it right-clicks up.</summary>
+    internal ContextMenu? ShotsRowMenu()
+    {
+        ShotsFill("");
+        if (BrowseList.Items.Count > 0) BrowseList.SelectedIndex = 0;
+        return BrowseList.ContextMenu;
+    }
 
     internal void SmokeFill()
     {
@@ -213,6 +260,18 @@ public partial class SearchPanel : Window
         }
     }
 
+    /// <summary>Preview cap derived from the height the window is actually allowed to use — the
+    /// MaxHeight PlaceOnActiveMonitor sets from the monitor's work area (and the same value the
+    /// --shots harness simulates). The fixed 150 stole a row and a half from the list on a 574-DIP
+    /// work area, and one hardcoded number is wrong at one end or the other between a 1366×768
+    /// laptop and a 4K display. The 420-DIP whole-hide threshold (PreviewNeedsPanelHeight) still
+    /// decides whether the pane shows at all.</summary>
+    private void CapPreview()
+    {
+        double avail = double.IsPositiveInfinity(MaxHeight) ? SystemParameters.WorkArea.Height : MaxHeight;
+        PreviewScroll.MaxHeight = Math.Clamp(avail * 0.21, 60, 150);
+    }
+
     private void PlaceTopCenter(Rect wa)
     {
         Left = wa.Left + (wa.Width - Width) / 2;
@@ -337,6 +396,11 @@ public partial class SearchPanel : Window
             Results.Visibility = Visibility.Collapsed;
             HintCat.Visibility = Visibility.Collapsed;
             ShowEmpty(loc["Search.Empty.Title"], loc["Search.Empty.Sub"]);
+            // The first-run screen used to send the user to the tray menu while its own header
+            // carried the + button; give the empty state the CTA the no-match state already had
+            // Same CreateNew the + button runs — empty query lands the default name.
+            CreateButton.Content = loc["Search.Empty.Action"];
+            CreateButton.Visibility = Visibility.Visible;
             CountText.Text = "";
             SetHints(hasRows: false, canCreate: false);   // nothing saved yet: Enter does nothing
             return;
@@ -474,7 +538,7 @@ public partial class SearchPanel : Window
         var hits = cat.Snippets.Select(s => new SearchHit(s, isVirtual ? AppState.Current.CategoryOf(s.Id) : "", 0)).ToList();
         BrowseList.ItemsSource = hits;
         BrowseList.SelectedIndex = hits.Count > 0 ? 0 : -1;
-        CountText.Text = hits.Count == 0 ? "" : string.Format(LocalizationService.Instance["Search.Count"], hits.Count);
+        CountText.Text = hits.Count == 0 ? "" : string.Format(LocalizationService.Instance["Search.Count.Browse"], hits.Count);
     }
 
     /// <summary>Split "@分类 关键词" into (category, keywords); no @-prefix → (null, query).</summary>
@@ -512,7 +576,7 @@ public partial class SearchPanel : Window
 
         var hits = AppState.Current.Search.Search(keywords, category: category);
         Results.ItemsSource = hits;
-        CountText.Text = hits.Count == 0 ? "" : string.Format(loc["Search.Count"], hits.Count);
+        CountText.Text = hits.Count == 0 ? "" : string.Format(loc["Search.Count.Hits"], hits.Count);
 
         SetHints(hasRows: hits.Count > 0, canCreate: true);   // Enter creates when nothing matched
         if (hits.Count > 0)
@@ -846,7 +910,10 @@ public partial class SearchPanel : Window
     private void OnTogglePin(object sender, RoutedEventArgs e)
     {
         _pinned = !_pinned;
+        // Glyph AND colour: the accent tint alone collided with the hover brighten, so pinned vs
+        // resting was unreadable at a glance. E718 is the outline pin, E840 the filled one.
         PinButton.Foreground = (Brush)FindResource(_pinned ? "Brush.Accent" : "Brush.TextMuted");
+        PinButton.Content = _pinned ? "\uE840" : "\uE718";
     }
 
     private void OnInputDrag(object sender, MouseButtonEventArgs e)

@@ -35,8 +35,8 @@
                                     Style="{StaticResource SetHeader}"
                                     Content="{Binding [Manager.Categories], Source={x:Static app:LocProxy.Instance}}"/>
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                        <Button Style="{StaticResource GhostIconButton}" Content="&#xE710;" Click="OnAddCategory"
-                                ToolTip="{Binding [Manager.Add], Source={x:Static app:LocProxy.Instance}}"/>
+                        <Button x:Name="AddCategoryButton" Style="{StaticResource GhostIconButton}" Content="&#xE710;" Click="OnAddCategory"
+                                ToolTip="{Binding [Manager.NewCategory], Source={x:Static app:LocProxy.Instance}}"/>
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE70F;" Click="OnRenameCategory"
                                 ToolTip="{Binding [Manager.Rename], Source={x:Static app:LocProxy.Instance}}"/>
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE738;" Click="OnDeleteCategory"
@@ -75,7 +75,7 @@
                                     Content="{Binding [Manager.Snippets], Source={x:Static app:LocProxy.Instance}}"/>
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE710;" Click="OnAddSnippet"
-                                ToolTip="{Binding [Manager.Add], Source={x:Static app:LocProxy.Instance}}"/>
+                                ToolTip="{Binding [Manager.AddSnippet], Source={x:Static app:LocProxy.Instance}}"/>
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE8C8;" Click="OnDuplicateSnippet"
                                 ToolTip="{Binding [Manager.Duplicate], Source={x:Static app:LocProxy.Instance}}"/>
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE738;" Click="OnDeleteSnippet"
@@ -129,15 +129,25 @@
 
             <TextBlock Grid.Row="2" Style="{StaticResource FieldLabel}" Margin="2,18,0,6"
                        Text="{Binding [Manager.Abbr], Source={x:Static app:LocProxy.Instance}}"/>
-            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Left">
-                <TextBlock x:Name="AbbrPrefixText" VerticalAlignment="Center" Margin="0,0,3,0"
-                           FontFamily="{StaticResource Font.Mono}" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"
-                           ToolTip="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"/>
-                <TextBox x:Name="Abbr" Style="{StaticResource DarkTextBox}" Width="180"
-                         FontFamily="{StaticResource Font.Mono}" TextChanged="OnAbbrChanged"/>
-                <TextBlock x:Name="AbbrConflict" VerticalAlignment="Center" Margin="12,0,0,0"
-                           FontSize="12.5" Foreground="{DynamicResource Brush.Error}" Visibility="Collapsed"/>
-            </StackPanel>
+            <!-- The conflict hint is error text — it must never lose a word to the card edge. A
+                 horizontal StackPanel measures children at INFINITE width, so at MinWidth the hint
+                 was sliced mid-sentence with no ellipsis; it now gets its own row and
+                 wraps. The prefix+box pair stays on line one. -->
+            <Grid Grid.Row="3">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <TextBlock x:Name="AbbrPrefixText" VerticalAlignment="Center" Margin="0,0,3,0"
+                               FontFamily="{StaticResource Font.Mono}" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"
+                               ToolTip="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"/>
+                    <TextBox x:Name="Abbr" Style="{StaticResource DarkTextBox}" Width="180"
+                             FontFamily="{StaticResource Font.Mono}" TextChanged="OnAbbrChanged"/>
+                </StackPanel>
+                <TextBlock Grid.Row="1" x:Name="AbbrConflict" Margin="2,6,0,0" FontSize="12.5" TextWrapping="Wrap"
+                           Foreground="{DynamicResource Brush.Error}" Visibility="Collapsed"/>
+            </Grid>
 
             <!-- Was a DockPanel with LastChildFill="False": every Right-docked child takes its
                  desired width and the LAST one absorbs whatever remains — which in French was
@@ -213,8 +223,8 @@
                         <Image x:Name="SnippetImage" Stretch="Uniform" Margin="4"/>
                     </Border>
                     <StackPanel VerticalAlignment="Center" Margin="14,0,0,0">
-                        <TextBlock Style="{StaticResource FieldLabel}" Margin="0,0,0,6"
-                                   Text="{Binding [Manager.Image], Source={x:Static app:LocProxy.Instance}}"/>
+                        <!-- No inner "图片" label: the disclosure title sits directly above the
+                             expanded section, and repeating it only doubled the word. -->
                         <StackPanel Orientation="Horizontal">
                             <Button Style="{StaticResource DarkButton}" Padding="12,6" Click="OnImageFromClipboard"
                                     Content="{Binding [Manager.FromClipboard], Source={x:Static app:LocProxy.Instance}}"/>
@@ -244,7 +254,7 @@
                 <TextBlock x:Name="SavedHint" VerticalAlignment="Center" Margin="0,0,14,0" Opacity="0"
                            FontFamily="{StaticResource Font.Ui}" FontSize="13" Foreground="{DynamicResource Brush.Accent}"
                            Text="{Binding [Manager.Saved], Source={x:Static app:LocProxy.Instance}}"/>
-                <Button MinWidth="100" Padding="18,8" Style="{StaticResource DarkButtonPrimary}" Click="OnSave"
+                <Button MinWidth="100" Padding="18,8" x:Name="SaveButton" Style="{StaticResource DarkButtonPrimary}" Click="OnSave"
                         Content="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}}"/>
             </StackPanel>
             </Grid>

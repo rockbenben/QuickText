@@ -65,6 +65,7 @@ public partial class SettingsWindow : Window
         foreach (var rb in SummonModePanel.Children.OfType<RadioButton>())
             if ((string?)rb.Tag == _summonMode) rb.IsChecked = true;   // fires OnSummonModeChecked → visibility
         DataFolder.Text = s.DataFolder;
+        DataFolderPlaceholder.Text = AppState.Current.ResolveDataFolder();
         _language = KnownLanguages.Contains(s.Language) ? s.Language : "";
         LangCombo.ItemsSource = LanguageChoices();
         LangCombo.SelectedValue = _language;   // "" selects "follow system"
@@ -163,6 +164,25 @@ public partial class SettingsWindow : Window
         e.Handled = true;
     }
 
+    /// <summary>--shots only: the "press keys…" capture state, painted exactly like BeginCapture —
+    /// the transient is otherwise invisible to every static check. The tap box is painted because
+    /// this machine runs in tap mode; the hidden hotkey box would render as no change at all.</summary>
+    internal void ShotsCapturing()
+    {
+        var accent = (System.Windows.Media.Brush)FindResource("Brush.Accent");
+        var prompt = LocalizationService.Instance["Settings.HotkeyPrompt"];
+        if (_summonMode == "tap") { SummonTapText.Text = prompt; SummonTapBox.BorderBrush = accent; }
+        else { HotkeyText.Text = prompt; HotkeyBox.BorderBrush = accent; }
+        CaptureText.Text = prompt;
+        CaptureBox.BorderBrush = accent;
+    }
+
+    /// <summary>--shots only: keyboard focus lands where Tab would leave it, so the focus visual
+    /// (or its absence) is on film — the one interaction state no static shot used to show.</summary>
+    internal void ShotsFocusSave() => Keyboard.Focus(SaveButton);
+    internal void ShotsFocusChip() => Keyboard.Focus((System.Windows.Controls.RadioButton)OutputPanel.Children[0]);
+    internal void ShotsFocusBox() => Keyboard.Focus(DataFolder);   // witness: this template DOES react to focus
+
     private void OnCaptureBoxClick(object sender, MouseButtonEventArgs e)
     {
         BeginCapture(CaptureBox);
@@ -193,9 +213,16 @@ public partial class SettingsWindow : Window
 
     private void OnHotkeyKeyDown(object sender, KeyEventArgs e)
     {
-        if (_capBox is not { } box || !ReferenceEquals(sender, box)) return;
+        if (_capBox is null)
+        {
+            // Enter/Space on a focused-but-idle box = clicking it. Without this the box is a fake
+            // tab stop: focus lands on it, but no key can start the capture.
+            if (e.Key is Key.Enter or Key.Space && sender is Border idleBox) { BeginCapture(idleBox); e.Handled = true; }
+            return;
+        }
+        if (!ReferenceEquals(sender, _capBox)) return;
         e.Handled = true;
-        var t = Target(box);
+        var t = Target(_capBox);
 
         var key = e.Key == Key.System ? e.SystemKey : e.Key;
         if (key == Key.Escape) { EndCapture(); return; }
@@ -226,16 +253,26 @@ public partial class SettingsWindow : Window
     // ---------- summon-by-tap capture (a LONE modifier, unlike the combo boxes above) ----------
     private void OnSummonTapClick(object sender, MouseButtonEventArgs e)
     {
+        StartTapCapture();
+        e.Handled = true;
+    }
+
+    private void StartTapCapture()
+    {
         _capturingTap = true;
         Keyboard.Focus(SummonTapBox);
         SummonTapText.Text = LocalizationService.Instance["Settings.HotkeyPrompt"];
         SummonTapBox.BorderBrush = (Brush)FindResource("Brush.Accent");
-        e.Handled = true;
     }
 
     private void OnSummonTapKeyDown(object sender, KeyEventArgs e)
     {
-        if (!_capturingTap) return;
+        if (!_capturingTap)
+        {
+            // same fake-tab-stop fix as the combo boxes: Enter/Space starts the capture
+            if (e.Key is Key.Enter or Key.Space) { StartTapCapture(); e.Handled = true; }
+            return;
+        }
         e.Handled = true;
         var key = e.Key == Key.System ? e.SystemKey : e.Key;
         if (key == Key.Escape) { EndTapCapture(); return; }

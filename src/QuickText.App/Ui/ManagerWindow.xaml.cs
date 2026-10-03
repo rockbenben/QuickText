@@ -107,6 +107,7 @@ public partial class ManagerWindow : Window
     {
         ApplyImageSection();
         var state = AppState.Current;
+        if (App.InSmoke) return;   // --smoke/--shots fixtures must not write the user's settings
         if (state.Settings.EditorImageExpanded != (ImageToggle.IsChecked == true))
         {
             state.Settings.EditorImageExpanded = ImageToggle.IsChecked == true;
@@ -831,11 +832,31 @@ public partial class ManagerWindow : Window
     {
         var selected = SelectedSnippets();
         if (selected.Count == 0) { e.Handled = true; return; }
+        Snippets.ContextMenu = BuildSelectionMenu(selected);
+    }
 
-        var menu = new ContextMenu { Style = (Style)FindResource("DarkContextMenu") };
+    private ContextMenu BuildSelectionMenu(List<Snippet> selected)
+    {
+        var menu = new ContextMenu { Style = (Style)FindResource("DarkContextMenu"), FlowDirection = FlowDirection };
         var itemStyle = (Style)FindResource("DarkMenuItem");
 
-        var move = new MenuItem { Header = L("Manager.MoveTo"), Style = itemStyle };
+        // Icons ride the same vocabulary as the tray and row menus: every command
+        // item in the app shows its glyph. Delete stays muted, not red — deletion here is
+        // reversible (the trash's 30 days), and the danger colour means "gone for good".
+        MenuItem WithGlyph(string header, string glyph, System.Windows.Media.Brush? tint = null)
+        {
+            var mi = new MenuItem { Header = header, Style = itemStyle };
+            mi.Icon = new System.Windows.Controls.TextBlock
+            {
+                Text = glyph,
+                FontFamily = new System.Windows.Media.FontFamily("Segoe MDL2 Assets"),
+                FontSize = 14,
+                Foreground = tint ?? (System.Windows.Media.Brush)FindResource("Brush.TextMuted"),
+            };
+            return mi;
+        }
+
+        var move = WithGlyph(L("Manager.MoveTo"), "\uE8DE");
         foreach (var cat in _cats.Where(x => !ReferenceEquals(x, SelectedCategory)))
         {
             var target = cat;
@@ -846,15 +867,56 @@ public partial class ManagerWindow : Window
         move.IsEnabled = move.Items.Count > 0;
         menu.Items.Add(move);
 
-        var del = new MenuItem
-        {
-            Header = string.Format(L("Manager.DeleteSelected"), selected.Count),
-            Style = itemStyle,
-        };
+        var del = WithGlyph(string.Format(L("Manager.DeleteSelected"), selected.Count), "\uE74D");
         del.Click += (_, _) => DeleteSnippets(SelectedSnippets());
         menu.Items.Add(del);
+        return menu;
+    }
 
-        Snippets.ContextMenu = menu;
+    /// <summary>--shots only: the selection menu exactly as a real right-click builds it.</summary>
+    internal ContextMenu? ShotsSelectionMenu()
+    {
+        if (Snippets.Items.Count == 0) return null;
+        Snippets.SelectedIndex = 0;
+        return BuildSelectionMenu(SelectedSnippets());
+    }
+
+    /// <summary>--shots only: focus the tiny ghost "+" — the hardest focus target to make visible.</summary>
+    internal void ShotsFocusGhost() => System.Windows.Input.Keyboard.Focus(AddCategoryButton);
+
+    /// <summary>--shots only: load a snippet whose abbreviation collides with another's, so the
+    /// red inline conflict hint has a fixture (it only ever appears from live typing otherwise).</summary>
+    internal void ShotsAbbrConflict()
+    {
+        if (Snippets.Items.Count < 2) return;
+        Snippets.SelectedIndex = 0;
+        if (Snippets.Items[1] is Snippet other && !string.IsNullOrEmpty(other.Abbr))
+            Abbr.Text = other.Abbr;
+    }
+
+    /// <summary>--shots only: freeze the "✓ 已保存" flash at full opacity (it self-fades in 2s).</summary>
+    internal void ShotsSaved()
+    {
+        SavedHint.BeginAnimation(OpacityProperty, null);
+        SavedHint.Opacity = 1;
+    }
+
+    /// <summary>--shots only: expand the image section with a generated thumbnail.</summary>
+    internal void ShotsImageSection()
+    {
+        var rtb = new System.Windows.Media.Imaging.RenderTargetBitmap(64, 64, 96, 96,
+            System.Windows.Media.PixelFormats.Pbgra32);
+        var dv = new DrawingVisual();
+        using (var dc = dv.RenderOpen())
+            dc.DrawRectangle(new System.Windows.Media.LinearGradientBrush(
+                System.Windows.Media.Colors.DeepSkyBlue, System.Windows.Media.Colors.MediumSeaGreen, 45),
+                null, new Rect(0, 0, 64, 64));
+        rtb.Render(dv);
+        rtb.Freeze();   // ImageSource straight from memory — a temp PNG would lock on the second theme
+        ImageToggle.IsChecked = true;          // fires OnImageSectionToggled → reveals the section
+        SnippetImage.Source = rtb;
+        ImagePeek.Visibility = Visibility.Visible;
+        SnippetImagePeek.Source = rtb;
     }
 
     private void MoveSelectedTo(Category target)
@@ -1048,6 +1110,11 @@ public partial class ManagerWindow : Window
 
     private void OnClosing(object? s, System.ComponentModel.CancelEventArgs e)
     {
+        // --smoke/--shots park and close windows whose fixtures deliberately dirty the editor
+        // (the conflict shot types into Abbr). The unsaved-changes prompt would open a modal
+        // dialog the harness waits on forever, and a close-time persist would write fixture
+        // state to the real library. Discard silently.
+        if (App.InSmoke) { _deleted.Clear(); return; }
         // The editor's own half-finished edit is the only thing that gets asked about. Structural
         // changes (renames, drags, deletes) are deliberate acts with a visible result and keep
         // their existing save timing — asking about them again would be noise, not safety.

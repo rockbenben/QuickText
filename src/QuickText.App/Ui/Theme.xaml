@@ -52,6 +52,25 @@
     <FontFamily x:Key="Font.Ui">Microsoft YaHei UI, Segoe UI</FontFamily>
     <FontFamily x:Key="Font.Mono">Cascadia Mono, Consolas</FontFamily>
 
+    <!-- ============ keyboard focus ============ -->
+    <!-- One focus ring for every custom interactive style. The system default is a black dotted
+         rectangle: invisible on the dark palette, off-brand on the light one. 2px accent, offset
+         3px outside the control's own rounded border (radius 7 + 3 = 10), so it never reads as a
+         change in the control's own state (hover/checked). Accent contrast on every surface it
+         can land on is >=4.67:1 — clears the 3:1 non-text floor. RequireDisabledState in the
+         smoke self-check fails any custom interactive template that has neither this ring nor
+         a focus trigger. -->
+    <Style x:Key="AppFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Margin="-3" CornerRadius="10" Background="Transparent"
+                            BorderBrush="{DynamicResource Brush.Accent}" BorderThickness="2"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- ============ chips / keycaps ============ -->
     <Style x:Key="AbbrKeycap" TargetType="Border">
         <Setter Property="Background" Value="{DynamicResource Brush.AbbrBg}"/>
@@ -177,22 +196,42 @@
                             <!-- Bounded like the category chip beside it, and for the same reason:
                                  an abbreviation is free text with no MaxLength on the Manager field,
                                  so ";kundenservice-vorlage" would eat the row and ellipse the name
-                                 down to a character or two. -->
+                                 down to a character or two. MaxWidth lives in the style, not on the
+                                 element, so the narrow-panel trigger below can override it. -->
                             <TextBlock Text="{Binding Snippet.Abbr}" FontFamily="{StaticResource Font.Mono}" FontSize="11"
-                                       MaxWidth="120" TextTrimming="CharacterEllipsis">
+                                       TextTrimming="CharacterEllipsis">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Setter Property="Foreground" Value="{DynamicResource Brush.AbbrText}"/>
+                                        <Setter Property="MaxWidth" Value="120"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Kind}" Value="Abbr">
                                                 <Setter Property="Foreground" Value="{DynamicResource Brush.Accent}"/>
                                                 <Setter Property="FontWeight" Value="Bold"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding NarrowMode, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                                <Setter Property="MaxWidth" Value="88"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </TextBlock.Style>
                             </TextBlock>
                         </Border>
+                        <!-- The shed-when-narrow wrapper is a separate Border because the chip's own
+                             Visibility is a local binding (empty category → collapsed) and a local
+                             value always beats a style trigger. Below the panel's narrow width the
+                             chip steps aside first: the name is what you pick by, the category is
+                             already on the rail (browse) or secondary (search). -->
+                        <Border>
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding NarrowMode, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
                         <Border Style="{StaticResource Chip}" Margin="6,0,0,0"
                                 Visibility="{Binding Category, Converter={StaticResource EmptyToCollapsed}}">
                             <!-- A category name is free text: "Vorlagen für Kundenservice" would push
@@ -200,6 +239,7 @@
                             <TextBlock Text="{Binding Category}" FontFamily="{StaticResource Font.Ui}"
                                        MaxWidth="96" TextTrimming="CharacterEllipsis"
                                        FontSize="11.5" Foreground="{DynamicResource Brush.ChipText}"/>
+                        </Border>
                         </Border>
                     </StackPanel>
                 </Grid>
@@ -320,6 +360,14 @@
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="b" Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
                         </Trigger>
+                        <!-- Every custom-template interactive style in this file carries the same
+                             IsEnabled dimming: replacing Template drops the stock control's built-in
+                             disabled look, and the settings "启用缩写" gate disables a whole panel of
+                             these — without the trigger they stay bright while ignoring every click.
+                             RunSmoke enforces the rule; see RequireDisabledState. -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -335,6 +383,7 @@
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Padding" Value="12,6"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource AppFocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -345,6 +394,11 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="b" Property="Background" Value="{DynamicResource Brush.ButtonHover}"/>
+                        </Trigger>
+                        <!-- Pressed feedback: hover alone left the click with no tactile beat
+                             (the whole palette had zero IsPressed triggers). -->
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="b" Property="Background" Value="{DynamicResource Brush.InputBg}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="0.45"/>
@@ -381,7 +435,18 @@
                             <Setter TargetName="b" Property="Background" Value="{DynamicResource Brush.AccentHover}"/>
                             <Setter TargetName="b" Property="BorderBrush" Value="{DynamicResource Brush.AccentHover}"/>
                         </Trigger>
-                    </ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="b" Property="Opacity" Value="0.8"/>
+                        </Trigger>
+                        <!-- Re-declared, not inherited: BasedOn swaps the whole Template, so the
+                             IsEnabled dimming that lives in DarkButton's template is gone with it.
+                             Without this the disabled primary (the trash dialog's Restore on an
+                             empty bin) renders pixel-identical to an enabled one. RunSmoke asserts
+                             every button template carries this trigger. -->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                        </Trigger>
+</ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -392,6 +457,7 @@
         <Setter Property="FontFamily" Value="{StaticResource Font.Ui}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource AppFocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
@@ -429,6 +495,9 @@
                             <Setter TargetName="box" Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
                             <Setter TargetName="check" Property="Visibility" Value="Visible"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -442,6 +511,7 @@
         <Setter Property="FontSize" Value="12.5"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Margin" Value="0,0,8,8"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource AppFocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
@@ -453,10 +523,16 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="b" Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
                         </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="b" Property="Background" Value="{DynamicResource Brush.ChipBg}"/>
+                        </Trigger>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="b" Property="Background" Value="{DynamicResource Brush.RowSelected}"/>
                             <Setter TargetName="b" Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
                             <Setter Property="Foreground" Value="{DynamicResource Brush.TextPrimary}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -487,6 +563,7 @@
         <Setter Property="Height" Value="20"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Margin" Value="0,0,7,0"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource AppFocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -496,6 +573,9 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="b" Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
                             <Setter TargetName="b" Property="BorderThickness" Value="2"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -540,6 +620,7 @@
         <Setter Property="FontFamily" Value="{StaticResource Font.Ui}"/>
         <Setter Property="FontSize" Value="13"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource AppFocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
@@ -564,6 +645,9 @@
                             </Setter>
                             <Setter TargetName="chevron" Property="Fill" Value="{DynamicResource Brush.Accent}"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -578,6 +662,7 @@
         <Setter Property="FontFamily" Value="{StaticResource Font.Ui}"/>
         <Setter Property="FontSize" Value="12.5"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource AppFocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -594,6 +679,9 @@
                             <Setter TargetName="b" Property="Background" Value="{DynamicResource Brush.AbbrBg}"/>
                             <Setter TargetName="b" Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -608,6 +696,7 @@
         <Setter Property="Width" Value="26"/>
         <Setter Property="Height" Value="26"/>
         <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource AppFocusVisual}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -618,6 +707,12 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="b" Property="Background" Value="{DynamicResource Brush.RowHover}"/>
                             <Setter Property="Foreground" Value="{DynamicResource Brush.TextPrimary}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="b" Property="Background" Value="{DynamicResource Brush.Stroke}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -809,6 +904,7 @@
         <Setter Property="BorderBrush" Value="{DynamicResource Brush.InputBorder}"/>
         <Setter Property="Padding" Value="10,6"/>
         <Setter Property="FontSize" Value="13"/>
+        <Setter Property="FocusVisualStyle" Value="{StaticResource AppFocusVisual}"/>
         <Setter Property="ItemContainerStyle" Value="{StaticResource DarkComboBoxItem}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -864,6 +960,9 @@
                         </Trigger>
                         <Trigger Property="IsDropDownOpen" Value="True">
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.45"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

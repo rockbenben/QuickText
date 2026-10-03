@@ -361,8 +361,9 @@ public partial class App : Application
         state.StartWatching();
         if (dataFolderUnavailable)
             Balloon(LocalizationService.Instance["Msg.DataFolderUnavailable"], NotificationIcon.Warning);
-        if (state.Store.FindConflictFiles().Count > 0)
-            Balloon(LocalizationService.Instance["Msg.ConflictFiles"], NotificationIcon.Warning);
+        var conflicts = state.Store.FindConflictFiles();
+        if (conflicts.Count > 0)
+            Balloon(string.Format(LocalizationService.Instance["Msg.ConflictFiles"], conflicts.Count), NotificationIcon.Warning);
         if (firstRun)
             Balloon(string.Format(LocalizationService.Instance["Msg.FirstRunHint"], state.Settings.Hotkey), NotificationIcon.Info);
 
@@ -494,11 +495,20 @@ public partial class App : Application
         var loc = LocalizationService.Instance;
         bool paused = !AppState.Current.Settings.AbbrEnabled;
         var menu = _tray.ContextMenu!;
+        // Popups don't inherit the app's mirrored layout (they hang off no window), and a right-to-left
+        // menu with the icon column still on the left reads as a broken render — set it explicitly.
+        menu.FlowDirection = loc.Culture.TextInfo.IsRightToLeft
+            ? System.Windows.FlowDirection.RightToLeft : System.Windows.FlowDirection.LeftToRight;
         ((MenuItem)menu.Items[0]).Header = loc["Tray.OpenSearch"];
         ((MenuItem)menu.Items[1]).Header = loc["Tray.OpenManager"];
         ((MenuItem)menu.Items[2]).Header = loc["Tray.NewFromClipboard"];
         ((MenuItem)menu.Items[3]).Header = loc["Tray.Settings"];
-        ((MenuItem)menu.Items[4]).Header = loc[paused ? "Tray.ResumeAbbr" : "Tray.PauseAbbr"];
+        var pauseItem = (MenuItem)menu.Items[4];
+        pauseItem.Header = loc[paused ? "Tray.ResumeAbbr" : "Tray.PauseAbbr"];
+        // The icon follows the ACTION: offering "resume" while still showing the pause bars
+        // contradicted the label one pixel away. E769 pause, E768 play.
+        if (pauseItem.Icon is System.Windows.Controls.TextBlock ico)
+            ico.Text = paused ? "\uE768" : "\uE769";
         ((MenuItem)menu.Items[6]).Header = loc["Tray.Exit"];
         _tray.ToolTipText = paused ? loc["App.Name"] + " — " + loc["Tray.PausedTip"] : loc["App.Name"];
     }
@@ -655,7 +665,12 @@ public partial class App : Application
             panel.SmokeFill();       // seed a row so SearchPanel's own SnippetRowTemplate inflates on layout
             Exercise(panel);         // ...and lay the panel out, like the other windows
             Exercise(new ManagerWindow());
-            Exercise(new SettingsWindow());
+            var settings = new SettingsWindow();
+            // The blank-data-folder field now carries a placeholder showing the resolved default —
+            // if the box is empty and the placeholder isn't up, the user sees a broken-looking hole.
+            if (string.IsNullOrEmpty(settings.DataFolder.Text) && settings.DataFolderPlaceholder.Visibility != Visibility.Visible)
+                throw new InvalidOperationException("data folder box is empty but its placeholder is not visible.");
+            Exercise(settings);
             Exercise(new TrashDialog());
             Exercise(new BodyEditorWindow());
             // Also exercise the CODE path: the parameterless ctor above resolves to plain text and
@@ -698,6 +713,7 @@ public partial class App : Application
             // Leave the catalog painted for the theme the app is actually running in — the audit
             // above repainted the shared definitions as a side effect.
             Ui.Syntax.HighlightingCatalog.Get("JSON");
+            RequireDisabledState();
             var vd = new VariablesDialog();
             vd.Populate(new[] { new Core.Snippets.Placeholders.VariableSpec("测试", "默认", new[] { "a", "b" }) });
             Exercise(vd);
@@ -708,6 +724,42 @@ public partial class App : Application
         {
             System.IO.File.WriteAllText(report, ex.ToString());
             Shutdown(1);
+        }
+    }
+
+    /// <summary>
+    /// --smoke: a style that redefines Template also drops the stock control's built-in disabled
+    /// AND focus looks — the trash dialog's Restore rendered pixel-identical enabled while
+    /// disabled, keyboard focus was invisible on everything but the text box, and the settings
+    /// abbreviation gate left a whole panel of bright-but-deaf fields. Both rules have teeth now:
+    /// every custom Button/TextBox/ComboBox/CheckBox/RadioButton template must dim on IsEnabled
+    /// and show something on keyboard focus (a FocusVisualStyle or an IsKeyboardFocused trigger).
+    /// Pure text over the loaded styles — no window needed.
+    /// </summary>
+    private static void RequireDisabledState()
+    {
+        var kinds = new[] { typeof(System.Windows.Controls.Primitives.ButtonBase), typeof(TextBox),
+                            typeof(ComboBox), typeof(CheckBox), typeof(RadioButton) };
+        foreach (var dict in Current.Resources.MergedDictionaries)
+            foreach (var key in dict.Keys.Cast<object>())
+        {
+            if (dict[key] is not Style st || st.TargetType == null) continue;
+            if (!kinds.Any(k => k.IsAssignableFrom(st.TargetType))) continue;
+            var setters = st.Setters.OfType<Setter>().ToList();
+            var tpl = setters.FirstOrDefault(s => s.Property == Control.TemplateProperty)?.Value as ControlTemplate;
+            if (tpl == null) continue;   // no custom template — the stock disabled/focus looks survive
+            var triggers = tpl.Triggers.OfType<Trigger>().ToList();
+            if (!triggers.Any(t => t.Property == UIElement.IsEnabledProperty))
+                throw new InvalidOperationException(
+                    $"'{key}' redefines Template without an IsEnabled trigger — disabled instances would look enabled.");
+            // FocusVisualStyle is inherited through BasedOn (Setters holds only the style's own
+            // entries), so a derived style that just swaps Template still has the base ring.
+            bool focusShown = triggers.Any(t => t.Property == UIElement.IsKeyboardFocusedProperty);
+            for (Style? s2 = st; s2 != null && !focusShown; s2 = s2.BasedOn)
+                focusShown = s2.Setters.OfType<Setter>().Any(x => x.Property == FrameworkElement.FocusVisualStyleProperty);
+            if (!focusShown)
+                throw new InvalidOperationException(
+                    $"'{key}' redefines Template with no focus affordance — keyboard focus would be invisible.");
         }
     }
 
@@ -757,6 +809,52 @@ public partial class App : Application
             enc.Save(fs);
         }
 
+        // Menus are the app's other visual surface, and no window shot reaches them: the tray
+        // menu, the search row menu and the Manager selection menu are Popups over their own
+        // top-level. Open each against an off-screen host and render the menu itself.
+        void ShotMenu(ContextMenu? menu, string file)
+        {
+            if (menu is null) return;
+            try { ShotMenuInner(menu, file); }
+            catch (Exception ex) { System.IO.File.WriteAllText(System.IO.Path.Combine(dir, file + ".err.txt"), ex.ToString()); }
+        }
+        void ShotMenuInner(ContextMenu menu, string file)
+        {
+            var host = new Window
+            {
+                WindowStyle = WindowStyle.None, Left = -32000, Top = -32000,
+                Width = 40, Height = 40, ShowActivated = false, ShowInTaskbar = false,
+            };
+            host.Show();
+            menu.PlacementTarget = host;
+            // Warm cycle: a menu whose theme changed while it sat closed resolves its
+            // DynamicResources on the NEXT open, not the first — rendering that first open
+            // captures the previous palette (measured: light pass rendered dark until a
+            // second open). Open, close, then open again for the capture.
+            menu.IsOpen = true;
+            menu.UpdateLayout();
+            Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.Loaded);
+            menu.IsOpen = false;
+            menu.UpdateLayout();
+            menu.IsOpen = true;
+            menu.UpdateLayout();
+            Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.Loaded);
+            menu.UpdateLayout();
+            int pw = (int)Math.Ceiling(menu.ActualWidth), ph = (int)Math.Ceiling(menu.ActualHeight);
+            if (pw > 0 && ph > 0)
+            {
+                var rtb = new System.Windows.Media.Imaging.RenderTargetBitmap(
+                    pw, ph, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
+                rtb.Render(menu);
+                var enc = new System.Windows.Media.Imaging.PngBitmapEncoder();
+                enc.Frames.Add(System.Windows.Media.Imaging.BitmapFrame.Create(rtb));
+                using var fs = System.IO.File.Create(System.IO.Path.Combine(dir, file + ".png"));
+                enc.Save(fs);
+            }
+            menu.IsOpen = false;
+            host.Close();
+        }
+
         string activeTheme = Ui.ThemeService.Dark;
         void Shot(string name, Func<Window> make, Action<Window>? tweak = null, bool allHeights = true)
         {
@@ -775,7 +873,8 @@ public partial class App : Application
                 // SourceInitialized, so a pre-Show cap would be overwritten. This is the same
                 // assignment it makes, just with the simulated work area.
                 w.MaxHeight = wa;
-                try { tweak?.Invoke(w); } catch { }
+                try { tweak?.Invoke(w); }
+                catch (Exception ex) { System.IO.File.WriteAllText(System.IO.Path.Combine(dir, name + ".tweak.err.txt"), ex.ToString()); }
                 Capture(w, $"{name}@{wa:0}");
                 w.Close();
             }
@@ -808,6 +907,23 @@ public partial class App : Application
             d.DiscardButton.Visibility = Visibility.Visible;
             d.CancelButton.Content = loc["Dialog.Cancel"];
         }
+        // The single-button message — the shape every Alert (save failed, import result, portable
+        // restart) takes, and the one AppDialog layout no other fixture renders.
+        void DressAlert(Window w)
+        {
+            var loc = LocalizationService.Instance;
+            var d = (AppDialog)w;
+            d.MessageText.Text = loc["Manager.SaveFailed"];
+            d.InputBox.Visibility = Visibility.Collapsed;
+            d.CancelButton.Visibility = Visibility.Collapsed;
+            d.OkButton.Content = loc["Dialog.OK"];
+        }
+
+        // ApplyMenu writes into _tray.ContextMenu — the field the startup path assigns AFTER the
+        // --shots branch returns, so the harness has to adopt the resource itself or the menu
+        // shots throw an NRE that the explicit-Shutdown app swallows into a silent hang.
+        _tray ??= (TaskbarIcon)FindResource("Tray");
+        var trayMenu = _tray.ContextMenu;
 
         foreach (var theme in new[] { Ui.ThemeService.Dark, Ui.ThemeService.Light })
         {
@@ -816,6 +932,7 @@ public partial class App : Application
 
             Shot(t + "panel-browse", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill(""));
             Shot(t + "panel-search", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill("a"), allHeights: false);
+            Shot(t + "panel-pinned", () => new SearchPanel(), w => { ((SearchPanel)w).ShotsFill(""); ((SearchPanel)w).ShotsPin(); }, allHeights: false);
             Shot(t + "panel-nomatch", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill("zzqqxx"), allHeights: false);
             Shot(t + "panel-min", () => new SearchPanel(), w =>
             {
@@ -844,6 +961,49 @@ public partial class App : Application
                     new Core.Snippets.Placeholders.VariableSpec($"变量{i}", $"默认值 {i}", Array.Empty<string>())).ToArray()));
             Shot(t + "dialog-confirm", () => new AppDialog(), DressConfirm, allHeights: false);
             Shot(t + "dialog-discard", () => new AppDialog(), DressSaveDiscard, allHeights: false);
+            Shot(t + "dialog-alert", () => new AppDialog(), DressAlert, allHeights: false);
+
+            // Second-round state matrix: the screens no window shot reached before —
+            // first-run empty library, populated trash (the enabled side of the S1 pair),
+            // inline abbreviation conflict, the saved flash, the image section, the hotkey
+            // capture transient, and every menu surface.
+            Shot(t + "panel-empty", () => new SearchPanel(), w => ((SearchPanel)w).ShotsEmpty(), allHeights: false);
+            Shot(t + "trash-full", () => new TrashDialog(), w => ((TrashDialog)w).ShotsPopulate(), allHeights: false);
+            Shot(t + "trash-full-narrow", () => new TrashDialog(), w => { ((TrashDialog)w).ShotsPopulate(); w.Width = w.MinWidth; }, allHeights: false);
+            Shot(t + "manager-conflict", () => new ManagerWindow(), w => ((ManagerWindow)w).ShotsAbbrConflict(), allHeights: false);
+            // The abbr row is a horizontal StackPanel — infinite width, no wrap. At the window's own
+            // MinWidth the conflict hint is the error text that gets clipped first.
+            Shot(t + "manager-conflict-narrow", () => new ManagerWindow(), w => { w.Width = w.MinWidth; ((ManagerWindow)w).ShotsAbbrConflict(); }, allHeights: false);
+            Shot(t + "manager-saved", () => new ManagerWindow(), w => ((ManagerWindow)w).ShotsSaved(), allHeights: false);
+            Shot(t + "manager-image", () => new ManagerWindow(), w => ((ManagerWindow)w).ShotsImageSection(), allHeights: false);
+            // Re-apply AFTER the fixture too: SettingsWindow's theme radio repaints the saved
+            // theme during init (the same side effect the plain settings shot guards against),
+            // which otherwise renders the light pass in dark.
+            Shot(t + "settings-capture", () => new SettingsWindow(), w => { Ui.ThemeService.Apply(activeTheme); ((SettingsWindow)w).ShotsCapturing(); }, allHeights: false);
+
+            // Menus after settings need the theme re-asserted for the same reason.
+            Ui.ThemeService.Apply(activeTheme);
+            Shot(t + "manager-focus", () => new ManagerWindow(), w => { w.Focus(); ((ManagerWindow)w).ShotsFocusGhost(); }, allHeights: false);
+            Shot(t + "settings-focus", () => new SettingsWindow(), w => { w.Focus(); ((SettingsWindow)w).ShotsFocusSave(); Ui.ThemeService.Apply(activeTheme); }, allHeights: false);
+            Shot(t + "settings-chip", () => new SettingsWindow(), w => { w.Focus(); ((SettingsWindow)w).ShotsFocusChip(); Ui.ThemeService.Apply(activeTheme); }, allHeights: false);
+            Shot(t + "settings-box", () => new SettingsWindow(), w => { w.Focus(); ((SettingsWindow)w).ShotsFocusBox(); Ui.ThemeService.Apply(activeTheme); }, allHeights: false);
+            Ui.ThemeService.Apply(activeTheme);
+            ApplyMenu();
+            ShotMenu(trayMenu, t + "menu-tray");
+            var abbrWas = AppState.Current.Settings.AbbrEnabled;
+            AppState.Current.Settings.AbbrEnabled = false;   // in-memory only; --shots never persists settings
+            ApplyMenu();
+            ShotMenu(trayMenu, t + "menu-tray-paused");
+            AppState.Current.Settings.AbbrEnabled = abbrWas;
+            ApplyMenu();
+            {
+                var p = new SearchPanel();
+                ShotMenu(p.ShotsRowMenu(), t + "menu-row");
+                p.Close();
+                var m = new ManagerWindow();
+                ShotMenu(m.ShotsSelectionMenu(), t + "menu-manager");
+                m.Close();
+            }
         }
 
         // Text-density pass: the longest translations, not just the authoring language. A fixed-width
@@ -859,6 +1019,9 @@ public partial class App : Application
             LocalizationService.Instance.SetCulture(lang);
             Shot($"{lang}-settings", () => new SettingsWindow(), _ => Ui.ThemeService.Apply(activeTheme), allHeights: false);
             Shot($"{lang}-panel", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill(""), allHeights: false);
+            // Search mode too: the footer count has its own key (Search.Count.Hits) since the
+            // browse/hits split, and browse-only language shots could not show it.
+            Shot($"{lang}-panel-search", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill("a"), allHeights: false);
             Shot($"{lang}-panel-nomatch", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill("zzqqxx"), allHeights: false);
             Shot($"{lang}-trash", () => new TrashDialog(), allHeights: false);
             Shot($"{lang}-manager-narrow", () => new ManagerWindow(), w => { w.Width = w.MinWidth; }, allHeights: false);
@@ -867,6 +1030,18 @@ public partial class App : Application
             // i.e. never in a language that could overflow it.
             Shot($"{lang}-dialog-confirm", () => new AppDialog(), DressConfirm, allHeights: false);
             Shot($"{lang}-dialog-discard", () => new AppDialog(), DressSaveDiscard, allHeights: false);
+            // The tray menu is localized by ApplyMenu — the real app re-runs it via the culture
+            // PropertyChanged subscription wired AFTER the --shots branch, so the harness calls it
+            // directly. ar proves its RTL mirroring, de the longest item labels.
+            ApplyMenu();
+            ShotMenu(trayMenu, $"{lang}-menu-tray");
+            // Contrast fixture: the row menu is owned by the RTL-mirrored panel, the tray menu by
+            // nobody — ar shows which of the two actually mirrors.
+            {
+                var p = new SearchPanel();
+                ShotMenu(p.ShotsRowMenu(), $"{lang}-menu-row");
+                p.Close();
+            }
             // Longest translations at the panel's narrowest allowed size — where the footer legend
             // and the result count compete for the same strip.
             Shot($"{lang}-panel-min", () => new SearchPanel(), w =>
@@ -877,7 +1052,11 @@ public partial class App : Application
         }
 
         System.IO.File.WriteAllText(System.IO.Path.Combine(dir, "_done.txt"), "OK");
-        Shutdown(0);
+        // Not Shutdown(0): with menus opened by ShotMenu (fading popups) and an adopted tray
+        // resource, Shutdown sometimes leaves the process alive holding bin\QuickText.exe —
+        // the next build then fails on a file lock nobody asked for. The harness has no state
+        // worth an orderly exit; every failure path already wrote its .err.txt by now.
+        System.Environment.Exit(0);
     }
 
     /// <summary>Apply changed settings live so nothing needs a restart.</summary>

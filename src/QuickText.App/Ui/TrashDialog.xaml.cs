@@ -54,23 +54,45 @@ public partial class TrashDialog : Window
         var state = AppState.Current;
         state.MarkSelfWrite();   // LoadTrash may purge expired entries and write back
         _trash = state.Store.LoadTrash();
-        Items.ItemsSource = _trash
-            .OrderByDescending(t => t.DeletedAt)
-            .Select(t =>
-            {
-                var (preview, tip) = PreviewOf(t.Snippet);
-                return new Row
-                {
-                    Entry = t,
-                    Detail = $"{t.Category} · {t.DeletedAt.ToLocalTime():yyyy-MM-dd HH:mm}",
-                    Preview = preview,
-                    Tip = tip,
-                };
-            })
-            .ToList();
+        Items.ItemsSource = RowsOf(_trash);
         bool empty = _trash.Count == 0;
         EmptyText.Visibility = empty ? Visibility.Visible : Visibility.Collapsed;
         RestoreButton.IsEnabled = DeleteButton.IsEnabled = EmptyButton.IsEnabled = !empty;
+    }
+
+    private static List<Row> RowsOf(List<TrashEntry> entries) => entries
+        .OrderByDescending(t => t.DeletedAt)
+        .Select(t =>
+        {
+            var (preview, tip) = PreviewOf(t.Snippet);
+            return new Row
+            {
+                Entry = t,
+                Detail = $"{t.Category} · {t.DeletedAt.ToLocalTime():yyyy-MM-dd HH:mm}",
+                Preview = preview,
+                Tip = tip,
+            };
+        })
+        .ToList();
+
+    /// <summary>--shots only: render the populated dialog without touching the store — the
+    /// enabled/disabled contrast of the button row is the whole point of the fixture.</summary>
+    internal void ShotsPopulate()
+    {
+        var now = DateTimeOffset.Now;
+        _trash = new()
+        {
+            new TrashEntry { Category = "常用", DeletedAt = now.AddHours(-3),
+                Snippet = new Snippet { Name = "欢迎语", Body = "你好 {姓名}，\n感谢来信。" } },
+            new TrashEntry { Category = "签名", DeletedAt = now.AddDays(-2),
+                Snippet = new Snippet { Name = "名片图", ImagePath = "gone.png" } },   // IsImage is computed; the row only shows the 🖼 marker, never loads the file
+            new TrashEntry { Category = "很长的分类名字用来检查折行与截断", DeletedAt = now.AddDays(-9),
+                Snippet = new Snippet { Name = "长文本", Body = new string('字', 60) + "\n" + new string('字', 60) } },
+        };
+        Items.ItemsSource = RowsOf(_trash);
+        EmptyText.Visibility = Visibility.Collapsed;
+        RestoreButton.IsEnabled = DeleteButton.IsEnabled = EmptyButton.IsEnabled = true;
+        Items.SelectedIndex = 0;
     }
 
     private List<TrashEntry> SelectedEntries() =>

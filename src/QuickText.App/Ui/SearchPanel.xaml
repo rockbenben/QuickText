@@ -158,7 +158,7 @@
             <!-- full-text preview of the selected snippet -->
             <Border x:Name="PreviewPane" Grid.Row="3" Visibility="Collapsed" Margin="20,2,20,8"
                     BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,1,0,0" Padding="0,10,0,0">
-                <ScrollViewer MaxHeight="150" VerticalScrollBarVisibility="Auto">
+                <ScrollViewer x:Name="PreviewScroll" MaxHeight="150" VerticalScrollBarVisibility="Auto">
                     <Grid>
                         <TextBlock x:Name="PreviewText" TextWrapping="Wrap" FontFamily="{StaticResource Font.Ui}"
                                    FontSize="13" LineHeight="19" Foreground="{DynamicResource Brush.TextMuted}"/>
