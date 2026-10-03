@@ -8,9 +8,14 @@
     <!-- xunit v3 test assemblies are self-executing, so the project must build an exe. -->
     <OutputType>Exe</OutputType>
     <!--
-      Run on Microsoft.Testing.Platform instead of the VSTest bridge. That is what makes the
-      platform's own `minimum-expected-tests` option available (see how ci.yml passes it), which is
-      the whole reason CI no longer parses a .trx by hand to catch a silent 0-test run.
+      Run on Microsoft.Testing.Platform, in the .NET 10 SDK's native MTP mode of `dotnet test`
+      (the "test.runner" entry in global.json). That is what makes the platform's own
+      `minimum-expected-tests` option available (see how ci.yml passes it), which is the whole
+      reason CI no longer parses a .trx by hand to catch a silent 0-test run.
+
+      The legacy path - keeping VSTest and setting TestingPlatformDotnetTestSupport - was removed
+      in MTP 2.x on the .NET 10 SDK (hard error, not a warning), so do not "fix" a red CI by
+      putting that property back.
 
       With MTP driving the run, Microsoft.NET.Test.Sdk / xunit.runner.visualstudio / coverlet.collector
       are all VSTest-side pieces with nothing left to do — dropping them also cleared the MTP0001
@@ -19,11 +24,10 @@
       Microsoft.NET.Test.Sdk + xunit.runner.visualstudio back if you run tests from Test Explorer.
     -->
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
-    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="xunit.v3" Version="3.2.2" />
+    <PackageReference Include="xunit.v3" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>

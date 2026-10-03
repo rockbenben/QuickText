@@ -22,10 +22,12 @@ jobs:
           dotnet-version: 10.0.x
       # --minimum-expected-tests is Microsoft.Testing.Platform's own guard against a silent 0-test run
       # (a mis-loaded adapter can make a test run exit 0 with nothing executed). It replaces the trx
-      # parsing this step used to do; see the test .csproj for the two properties that put xunit.v3
-      # on MTP. Verified both ways: `1` passes, `99999` exits 1.
+      # parsing this step used to do; see the test .csproj for why this runs in the .NET 10 SDK's
+      # native MTP mode (global.json's test.runner). Verified both ways: `1` passes, `99999` exits 9.
+      # Do NOT add --nologo here: the .NET 10 SDK doesn't claim that option yet, so it gets forwarded
+      # verbatim to the test app and kills the run (exit 5) before a single test is seen.
       - name: Test (Core)
-        run: dotnet test tests/QuickText.Core.Tests -c Release --nologo -- --minimum-expected-tests 1
+        run: dotnet test --project tests/QuickText.Core.Tests -c Release --minimum-expected-tests 1
       - name: Build (App)
         run: dotnet build src/QuickText.App -c Release --nologo
       - name: Smoke (parse every window's XAML)
