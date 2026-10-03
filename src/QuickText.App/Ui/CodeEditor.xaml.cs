@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ICSharpCode.AvalonEdit.Rendering;
 using QuickText.App.Ui.Syntax;
 using QuickText.Core.Localization;
 using QuickText.Core.Snippets;
@@ -33,6 +34,8 @@ public partial class CodeEditor : UserControl, IBodyEditorSurface
         Editor.Options.EnableHyperlinks = false;
         Editor.Options.EnableEmailHyperlinks = false;
         Editor.Options.HighlightCurrentLine = true;
+        Editor.TextArea.TextView.BackgroundRenderers.Add(
+            new CurrentLineBarRenderer(() => Editor.TextArea.Caret.Line));
         Editor.Options.ConvertTabsToSpaces = false;
         Editor.TextArea.TextView.CurrentLineBorder = FrozenPen(Frozen("#00000000"), 0);
         Editor.TextArea.SelectionBorder = null;
@@ -49,7 +52,9 @@ public partial class CodeEditor : UserControl, IBodyEditorSurface
             new PlaceholderColorizer(() => _spans, () => _useVariables));
 
         Editor.TextChanged += (_, _) => Rescan();
-        Editor.TextArea.Caret.PositionChanged += (_, _) => UpdateStatus();
+        // The bar renderer draws in the background layer, which AvalonEdit does NOT repaint on a
+        // bare caret move (only the caret layer). Redraw() is cheap at snippet sizes.
+        Editor.TextArea.Caret.PositionChanged += (_, _) => { Editor.TextArea.TextView.Redraw(); UpdateStatus(); };
 
         // Mirror BodyEditor's hover tooltip (date preview / invalid-token reason) on this surface —
         // PlaceholderColorizer already draws the red underline here, so without this the code editor
@@ -87,9 +92,26 @@ public partial class CodeEditor : UserControl, IBodyEditorSurface
                      ?? Color.FromRgb(0x3D, 0xC2, 0xA0);
         Editor.TextArea.TextView.CurrentLineBackground = new SolidColorBrush(ThemeService.IsLight
             ? Color.FromArgb(0x12, 0x1B, 0x1E, 0x24)     // a wash of the ink, not of white
-            : Color.FromArgb(0x14, 0xFF, 0xFF, 0xFF));
+            : Color.FromArgb(0x0A, 0xFF, 0xFF, 0xFF));   // 4%: the 8% strip read as a scrollbar
         Editor.TextArea.SelectionBrush = new SolidColorBrush(Color.FromArgb(0x55, accent.R, accent.G, accent.B));
         Editor.TextArea.Caret.CaretBrush = new SolidColorBrush(accent);
+    }
+
+    /// <summary>The caret line's real anchor: a 2px accent bar at the line's left edge. A borderless
+    /// tint strip across a dark surface is what made the old 8% wash look like a stray horizontal
+    /// scrollbar — the bar says "this line" in a shape no scrollbar wears.</summary>
+    private sealed class CurrentLineBarRenderer(Func<int> caretLine) : IBackgroundRenderer
+    {
+        public KnownLayer Layer => KnownLayer.Background;
+
+        public void Draw(TextView textView, DrawingContext drawingContext)
+        {
+            var visualLine = textView.GetVisualLine(caretLine());
+            if (visualLine == null) return;
+            if (System.Windows.Application.Current?.TryFindResource("Brush.Accent") is not Brush brush) return;
+            double y = visualLine.GetTextLineVisualYPosition(visualLine.GetTextLine(0), VisualYPosition.LineTop);
+            drawingContext.DrawRectangle(brush, null, new System.Windows.Rect(0, y, 2, visualLine.Height));
+        }
     }
 
     private static SolidColorBrush Frozen(string hex)
