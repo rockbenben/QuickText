@@ -924,6 +924,22 @@ public partial class App : Application
             d.CancelButton.Visibility = Visibility.Collapsed;
             d.OkButton.Content = loc["Dialog.OK"];
         }
+        // batch5 dressers: the Prompt input path and the destructive confirms with their real
+        // call-site texts. Factories because each takes its keys, and BOTH passes (theme and
+        // language) render them — the language pass is where a translated label eats the input.
+        Action<Window> PromptDress(string titleKey, string val) => w =>
+            AppDialog.SetupPrompt((AppDialog)w, LocalizationService.Instance[titleKey],
+                LocalizationService.Instance["Manager.CategoryName"], val);
+        Action<Window> ConfirmDress(string msgKey, string okKey) => w =>
+        {
+            var loc = LocalizationService.Instance;
+            var d = (AppDialog)w;
+            d.MessageText.Text = loc[msgKey];
+            d.InputBox.Visibility = Visibility.Collapsed;
+            d.OkButton.Style = (Style)d.FindResource("DarkButtonDanger");
+            d.OkButton.Content = loc[okKey];
+            d.CancelButton.Content = loc["Dialog.Cancel"];
+        };
 
         // ApplyMenu writes into _tray.ContextMenu — the field the startup path assigns AFTER the
         // --shots branch returns, so the harness has to adopt the resource itself or the menu
@@ -1055,6 +1071,29 @@ public partial class App : Application
             Shot(t + "dialog-confirm", () => new AppDialog(), DressConfirm, allHeights: false);
             Shot(t + "dialog-discard", () => new AppDialog(), DressSaveDiscard, allHeights: false);
             Shot(t + "dialog-alert", () => new AppDialog(), DressAlert, allHeights: false);
+            // batch5: the dialog CONTENT layer — the Prompt input path never rendered in any
+            // fixture before (Dress* all collapse it), the destructive confirms with their real
+            // texts, the two-argument abbr alert, and the variable dialog's options field.
+            Shot(t + "dialog-prompt", () => new AppDialog(), PromptDress("Manager.NewCategory", "日常写作"), allHeights: false);
+            Shot(t + "dialog-prompt-long", () => new AppDialog(),
+                 PromptDress("Manager.RenameCategory", "项目周报与会议纪要归档模板名称超长测试超长测试"), allHeights: false);
+            Shot(t + "dialog-prompt-empty", () => new AppDialog(), PromptDress("Manager.NewCategory", ""), allHeights: false);
+            Shot(t + "dialog-confirm-import", () => new AppDialog(), ConfirmDress("Msg.ImportConfirm", "Settings.ImportBackup"), allHeights: false);
+            Shot(t + "dialog-confirm-trash", () => new AppDialog(), ConfirmDress("Trash.EmptyConfirm", "Trash.Empty"), allHeights: false);
+            Shot(t + "dialog-alert-abbr", () => new AppDialog(), w =>
+            {
+                var loc = LocalizationService.Instance;
+                var d = (AppDialog)w;
+                d.MessageText.Text = string.Format(loc["Manager.DuplicateAbbr"], "zb", "周报模板");
+                d.InputBox.Visibility = Visibility.Collapsed;
+                d.CancelButton.Visibility = Visibility.Collapsed;
+                d.OkButton.Content = loc["Dialog.OK"];
+            }, allHeights: false);
+            Shot(t + "variables-combo", () => new VariablesDialog(), w => ((VariablesDialog)w).Populate(new[]
+            {
+                new Core.Snippets.Placeholders.VariableSpec("收件人", "王总", Array.Empty<string>()),
+                new Core.Snippets.Placeholders.VariableSpec("环境", "dev", new[] { "dev", "test", "prod" }),
+            }), allHeights: false);
 
             // Second-round state matrix: the screens no window shot reached before —
             // first-run empty library, populated trash (the enabled side of the S1 pair),
@@ -1126,6 +1165,10 @@ public partial class App : Application
             // i.e. never in a language that could overflow it.
             Shot($"{lang}-dialog-confirm", () => new AppDialog(), DressConfirm, allHeights: false);
             Shot($"{lang}-dialog-discard", () => new AppDialog(), DressSaveDiscard, allHeights: false);
+            // batch5: the input path and a destructive confirm with a verb-pair button — both are
+            // text-density surfaces the theme pass alone can't prove in overflowing languages.
+            Shot($"{lang}-dialog-prompt", () => new AppDialog(), PromptDress("Manager.NewCategory", "日常写作"), allHeights: false);
+            Shot($"{lang}-dialog-import", () => new AppDialog(), ConfirmDress("Msg.ImportConfirm", "Settings.ImportBackup"), allHeights: false);
             // The tray menu is localized by ApplyMenu — the real app re-runs it via the culture
             // PropertyChanged subscription wired AFTER the --shots branch, so the harness calls it
             // directly. ar proves its RTL mirroring, de the longest item labels.

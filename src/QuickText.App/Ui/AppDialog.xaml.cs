@@ -33,16 +33,33 @@ public partial class AppDialog : Window
 
     private static string L(string key) => LocalizationService.Instance[key];
 
-    /// <summary>Text input. Returns the entered string, or null if cancelled.</summary>
+    /// <summary>Text input. Returns the entered string (trimmed), or null if cancelled.</summary>
     public static string? Prompt(Window owner, string title, string label, string def = "")
     {
-        var d = new AppDialog { Owner = owner, Title = title };
+        var d = new AppDialog { Owner = owner };
+        SetupPrompt(d, title, label, def);
+        d.Loaded += (_, _) => { d.InputBox.Focus(); d.InputBox.SelectAll(); };
+        return d.ShowDialog() == true ? d.InputBox.Text.Trim() : null;
+    }
+
+    /// <summary>Populates a dialog as a prompt. Split from <see cref="Prompt"/> so the --shots
+    /// fixture renders the SAME wiring — notably the empty-name disable — rather than a
+    /// hand-dressed lookalike that would prove nothing about the real path.</summary>
+    internal static void SetupPrompt(AppDialog d, string title, string label, string def)
+    {
+        d.Title = title;
         d.MessageText.Text = label;
+        d.InputBox.Visibility = Visibility.Visible;
         d.InputBox.Text = def;
         d.OkButton.Content = L("Dialog.OK");
         d.CancelButton.Content = L("Dialog.Cancel");
-        d.Loaded += (_, _) => { d.InputBox.Focus(); d.InputBox.SelectAll(); };
-        return d.ShowDialog() == true ? d.InputBox.Text : null;
+        // An empty name is a no-op both callers silently swallow (they check IsNullOrWhiteSpace and
+        // return), so the button that would do nothing is disabled instead — the same disabled-dim
+        // the rest of the palette already has. Trim on the way out too (in Prompt): " 周报" and
+        // "周报" must not become two categories the duplicate check can't see.
+        void Validate() => d.OkButton.IsEnabled = d.InputBox.Text.Trim().Length > 0;
+        d.InputBox.TextChanged += (_, _) => Validate();
+        Validate();
     }
 
     /// <summary>Two-button confirmation. Returns true if the primary button was chosen.
