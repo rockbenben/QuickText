@@ -39,6 +39,12 @@
     <SolidColorBrush x:Key="Brush.KeycapBorder" Color="#2EFFFFFF"/>
     <SolidColorBrush x:Key="Brush.KeycapText"   Color="#C4CCD7"/>
     <SolidColorBrush x:Key="Brush.FooterBg"     Color="#12000000"/>
+    <!-- Scrollbar pill, painted 4 DIP inside the 10-DIP slot the ScrollBar template reserves.
+         It used to be a literal #33FFFFFF in the template, which the light theme could not
+         override — 20% white on #F7F8FA composited to 249 against a 247 surface, i.e. the
+         thumb vanished and scrolling gave no position feedback at all. -->
+    <SolidColorBrush x:Key="Brush.ScrollThumb"      Color="#26FFFFFF"/>
+    <SolidColorBrush x:Key="Brush.ScrollThumbHover" Color="#59FFFFFF"/>
     <SolidColorBrush x:Key="Brush.Star"         Color="#E8C264"/>
     <!-- Colours that used to be written straight into a control or a code-behind file. They have to
          live here for the light theme to reach them at all: ThemeService repaints the palette, not
@@ -733,10 +739,46 @@
                                 <Thumb IsTabStop="False">
                                     <Thumb.Template>
                                         <ControlTemplate TargetType="Thumb">
-                                            <Border x:Name="t" CornerRadius="7" Margin="2" Background="#33FFFFFF"/>
+                                            <!-- The Thumb fills the bar's whole cross-section and
+                                                 Transparent keeps that area hit-testable, so the
+                                                 grab stays as wide as the slot while the painted
+                                                 pill is a fixed 4 DIP. Explicit thickness rather
+                                                 than a margin: a margin inherits whatever width the
+                                                 host actually gave the slot, which is how this bar
+                                                 ended up 9 DIP wide on a 10 DIP claim. -->
+                                            <Grid Background="Transparent">
+                                                <!-- Every property lives in the Style, none as an
+                                                     attribute: a local value outranks both the
+                                                     style trigger below and the template's hover
+                                                     trigger, which is how the first version of
+                                                     this pill rendered the horizontal thumb zero
+                                                     pixels wide (Center + Auto width) and left the
+                                                     hover tint dead. -->
+                                                <Border x:Name="t">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Background" Value="{DynamicResource Brush.ScrollThumb}"/>
+                                                            <Setter Property="CornerRadius" Value="2"/>
+                                                            <Setter Property="Width" Value="4"/>
+                                                            <Setter Property="Margin" Value="0,3"/>
+                                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding Orientation,
+                                                                    RelativeSource={RelativeSource AncestorType=ScrollBar}}" Value="Horizontal">
+                                                                    <Setter Property="Width" Value="Auto"/>
+                                                                    <Setter Property="Height" Value="4"/>
+                                                                    <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                                                    <Setter Property="VerticalAlignment" Value="Center"/>
+                                                                    <Setter Property="Margin" Value="3,0"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+                                            </Grid>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="t" Property="Background" Value="#59FFFFFF"/>
+                                                    <Setter TargetName="t" Property="Background" Value="{DynamicResource Brush.ScrollThumbHover}"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>

@@ -35,6 +35,11 @@
     <SolidColorBrush x:Key="Brush.KeycapBorder" Color="#2A1B1E24"/>
     <SolidColorBrush x:Key="Brush.KeycapText" Color="#39414B"/>
     <SolidColorBrush x:Key="Brush.FooterBg" Color="#0A1B1E24"/>
+    <!-- Ink, not white: the dark ramp's 20%-white thumb composites to 249 on this near-white
+         surface (a 2-level difference — invisible). Same visual weight as 夜行's thumb,
+         measured against the surface it actually lands on. -->
+    <SolidColorBrush x:Key="Brush.ScrollThumb" Color="#331B1E24"/>
+    <SolidColorBrush x:Key="Brush.ScrollThumbHover" Color="#591B1E24"/>
     <SolidColorBrush x:Key="Brush.Star" Color="#8F6300"/>
     <SolidColorBrush x:Key="Brush.Amber" Color="#FF8A5A00"/>
     <SolidColorBrush x:Key="Brush.ButtonBg" Color="#FFFFFFFF"/>

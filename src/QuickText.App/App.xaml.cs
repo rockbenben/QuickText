@@ -1056,6 +1056,20 @@ public partial class App : Application
             Shot(t + "trash", () => new TrashDialog(), allHeights: false);
             Shot(t + "editor-text", () => new BodyEditorWindow("欢迎语", "你好 {姓名}，\n感谢你的来信。\n\n祝好\n{光标}", true, 0, 0, null), allHeights: false);
             Shot(t + "editor-code", () => new BodyEditorWindow("配置", "{\n  \"name\": \"quicktext\",\n  \"version\": 1\n}", false, 0, 0, "json"), allHeights: false);
+            // One long unwrapped line: the only fixture where the horizontal scrollbar exists, so
+            // it is the only witness that the thin thumb flips its 4-DIP axis with the orientation.
+            // Wrap is steered through the setting the ctor reads (in memory, restored right after)
+            // rather than the 自动换行 checkbox, because toggling that persists to disk AND would
+            // leave the checkbox on screen reading the opposite of what the surface renders.
+            bool nowrapRestore = true;
+            Shot(t + "editor-nowrap", () =>
+            {
+                var st = AppState.Current.Settings;
+                (bool wrap, string body) = (st.EditorWrap, "{\n  \"note\": \"" + new string('字', 400) + "\"\n}");
+                nowrapRestore = wrap;
+                st.EditorWrap = false;
+                return new BodyEditorWindow("长行", body, false, 0, 0, "json");
+            }, w => AppState.Current.Settings.EditorWrap = nowrapRestore, allHeights: false);
             Shot(t + "variables", () => new VariablesDialog(), w => ((VariablesDialog)w).Populate(new[]
             {
                 new Core.Snippets.Placeholders.VariableSpec("姓名", "张三", Array.Empty<string>()),
