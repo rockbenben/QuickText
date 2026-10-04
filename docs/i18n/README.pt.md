@@ -146,6 +146,7 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 | Enviar                                            | `Enter` ou duplo clique (clique único opcional)             |
 | Favoritar / desfavoritar                          | `Ctrl+D`                                                    |
 | Criar / editar no painel                          | `Ctrl+N` / `Ctrl+E`                                         |
+| Pré-visualização: expandir / recolher             | `Ctrl+Space` (se houver pré-visualização)                   |
 | Desfazer exclusão (Gerenciador)                   | `Ctrl+Z`                                                    |
 | Abreviação: acionar / desfazer                    | digite a abrev + Espaço·Tab·Enter / Backspace após expandir |
 

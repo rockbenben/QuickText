@@ -146,6 +146,7 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 | Gửi                                 | `Enter` hoặc nhấp đúp (nhấp một lần tùy chọn)                |
 | Yêu thích / bỏ yêu thích            | `Ctrl+D`                                                     |
 | Tạo / chỉnh sửa trong bảng          | `Ctrl+N` / `Ctrl+E`                                          |
+| Xem trước: mở rộng / thu gọn        | `Ctrl+Space` (khi có xem trước)                              |
 | Hoàn tác xóa (Trình quản lý)        | `Ctrl+Z`                                                     |
 | Từ viết tắt: kích hoạt / hoàn tác   | gõ từ viết tắt + Space·Tab·Enter / Backspace sau khi mở rộng |
 

@@ -146,6 +146,7 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 | Invia                                        | `Enter` o doppio clic (singolo clic opzionale)               |
 | Aggiungi / rimuovi dai preferiti             | `Ctrl+D`                                                     |
 | Crea / modifica nel pannello                 | `Ctrl+N` / `Ctrl+E`                                          |
+| Anteprima: espandi / comprim                 | `Ctrl+Space` (quando è presente un’anteprima)                |
 | Annulla eliminazione (Gestore)               | `Ctrl+Z`                                                     |
 | Abbreviazione: attiva / annulla              | digita abbr + Spazio·Tab·Invio / Backspace dopo l'espansione |
 

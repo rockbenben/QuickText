@@ -146,6 +146,7 @@ Ayrıntılar: eşleştirme **büyük/küçük harfe duyarlı değildir** (`;SIG`
 | Gönder                                | `Enter` veya çift tıklama (tek tıklama isteğe bağlı)            |
 | Sık kullanılana ekle / çıkar          | `Ctrl+D`                                                        |
 | Panelde oluştur / düzenle             | `Ctrl+N` / `Ctrl+E`                                             |
+| Önizleme: genişlet / daralt           | `Ctrl+Space` (önizleme görünüyorsa)                             |
 | Silmeyi geri al (Yönetici)            | `Ctrl+Z`                                                        |
 | Kısaltma: tetikle / geri al           | kısaltma yaz + Space·Tab·Enter / genişlettikten sonra Backspace |
 

@@ -41,9 +41,10 @@
                      still measures to its content, but when the window's MinHeight exceeds what the
                      content needs, the slack lands HERE instead of pooling below the footer. With
                      Auto every row was content-sized, the Grid was top-aligned inside a 340-tall
-                     window, and two results left a dead strip under the hint bar. -->
+                     window, and two results left a dead strip under the hint bar.
+                     The preview pane lives INSIDE this row (see below): it overlays the list's
+                     bottom instead of taking a row of its own, so it can never squeeze the list. -->
                 <RowDefinition x:Name="BodyRow" Height="*"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
@@ -153,22 +154,64 @@
                             Style="{StaticResource DarkButtonPrimary}" Padding="16,6" FontSize="12.5"
                             Click="OnCreateFromQuery"/>
                 </StackPanel>
+
+                <!-- Full-text preview of the selected snippet, OVERLAID on the list's bottom.
+                     Two states: COLLAPSED (default) is a one-line strip — the body's first line
+                     plus a chevron — costing the list a third of a row; EXPANDED grows the pane
+                     over the list's bottom (rows stay reachable: CapPreview pads the lists, and
+                     selecting another snippet folds the pane back to the strip). Opaque Surface
+                     background — rows scrolling under a translucent pane would ghost through. -->
+                <Border x:Name="PreviewPane" Visibility="Collapsed" Panel.ZIndex="1"
+                        VerticalAlignment="Bottom" Margin="12,0,12,10"
+                        Background="{DynamicResource Brush.Surface}"
+                        BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,1,0,0"
+                        CornerRadius="0,0,8,8" Padding="0,10,0,0">
+                    <StackPanel>
+                        <Border x:Name="PreviewHeader" Cursor="Hand" Padding="2,7,2,7"
+                                MouseLeftButtonUp="OnPreviewToggle">
+                            <!-- hover affordance lives in a Style, not an attribute: an inline
+                                 Background would outrank the IsMouseOver trigger and eat it. -->
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{DynamicResource Brush.RowHover}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock x:Name="PreviewEye" Grid.Column="0" Margin="2,0,8,0"
+                                           FontFamily="Segoe MDL2 Assets" FontSize="13"
+                                           Foreground="{DynamicResource Brush.TextMuted}" Text="&#xE7B3;"/>
+                                <TextBlock x:Name="PreviewSummary" Grid.Column="1"
+                                           TextTrimming="CharacterEllipsis" FontFamily="{StaticResource Font.Ui}"
+                                           FontSize="12.5" Foreground="{DynamicResource Brush.TextFaint}"/>
+                                <TextBlock x:Name="PreviewChevron" Grid.Column="2" Margin="10,0,2,0"
+                                           FontFamily="Segoe MDL2 Assets" FontSize="11"
+                                           Foreground="{DynamicResource Brush.TextMuted}" Text="&#xE70E;"/>
+                            </Grid>
+                        </Border>
+                        <ScrollViewer x:Name="PreviewScroll" MaxHeight="150" Visibility="Collapsed"
+                                      VerticalScrollBarVisibility="Auto">
+                            <Grid>
+                                <TextBlock x:Name="PreviewText" TextWrapping="Wrap" FontFamily="{StaticResource Font.Ui}"
+                                           FontSize="13" LineHeight="19" Foreground="{DynamicResource Brush.TextMuted}"/>
+                                <Image x:Name="PreviewImage" Stretch="Uniform" MaxHeight="138" HorizontalAlignment="Left" Visibility="Collapsed"/>
+                            </Grid>
+                        </ScrollViewer>
+                    </StackPanel>
+                </Border>
             </Grid>
 
-            <!-- full-text preview of the selected snippet -->
-            <Border x:Name="PreviewPane" Grid.Row="3" Visibility="Collapsed" Margin="20,2,20,8"
-                    BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,1,0,0" Padding="0,10,0,0">
-                <ScrollViewer x:Name="PreviewScroll" MaxHeight="150" VerticalScrollBarVisibility="Auto">
-                    <Grid>
-                        <TextBlock x:Name="PreviewText" TextWrapping="Wrap" FontFamily="{StaticResource Font.Ui}"
-                                   FontSize="13" LineHeight="19" Foreground="{DynamicResource Brush.TextMuted}"/>
-                        <Image x:Name="PreviewImage" Stretch="Uniform" MaxHeight="138" HorizontalAlignment="Left" Visibility="Collapsed"/>
-                    </Grid>
-                </ScrollViewer>
-            </Border>
-
             <!-- footer -->
-            <Border Grid.Row="4" Background="{DynamicResource Brush.FooterBg}" CornerRadius="0,0,16,16" Padding="18,10">
+            <Border Grid.Row="3" Background="{DynamicResource Brush.FooterBg}" CornerRadius="0,0,16,16" Padding="18,10">
                 <!-- Two COLUMNS, not two overlapping layers in one cell: the legend and the result
                      count used to be stacked on top of each other, so at the panel's own MinWidth a
                      long translation (Russian) ran straight under the count and both became
@@ -223,7 +266,7 @@
             </Border>
 
             <!-- resize grip -->
-            <pt:Thumb Grid.Row="4" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="18" Height="18"
+            <pt:Thumb Grid.Row="3" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="18" Height="18"
                       Margin="0,0,3,3" Cursor="SizeNWSE" DragDelta="OnResizeDrag">
                 <pt:Thumb.Template>
                     <ControlTemplate TargetType="pt:Thumb">

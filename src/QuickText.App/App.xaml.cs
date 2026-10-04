@@ -856,6 +856,12 @@ public partial class App : Application
         }
 
         string activeTheme = Ui.ThemeService.Dark;
+        // A real panel settles CapPreview through SizeChanged, which fires at dispatcher priority
+        // Loaded — UpdateLayout alone only completes the arrange. Fixtures that measure must pump
+        // the queue or they read a state no user ever sees.
+        void Pump() => System.Windows.Threading.Dispatcher.CurrentDispatcher.Invoke(
+            () => { }, System.Windows.Threading.DispatcherPriority.Loaded);
+
         void Shot(string name, Func<Window> make, Action<Window>? tweak = null, bool allHeights = true)
         {
             foreach (var wa in allHeights ? waHeights : new[] { waHeights[^1] })
@@ -933,6 +939,93 @@ public partial class App : Application
             Shot(t + "panel-browse", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill(""));
             Shot(t + "panel-search", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill("a"), allHeights: false);
             Shot(t + "panel-pinned", () => new SearchPanel(), w => { ((SearchPanel)w).ShotsFill(""); ((SearchPanel)w).ShotsPin(); }, allHeights: false);
+            Shot(t + "panel-preview-long", () => new SearchPanel(), w =>
+            {
+                var p = (SearchPanel)w;
+                p.ShotsPreviewLong();
+                Pump();
+                System.IO.File.AppendAllText(System.IO.Path.Combine(dir, "preview-sizes.txt"),
+                    $"{t} long wa={w.MaxHeight:0} {p.SizesForShots()}\n");
+            });
+            // The reported case verbatim: a MANUALLY resized panel (the user's remembered
+            // 704.7x514.7) with the long row selected — the squeeze the auto-mode fix left in.
+            Shot(t + "panel-preview-manual", () => new SearchPanel(), w =>
+            {
+                var p = (SearchPanel)w;
+                p.EnterManualModeForShots(704.7, 514.7);
+                p.ShotsPreviewLong();
+                Pump();
+                System.IO.File.AppendAllText(System.IO.Path.Combine(dir, "preview-sizes.txt"),
+                    $"{t} manual id={p.GetHashCode():X} {p.SizesForShots()}\n");
+            }, allHeights: false);
+            // The strip's expanded state: the full pane unfolded over the list's bottom.
+            Shot(t + "panel-preview-open", () => new SearchPanel(), w =>
+            {
+                var p = (SearchPanel)w;
+                p.ShotsPreviewLong();
+                p.ShotsPreviewToggle();
+                Pump();
+                System.IO.File.AppendAllText(System.IO.Path.Combine(dir, "preview-sizes.txt"),
+                    $"{t} open wa={w.MaxHeight:0} {p.SizesForShots()}\n");
+            }, allHeights: false);
+            Shot(t + "panel-preview-manual-open", () => new SearchPanel(), w =>
+            {
+                var p = (SearchPanel)w;
+                p.EnterManualModeForShots(704.7, 514.7);
+                p.ShotsPreviewLong();
+                p.ShotsPreviewToggle();
+                Pump();
+                System.IO.File.AppendAllText(System.IO.Path.Combine(dir, "preview-sizes.txt"),
+                    $"{t} manual-open {p.SizesForShots()}\n");
+            }, allHeights: false);
+            // Auto-fold witness: expand on the long row, pick another, come back — the pane must
+            // be visible again but folded to the strip (preview ~41, scroll 0).
+            Shot(t + "panel-preview-refold", () => new SearchPanel(), w =>
+            {
+                var p = (SearchPanel)w;
+                p.ShotsPreviewLong();
+                p.ShotsPreviewToggle();
+                p.ShotsPreviewReselectFirst();
+                p.ShotsPreviewReselectLast();
+                Pump();
+                System.IO.File.AppendAllText(System.IO.Path.Combine(dir, "preview-sizes.txt"),
+                    $"{t} refold {p.SizesForShots()}\n");
+            }, allHeights: false);
+            // batch4 evidence: the strip at the panel's own MinWidth, and mirrored for RTL.
+            Shot(t + "panel-preview-narrow", () => new SearchPanel(), w =>
+            {
+                var p = (SearchPanel)w;
+                p.EnterManualModeForShots(p.MinWidth, 514.7);
+                p.ShotsPreviewLong();
+                Pump();
+            }, allHeights: false);
+            // The Ctrl+Space binding itself, fired through the same guard the key switch uses.
+            Shot(t + "panel-preview-key", () => new SearchPanel(), w =>
+            {
+                var p = (SearchPanel)w;
+                p.ShotsPreviewLong();
+                Pump();
+                bool consumed = p.ShotsPreviewKeyToggle();
+                Pump();
+                System.IO.File.AppendAllText(System.IO.Path.Combine(dir, "preview-sizes.txt"),
+                    $"{t} key consumed={consumed} {p.SizesForShots()}\n");
+            }, allHeights: false);
+            Shot(t + "panel-preview-rtl", () => new SearchPanel(), w =>
+            {
+                var p = (SearchPanel)w;
+                p.FlowDirection = FlowDirection.RightToLeft;
+                p.EnterManualModeForShots(704.7, 514.7);
+                p.ShotsPreviewLong();
+                Pump();
+            }, allHeights: false);
+            Shot(t + "panel-preview-base", () => new SearchPanel(), w =>
+            {
+                var p = (SearchPanel)w;
+                p.ShotsPreviewBaseline();
+                Pump();
+                System.IO.File.AppendAllText(System.IO.Path.Combine(dir, "preview-sizes.txt"),
+                    $"{t} base wa={w.MaxHeight:0} {p.SizesForShots()}\n");
+            });
             Shot(t + "panel-nomatch", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill("zzqqxx"), allHeights: false);
             Shot(t + "panel-min", () => new SearchPanel(), w =>
             {

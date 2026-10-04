@@ -146,6 +146,7 @@ Placeholders एक **per-snippet स्विच** हैं: Manager एडि
 | भेजें                            | `Enter` या डबल-क्लिक (सिंगल-क्लिक वैकल्पिक)                 |
 | फ़ेवरिट / अनफ़ेवरिट              | `Ctrl+D`                                                    |
 | पैनल में बनाएँ / संपादित करें    | `Ctrl+N` / `Ctrl+E`                                         |
+| पूर्वावलोकन: खोलें / समेटें      | `Ctrl+Space` (जब पूर्वावलोकन दिखे)                          |
 | डिलीट पूर्ववत करें (Manager)     | `Ctrl+Z`                                                    |
 | Abbreviation: ट्रिगर / पूर्ववत   | abbr टाइप करें + Space·Tab·Enter / विस्तार के बाद Backspace |
 

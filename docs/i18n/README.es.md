@@ -146,6 +146,7 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 | Enviar                                                | `Enter` o doble clic (un solo clic opcional)                         |
 | Marcar / desmarcar favorito                           | `Ctrl+D`                                                             |
 | Crear / editar en el panel                            | `Ctrl+N` / `Ctrl+E`                                                  |
+| Vista previa: expandir / contraer                     | `Ctrl+Space` (si hay vista previa)                                   |
 | Deshacer borrado (Gestor)                             | `Ctrl+Z`                                                             |
 | Abreviatura: activar / deshacer                       | escribe la abreviatura + Espacio·Tab·Enter / Retroceso tras expandir |
 

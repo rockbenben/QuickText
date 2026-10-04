@@ -146,6 +146,7 @@
 | 送出                     | `Enter` 或雙擊（單擊可選）                     |
 | 加入／移除我的最愛       | `Ctrl+D`                                       |
 | 在面板中建立／編輯       | `Ctrl+N` / `Ctrl+E`                            |
+| 預覽：展開 / 收起        | `Ctrl+Space`（有預覽時）                       |
 | 還原刪除（管理員）       | `Ctrl+Z`                                       |
 | 縮寫：觸發／還原         | 打縮寫 + Space·Tab·Enter ／ 展開後按 Backspace |
 

@@ -156,6 +156,7 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 | Send                                  | `Enter` or double-click (single-click optional)         |
 | Favorite / unfavorite                 | `Ctrl+D`                                                |
 | Create / edit in panel                | `Ctrl+N` / `Ctrl+E`                                     |
+| Preview: expand / collapse            | `Ctrl+Space` (when a preview shows)                     |
 | Undo delete (Manager)                 | `Ctrl+Z`                                                |
 | Abbreviation: trigger / undo          | type abbr + Space·Tab·Enter / Backspace after expanding |
 

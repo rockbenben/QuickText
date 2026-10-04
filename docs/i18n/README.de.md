@@ -146,6 +146,7 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 | Senden                                          | `Enter` oder Doppelklick (Einfachklick optional)                     |
 | Favorit / kein Favorit                          | `Ctrl+D`                                                             |
 | Im Panel erstellen / bearbeiten                 | `Ctrl+N` / `Ctrl+E`                                                  |
+| Vorschau: ein-/ausklappen                       | `Ctrl+Space` (wenn eine Vorschau angezeigt wird)                     |
 | Löschen rückgängig (Manager)                    | `Ctrl+Z`                                                             |
 | Kürzel: auslösen / rückgängig                   | Kürzel + Leertaste·Tab·Enter tippen / Rücktaste nach dem Expandieren |
 

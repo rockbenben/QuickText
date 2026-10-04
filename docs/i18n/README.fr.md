@@ -146,6 +146,7 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 | Envoyer                                                | `Enter` ou double-clic (simple clic en option)                                  |
 | Ajouter / retirer des favoris                          | `Ctrl+D`                                                                        |
 | Créer / modifier dans le panneau                       | `Ctrl+N` / `Ctrl+E`                                                             |
+| Aperçu : agrandir / réduire                            | `Ctrl+Space` (quand un aperçu s’affiche)                                        |
 | Annuler la suppression (Gestionnaire)                  | `Ctrl+Z`                                                                        |
 | Abréviation : déclencher / annuler                     | taper l'abréviation + Espace·Tab·Entrée / Retour arrière après le développement |
 

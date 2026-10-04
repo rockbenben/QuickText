@@ -101,6 +101,75 @@ public partial class SearchPanel : Window
     /// <summary>--shots only: render the pinned (连发) state so the glyph/colour switch has a fixture.</summary>
     internal void ShotsPin() => OnTogglePin(PinButton, new RoutedEventArgs());
 
+    /// <summary>--shots probe: click the preview strip (collapse/expand toggle).</summary>
+    internal void ShotsPreviewToggle() => OnPreviewToggle(
+        PreviewHeader, new MouseButtonEventArgs(InputManager.Current.PrimaryMouseDevice, 0, MouseButton.Left));
+
+    /// <summary>--shots probe: fire the Ctrl+Space binding itself; returns whether it was
+    /// consumed, so the sidecar can witness "the chord works", not just "the pane moved".</summary>
+    internal bool ShotsPreviewKeyToggle() => TryTogglePreviewKey(Key.Space, ModifierKeys.Control);
+
+    /// <summary>--shots probe: move the selection to the FIRST row (a different snippet) —
+    /// witness for the auto-fold rule when combined with ShotsPreviewToggle beforehand.</summary>
+    internal void ShotsPreviewReselectFirst() => Results.SelectedIndex = 0;
+
+    /// <summary>--shots probe: back to the last (long-body) row — with ReselectFirst between,
+    /// the pane must be VISIBLE again but FOLDED, proving the fold followed the selection.</summary>
+    internal void ShotsPreviewReselectLast() => Results.SelectedIndex = Results.Items.Count - 1;
+
+    /// <summary>--shots probe: a full list (the 404-DIP cap wants 12+ rows) with the LONG one
+    /// selected, so the reported squeeze — preview grows, results list above it shrinks — reproduces
+    /// at the work-area heights the harness simulates.</summary>
+    internal void ShotsPreviewLong()
+    {
+        BrowseView.Visibility = Visibility.Collapsed;
+        Results.Visibility = Visibility.Visible;
+        var sn = new Core.Models.Snippet
+        {
+            Name = "长文书信",
+            Body = string.Join("\n", System.Linq.Enumerable.Range(1, 40).Select(i =>
+                $"第{i}行 —— 这一行用来把预览面板撑到它的封顶高度，正文越长显示得越多。"))
+        };
+        var hits = System.Linq.Enumerable.Range(1, 11)
+            .Select(i => new SearchHit(new Core.Models.Snippet { Name = $"条目{i}", Body = $"短正文 {i}" }, "测试", 0))
+            .Append(new SearchHit(sn, "测试", 0))
+            .ToList();
+        Results.ItemsSource = hits;
+        Results.SelectedIndex = hits.Count - 1;
+        Results.ScrollIntoView(hits[^1]);
+    }
+
+    /// <summary>--shots probe: the same 12-row list but the selected row is short, so no preview
+    /// shows — the baseline the squeeze is measured against.</summary>
+    internal void ShotsPreviewBaseline()
+    {
+        BrowseView.Visibility = Visibility.Collapsed;
+        Results.Visibility = Visibility.Visible;
+        var hits = System.Linq.Enumerable.Range(1, 12)
+            .Select(i => new SearchHit(new Core.Models.Snippet { Name = $"条目{i}", Body = $"短正文 {i}" }, "测试", 0))
+            .ToList();
+        Results.ItemsSource = hits;
+        Results.SelectedIndex = hits.Count - 1;
+        Results.ScrollIntoView(hits[^1]);
+    }
+
+    internal string SizesForShots()
+    {
+        var list = ActiveList;
+        list.Measure(new Size(Math.Max(1, list.ActualWidth), double.PositiveInfinity));
+        return $"window={ActualHeight:0} list={Results.ActualHeight:0} preview={PreviewPane.ActualHeight:0} " +
+               $"scroll={PreviewScroll.ActualHeight:0} cap={PreviewScroll.MaxHeight:0} maxH={MaxHeight:0} " +
+               $"want={list.DesiredSize.Height:0}";
+    }
+
+    /// <summary>--shots probe: the remembered-size (manual) mode a resized panel actually runs in.</summary>
+    internal void EnterManualModeForShots(double width, double height)
+    {
+        EnterManualMode();
+        Width = width;
+        Height = height;
+    }
+
     /// <summary>--shots only: the first-run empty library screen (no snippets at all) — the real
     /// ShowBrowse takes the same branch when the store is empty, this just skips the store check.</summary>
     internal void ShotsEmpty()
@@ -260,16 +329,119 @@ public partial class SearchPanel : Window
         }
     }
 
-    /// <summary>Preview cap derived from the height the window is actually allowed to use — the
-    /// MaxHeight PlaceOnActiveMonitor sets from the monitor's work area (and the same value the
-    /// --shots harness simulates). The fixed 150 stole a row and a half from the list on a 574-DIP
-    /// work area, and one hardcoded number is wrong at one end or the other between a 1366×768
-    /// laptop and a 4K display. The 420-DIP whole-hide threshold (PreviewNeedsPanelHeight) still
-    /// decides whether the pane shows at all.</summary>
+    /// <summary>The preview OVERLAYS the list's bottom (XAML: it lives inside BodyRow) instead of
+    /// taking a row — a row of its own is what squeezed the list (measured: 117 DIP stolen on a
+    /// 574 work area; a remembered 704x515 panel ran the pane to 150 with the list collapsed to
+    /// 197). Reading a long body is an occasional act, picking is the constant one, so the
+    /// overlay defaults to COLLAPSED: a one-line strip (body's first line + chevron) costing a
+    /// third of a row. A click on the strip expands the full pane over the list's bottom;
+    /// selecting another snippet folds it back. While shown, ApplyListPadding reserves bottom
+    /// space equal to the overlay's footprint so the pane never sits on top of the last rows —
+    /// and ScrollIntoView uses that viewport for free. The expanded height budgets by the
+    /// window (21%, 60..150) capped at 45% of the list's own area; below the 60-DIP minimum the
+    /// pane hides entirely.</summary>
+    private const double PreviewPaneOverhead = 11;   // pane border (1) + top padding (10)
+    private const double PreviewHeaderHeight = 31;   // strip header: 7+7 padding + ~17 line
+    private const double PreviewHandleHeight = 22;   // expanded header: 4+4 padding + ~11 chevron
+    private const double PreviewPaneMarginV = 10;    // pane bottom margin, inside the body row
+    private const double PreviewScrollGap = 8;       // breathing room between last row and pane
+
+    /// <summary>Expanded state of the overlay; folded back to the strip whenever a DIFFERENT
+    /// snippet is selected, so the last read never keeps pressing on the list for the next pick.</summary>
+    private bool _previewExpanded;
+    private SearchHit? _previewHit;
+    private bool _collapsing;   // a fold animation is mid-flight; its end owns PreviewScroll's hide
+
     private void CapPreview()
     {
-        double avail = double.IsPositiveInfinity(MaxHeight) ? SystemParameters.WorkArea.Height : MaxHeight;
-        PreviewScroll.MaxHeight = Math.Clamp(avail * 0.21, 60, 150);
+        double avail = SizeToContent == SizeToContent.Manual
+            ? ActualHeight
+            : double.IsPositiveInfinity(MaxHeight) ? SystemParameters.WorkArea.Height : MaxHeight;
+        double cap = Math.Clamp(avail * 0.21, 60, 150);
+        if (ActiveList.ActualHeight > 0)
+            cap = Math.Min(cap, ActiveList.ActualHeight * 0.45);
+        PreviewScroll.MaxHeight = Math.Max(0, cap);
+        ApplyPreviewSpace();
+    }
+
+    /// <summary>One arbiter of the overlay's presentation: whether it shows at all (content +
+    /// room), whether it is unfolded, and the padding the lists owe it. Expanded, the header
+    /// folds to a centered collapse handle — the strip's summary would only repeat the body's
+    /// first line (measured: the same sentence twice inside 515 DIP).</summary>
+    private void ApplyPreviewSpace()
+    {
+        PreviewPane.Visibility = _previewWanted && PreviewScroll.MaxHeight >= 60
+            ? Visibility.Visible : Visibility.Collapsed;
+        var exp = _previewExpanded;
+        PreviewChevron.Text = exp ? "\uE70D" : "\uE70E";
+        PreviewEye.Visibility = exp ? Visibility.Collapsed : Visibility.Visible;
+        PreviewSummary.Visibility = exp ? Visibility.Collapsed : Visibility.Visible;
+        Grid.SetColumn(PreviewChevron, exp ? 0 : 2);
+        PreviewChevron.SetValue(Grid.ColumnSpanProperty, exp ? 3 : 1);
+        PreviewChevron.HorizontalAlignment = exp ? HorizontalAlignment.Center : HorizontalAlignment.Right;
+        PreviewHeader.Padding = exp ? new Thickness(2, 4, 2, 4) : new Thickness(2, 7, 2, 7);
+        if (!_collapsing) PreviewScroll.Visibility = exp ? Visibility.Visible : Visibility.Collapsed;
+        ApplyListPadding(PreviewPane.Visibility == Visibility.Visible);
+    }
+
+    private void OnPreviewToggle(object sender, MouseButtonEventArgs e) => TogglePreview();
+
+    /// <summary>Ctrl+Space folds/expands the preview strip — the strip is otherwise mouse-only,
+    /// and this panel's keyboard model keeps focus in the search box. Plain Space stays with the
+    /// query text (multi-word searches need it), which is why it's a chord. Split out as a pure
+    /// decision so the --shots fixture can fire the exact binding the switch guards on.</summary>
+    private bool TryTogglePreviewKey(Key key, ModifierKeys mods)
+    {
+        if (key != Key.Space || (mods & ModifierKeys.Control) == 0
+            || PreviewPane.Visibility != Visibility.Visible) return false;
+        TogglePreview();
+        return true;
+    }
+
+    /// <summary>Click and Ctrl+Space meet here. The fold/unfold grows or shrinks the scroll's
+    /// Height for 90ms — Height, never MaxHeight, which is the 60-DIP veto's input and must not
+    /// pass through mid-animation values. Headless runs and "show animations off" both jump.</summary>
+    private void TogglePreview()
+    {
+        _previewExpanded = !_previewExpanded;
+        bool animate = !App.InSmoke && SystemParameters.ClientAreaAnimation;
+        if (_previewExpanded)
+        {
+            _collapsing = false;
+            ApplyPreviewSpace();
+            if (animate)
+            {
+                var grow = new DoubleAnimation(0, PreviewScroll.MaxHeight, TimeSpan.FromMilliseconds(90))
+                { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } };
+                grow.Completed += (_, _) => PreviewScroll.ClearValue(FrameworkElement.HeightProperty);
+                PreviewScroll.BeginAnimation(FrameworkElement.HeightProperty, grow);
+            }
+        }
+        else if (animate)
+        {
+            _collapsing = true;
+            ApplyPreviewSpace();   // chevron/handle flip instantly; the body still animates out
+            var shrink = new DoubleAnimation(PreviewScroll.ActualHeight, 0, TimeSpan.FromMilliseconds(90))
+            { EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut } };
+            shrink.Completed += (_, _) => { _collapsing = false; PreviewScroll.BeginAnimation(FrameworkElement.HeightProperty, null); ApplyPreviewSpace(); };
+            PreviewScroll.BeginAnimation(FrameworkElement.HeightProperty, shrink);
+        }
+        else ApplyPreviewSpace();
+    }
+
+    /// <summary>Bottom padding sized from the overlay's footprint — the strip's header when
+    /// collapsed, the collapse handle plus the unfolded body when expanded — from the budget,
+    /// not arranged heights, which are stale on the pass that changes them.</summary>
+    private void ApplyListPadding(bool paneVisible)
+    {
+        double pad = paneVisible
+            ? PreviewPaneOverhead
+              + (_previewExpanded ? PreviewHandleHeight + PreviewScroll.MaxHeight : PreviewHeaderHeight)
+              + PreviewPaneMarginV + PreviewScrollGap
+            : 0;
+        Results.Padding = new Thickness(0, 0, 0, pad);
+        BrowseList.Padding = new Thickness(0, 0, 0, pad);
+        CategoryRail.Padding = new Thickness(0, 0, 0, pad);
     }
 
     private void PlaceTopCenter(Rect wa)
@@ -461,32 +633,44 @@ public partial class SearchPanel : Window
     /// </summary>
     private const int SubtitleVisibleWidth = 70;
 
-    /// <summary>Below this the panel is too short to spend ~60 DIP on a preview: at the 340 DIP
-    /// minimum it left barely two rows of the list, which is the part you actually pick from.</summary>
-    private const double PreviewNeedsPanelHeight = 420;
-
     /// <summary>Does the preview pane show the user anything the row doesn't already?</summary>
     private static bool PreviewAddsAnything(string body) =>
         body.IndexOfAny(new[] { '\r', '\n' }) >= 0
         || Core.SnippetNaming.DisplayWidth(body.Trim()) > SubtitleVisibleWidth;
 
+    /// <summary>Does the current selection give the pane something to show? Space itself is
+    /// CapPreview's arithmetic — the pane can have content and still be refused room, because
+    /// showing it would take that room from the list. Every path that changes the demand
+    /// (selection, view switch, resize) ends in CapPreview, not just the resize: a manual panel
+    /// never changes size when the selection grows the list demand, and a cap computed against
+    /// the old demand is exactly the squeeze that reached the user (measured: the manual
+    /// window's one SizeChanged fired while the browse list was still empty, so the later
+    /// selection never re-priced the space).</summary>
+    private bool _previewWanted;
+
     private void UpdatePreview()
     {
-        // A user who dragged the panel down to its minimum asked for a compact launcher; the list
-        // wins the remaining space over a preview of the row that is already on screen.
-        if (ActiveList.SelectedItem is not SearchHit hit
-            || (SizeToContent == SizeToContent.Manual && ActualHeight > 0 && ActualHeight < PreviewNeedsPanelHeight))
+        // Whether the pane gets space at all is CapPreview/ApplyPreviewSpace's arithmetic; this
+        // only decides whether the selection has anything to show.
+        if (ActiveList.SelectedItem is not SearchHit hit)
         {
-            PreviewPane.Visibility = Visibility.Collapsed;
+            _previewWanted = false;
+            _previewHit = null;
+            CapPreview();
             return;
         }
+        // A new selection starts folded: reading the previous body must not keep pressing the
+        // list while the user picks the next one.
+        if (!ReferenceEquals(_previewHit?.Snippet, hit.Snippet)) _previewExpanded = false;
+        _previewHit = hit;
         var sn = hit.Snippet;
         if (sn.IsImage)
         {
             PreviewImage.Source = LoadImage(sn.ImagePath);
             PreviewImage.Visibility = Visibility.Visible;
             PreviewText.Visibility = Visibility.Collapsed;
-            PreviewPane.Visibility = PreviewImage.Source != null ? Visibility.Visible : Visibility.Collapsed;
+            PreviewSummary.Text = System.IO.Path.GetFileNameWithoutExtension(sn.ImagePath);
+            _previewWanted = PreviewImage.Source != null;
         }
         else if (!string.IsNullOrEmpty(sn.Body) && PreviewAddsAnything(sn.Body))
         {
@@ -499,12 +683,16 @@ public partial class SearchPanel : Window
                 ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
             PreviewText.Visibility = Visibility.Visible;
             PreviewImage.Visibility = Visibility.Collapsed;
-            PreviewPane.Visibility = Visibility.Visible;
+            int nl = sn.Body.IndexOfAny(new[] { '\r', '\n' });
+            PreviewSummary.Text = (nl < 0 ? sn.Body : sn.Body[..nl]).Trim();
+            PreviewSummary.FlowDirection = PreviewText.FlowDirection;
+            _previewWanted = true;
         }
         else
         {
-            PreviewPane.Visibility = Visibility.Collapsed;
+            _previewWanted = false;
         }
+        CapPreview();
     }
 
     private static ImageSource? LoadImage(string rel)
@@ -610,7 +798,8 @@ public partial class SearchPanel : Window
     private void ShowEmpty(string title, string sub)
     {
         EmptyState.Visibility = Visibility.Visible;
-        PreviewPane.Visibility = Visibility.Collapsed;
+        _previewWanted = false;
+        CapPreview();   // through the arbiter, so the lists lose the padding they reserved
         CreateButton.Visibility = Visibility.Collapsed;
         EmptyText.Text = title;
         EmptySub.Text = sub;
@@ -720,6 +909,8 @@ public partial class SearchPanel : Window
                 e.Handled = true;
                 break;
             case Key.Escape: Hide(); e.Handled = true; break;
+            case Key.Space when TryTogglePreviewKey(key, Keyboard.Modifiers):
+                e.Handled = true; break;
             case Key.D when (Keyboard.Modifiers & ModifierKeys.Control) != 0:
                 ToggleFavoriteSelected(); e.Handled = true; break;
             case Key.N when (Keyboard.Modifiers & ModifierKeys.Control) != 0:

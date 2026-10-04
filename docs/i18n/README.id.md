@@ -146,6 +146,7 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 | Kirim                                | `Enter` atau klik ganda (klik tunggal opsional)                  |
 | Favorit / batal favorit              | `Ctrl+D`                                                         |
 | Buat / edit di panel                 | `Ctrl+N` / `Ctrl+E`                                              |
+| Pratinjau: buka / tutup              | `Ctrl+Space` (saat pratinjau tampil)                             |
 | Batalkan penghapusan (Manager)       | `Ctrl+Z`                                                         |
 | Singkatan: picu / batalkan           | ketik singkatan + Space·Tab·Enter / Backspace setelah mengembang |
 
