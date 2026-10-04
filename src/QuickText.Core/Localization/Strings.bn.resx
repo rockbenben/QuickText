@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>সংক্ষিপ্ত রূপ সক্রিয় করুন</value></data>
   <data name="Settings.AbbrPrefix"><value>ট্রিগার প্রিফিক্স</value></data>
   <data name="Settings.AbbrPrefixHint"><value>প্রতিটি সংক্ষিপ্ত রূপের আগে যুক্ত হয় (ডিফল্ট ;)। ম্যানেজারে শুধু সংক্ষিপ্ত রূপটি লিখুন (যেমন qm) — এটি প্রিফিক্স+সংক্ষিপ্ত রূপে ট্রিগার হয় (যেমন ;qm)। প্রিফিক্স ছাড়া চাইলে খালি রাখুন; প্রিফিক্স সাধারণ টাইপিং থেকে ট্রিগার এড়ায়।</value></data>
+  <data name="Settings.AbbrExpandHint"><value>উপসর্গ + সংক্ষিপ্ত রূপ লিখে Space, Tab বা Enter চেপে প্রসারিত করুন। প্রসারণের ঠিক পরেই Backspace চাপলে লেখা সংক্ষিপ্ত রূপটি ফিরে আসে।</value></data>
   <data name="Settings.RestoreClipboard"><value>আমার ক্লিপবোর্ড অক্ষত রাখুন</value></data>
   <data name="Settings.RestoreClipboardHint"><value>পেস্ট করার সময় ক্লিপবোর্ড অল্প সময়ের জন্য ব্যবহৃত হয়, তারপর আগের বিষয়বস্তু ফিরিয়ে দেওয়া হয়। ডিফল্টভাবে বন্ধ: যেসব অ্যাপ ক্লিপবোর্ড ধীরে পড়ে, সেগুলো পুরনো বিষয়বস্তু পেস্ট করতে পারে।</value></data>
   <data name="Settings.FollowSystem"><value>সিস্টেম অনুসরণ করুন</value></data>

@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>Activar abreviaturas</value></data>
   <data name="Settings.AbbrPrefix"><value>Prefijo de activación</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Se antepone a cada abreviatura (por defecto ;). En el administrador escribe solo la abreviatura (p. ej. qm); se activa con prefijo+abreviatura (p. ej. ;qm). Déjalo vacío para no usar prefijo; un prefijo evita que la escritura normal la active.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>Escribe el prefijo + la abreviatura y pulsa Espacio, Tabulación o Intro para expandirla. Justo después de expandir, Retroceso la devuelve a la abreviatura escrita.</value></data>
   <data name="Settings.RestoreClipboard"><value>Mantener mi portapapeles intacto</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Al pegar se usa el portapapeles un momento y luego se restaura lo que tenías copiado. Desactivado por defecto: las aplicaciones que leen el portapapeles con lentitud pueden pegar el contenido antiguo.</value></data>
   <data name="Settings.FollowSystem"><value>Seguir el sistema</value></data>

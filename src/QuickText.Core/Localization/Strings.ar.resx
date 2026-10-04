@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>تفعيل الاختصارات</value></data>
   <data name="Settings.AbbrPrefix"><value>بادئة التشغيل</value></data>
   <data name="Settings.AbbrPrefixHint"><value>تُضاف قبل كل اختصار (الافتراضي ;). في المدير اكتب الاختصار نفسه فقط (مثل qm) — يعمل ببادئة+اختصار (مثل ;qm). اتركها فارغة لعدم وجود بادئة؛ تمنع البادئة الكتابة العادية من تشغيله.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>اكتب البادئة والاختصار، ثم اضغط مسافة أو Tab أو Enter للتوسيع. مباشرة بعد التوسيع يعيد Backspace الاختصار الذي كتبته.</value></data>
   <data name="Settings.RestoreClipboard"><value>إبقاء الحافظة كما هي</value></data>
   <data name="Settings.RestoreClipboardHint"><value>يستخدم اللصق الحافظة للحظة ثم يعيد ما كنت قد نسخته. معطّلة افتراضيًا: التطبيقات التي تقرأ الحافظة ببطء قد تلصق المحتوى القديم.</value></data>
   <data name="Settings.FollowSystem"><value>اتّباع النظام</value></data>

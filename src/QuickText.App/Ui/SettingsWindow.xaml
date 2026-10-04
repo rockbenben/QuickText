@@ -155,6 +155,8 @@
                                      FontFamily="{StaticResource Font.Mono}" FontSize="14"/>
                             <TextBlock Text="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"
                                        FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="2,6,0,14" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding [Settings.AbbrExpandHint], Source={x:Static app:LocProxy.Instance}}"
+                                       FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="2,-8,0,14" TextWrapping="Wrap"/>
                             <TextBlock Text="{Binding [Settings.AbbrBlacklist], Source={x:Static app:LocProxy.Instance}}"
                                        Style="{StaticResource FieldLabel}"/>
                             <TextBox x:Name="AbbrBlacklist" Style="{StaticResource DarkTextBox}"

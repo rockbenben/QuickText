@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>Ativar abreviaturas</value></data>
   <data name="Settings.AbbrPrefix"><value>Prefixo de acionamento</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Anteposto a cada abreviatura (predefinição ;). No Gestor escreva apenas a abreviatura (ex.: qm) — é acionada com prefixo+abreviatura (ex.: ;qm). Deixe vazio para não usar prefixo; um prefixo evita acionamentos ao escrever normalmente.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>Digite o prefixo + a abreviatura e pressione Espaço, Tab ou Enter para expandir. Logo após expandir, Backspace a devolve à abreviatura digitada.</value></data>
   <data name="Settings.RestoreClipboard"><value>Manter a minha área de transferência intacta</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Ao colar, a área de transferência é usada por um instante e depois restaurada. Desativado por predefinição: aplicações que leem a área de transferência lentamente podem colar o conteúdo antigo.</value></data>
   <data name="Settings.FollowSystem"><value>Seguir o sistema</value></data>

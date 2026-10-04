@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>Bật viết tắt</value></data>
   <data name="Settings.AbbrPrefix"><value>Tiền tố kích hoạt</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Thêm vào trước mỗi chữ viết tắt (mặc định ;). Trong trình quản lý chỉ gõ phần viết tắt (ví dụ qm) — nó kích hoạt khi gõ tiền tố+viết tắt (ví dụ ;qm). Để trống nếu không dùng tiền tố; tiền tố giúp việc gõ thường không vô tình kích hoạt.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>Nhập tiền tố + từ viết tắt, rồi nhấn Space, Tab hoặc Enter để mở rộng. Ngay sau khi mở rộng, Backspace sẽ trả lại từ viết tắt bạn đã gõ.</value></data>
   <data name="Settings.RestoreClipboard"><value>Giữ nguyên bộ nhớ tạm của tôi</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Khi dán, clipboard được dùng trong chốc lát rồi khôi phục nội dung bạn đã sao chép. Mặc định tắt: các ứng dụng đọc clipboard chậm có thể dán ra nội dung cũ.</value></data>
   <data name="Settings.FollowSystem"><value>Theo hệ thống</value></data>

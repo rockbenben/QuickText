@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>Включить сокращения</value></data>
   <data name="Settings.AbbrPrefix"><value>Префикс срабатывания</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Добавляется перед каждым сокращением (по умолчанию ;). В менеджере вводите только само сокращение (напр. qm) — срабатывает префикс+сокращение (напр. ;qm). Оставьте пустым, чтобы без префикса; префикс не даёт срабатывать при обычном вводе.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>Введите префикс и сокращение, затем нажмите Пробел, Tab или Enter для развёртывания. Сразу после развёртывания Backspace вернёт введённое сокращение.</value></data>
   <data name="Settings.RestoreClipboard"><value>Сохранять мой буфер обмена</value></data>
   <data name="Settings.RestoreClipboardHint"><value>При вставке буфер обмена используется на мгновение, затем восстанавливается прежнее содержимое. По умолчанию выключено: приложения, которые медленно читают буфер, могут вставить старое содержимое.</value></data>
   <data name="Settings.FollowSystem"><value>Как в системе</value></data>

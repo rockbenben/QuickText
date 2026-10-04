@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>เปิดใช้ตัวย่อ</value></data>
   <data name="Settings.AbbrPrefix"><value>คำนำหน้าทริกเกอร์</value></data>
   <data name="Settings.AbbrPrefixHint"><value>เติมหน้าตัวย่อทุกอัน (ค่าเริ่มต้น ;) ในตัวจัดการพิมพ์เฉพาะตัวย่อ (เช่น qm) — จะทำงานเมื่อพิมพ์คำนำหน้า+ตัวย่อ (เช่น ;qm) เว้นว่างเพื่อไม่ใช้คำนำหน้า คำนำหน้าช่วยกันการพิมพ์ปกติไม่ให้ทริกเกอร์</value></data>
+  <data name="Settings.AbbrExpandHint"><value>พิมพ์คำนำหน้า + คำย่อ แล้วกด Space, Tab หรือ Enter เพื่อขยาย ทันทีหลังขยาย Backspace จะคืนเป็นคำย่อที่คุณพิมพ์</value></data>
   <data name="Settings.RestoreClipboard"><value>คงคลิปบอร์ดของฉันไว้</value></data>
   <data name="Settings.RestoreClipboardHint"><value>เวลาวางจะใช้คลิปบอร์ดชั่วครู่แล้วคืนค่าที่คุณคัดลอกไว้ ปิดไว้โดยค่าเริ่มต้น: แอปที่อ่านคลิปบอร์ดช้าอาจวางเนื้อหาเก่าออกมาแทน</value></data>
   <data name="Settings.FollowSystem"><value>ตามระบบ</value></data>

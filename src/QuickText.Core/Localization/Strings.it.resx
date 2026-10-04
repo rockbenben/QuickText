@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>Abilita le abbreviazioni</value></data>
   <data name="Settings.AbbrPrefix"><value>Prefisso di attivazione</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Anteposto a ogni abbreviazione (predefinito ;). Nella gestione digita solo l'abbreviazione (es. qm) — si attiva con prefisso+abbreviazione (es. ;qm). Lascia vuoto per nessun prefisso; un prefisso evita che la digitazione normale attivi l'espansione.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>Digita prefisso + abbreviazione, poi premi Spazio, Tab o Invio per espanderla. Subito dopo l'espansione, Backspace la riporta all'abbreviazione digitata.</value></data>
   <data name="Settings.RestoreClipboard"><value>Mantieni intatti i miei appunti</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Incollando si usa brevemente gli appunti, poi viene ripristinato ciò che avevi copiato. Disattivato per impostazione predefinita: le app che leggono gli appunti lentamente potrebbero incollare il contenuto precedente.</value></data>
   <data name="Settings.FollowSystem"><value>Segui il sistema</value></data>

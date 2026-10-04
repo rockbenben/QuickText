@@ -237,6 +237,7 @@
   <data name="Settings.AbbrEnabled"><value>启用缩写</value></data>
   <data name="Settings.AbbrPrefix"><value>触发前缀</value></data>
   <data name="Settings.AbbrPrefixHint"><value>自动加在每个缩写前面（默认 ;）。你在管理器里只填缩写本身（如 qm），实际触发是「前缀+缩写」（如 ;qm）。留空则不加前缀 —— 前缀能避免正常打字误触发。</value></data>
+  <data name="Settings.AbbrExpandHint"><value>输入「前缀+缩写」后，按空格、Tab 或回车即可展开；展开后立刻按一下退格，可还原成你刚打的缩写。</value></data>
   <data name="Settings.RestoreClipboard"><value>保留原剪贴板内容</value></data>
   <data name="Settings.RestoreClipboardHint"><value>粘贴时会临时占用剪贴板，之后放回你原来复制的内容。默认关闭：少数程序读剪贴板较慢，还原可能赶在它读取之前，导致贴出旧内容。</value></data>
   <data name="Settings.FollowSystem"><value>跟随系统</value></data>

@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>Activer les abréviations</value></data>
   <data name="Settings.AbbrPrefix"><value>Préfixe de déclenchement</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Ajouté devant chaque abréviation (par défaut ;). Dans le gestionnaire, saisissez seulement l'abréviation (ex. qm) — elle se déclenche sur préfixe+abréviation (ex. ;qm). Laissez vide pour aucun préfixe ; un préfixe évite les déclenchements lors d'une saisie normale.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>Saisissez le préfixe + l'abréviation, puis appuyez sur Espace, Tabulation ou Entrée pour la développer. Juste après le développement, Retour arrière rétablit l'abréviation saisie.</value></data>
   <data name="Settings.RestoreClipboard"><value>Conserver mon presse-papiers intact</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Le collage utilise brièvement le presse-papiers, puis restaure ce que vous aviez copié. Désactivé par défaut : les applications qui lisent lentement le presse-papiers risquent de coller l’ancien contenu.</value></data>
   <data name="Settings.FollowSystem"><value>Suivre le système</value></data>

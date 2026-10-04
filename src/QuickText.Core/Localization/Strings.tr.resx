@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>Kısaltmaları etkinleştir</value></data>
   <data name="Settings.AbbrPrefix"><value>Tetikleme ön eki</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Her kısaltmanın önüne eklenir (varsayılan ;). Yönetici'de yalnızca kısaltmanın kendisini yazın (örn. qm) — ön ek+kısaltma ile tetiklenir (örn. ;qm). Ön ek istemiyorsanız boş bırakın; ön ek, normal yazarken yanlışlıkla tetiklenmeyi önler.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>Önek + kısaltmayı yazın, ardından genişletmek için Boşluk, Tab veya Enter'a basın. Genişletme sonrası hemen Backspace, yazdığınız kısaltmaya geri döndürür.</value></data>
   <data name="Settings.RestoreClipboard"><value>Panomu olduğu gibi koru</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Yapıştırırken pano kısa süre kullanılır, sonra eski içerik geri yüklenir. Varsayılan olarak kapalı: panoyu yavaş okuyan uygulamalar eski içeriği yapıştırabilir.</value></data>
   <data name="Settings.FollowSystem"><value>Sistemi izle</value></data>

@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>Enable abbreviations</value></data>
   <data name="Settings.AbbrPrefix"><value>Trigger prefix</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Prepended to every abbreviation (default ;). In the Manager type only the abbreviation itself (e.g. qm) — it triggers on prefix+abbr (e.g. ;qm). Leave empty for no prefix; a prefix keeps ordinary typing from triggering.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>Type the prefix + abbreviation, then press Space, Tab, or Enter to expand it. Press Backspace right after an expansion to undo it back to the abbreviation you typed.</value></data>
   <data name="Settings.RestoreClipboard"><value>Keep my clipboard intact</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Pasting briefly uses the clipboard, then puts back what you had copied. Off by default: apps that read the clipboard slowly can end up pasting the old content instead.</value></data>
   <data name="Settings.FollowSystem"><value>Follow system</value></data>

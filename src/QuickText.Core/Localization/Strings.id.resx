@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>Aktifkan singkatan</value></data>
   <data name="Settings.AbbrPrefix"><value>Awalan pemicu</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Ditambahkan di depan setiap singkatan (default ;). Di Pengelola ketik singkatannya saja (mis. qm) — terpicu oleh awalan+singkatan (mis. ;qm). Kosongkan untuk tanpa awalan; awalan mencegah pengetikan biasa memicunya.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>Ketik awalan + singkatan, lalu tekan Spasi, Tab, atau Enter untuk memperluas. Tepat setelah memperluas, Backspace mengembalikan ke singkatan yang Anda ketik.</value></data>
   <data name="Settings.RestoreClipboard"><value>Jaga clipboard tetap utuh</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Saat menempel, clipboard dipakai sebentar lalu isi lama dikembalikan. Nonaktif secara bawaan: aplikasi yang membaca clipboard dengan lambat bisa menempelkan konten lama.</value></data>
   <data name="Settings.FollowSystem"><value>Ikuti sistem</value></data>

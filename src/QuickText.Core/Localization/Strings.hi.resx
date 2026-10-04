@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>संक्षिप्त रूप सक्षम करें</value></data>
   <data name="Settings.AbbrPrefix"><value>ट्रिगर उपसर्ग</value></data>
   <data name="Settings.AbbrPrefixHint"><value>हर संक्षिप्त रूप से पहले जुड़ता है (डिफ़ॉल्ट ;)। मैनेजर में केवल संक्षिप्त रूप टाइप करें (उदा. qm) — यह उपसर्ग+संक्षिप्त रूप पर ट्रिगर होता है (उदा. ;qm)। बिना उपसर्ग के लिए खाली छोड़ें; उपसर्ग सामान्य टाइपिंग को ट्रिगर होने से रोकता है।</value></data>
+  <data name="Settings.AbbrExpandHint"><value>उपसर्ग + संक्षेप लिखें, फिर विस्तार के लिए Space, Tab या Enter दबाएँ। विस्तार के तुरंत बाद Backspace दबाने से आपका लिखा संक्षेप वापस आ जाता है।</value></data>
   <data name="Settings.RestoreClipboard"><value>मेरा क्लिपबोर्ड यथावत रखें</value></data>
   <data name="Settings.RestoreClipboardHint"><value>पेस्ट करते समय क्लिपबोर्ड कुछ पल के लिए इस्तेमाल होता है, फिर पुरानी सामग्री लौटा दी जाती है। डिफ़ॉल्ट रूप से बंद: जो ऐप क्लिपबोर्ड धीरे पढ़ते हैं, वे पुरानी सामग्री पेस्ट कर सकते हैं।</value></data>
   <data name="Settings.FollowSystem"><value>सिस्टम का अनुसरण करें</value></data>

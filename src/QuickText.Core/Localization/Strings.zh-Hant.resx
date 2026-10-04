@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>啟用縮寫</value></data>
   <data name="Settings.AbbrPrefix"><value>觸發前綴</value></data>
   <data name="Settings.AbbrPrefixHint"><value>自動加在每個縮寫前面（預設 ;）。你在管理器裡只填縮寫本身（如 qm），實際觸發是「前綴+縮寫」（如 ;qm）。留空則不加前綴 —— 前綴能避免正常打字誤觸發。</value></data>
+  <data name="Settings.AbbrExpandHint"><value>輸入「前綴+縮寫」後，按空格、Tab 或 Enter 即可展開；展開後立刻按一下退格，可還原成你剛打的縮寫。</value></data>
   <data name="Settings.RestoreClipboard"><value>保留原剪貼簿內容</value></data>
   <data name="Settings.RestoreClipboardHint"><value>貼上時會暫時佔用剪貼簿，之後放回你原來複製的內容。預設關閉：少數程式讀取剪貼簿較慢，還原可能趕在它讀取之前，導致貼出舊內容。</value></data>
   <data name="Settings.FollowSystem"><value>跟隨系統</value></data>

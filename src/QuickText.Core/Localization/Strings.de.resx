@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>Kürzel aktivieren</value></data>
   <data name="Settings.AbbrPrefix"><value>Auslöse-Präfix</value></data>
   <data name="Settings.AbbrPrefixHint"><value>Wird jedem Kürzel vorangestellt (Standard ;). In der Verwaltung nur das Kürzel selbst eingeben (z. B. qm) – ausgelöst wird per Präfix+Kürzel (z. B. ;qm). Leer lassen für kein Präfix; ein Präfix verhindert versehentliches Auslösen beim normalen Tippen.</value></data>
+  <data name="Settings.AbbrExpandHint"><value>Präfix + Kürzel eingeben, dann Leertaste, Tab oder Enter zum Erweitern. Direkt nach dem Erweitern holt die Rücktaste das getippte Kürzel wieder zurück.</value></data>
   <data name="Settings.RestoreClipboard"><value>Zwischenablage unverändert lassen</value></data>
   <data name="Settings.RestoreClipboardHint"><value>Beim Einfügen wird die Zwischenablage kurz benutzt und danach wiederhergestellt. Standardmäßig aus: Apps, die die Zwischenablage langsam lesen, fügen sonst den alten Inhalt ein.</value></data>
   <data name="Settings.FollowSystem"><value>System folgen</value></data>

@@ -187,6 +187,7 @@
   <data name="Settings.AbbrEnabled"><value>略語を有効化</value></data>
   <data name="Settings.AbbrPrefix"><value>トリガー接頭辞</value></data>
   <data name="Settings.AbbrPrefixHint"><value>すべての略語の前に自動で付きます（既定 ;）。マネージャーでは略語そのもの（例：qm）だけ入力してください。実際のトリガーは「接頭辞＋略語」（例：;qm）です。空にすると接頭辞なし。接頭辞は通常入力での誤爆を防ぎます。</value></data>
+  <data name="Settings.AbbrExpandHint"><value>「修飾子+略称」を入力した後、スペース・Tab・Enter で展開します。展開の直後に Backspace を押すと、入力した略称に戻せます。</value></data>
   <data name="Settings.RestoreClipboard"><value>元のクリップボードを保持</value></data>
   <data name="Settings.RestoreClipboardHint"><value>貼り付け時に一時的にクリップボードを使い、その後もとの内容に戻します。既定はオフ：クリップボードの読み取りが遅いアプリでは、古い内容が貼り付けられることがあります。</value></data>
   <data name="Settings.FollowSystem"><value>システムに従う</value></data>
