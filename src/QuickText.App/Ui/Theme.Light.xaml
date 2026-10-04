@@ -36,9 +36,11 @@
     <SolidColorBrush x:Key="Brush.KeycapText" Color="#39414B"/>
     <SolidColorBrush x:Key="Brush.FooterBg" Color="#0A1B1E24"/>
     <!-- Ink, not white: the dark ramp's 20%-white thumb composites to 249 on this near-white
-         surface (a 2-level difference — invisible). Same visual weight as 夜行's thumb,
-         measured against the surface it actually lands on. -->
-    <SolidColorBrush x:Key="Brush.ScrollThumb" Color="#331B1E24"/>
+         surface (a 2-level difference — invisible). 0x40 puts the resting thumb at 1.69:1,
+         alongside 夜行's 1.60:1; both stay under WCAG's 3:1 for non-text parts on purpose,
+         matching how a dormant native scrollbar reads, and the hover tint clears 3:1 in dark
+         (2.14:1 here). Measured, not eyeballed: the pill composites to 192 on Surface. -->
+    <SolidColorBrush x:Key="Brush.ScrollThumb" Color="#401B1E24"/>
     <SolidColorBrush x:Key="Brush.ScrollThumbHover" Color="#591B1E24"/>
     <SolidColorBrush x:Key="Brush.Star" Color="#8F6300"/>
     <SolidColorBrush x:Key="Brush.Amber" Color="#FF8A5A00"/>
