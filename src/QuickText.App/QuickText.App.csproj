@@ -43,7 +43,7 @@
     <!-- Fallback only. A source build takes the version from the newest git tag (target below),
          and CI passes -p:Version= from the tag it is building; this literal is what's left when
          neither applies — a .zip of the sources with no .git in it. -->
-    <VersionFallback>1.4.1</VersionFallback>
+    <VersionFallback>1.4.2</VersionFallback>
     <Version>$(VersionFallback)</Version>
     <Product>QuickText</Product>
     <Authors>rockbenben</Authors>
