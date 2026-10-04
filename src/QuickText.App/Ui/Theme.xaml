@@ -747,13 +747,16 @@
                                                  host actually gave the slot, which is how this bar
                                                  ended up 9 DIP wide on a 10 DIP claim. -->
                                             <Grid Background="Transparent">
-                                                <!-- Every property lives in the Style, none as an
-                                                     attribute: a local value outranks both the
-                                                     style trigger below and the template's hover
-                                                     trigger, which is how the first version of
-                                                     this pill rendered the horizontal thumb zero
-                                                     pixels wide (Center + Auto width) and left the
-                                                     hover tint dead. -->
+                                                <!-- Every property the DataTrigger below touches has to
+                                                     be a Style setter, not an attribute: with Margin
+                                                     and HorizontalAlignment on the element itself,
+                                                     the horizontal thumb measured 0 wide in the app
+                                                     and with them in the Style it measured 119x4.
+                                                     Do not "simplify" that back — and do not trust a
+                                                     minimal repro for it either: the same shape under
+                                                     a plain property trigger shows the trigger
+                                                     winning over the attribute, so this is not the
+                                                     general precedence list talking. -->
                                                 <Border x:Name="t">
                                                     <Border.Style>
                                                         <Style TargetType="Border">
