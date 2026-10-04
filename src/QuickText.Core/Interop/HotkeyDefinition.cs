@@ -4,6 +4,24 @@ public sealed class HotkeyDefinition
 {
     public const uint MOD_ALT = 1, MOD_CONTROL = 2, MOD_SHIFT = 4, MOD_WIN = 8;
 
+    /// <summary>Joins the modifier flags and a key token into the combo string that
+    /// <see cref="Parse"/> consumes, or null when the keypress isn't a usable combo yet: no token,
+    /// or a key that would type into the focused field with no modifier and isn't a bare-safe
+    /// function key. The Windows flag is a parameter because WPF's <c>Keyboard.Modifiers</c> does
+    /// NOT report the Win key — the caller must poll <c>GetKeyState</c> and pass it in. This is the
+    /// seam that lets the Win-combo case be unit-tested without a real keypress.</summary>
+    public static string? BuildCombo(string? token, bool ctrl, bool shift, bool alt, bool win, bool bareKeyOk)
+    {
+        if (token is null || (!(ctrl || shift || alt || win) && !bareKeyOk)) return null;
+        var sb = new System.Text.StringBuilder();
+        if (ctrl) sb.Append("Ctrl+");
+        if (shift) sb.Append("Shift+");
+        if (alt) sb.Append("Alt+");
+        if (win) sb.Append("Win+");
+        sb.Append(token);
+        return sb.ToString();
+    }
+
     public uint Modifiers { get; init; }
     public uint Vk { get; init; }
 

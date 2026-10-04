@@ -183,6 +183,12 @@ public partial class SettingsWindow : Window
     internal void ShotsFocusChip() => Keyboard.Focus((System.Windows.Controls.RadioButton)OutputPanel.Children[0]);
     internal void ShotsFocusBox() => Keyboard.Focus(DataFolder);   // witness: this template DOES react to focus
 
+    /// <summary>--shots only: switch 呼出方式 to combo mode. The machine defaults to tap, so
+    /// without this the combo panel — and its hint promising Ctrl/Alt/Shift/Win — is rendered by
+    /// no fixture at all (a mode-selected conditional panel is invisible to the whole shot matrix).</summary>
+    internal void ShotsComboMode() =>
+        ((System.Windows.Controls.RadioButton)SummonModePanel.Children[0]).IsChecked = true;
+
     private void OnCaptureBoxClick(object sender, MouseButtonEventArgs e)
     {
         BeginCapture(CaptureBox);
@@ -226,29 +232,50 @@ public partial class SettingsWindow : Window
 
         var key = e.Key == Key.System ? e.SystemKey : e.Key;
         if (key == Key.Escape) { EndCapture(); return; }
-        if (key is Key.Delete or Key.Back) { t.Set(""); EndCapture(); return; }   // clear = disabled
+        if (key is Key.Delete or Key.Back)
+        {
+            // The capture hotkey is optional — clearing it disables the feature. The SUMMON box is
+            // the only keyboard entry in hotkey mode, so clearing it would silently lock the user
+            // out; Delete there falls back to the default instead of empty.
+            t.Set(ReferenceEquals(_capBox, HotkeyBox) ? Core.Settings.AppSettings.DefaultHotkey : "");
+            EndCapture();
+            return;
+        }
         if (IsModifier(key)) return;                 // still holding modifiers — wait for the real key
 
-        var token = KeyToken(key);
-        var mods = Keyboard.Modifiers;
-        // Function keys (F1–F24) are safe on their own — they don't type — so allow them with no
-        // modifier. Every other key would hijack normal typing globally, so it still needs one.
-        bool bareKeyOk = key is >= Key.F1 and <= Key.F24;
-        if (token == null || (mods == ModifierKeys.None && !bareKeyOk))
+        // Keyboard.Modifiers never reports the Windows key in WPF, so poll it directly — otherwise
+        // the combos the hint promises ("… Ctrl / Alt / Shift / Win") silently lose their Win half.
+        bool winDown = (NativeMethods.GetKeyState(0x5B) & 0x8000) != 0    // VK_LWIN
+                    || (NativeMethods.GetKeyState(0x5C) & 0x8000) != 0;   // VK_RWIN
+        var combo = BuildCombo(key, KeyToken(key), Keyboard.Modifiers, winDown);
+        if (combo == null)
         {
             // not a usable combo yet; keep prompting (the hint states the rule)
             t.Text.Text = LocalizationService.Instance["Settings.HotkeyPrompt"];
             return;
         }
-
-        var combo = "";
-        if (mods.HasFlag(ModifierKeys.Control)) combo += "Ctrl+";
-        if (mods.HasFlag(ModifierKeys.Shift)) combo += "Shift+";
-        if (mods.HasFlag(ModifierKeys.Alt)) combo += "Alt+";
-        if (mods.HasFlag(ModifierKeys.Windows)) combo += "Win+";
-        t.Set(combo + token);
+        // The two slots can't hold the same combo — RegisterHotKey fails the second and blames
+        // "another program". Reject the collision here so the user isn't sent hunting a culprit app.
+        var other = ReferenceEquals(_capBox, HotkeyBox) ? _captureHotkey : _hotkey;
+        if (combo == other)
+        {
+            t.Text.Text = LocalizationService.Instance["Settings.HotkeyPrompt"];
+            return;
+        }
+        t.Set(combo);
         EndCapture();
     }
+
+    /// <summary>Maps the WPF key event onto the Core combo builder (which is what the unit test
+    /// drives). The Win flag comes from the caller's GetKeyState poll, not Keyboard.Modifiers.</summary>
+    internal static string? BuildCombo(Key key, string? token, ModifierKeys mods, bool winDown)
+        => Core.Interop.HotkeyDefinition.BuildCombo(
+            token,
+            mods.HasFlag(ModifierKeys.Control),
+            mods.HasFlag(ModifierKeys.Shift),
+            mods.HasFlag(ModifierKeys.Alt),
+            winDown,
+            bareKeyOk: key is >= Key.F1 and <= Key.F24);
 
     // ---------- summon-by-tap capture (a LONE modifier, unlike the combo boxes above) ----------
     private void OnSummonTapClick(object sender, MouseButtonEventArgs e)

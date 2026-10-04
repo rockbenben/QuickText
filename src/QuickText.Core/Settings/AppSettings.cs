@@ -2,10 +2,13 @@ namespace QuickText.Core.Settings;
 
 public sealed class AppSettings
 {
+    // Single source for the summon combo: the field default AND the settings-UI fallback (when the
+    // user clears the summon box) both read this, so "restore default" can't drift from "new default".
+    public const string DefaultHotkey = "Ctrl+Shift+8";
     // How the panel is summoned — the two are mutually exclusive: "hotkey" uses Hotkey (a key
     // combo via RegisterHotKey), "tap" uses SummonTapKey (tap/double-tap a lone modifier).
     public string SummonMode { get; set; } = "hotkey";
-    public string Hotkey { get; set; } = "Ctrl+Shift+8";
+    public string Hotkey { get; set; } = DefaultHotkey;
     // The lone modifier for "tap" mode (RegisterHotKey can't express a single modifier):
     // one of RCtrl/LCtrl/RShift/LShift (Alt/Win excluded — they have OS side effects).
     public string SummonTapKey { get; set; } = "";

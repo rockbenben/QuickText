@@ -1073,6 +1073,9 @@ public partial class App : Application
             // theme during init (the same side effect the plain settings shot guards against),
             // which otherwise renders the light pass in dark.
             Shot(t + "settings-capture", () => new SettingsWindow(), w => { Ui.ThemeService.Apply(activeTheme); ((SettingsWindow)w).ShotsCapturing(); }, allHeights: false);
+            // batch6: combo summon mode — the only way the "Ctrl/Alt/Shift/Win" hint (and the
+            // combo capture box) appears on film; the machine defaults to tap mode.
+            Shot(t + "settings-combo", () => new SettingsWindow(), w => { Ui.ThemeService.Apply(activeTheme); ((SettingsWindow)w).ShotsComboMode(); }, allHeights: false);
 
             // Menus after settings need the theme re-asserted for the same reason.
             Ui.ThemeService.Apply(activeTheme);
