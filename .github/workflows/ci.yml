@@ -124,7 +124,8 @@ jobs:
           # the encoding turns them into mojibake.
           $notes = (Get-Content $notesPath -Raw -Encoding utf8).TrimEnd()
           # Single-quoted here-string, so PowerShell interpolates nothing: the markdown is full of
-          # backticks (the code fence) and `${{ }}` is expanded by Actions before the shell sees it.
+          # backticks (the code fence), and the tag expression is expanded by Actions before the
+          # shell ever sees this script.
           $tail = @'
           **Which package? / 下载哪个？**
 
