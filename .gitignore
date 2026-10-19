@@ -9,3 +9,6 @@ TestResults/
 
 design-preview/
 .qoder*
+
+# Composed by the release workflow from docs/release-notes/<tag>.md; never committed.
+release-body.md

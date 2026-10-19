@@ -109,6 +109,45 @@ jobs:
         uses: actions/attest-build-provenance@v4
         with:
           subject-checksums: SHA256SUMS.txt
+      - name: Compose release body
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $tag = "${{ github.ref_name }}"
+          $notesPath = "docs/release-notes/$tag.md"
+          if (-not (Test-Path $notesPath)) {
+            Write-Error "No release notes at $notesPath - write the 'What's new' bullets for $tag before tagging."
+            exit 1
+          }
+          # -Raw, not a line array: the bullets have to land in the body exactly as they were
+          # written. -Encoding utf8 because the notes carry CJK, and a PowerShell that guesses
+          # the encoding turns them into mojibake.
+          $notes = (Get-Content $notesPath -Raw -Encoding utf8).TrimEnd()
+          # Single-quoted here-string, so PowerShell interpolates nothing: the markdown is full of
+          # backticks (the code fence) and `${{ }}` is expanded by Actions before the shell sees it.
+          $tail = @'
+          **Which package? / 下载哪个？**
+
+          - `QuickText-${{ github.ref_name }}-win-x64.zip` — .NET runtime included; unzip and run on any Windows 10/11 x64. Take this if you're unsure. / 内含 .NET 运行时，解压即用；拿不准、内网机、离线机、U 盘随身带就选它。
+          - `QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip` — same app without the bundled runtime; needs the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed. / 同一个程序，只是不带运行时；需要电脑上已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)。
+          - `QuickText.exe` — the same build as the zip above, unzipped: click, run, or drop it over your existing QuickText.exe to update. Windows will offer the runtime download if it is missing. / 就是上面那个不含运行时的版本，只是没打包：点开即用，也可直接覆盖现有的 QuickText.exe 完成更新。缺运行时时 Windows 会自己提示下载。
+
+          **Verify your download / 校验下载** — the exe isn't code-signed. Two ways, pick either: / 程序没有代码签名，两种校验方式任选：
+
+          ```
+          gh attestation verify <file> -R rockbenben/QuickText   # proves it was built by this repo / 证明由本仓库构建
+          certutil -hashfile <file> SHA256                        # compare against SHA256SUMS.txt / 与 SHA256SUMS.txt 比对
+          ```
+          '@
+          # utf8 is BOM-less in PowerShell 7; a BOM would land in the release body as a stray
+          # character in front of the first heading. The trailing newline is deliberate: GitHub
+          # appends its own blank line before the "**Full Changelog**" link, and a body that ends
+          # without one would lose a blank line the old hand-written bodies had.
+          # The CR strip is the other half of that: .gitattributes stores these files as LF, but a
+          # Windows checkout can hand back CRLF, and without this the body would mix CRLF (from the
+          # notes file) with the LF this script writes.
+          $body = "**What's new / 更新内容**`n`n" + $notes + "`n`n" + $tail + "`n"
+          Set-Content -Path release-body.md -Value ($body -replace "`r`n", "`n") -Encoding utf8 -NoNewline
       - name: Release
         # Major-version tag on purpose: `v3` moves with each patch, which is how fixes arrive without
         # anyone bumping anything. Dependabot still speaks up when a v4 shows up.
@@ -126,23 +165,15 @@ jobs:
             QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip
             src/QuickText.App/bin/Release/publish-needs-dotnet10/QuickText.exe
             SHA256SUMS.txt
+          # The body is composed by the step above: docs/release-notes/<tag>.md holds the
+          # "What's new" bullets, and the package-picking note rides along underneath them. A
+          # release cannot go out without its notes — the compose step fails if the file is
+          # missing, which is the only reason v1.4.0 and v1.4.2 shipped with none.
           # Picking a package happens on the download page, not in the README, so the note has to
           # ride along with the release. GitHub appends the generated changelog after this body.
           # No sizes quoted here or in the READMEs: they move with every build and go stale silently,
           # while the release page shows each asset's actual size right next to its download button.
-          body: |
-            **Which package? / 下载哪个？**
-
-            - `QuickText-${{ github.ref_name }}-win-x64.zip` — .NET runtime included; unzip and run on any Windows 10/11 x64. Take this if you're unsure. / 内含 .NET 运行时，解压即用；拿不准、内网机、离线机、U 盘随身带就选它。
-            - `QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip` — same app without the bundled runtime; needs the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed. / 同一个程序，只是不带运行时；需要电脑上已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)。
-            - `QuickText.exe` — the same build as the zip above, unzipped: click, run, or drop it over your existing QuickText.exe to update. Windows will offer the runtime download if it is missing. / 就是上面那个不含运行时的版本，只是没打包：点开即用，也可直接覆盖现有的 QuickText.exe 完成更新。缺运行时时 Windows 会自己提示下载。
-
-            **Verify your download / 校验下载** — the exe isn't code-signed. Two ways, pick either: / 程序没有代码签名，两种校验方式任选：
-
-            ```
-            gh attestation verify <file> -R rockbenben/QuickText   # proves it was built by this repo / 证明由本仓库构建
-            certutil -hashfile <file> SHA256                        # compare against SHA256SUMS.txt / 与 SHA256SUMS.txt 比对
-            ```
+          body_path: release-body.md
           generate_release_notes: true
 
       # --- winget ------------------------------------------------------------------------------
