@@ -72,11 +72,18 @@ jobs:
         shell: pwsh
         run: |
           $v = "${{ github.ref_name }}" -replace '^v', ''   # tag v1.0.0 -> assembly version 1.0.0
+          # ⚠️ **原生命令的非零退出不会中断 pwsh**，所以每次 publish 之后都要显式判一次。
+          # 少了这个判断，「第一个 publish 失败 + 第二个成功」会以绿灯收场，
+          # release 里就少了自包含那份 zip —— 而更新器只认自包含那份，
+          # 装好的应用于是永远拿不到更新，只能靠人看出来少了资产。
+          # 同一条判据见 033-windowshuttle 的 ci.yml。
           dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64 -p:Version=$v --nologo
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
           # Both profiles share bin/obj and differ in runtimeconfig.json (self-contained pins the
           # framework); publishing the second straight after the first regenerates it correctly —
           # verified by running the framework-dependent exe with --smoke, so no rebuild is needed.
           dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10 -p:Version=$v --nologo
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
       - name: Package + SHA256
         shell: pwsh
         run: |
