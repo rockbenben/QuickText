@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>Controlla aggiornamenti all'avvio</value></data>
   <data name="Settings.CheckUpdatesHint"><value>Se attivo, si connette a GitHub una volta all'avvio per verificare la presenza di una nuova versione — l'unica volta in cui l'app va online; tutto il resto resta offline.</value></data>
   <data name="Settings.CheckNow"><value>Controlla ora</value></data>
-  <data name="Msg.UpdateAvailable"><value>Versione {0} disponibile — fai clic per scaricare.</value></data>
   <data name="Msg.UpToDate"><value>Hai già l'ultima versione.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Impossibile controllare gli aggiornamenti. Riprova più tardi.</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>Il file scaricato non corrisponde al checksum pubblicato ed è stato scartato. Riprova più tardi.</value></data>
+  <data name="Msg.UpdateReady"><value>La versione {0} è pronta. Il nuovo programma si trova in {1}. Chiudi il programma in esecuzione e copia il nuovo sopra per aggiornare.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Ci sono modifiche non salvate. Salvarle?</value></data>
   <data name="Manager.DontSave"><value>Non salvare</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} non è una scorciatoia valida: impostane una nuova nelle Impostazioni.</value></data>

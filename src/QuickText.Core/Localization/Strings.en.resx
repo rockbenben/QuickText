@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>Check for updates on startup</value></data>
   <data name="Settings.CheckUpdatesHint"><value>When on, contacts GitHub once at startup to check for a newer version — the only time the app goes online; everything else stays offline.</value></data>
   <data name="Settings.CheckNow"><value>Check now</value></data>
-  <data name="Msg.UpdateAvailable"><value>Version {0} is available — click to download.</value></data>
   <data name="Msg.UpToDate"><value>You're on the latest version.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Couldn't check for updates. Try again later.</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>The downloaded file did not match the published checksum, so it was discarded. Please try again later.</value></data>
+  <data name="Msg.UpdateReady"><value>New version {0} is ready. The new program is at {1}. Quit the running program and copy it over to update.</value></data>
   <data name="Manager.UnsavedConfirm"><value>You have unsaved changes. Save them?</value></data>
   <data name="Manager.DontSave"><value>Don't save</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>“{0}” isn’t a valid hotkey — set a new one in Settings.</value></data>

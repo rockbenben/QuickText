@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>Periksa pembaruan saat mulai</value></data>
   <data name="Settings.CheckUpdatesHint"><value>Jika aktif, terhubung ke GitHub sekali saat mulai untuk memeriksa versi baru — satu-satunya saat aplikasi daring; selebihnya selalu luring.</value></data>
   <data name="Settings.CheckNow"><value>Periksa sekarang</value></data>
-  <data name="Msg.UpdateAvailable"><value>Versi {0} tersedia — klik untuk mengunduh.</value></data>
   <data name="Msg.UpToDate"><value>Anda memakai versi terbaru.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Gagal memeriksa pembaruan. Coba lagi nanti.</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>Berkas yang diunduh tidak cocok dengan checksums yang dipublikasikan, jadi dibuang. Silakan coba lagi nanti.</value></data>
+  <data name="Msg.UpdateReady"><value>Versi {0} sudah siap. Program baru ada di {1}. Tutup program yang sedang berjalan lalu salin yang baru di atasnya untuk memperbarui.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Ada perubahan yang belum disimpan. Simpan?</value></data>
   <data name="Manager.DontSave"><value>Jangan simpan</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} bukan pintasan yang valid — atur yang baru di Pengaturan.</value></data>

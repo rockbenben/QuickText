@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>Kiểm tra cập nhật khi khởi động</value></data>
   <data name="Settings.CheckUpdatesHint"><value>Khi bật, ứng dụng kết nối GitHub một lần lúc khởi động để kiểm tra phiên bản mới — đây là lần duy nhất ứng dụng truy cập mạng; mọi thứ khác luôn hoạt động ngoại tuyến.</value></data>
   <data name="Settings.CheckNow"><value>Kiểm tra ngay</value></data>
-  <data name="Msg.UpdateAvailable"><value>Đã có phiên bản {0} — nhấp để tải xuống.</value></data>
   <data name="Msg.UpToDate"><value>Bạn đang dùng phiên bản mới nhất.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Không kiểm tra được cập nhật. Vui lòng thử lại sau.</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>Tệp đã tải xuống không khớp với tổng kiểm tra đã công bố nên đã bị loại bỏ. Vui lòng thử lại sau.</value></data>
+  <data name="Msg.UpdateReady"><value>Phiên bản {0} đã sẵn sàng. Chương trình mới nằm ở {1}. Hãy thoát chương trình đang chạy rồi chép đè chương trình mới lên để cập nhật.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Có thay đổi chưa được lưu. Lưu lại?</value></data>
   <data name="Manager.DontSave"><value>Không lưu</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} không phải phím tắt hợp lệ — hãy đặt lại trong Cài đặt.</value></data>

@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>Vérifier les mises à jour au démarrage</value></data>
   <data name="Settings.CheckUpdatesHint"><value>Si activé, se connecte à GitHub une fois au démarrage pour vérifier s'il existe une nouvelle version — le seul moment où l'application accède à Internet ; le reste fonctionne hors ligne.</value></data>
   <data name="Settings.CheckNow"><value>Vérifier maintenant</value></data>
-  <data name="Msg.UpdateAvailable"><value>Version {0} disponible — cliquez pour télécharger.</value></data>
   <data name="Msg.UpToDate"><value>Vous avez la dernière version.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Impossible de vérifier les mises à jour. Réessayez plus tard.</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>Le fichier téléchargé ne correspond pas à la somme de contrôle publiée, il a donc été écarté. Réessayez plus tard.</value></data>
+  <data name="Msg.UpdateReady"><value>La version {0} est prête. Le nouveau programme se trouve dans {1}. Quittez le programme en cours d'exécution puis copiez le nouveau par-dessus pour mettre à jour.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Il y a des modifications non enregistrées. Les enregistrer ?</value></data>
   <data name="Manager.DontSave"><value>Ne pas enregistrer</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} n’est pas un raccourci valide : définissez-en un autre dans les Paramètres.</value></data>
