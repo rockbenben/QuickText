@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>Beim Start nach Updates suchen</value></data>
   <data name="Settings.CheckUpdatesHint"><value>Wenn aktiviert, verbindet sich die App beim Start einmal mit GitHub, um nach einer neueren Version zu suchen — das einzige Mal, dass sie online geht; alles andere bleibt offline.</value></data>
   <data name="Settings.CheckNow"><value>Jetzt suchen</value></data>
-  <data name="Msg.UpdateAvailable"><value>Version {0} verfügbar – zum Herunterladen klicken.</value></data>
   <data name="Msg.UpToDate"><value>Sie verwenden die neueste Version.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Update-Suche fehlgeschlagen. Bitte später erneut versuchen.</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>Die heruntergeladene Datei stimmt nicht mit der veröffentlichten Prüfsumme überein und wurde verworfen. Bitte später erneut versuchen.</value></data>
+  <data name="Msg.UpdateReady"><value>Version {0} ist bereit. Das neue Programm liegt unter {1}. Beenden Sie das laufende Programm und kopieren Sie das neue darüber, um zu aktualisieren.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Es gibt ungespeicherte Änderungen. Speichern?</value></data>
   <data name="Manager.DontSave"><value>Nicht speichern</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} ist kein gültiges Tastenkürzel — lege in den Einstellungen ein neues fest.</value></data>

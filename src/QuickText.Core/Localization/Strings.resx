@@ -265,9 +265,10 @@
   <data name="Settings.CheckUpdates"><value>启动时检查更新</value></data>
   <data name="Settings.CheckUpdatesHint"><value>开启后仅在启动时联网访问 GitHub 检查新版本——这是本应用唯一的联网操作，其余功能始终离线。</value></data>
   <data name="Settings.CheckNow"><value>立即检查</value></data>
-  <data name="Msg.UpdateAvailable"><value>发现新版本 {0}，点击前往下载。</value></data>
   <data name="Msg.UpToDate"><value>已是最新版本。</value></data>
   <data name="Msg.UpdateCheckFailed"><value>检查更新失败，请稍后重试。</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>下载的文件与发布的校验值不一致，已丢弃。请稍后重试。</value></data>
+  <data name="Msg.UpdateReady"><value>新版本 {0} 已就绪，新程序在 {1}。请先退出正在运行的程序，再把新程序复制过去完成更新。</value></data>
   <data name="Manager.UnsavedConfirm"><value>有未保存的改动，要保存吗？</value></data>
   <data name="Manager.DontSave"><value>不保存</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>「{0}」不是有效的热键，请在设置里重新设置。</value></data>

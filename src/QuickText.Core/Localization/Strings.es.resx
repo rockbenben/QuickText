@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>Buscar actualizaciones al iniciar</value></data>
   <data name="Settings.CheckUpdatesHint"><value>Si se activa, se conecta a GitHub una vez al iniciar para comprobar si hay una versión nueva; es la única vez que la app usa Internet, el resto funciona sin conexión.</value></data>
   <data name="Settings.CheckNow"><value>Buscar ahora</value></data>
-  <data name="Msg.UpdateAvailable"><value>Versión {0} disponible: haz clic para descargar.</value></data>
   <data name="Msg.UpToDate"><value>Tienes la última versión.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>No se pudo buscar actualizaciones. Inténtalo más tarde.</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>El archivo descargado no coincide con la suma de verificación publicada, así que se descartó. Vuelve a intentarlo más tarde.</value></data>
+  <data name="Msg.UpdateReady"><value>La versión {0} está lista. El nuevo programa está en {1}. Cierra el programa en ejecución y copia el nuevo encima para actualizar.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Hay cambios sin guardar. ¿Guardarlos?</value></data>
   <data name="Manager.DontSave"><value>No guardar</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} no es un atajo válido: define uno nuevo en Configuración.</value></data>

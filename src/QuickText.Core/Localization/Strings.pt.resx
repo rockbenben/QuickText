@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>Verificar atualizações ao iniciar</value></data>
   <data name="Settings.CheckUpdatesHint"><value>Quando ativado, conecta-se ao GitHub uma vez ao iniciar para procurar uma versão mais recente — é a única vez que o app acessa a internet; o restante funciona offline.</value></data>
   <data name="Settings.CheckNow"><value>Verificar agora</value></data>
-  <data name="Msg.UpdateAvailable"><value>Versão {0} disponível — clique para baixar.</value></data>
   <data name="Msg.UpToDate"><value>Você está na versão mais recente.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Não foi possível verificar atualizações. Tente novamente mais tarde.</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>O ficheiro transferido não corresponde à soma de verificação publicada, por isso foi descartado. Tente novamente mais tarde.</value></data>
+  <data name="Msg.UpdateReady"><value>A versão {0} está pronta. O novo programa está em {1}. Feche o programa em execução e copie o novo por cima para atualizar.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Há alterações não guardadas. Guardar?</value></data>
   <data name="Manager.DontSave"><value>Não guardar</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} não é um atalho válido — defina outro nas Definições.</value></data>

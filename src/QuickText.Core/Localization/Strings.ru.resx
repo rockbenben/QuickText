@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>Проверять обновления при запуске</value></data>
   <data name="Settings.CheckUpdatesHint"><value>Если включено, при запуске один раз подключается к GitHub для проверки новой версии — это единственный выход приложения в интернет; всё остальное работает офлайн.</value></data>
   <data name="Settings.CheckNow"><value>Проверить сейчас</value></data>
-  <data name="Msg.UpdateAvailable"><value>Доступна версия {0} — нажмите, чтобы скачать.</value></data>
   <data name="Msg.UpToDate"><value>У вас последняя версия.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Не удалось проверить обновления. Повторите попытку позже.</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>Загруженный файл не совпал с опубликованной контрольной суммой, поэтому он был отброшен. Повторите попытку позже.</value></data>
+  <data name="Msg.UpdateReady"><value>Версия {0} готова. Новая программа находится в {1}. Закройте запущенную программу и скопируйте новую поверх неё, чтобы обновиться.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Есть несохранённые изменения. Сохранить их?</value></data>
   <data name="Manager.DontSave"><value>Не сохранять</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} — недопустимое сочетание клавиш. Задайте другое в настройках.</value></data>

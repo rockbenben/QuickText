@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>起動時に更新を確認</value></data>
   <data name="Settings.CheckUpdatesHint"><value>オンにすると起動時に一度だけ GitHub へ接続して新しいバージョンを確認します。ネットワークに接続するのはこのときだけで、他の機能は常にオフラインで動作します。</value></data>
   <data name="Settings.CheckNow"><value>今すぐ確認</value></data>
-  <data name="Msg.UpdateAvailable"><value>新しいバージョン {0} があります。クリックしてダウンロード。</value></data>
   <data name="Msg.UpToDate"><value>最新バージョンです。</value></data>
   <data name="Msg.UpdateCheckFailed"><value>更新を確認できませんでした。後でもう一度お試しください。</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>ダウンロードしたファイルが公開されているチェックサムと一致しないため破棄しました。しばらくしてからもう一度お試しください。</value></data>
+  <data name="Msg.UpdateReady"><value>バージョン {0} の準備ができました。新しいプログラムは {1} にあります。更新するには実行中のプログラムを終了してから、新しいプログラムをコピーして置き換えてください。</value></data>
   <data name="Manager.UnsavedConfirm"><value>未保存の変更があります。保存しますか？</value></data>
   <data name="Manager.DontSave"><value>保存しない</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>「{0}」は有効なホットキーではありません。設定で指定し直してください。</value></data>

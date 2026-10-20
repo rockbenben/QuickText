@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>ตรวจหาอัปเดตเมื่อเริ่มโปรแกรม</value></data>
   <data name="Settings.CheckUpdatesHint"><value>เมื่อเปิด จะเชื่อมต่อ GitHub หนึ่งครั้งตอนเริ่มโปรแกรมเพื่อตรวจหาเวอร์ชันใหม่ — เป็นการออนไลน์เพียงครั้งเดียวของแอป ส่วนที่เหลือทำงานออฟไลน์เสมอ</value></data>
   <data name="Settings.CheckNow"><value>ตรวจสอบตอนนี้</value></data>
-  <data name="Msg.UpdateAvailable"><value>มีเวอร์ชัน {0} แล้ว — คลิกเพื่อดาวน์โหลด</value></data>
   <data name="Msg.UpToDate"><value>คุณใช้เวอร์ชันล่าสุดอยู่แล้ว</value></data>
   <data name="Msg.UpdateCheckFailed"><value>ตรวจหาอัปเดตไม่สำเร็จ โปรดลองใหม่ภายหลัง</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>ไฟล์ที่ดาวน์โหลดไม่ตรงกับค่าตรวจสอบที่ประกาศไว้ จึงถูกยกเลิก กรุณาลองใหม่อีกครั้งในภายหลัง</value></data>
+  <data name="Msg.UpdateReady"><value>เวอร์ชัน {0} พร้อมแล้ว โปรแกรมใหม่อยู่ที่ {1} กรุณาออกจากโปรแกรมที่กำลังใช้งาน แล้วคัดลอกโปรแกรมใหม่ไปทับเพื่ออัปเดต</value></data>
   <data name="Manager.UnsavedConfirm"><value>มีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก ต้องการบันทึกหรือไม่</value></data>
   <data name="Manager.DontSave"><value>ไม่บันทึก</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} ไม่ใช่คีย์ลัดที่ใช้ได้ — ตั้งใหม่ในการตั้งค่า</value></data>

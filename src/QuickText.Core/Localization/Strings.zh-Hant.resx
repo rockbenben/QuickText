@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>啟動時檢查更新</value></data>
   <data name="Settings.CheckUpdatesHint"><value>開啟後僅在啟動時連線 GitHub 檢查新版本——這是本應用唯一的連線操作，其餘功能始終離線。</value></data>
   <data name="Settings.CheckNow"><value>立即檢查</value></data>
-  <data name="Msg.UpdateAvailable"><value>發現新版本 {0}，點擊前往下載。</value></data>
   <data name="Msg.UpToDate"><value>已是最新版本。</value></data>
   <data name="Msg.UpdateCheckFailed"><value>檢查更新失敗，請稍後再試。</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>下載的檔案與發布的校驗值不一致，已捨棄。請稍後再試。</value></data>
+  <data name="Msg.UpdateReady"><value>新版本 {0} 已就緒，新程式在 {1}。請先結束正在執行的程式，再將新程式複製過去以完成更新。</value></data>
   <data name="Manager.UnsavedConfirm"><value>有未儲存的變更，要儲存嗎？</value></data>
   <data name="Manager.DontSave"><value>不儲存</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>「{0}」不是有效的熱鍵，請在設定裡重新設定。</value></data>

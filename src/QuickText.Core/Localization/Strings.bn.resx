@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>চালু হওয়ার সময় আপডেট দেখুন</value></data>
   <data name="Settings.CheckUpdatesHint"><value>চালু থাকলে শুরুর সময় একবার GitHub-এ সংযোগ করে নতুন সংস্করণ আছে কিনা দেখে — অ্যাপটি কেবল তখনই ইন্টারনেট ব্যবহার করে, বাকি সব সময় অফলাইনে চলে।</value></data>
   <data name="Settings.CheckNow"><value>এখনই দেখুন</value></data>
-  <data name="Msg.UpdateAvailable"><value>সংস্করণ {0} উপলব্ধ — ডাউনলোড করতে ক্লিক করুন।</value></data>
   <data name="Msg.UpToDate"><value>আপনি সর্বশেষ সংস্করণে আছেন।</value></data>
   <data name="Msg.UpdateCheckFailed"><value>আপডেট দেখা যায়নি। পরে আবার চেষ্টা করুন।</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>ডাউনলোড করা ফাইল প্রকাশিত যাচাইকারী মানের সঙ্গে মেলেনি, তাই সেটি বাতিল করা হয়েছে। অনুগ্রহ করে পরে আবার চেষ্টা করুন।</value></data>
+  <data name="Msg.UpdateReady"><value>নতুন সংস্করণ {0} প্রস্তুত। নতুন প্রোগ্রামটি এখানে আছে: {1}। আপডেট করতে চলমান প্রোগ্রামটি বন্ধ করে নতুনটির উপরে কপি করুন।</value></data>
   <data name="Manager.UnsavedConfirm"><value>সংরক্ষণ না করা পরিবর্তন আছে, সংরক্ষণ করবেন?</value></data>
   <data name="Manager.DontSave"><value>সংরক্ষণ করবেন না</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} বৈধ হটকি নয় — সেটিংসে নতুন একটি সেট করুন।</value></data>

@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>शुरू होने पर अपडेट जाँचें</value></data>
   <data name="Settings.CheckUpdatesHint"><value>चालू होने पर शुरू होते समय एक बार GitHub से जुड़कर नया संस्करण जाँचता है — ऐप केवल तभी इंटरनेट का उपयोग करता है, बाकी सब ऑफ़लाइन चलता है।</value></data>
   <data name="Settings.CheckNow"><value>अभी जाँचें</value></data>
-  <data name="Msg.UpdateAvailable"><value>संस्करण {0} उपलब्ध है — डाउनलोड करने के लिए क्लिक करें।</value></data>
   <data name="Msg.UpToDate"><value>आप नवीनतम संस्करण पर हैं।</value></data>
   <data name="Msg.UpdateCheckFailed"><value>अपडेट जाँच नहीं सका। बाद में पुनः प्रयास करें।</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>डाउनलोड की गई फ़ाइल प्रकाशित चेकसम से मेल नहीं खाती, इसलिए उसे हटा दिया गया। कृपया बाद में फिर कोशिश करें।</value></data>
+  <data name="Msg.UpdateReady"><value>संस्करण {0} तैयार है। नया प्रोग्राम {1} पर है। अपडेट करने के लिए चल रहा प्रोग्राम बंद करें और नए प्रोग्राम को उसके ऊपर कॉपी करें।</value></data>
   <data name="Manager.UnsavedConfirm"><value>असहेजे बदलाव हैं, क्या उन्हें सहेजना चाहते हैं?</value></data>
   <data name="Manager.DontSave"><value>सहेजें नहीं</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} मान्य हॉटकी नहीं है — सेटिंग्स में नई सेट करें।</value></data>

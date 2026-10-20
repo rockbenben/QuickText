@@ -22,7 +22,6 @@ public partial class App : Application
 
     // Set only when the update-check balloon is showing; a click on it opens this release page.
     private string? _updateUrl;
-    private static readonly System.Net.Http.HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(10) };
 
     /// <summary>True during the --smoke window check, so window placement (WindowTheming) leaves the
     /// deliberately off-screen windows where the check parked them instead of centering them.</summary>
@@ -402,8 +401,9 @@ public partial class App : Application
             Balloon(string.Format(LocalizationService.Instance["Msg.AbbrConflicts"],
                 string.Join("、", state.AbbrConflicts)), NotificationIcon.Warning);
 
-        // Opt-in, off by default (the ONLY network call the app ever makes): notify if GitHub has a
-        // newer release. Fire-and-forget so a slow/absent network never delays the tray coming up.
+        // Opt-in, off by default (the only feature in the app that goes online): ask GitHub whether
+        // a newer release exists, and fetch it if so. Fire-and-forget so a slow/absent network
+        // never delays the tray coming up.
         if (state.Settings.CheckUpdates) CheckForUpdatesAsync(manual: false);
 
         // A hand-launched exe (double-click) opens search, same as double-clicking the tray or
@@ -415,34 +415,40 @@ public partial class App : Application
     }
 
     /// <summary>
-    /// Opt-in update check: query the GitHub Releases API — the single network request QuickText
-    /// makes — and, if a newer tag exists, show a balloon whose click opens the release page. A
-    /// <paramref name="manual"/> check (the Settings button) also reports the up-to-date and failed
-    /// cases; the silent startup check stays quiet unless there's actually something to download.
+    /// Opt-in update check: ask GitHub for the latest release — the only thing in QuickText that
+    /// goes online — and, if it is newer than this build, download it, check it against the
+    /// checksum the same release published, and unpack it where the user can find it. A
+    /// <paramref name="manual"/> check (the Settings button) also reports the up-to-date and
+    /// failed cases; the silent startup check stays quiet unless there's actually something to
+    /// report.
+    /// <para>The running program is never replaced: Windows locks a running executable, so the new
+    /// build is unpacked into a folder of its own and the user is told where it is.</para>
     /// </summary>
     public async void CheckForUpdatesAsync(bool manual)
     {
         var loc = LocalizationService.Instance;
         try
         {
-            using var req = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get,
-                "https://api.github.com/repos/rockbenben/QuickText/releases/latest");
-            req.Headers.UserAgent.ParseAdd("QuickText-update-check");   // GitHub API rejects a missing UA
-            req.Headers.Accept.ParseAdd("application/vnd.github+json");
-            using var resp = await _http.SendAsync(req);   // resumes on the UI thread (WPF SyncContext)
-            resp.EnsureSuccessStatusCode();
-            using var doc = System.Text.Json.JsonDocument.Parse(await resp.Content.ReadAsStringAsync());
-            var root = doc.RootElement;
-            string? tag = root.TryGetProperty("tag_name", out var t) ? t.GetString() : null;
-            string? url = root.TryGetProperty("html_url", out var h) ? h.GetString() : null;
             string current = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version?.ToString(3) ?? "1.0.0";
-            if (Core.UpdateCheck.IsNewer(tag, current))
+            var outcome = await UpdateService.RunAsync(current);   // resumes on the UI thread (WPF SyncContext)
+            switch (outcome.Status)
             {
-                var link = string.IsNullOrWhiteSpace(url) ? "https://github.com/rockbenben/QuickText/releases" : url;
-                Balloon(string.Format(loc["Msg.UpdateAvailable"], tag), NotificationIcon.Info, link);   // arms the click-to-download link
+                case UpdateStatus.Ready:
+                    Balloon(string.Format(loc["Msg.UpdateReady"], outcome.Version, outcome.ExePath),
+                            NotificationIcon.Info, outcome.ReleaseUrl ?? UpdateService.ReleasePage);
+                    break;
+                case UpdateStatus.VerifyFailed:
+                    // The download did not match the published checksum, so it was thrown away.
+                    // Say so: a silent no-op here would read as "no update available".
+                    if (manual) Balloon(loc["Msg.UpdateVerifyFailed"], NotificationIcon.Warning);
+                    break;
+                case UpdateStatus.UpToDate:
+                    if (manual) Balloon(loc["Msg.UpToDate"], NotificationIcon.Info);
+                    break;
+                default:
+                    if (manual) Balloon(loc["Msg.UpdateCheckFailed"], NotificationIcon.Warning);
+                    break;
             }
-            else if (manual)
-                Balloon(loc["Msg.UpToDate"], NotificationIcon.Info);
         }
         catch
         {

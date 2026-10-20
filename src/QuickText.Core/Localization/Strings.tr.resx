@@ -215,9 +215,10 @@
   <data name="Settings.CheckUpdates"><value>Başlangıçta güncellemeleri denetle</value></data>
   <data name="Settings.CheckUpdatesHint"><value>Açıkken, başlangıçta bir kez GitHub'a bağlanarak yeni sürüm olup olmadığını denetler — uygulamanın çevrimiçi olduğu tek an budur; gerisi hep çevrimdışı çalışır.</value></data>
   <data name="Settings.CheckNow"><value>Şimdi denetle</value></data>
-  <data name="Msg.UpdateAvailable"><value>{0} sürümü mevcut — indirmek için tıklayın.</value></data>
   <data name="Msg.UpToDate"><value>En son sürümü kullanıyorsunuz.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Güncellemeler denetlenemedi. Daha sonra tekrar deneyin.</value></data>
+  <data name="Msg.UpdateVerifyFailed"><value>İndirilen dosya yayımlanan sağlama toplamıyla eşleşmediği için silindi. Lütfen daha sonra yeniden deneyin.</value></data>
+  <data name="Msg.UpdateReady"><value>{0} sürümü hazır. Yeni program {1} konumunda. Güncellemek için çalışan programı kapatın ve yeni programı üzerine kopyalayın.</value></data>
   <data name="Manager.UnsavedConfirm"><value>Kaydedilmemiş değişiklikler var. Kaydedilsin mi?</value></data>
   <data name="Manager.DontSave"><value>Kaydetme</value></data>
   <data name="Msg.HotkeyInvalid" xml:space="preserve"><value>{0} geçerli bir kısayol değil — Ayarlar’dan yenisini belirleyin.</value></data>
