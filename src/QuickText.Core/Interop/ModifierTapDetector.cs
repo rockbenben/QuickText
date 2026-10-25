@@ -36,11 +36,15 @@ public sealed class ModifierTapDetector
     private readonly Func<DateTime> _now;
 
     private bool _held;    // target modifier currently down
-    private bool _clean;   // ...and no other key has been pressed since it went down
+    private bool _clean;   // ...and no other key/pointer has been used since it went down
+    private DateTime _pressedAt;
     private DateTime _lastCleanTap = DateTime.MinValue;
 
     /// <summary>Max gap between the two taps of a double-tap.</summary>
     public const int DoubleWindowMs = 400;
+
+    /// <summary>A press held longer than this is a modifier held for some other reason, not a tap.</summary>
+    public const int MaxHoldMs = 800;
 
     public ModifierTapDetector(uint targetVk, bool requireDouble, Func<DateTime>? now = null)
     {
@@ -56,7 +60,7 @@ public sealed class ModifierTapDetector
         {
             if (vk == _targetVk)
             {
-                if (!_held) { _held = true; _clean = true; }   // fresh press; ignore auto-repeat
+                if (!_held) { _held = true; _clean = true; _pressedAt = _now(); }   // fresh press; ignore auto-repeat
             }
             else if (_held)
             {
@@ -67,14 +71,14 @@ public sealed class ModifierTapDetector
 
         // key up
         if (vk != _targetVk) return false;
-        bool wasCleanTap = _held && _clean;
+        var now = _now();
+        bool wasCleanTap = _held && _clean
+                           && (now - _pressedAt).TotalMilliseconds <= MaxHoldMs;
         _held = false;
         _clean = false;
         if (!wasCleanTap) return false;
 
         if (!_double) return true;   // single-tap: fire immediately
-
-        var now = _now();
         if (_lastCleanTap != DateTime.MinValue && (now - _lastCleanTap).TotalMilliseconds <= DoubleWindowMs)
         {
             _lastCleanTap = DateTime.MinValue;   // consumed — the next double starts fresh
@@ -82,5 +86,13 @@ public sealed class ModifierTapDetector
         }
         _lastCleanTap = now;   // first tap of a potential double
         return false;
+    }
+
+    /// <summary>A pointer button/wheel event happened; it invalidates both a held tap and a
+    /// just-completed first tap, so a click between two taps cannot complete a double-tap.</summary>
+    public void CancelTap()
+    {
+        _clean = false;
+        _lastCleanTap = DateTime.MinValue;
     }
 }

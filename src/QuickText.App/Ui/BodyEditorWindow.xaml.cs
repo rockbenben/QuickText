@@ -202,9 +202,8 @@ public partial class BodyEditorWindow : Window
 
     /// <summary>Default opening size when nothing is remembered, floored well above the XAML
     /// MinWidth/MinHeight (420x320 — that stays the RESIZE floor, so the window can still be
-    /// dragged compact by hand) but capped to the work area so the floor can't overflow a small
-    /// monitor (defensive: the author's smallest monitor is 1536x864 DIP, already bigger than
-    /// this floor).</summary>
+    /// dragged compact by hand) but clamped to the work area so the floor can't overflow a small
+    /// monitor (the Math.Min below lets the work area win over the floor).</summary>
     private const double DefaultMinWidth = 900;
     private const double DefaultMinHeight = 640;
 
@@ -218,7 +217,7 @@ public partial class BodyEditorWindow : Window
     /// sane, else 80% of that monitor's work area floored at <see cref="DefaultMinWidth"/> x
     /// <see cref="DefaultMinHeight"/> — clamped to the work area either way, so a size remembered
     /// on a larger monitor (or the default floor, on a small one) can't overflow a smaller monitor
-    /// the window now opens on (the author's three monitors are 2560 / 2048 / 1536 DIP wide).</summary>
+    /// the window now opens on.</summary>
     private void PlaceOnOwnerMonitor(Core.Settings.AppSettings settings)
     {
         if (App.InSmoke) return;   // --smoke parks windows off-screen and never shows them

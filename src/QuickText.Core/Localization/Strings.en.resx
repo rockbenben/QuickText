@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>Portable mode switched — restart to apply. Move your text library with Export / Import backup.</value></data>
   <data name="Settings.PortableFailed"><value>Can't write next to the app (it may be in a read-only location like Program Files). Portable mode needs the app in a writable place, such as a USB stick.</value></data>
   <data name="Settings.CheckUpdates"><value>Check for updates on startup</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>When on, contacts GitHub once at startup to check for a newer version — the only time the app goes online; everything else stays offline.</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>When on, the app contacts GitHub once at startup to check for and download a newer build to local disk. It never replaces the running program; this is the app's only network access.</value></data>
   <data name="Settings.CheckNow"><value>Check now</value></data>
   <data name="Msg.UpToDate"><value>You're on the latest version.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Couldn't check for updates. Try again later.</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>Theme</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Dark</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Light</value></data>
+  <data name="Msg.TargetLost"><value>The target window wasn't ready. The content was copied to the clipboard; paste it manually.</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>Some files in the data folder could not be read; part of the library may be missing. See error.log for details.</value></data>
+  <data name="Manager.StaleNotice"><value>The library was updated in another window or outside the app. Your unsaved changes here have not been written to disk. Saving is paused; reload the on-disk version, or close and reopen this window.</value></data>
+  <data name="Manager.Reload"><value>Reload</value></data>
 </root>

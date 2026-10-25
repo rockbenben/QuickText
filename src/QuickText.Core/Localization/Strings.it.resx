@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>Modalità portatile cambiata — riavvia per applicare. Sposta la tua libreria di testi con Esporta / Importa backup.</value></data>
   <data name="Settings.PortableFailed"><value>Impossibile scrivere accanto all'app (potrebbe trovarsi in una posizione di sola lettura come Program Files). La modalità portatile richiede l'app in una posizione scrivibile, come una chiavetta USB.</value></data>
   <data name="Settings.CheckUpdates"><value>Controlla aggiornamenti all'avvio</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>Se attivo, si connette a GitHub una volta all'avvio per verificare la presenza di una nuova versione — l'unica volta in cui l'app va online; tutto il resto resta offline.</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Se attivata, l'app contatta GitHub una volta all'avvio per verificare e scaricare una versione più recente sul disco locale. Non sostituisce il programma in esecuzione; è l'unica operazione di rete dell'app.</value></data>
   <data name="Settings.CheckNow"><value>Controlla ora</value></data>
   <data name="Msg.UpToDate"><value>Hai già l'ultima versione.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Impossibile controllare gli aggiornamenti. Riprova più tardi.</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>Tema</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Scuro</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Chiaro</value></data>
+  <data name="Msg.TargetLost"><value>La finestra di destinazione non era pronta. Il contenuto è stato copiato negli appunti; incollalo manualmente.</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>Impossibile leggere alcuni file nella cartella dati; parte della libreria potrebbe mancare. Vedi error.log per i dettagli.</value></data>
+  <data name="Manager.StaleNotice"><value>La libreria è stata aggiornata in un'altra finestra o all'esterno dell'app. Le modifiche non salvate qui non sono state scritte sul disco. Il salvataggio è sospeso; ricarica la versione dal disco oppure chiudi e riapri questa finestra.</value></data>
+  <data name="Manager.Reload"><value>Ricarica</value></data>
 </root>

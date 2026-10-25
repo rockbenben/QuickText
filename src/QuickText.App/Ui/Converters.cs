@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -8,36 +10,80 @@ using QuickText.App;
 
 namespace QuickText.App.Ui;
 
-/// <summary>Snippet-relative image path -> a loaded, file-unlocked, frozen BitmapImage (null if missing).</summary>
+/// <summary>Snippet-relative image path -> a loaded, file-unlocked, frozen BitmapImage (null if
+/// missing or outside the library). Decoded images are cached by path + file stamp; callers that
+/// run on the UI thread should use <see cref="LoadAsync"/>.</summary>
 public static class ImageLoader
 {
+    private sealed record Entry(DateTime LastWriteUtc, long Length, BitmapImage Image);
+    private static readonly Dictionary<string, Entry> Cache = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly object Gate = new();
+    private const int MaxCachedImages = 128;
+
     public static BitmapImage? Load(string relativePath)
     {
         if (string.IsNullOrWhiteSpace(relativePath)) return null;
         try
         {
             var abs = AppState.Current.ResolveImagePath(relativePath);
-            if (!System.IO.File.Exists(abs)) return null;
+            if (string.IsNullOrEmpty(abs)) return null;
+            var info = new System.IO.FileInfo(abs);
+            if (!info.Exists) return null;
+            var stamp = info.LastWriteTimeUtc;
+            long length = info.Length;
+            lock (Gate)
+            {
+                if (Cache.TryGetValue(abs, out var hit) && hit.LastWriteUtc == stamp && hit.Length == length)
+                    return hit.Image;
+            }
+
             var bi = new BitmapImage();
             bi.BeginInit();
             bi.CacheOption = BitmapCacheOption.OnLoad;   // load fully so the file isn't locked
             bi.UriSource = new Uri(abs);
             bi.EndInit();
             bi.Freeze();
+
+            lock (Gate)
+            {
+                if (Cache.Count >= MaxCachedImages) Cache.Clear();
+                Cache[abs] = new Entry(stamp, length, bi);
+            }
             return bi;
         }
         catch { return null; }
     }
+
+    public static Task<BitmapImage?> LoadAsync(string relativePath) =>
+        Task.Run(() => Load(relativePath));
 }
 
-/// <summary>Relative image path -> a loaded, file-unlocked BitmapImage (null if missing).</summary>
-public sealed class ImagePathToSourceConverter : IValueConverter
+/// <summary>Attached behavior: decode the image path off the UI thread and assign it when ready.
+/// A bound converter would run the full disk decode inside layout, which is how selecting a
+/// OneDrive placeholder froze the window.</summary>
+public static class AsyncImage
 {
-    public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        => value is string rel ? ImageLoader.Load(rel) : null;
+    public static readonly DependencyProperty PathProperty = DependencyProperty.RegisterAttached(
+        "Path", typeof(string), typeof(AsyncImage), new PropertyMetadata("", OnPathChanged));
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        => throw new NotSupportedException();
+    public static void SetPath(DependencyObject o, string v) => o.SetValue(PathProperty, v);
+    public static string GetPath(DependencyObject o) => (string)o.GetValue(PathProperty);
+
+    private static async void OnPathChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+    {
+        if (o is not Image image) return;
+        var path = e.NewValue as string ?? "";
+        image.Source = null;
+        if (string.IsNullOrWhiteSpace(path)) return;
+
+        try
+        {
+            var bitmap = await ImageLoader.LoadAsync(path);
+            if (!string.Equals(GetPath(image), path, StringComparison.Ordinal)) return;   // a newer path won
+            image.Source = bitmap;
+        }
+        catch { /* a missing/locked image is already represented by a null source */ }
+    }
 }
 
 /// <summary>Non-empty string -> Collapsed, empty -> Visible (inverse of EmptyToCollapsed).</summary>

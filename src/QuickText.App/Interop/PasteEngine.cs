@@ -14,19 +14,126 @@ public static class PasteEngine
     // NUMBER (unchanged since our paste ⇒ what's on the clipboard is still OURS; any user copy,
     // even of identical bytes, bumps it). RESTORE keys off CONTENT (below), so a clipboard manager
     // that bumps the sequence but keeps our content still triggers the restore. UI-thread only.
-    private static string? _pendingRestore;   // the user's real clipboard still owed a restore
-    private static uint _pastedSeq;            // clipboard sequence number right after our last paste
+    private static DataObject? _pendingRestore;   // the user's real clipboard still owed a restore
+    private static uint _pastedSeq;               // clipboard sequence number right after our last paste
 
-    /// <summary>The user's real clipboard text to restore later, seeing through our own pending paste.</summary>
-    private static string? CaptureOriginal()
+    /// <summary>A materialized snapshot of the user's clipboard, seeing through our own pending
+    /// paste. Materialized eagerly (text/image/files/HTML/RTF) because IDataObject from
+    /// Clipboard.GetDataObject is lazy: the source app may be gone by the time we restore.</summary>
+    private static DataObject? CaptureOriginal()
     {
-        string? original = null;
-        try { if (Clipboard.ContainsText()) original = Clipboard.GetText(); } catch { }
-        // Clipboard untouched since our own last paste → the text on it is our snippet, not the
-        // user's; the real original is the one still owed a restore.
         if (_pendingRestore != null && GetClipboardSequenceNumber() == _pastedSeq)
-            original = _pendingRestore;
-        return original;
+            return _pendingRestore;
+
+        var copy = new DataObject();
+        bool any = false;
+        try
+        {
+            if (Clipboard.ContainsText())
+            {
+                copy.SetText(Clipboard.GetText());
+                any = true;
+            }
+        }
+        catch { }
+        try
+        {
+            if (Clipboard.ContainsImage() && Clipboard.GetImage() is { } image)
+            {
+                if (image.CanFreeze) image.Freeze();
+                copy.SetImage(image);
+                any = true;
+            }
+        }
+        catch { }
+        try
+        {
+            if (Clipboard.ContainsFileDropList())
+            {
+                copy.SetFileDropList(Clipboard.GetFileDropList());
+                any = true;
+            }
+        }
+        catch { }
+        try
+        {
+            if (Clipboard.ContainsData(DataFormats.Html) && Clipboard.GetData(DataFormats.Html) is string html)
+            {
+                copy.SetData(DataFormats.Html, html);
+                any = true;
+            }
+        }
+        catch { }
+        try
+        {
+            if (Clipboard.ContainsData(DataFormats.Rtf) && Clipboard.GetData(DataFormats.Rtf) is string rtf)
+            {
+                copy.SetData(DataFormats.Rtf, rtf);
+                any = true;
+            }
+        }
+        catch { }
+
+        // Custom/simple formats (CSV, XML spreadsheet, plain byte payloads). Materialize them now
+        // too, but only values that can safely be held and written back; complex COM formats are
+        // not cloned and stay source-app dependent.
+        try
+        {
+            var source = Clipboard.GetDataObject();
+            if (source != null)
+            {
+                foreach (var format in source.GetFormats())
+                {
+                    if (copy.GetDataPresent(format)) continue;
+                    try
+                    {
+                        var value = CloneSimpleFormat(source.GetData(format));
+                        if (value == null) continue;
+                        copy.SetData(format, value);
+                        any = true;
+                    }
+                    catch { }
+                }
+            }
+        }
+        catch { }
+        return any ? copy : null;
+    }
+
+    private static object? CloneSimpleFormat(object? value) => value switch
+    {
+        string s => s,
+        string[] a => (string[])a.Clone(),
+        System.Collections.Specialized.StringCollection c => CloneStringCollection(c),
+        byte[] b => (byte[])b.Clone(),
+        System.IO.MemoryStream ms => new System.IO.MemoryStream(ms.ToArray()),
+        System.IO.Stream s => CopyStream(s),
+        System.Windows.Media.Imaging.BitmapSource bmp => FreezeBitmap(bmp),
+        _ => null,
+    };
+
+    private static System.Collections.Specialized.StringCollection CloneStringCollection(
+        System.Collections.Specialized.StringCollection source)
+    {
+        var copy = new System.Collections.Specialized.StringCollection();
+        foreach (var item in source) copy.Add(item);
+        return copy;
+    }
+
+    private static System.IO.MemoryStream CopyStream(System.IO.Stream source)
+    {
+        if (source.CanSeek) source.Position = 0;
+        var copy = new System.IO.MemoryStream();
+        source.CopyTo(copy);
+        copy.Position = 0;
+        return copy;
+    }
+
+    private static System.Windows.Media.Imaging.BitmapSource FreezeBitmap(
+        System.Windows.Media.Imaging.BitmapSource source)
+    {
+        if (source.CanFreeze && !source.IsFrozen) source.Freeze();
+        return source;
     }
 
     /// <summary>
@@ -47,7 +154,7 @@ public static class PasteEngine
     /// if nothing has touched the clipboard since our paste. (Content compare is preferred for text
     /// because it also survives a clipboard manager that bumps the sequence but keeps our text.)
     /// </summary>
-    private static void ScheduleRestore(string original, Func<bool>? stillOurs, int delayMs)
+    private static void ScheduleRestore(DataObject original, Func<bool>? stillOurs, int delayMs)
     {
         _pendingRestore = original;
         uint mySeq = GetClipboardSequenceNumber();
@@ -57,25 +164,43 @@ public static class PasteEngine
         {
             Application.Current?.Dispatcher.Invoke(() =>
             {
-                bool ours;
-                try { ours = stillOurs != null ? stillOurs() : GetClipboardSequenceNumber() == mySeq; }
-                catch { ours = false; }
-                if (ours) SetClipboardTextWithRetry(restore);
-                if (_pastedSeq == mySeq) _pendingRestore = null;   // resolve our entry unless superseded
+                bool ours = false;
+                bool known = false;
+                try
+                {
+                    ours = stillOurs != null ? stillOurs() : GetClipboardSequenceNumber() == mySeq;
+                    known = true;
+                }
+                catch { /* clipboard locked/unavailable: do not guess that the user replaced it */ }
+
+                if (!known)
+                {
+                    // Keep _pendingRestore: the next paste can still put the original back.
+                    QuickText.Core.Log.Write("clipboard restore check failed");
+                    return;
+                }
+
+                bool restored = !ours || SetClipboardDataWithRetry(restore);
+                if (!restored) QuickText.Core.Log.Write("clipboard restore failed");
+                // Keep the pending original when our content is still there but the restore
+                // failed; the next paste can try again instead of losing it.
+                if (_pastedSeq == mySeq && (!ours || restored)) _pendingRestore = null;
             });
         });
     }
 
-    public static void SendBackspaces(int count)
+    /// <summary>True when all synthesized Backspace events were accepted by the OS.</summary>
+    public static bool SendBackspaces(int count)
     {
-        if (count <= 0) return;
+        if (count <= 0) return true;
         var inputs = new INPUT[count * 2];
         for (int i = 0; i < count; i++)
         {
             inputs[i * 2] = Key(VK_BACK, false);
             inputs[i * 2 + 1] = Key(VK_BACK, true);
         }
-        SendInput((uint)inputs.Length, inputs, System.Runtime.InteropServices.Marshal.SizeOf<INPUT>());
+        return SendInput((uint)inputs.Length, inputs,
+            System.Runtime.InteropServices.Marshal.SizeOf<INPUT>()) == (uint)inputs.Length;
     }
 
     /// <summary>Returns true when the Ctrl+V was actually dispatched (callers may arm undo on it).</summary>
@@ -83,7 +208,7 @@ public static class PasteEngine
     {
         if (string.IsNullOrEmpty(text)) return false; // nothing to paste — do NOT fire Ctrl+V on stale clipboard
 
-        string? original = restoreClipboard ? CaptureOriginal() : null;
+        DataObject? original = restoreClipboard ? CaptureOriginal() : null;
 
         if (!SetClipboardTextWithRetry(text))
             return false; // clipboard set failed — do NOT paste whatever was there before
@@ -96,7 +221,13 @@ public static class PasteEngine
             Key(VK_V, true),
             Key(VK_CONTROL, true),
         };
-        SendInput((uint)inputs.Length, inputs, System.Runtime.InteropServices.Marshal.SizeOf<INPUT>());
+        if (SendInput((uint)inputs.Length, inputs,
+                System.Runtime.InteropServices.Marshal.SizeOf<INPUT>()) != (uint)inputs.Length)
+        {
+            // UIPI (elevated target) or a blocked input queue. Leave the user's clipboard as it was.
+            if (restoreClipboard && original != null) SetClipboardDataWithRetry(original);
+            return false;
+        }
 
         if (caretFromEnd > 0 && caretFromEnd <= MaxCaretWalk)
         {
@@ -159,32 +290,31 @@ public static class PasteEngine
         type = INPUT_KEYBOARD,
         U = new InputUnion
         {
-            ki = new KEYBDINPUT { wVk = 0, wScan = c, dwFlags = KEYEVENTF_UNICODE | (up ? KEYEVENTF_KEYUP : 0) }
+            ki = new KEYBDINPUT
+            {
+                wVk = 0, wScan = c,
+                dwFlags = KEYEVENTF_UNICODE | (up ? KEYEVENTF_KEYUP : 0),
+                dwExtraInfo = SelfInputMarker,
+            }
         }
     };
 
     /// <summary>Copy-only (no paste): leave text on the clipboard for the user to paste manually.</summary>
-    public static void CopyText(string text)
-    {
-        if (!string.IsNullOrEmpty(text)) SetClipboardTextWithRetry(text);
-    }
+    public static bool CopyText(string text) =>
+        !string.IsNullOrEmpty(text) && SetClipboardTextWithRetry(text);
 
-    public static void CopyImage(System.Windows.Media.Imaging.BitmapSource image)
-    {
-        if (image != null) { try { Clipboard.SetImage(image); } catch { } }
-    }
+    public static bool CopyImage(System.Windows.Media.Imaging.BitmapSource image) =>
+        image != null && SetClipboardImageWithRetry(image);
 
-    public static void PasteImage(System.Windows.Media.Imaging.BitmapSource image, bool autoSend = false,
+    public static bool PasteImage(System.Windows.Media.Imaging.BitmapSource image, bool autoSend = false,
         bool restoreClipboard = false)
     {
-        if (image == null) return;
+        if (image == null) return false;
 
-        // Same courtesy the text path extends: don't destroy the user's copied text. Uses the
-        // shared capture so a text-expansion-then-image-expansion within the restore window still
-        // preserves the user's real clipboard (not the intervening text snippet).
-        string? original = restoreClipboard ? CaptureOriginal() : null;
+        // Same courtesy the text path extends: preserve the user's whole clipboard, not just text.
+        DataObject? original = restoreClipboard ? CaptureOriginal() : null;
 
-        try { Clipboard.SetImage(image); } catch { return; }
+        if (!SetClipboardImageWithRetry(image)) return false;
 
         var inputs = new[]
         {
@@ -193,7 +323,12 @@ public static class PasteEngine
             Key(VK_V, true),
             Key(VK_CONTROL, true),
         };
-        SendInput((uint)inputs.Length, inputs, System.Runtime.InteropServices.Marshal.SizeOf<INPUT>());
+        if (SendInput((uint)inputs.Length, inputs,
+                System.Runtime.InteropServices.Marshal.SizeOf<INPUT>()) != (uint)inputs.Length)
+        {
+            if (restoreClipboard && original != null) SetClipboardDataWithRetry(original);
+            return false;
+        }
 
         if (autoSend)
         {
@@ -213,6 +348,7 @@ public static class PasteEngine
             // screenshot the user copied in the meantime, or revert a rapid second image send.
             // Images are bigger and slower to read than text, so the window is no shorter.
             ScheduleRestore(original, null, RestoreDelayMs(0));
+        return true;
     }
 
     private static bool SetClipboardTextWithRetry(string text)
@@ -225,9 +361,37 @@ public static class PasteEngine
         return false;
     }
 
+    private static bool SetClipboardImageWithRetry(System.Windows.Media.Imaging.BitmapSource image)
+    {
+        for (int attempt = 0; attempt < 5; attempt++)
+        {
+            try { Clipboard.SetImage(image); return true; }
+            catch { System.Threading.Thread.Sleep(30); }
+        }
+        return false;
+    }
+
+    private static bool SetClipboardDataWithRetry(IDataObject data)
+    {
+        for (int attempt = 0; attempt < 5; attempt++)
+        {
+            try { Clipboard.SetDataObject(data, true); return true; }
+            catch { System.Threading.Thread.Sleep(30); }
+        }
+        return false;
+    }
+
     private static INPUT Key(ushort vk, bool up) => new()
     {
         type = INPUT_KEYBOARD,
-        U = new InputUnion { ki = new KEYBDINPUT { wVk = vk, dwFlags = up ? KEYEVENTF_KEYUP : 0 } }
+        U = new InputUnion
+        {
+            ki = new KEYBDINPUT
+            {
+                wVk = vk,
+                dwFlags = up ? KEYEVENTF_KEYUP : 0,
+                dwExtraInfo = SelfInputMarker,
+            }
+        }
     };
 }

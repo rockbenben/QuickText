@@ -71,6 +71,41 @@ public class AppPathsTests
     }
 
     [Fact]
+    public void Updates_live_under_Data_in_portable_mode_and_LocalAppData_otherwise()
+    {
+        var exe = TempExeDir();
+        try
+        {
+            var local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            Assert.Equal(Path.Combine(local, "QuickText", "Updates"), AppPaths.UpdatesDirAt(exe));
+
+            Marker(exe);
+            Assert.Equal(Path.Combine(exe, AppPaths.PortableDataDirName, "Updates"),
+                         AppPaths.UpdatesDirAt(exe));
+        }
+        finally { Directory.Delete(exe, recursive: true); }
+    }
+
+    [Fact]
+    public void Ambient_updates_dir_uses_the_pinned_mode_not_a_mid_session_marker()
+    {
+        var exe = TempExeDir();
+        try
+        {
+            var local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            AppPaths.SetExeDir(exe);
+            AppPaths.PinPortableState();             // session starts installed
+            Marker(exe);                              // toggle happens mid-session
+            Assert.Equal(Path.Combine(local, "QuickText", "Updates"), AppPaths.UpdatesDir);
+        }
+        finally
+        {
+            AppPaths.SetExeDir(AppContext.BaseDirectory);
+            Directory.Delete(exe, recursive: true);
+        }
+    }
+
+    [Fact]
     public void SetExeDir_ignores_blank_input()
     {
         var before = AppPaths.ExeDir;

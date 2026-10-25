@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>Portabler Modus umgeschaltet – Neustart zum Übernehmen. Textbibliothek per Backup exportieren / importieren verschieben.</value></data>
   <data name="Settings.PortableFailed"><value>Schreiben neben der App nicht möglich (evtl. an einem schreibgeschützten Ort wie Program Files). Der portable Modus erfordert die App an einem schreibbaren Ort, etwa auf einem USB-Stick.</value></data>
   <data name="Settings.CheckUpdates"><value>Beim Start nach Updates suchen</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>Wenn aktiviert, verbindet sich die App beim Start einmal mit GitHub, um nach einer neueren Version zu suchen — das einzige Mal, dass sie online geht; alles andere bleibt offline.</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Wenn aktiviert, kontaktiert die App beim Start einmal GitHub, um eine neuere Version zu prüfen und lokal herunterzuladen. Das laufende Programm wird nicht ersetzt; dies ist der einzige Netzwerkzugriff der App.</value></data>
   <data name="Settings.CheckNow"><value>Jetzt suchen</value></data>
   <data name="Msg.UpToDate"><value>Sie verwenden die neueste Version.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Update-Suche fehlgeschlagen. Bitte später erneut versuchen.</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>Design</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Dunkel</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Hell</value></data>
+  <data name="Msg.TargetLost"><value>Das Zielfenster war nicht bereit. Der Inhalt wurde in die Zwischenablage kopiert; füge ihn manuell ein.</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>Einige Dateien im Datenordner konnten nicht gelesen werden; ein Teil der Bibliothek fehlt möglicherweise. Einzelheiten stehen in error.log.</value></data>
+  <data name="Manager.StaleNotice"><value>Die Bibliothek wurde in einem anderen Fenster oder außerhalb der App aktualisiert. Deine ungespeicherten Änderungen hier wurden noch nicht auf den Datenträger geschrieben. Das Speichern ist pausiert; lade die Version vom Datenträger neu oder schließe und öffne dieses Fenster erneut.</value></data>
+  <data name="Manager.Reload"><value>Neu laden</value></data>
 </root>

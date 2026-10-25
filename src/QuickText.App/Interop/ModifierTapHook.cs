@@ -14,24 +14,46 @@ public sealed class ModifierTapHook : IDisposable
     private readonly ModifierTapDetector _detector;
     private readonly Action _onTap;
     private readonly NativeMethods.HookProc _proc;   // kept alive to avoid GC of the delegate
+    private readonly NativeMethods.HookProc _mouseProc;
     private IntPtr _hook = IntPtr.Zero;
+    private IntPtr _mouseHook = IntPtr.Zero;
 
     public ModifierTapHook(uint targetVk, bool requireDouble, Action onTap)
     {
         _detector = new ModifierTapDetector(targetVk, requireDouble);
         _onTap = onTap;
         _proc = Callback;
+        _mouseProc = MouseCallback;
     }
 
     public void Install()
     {
         if (_hook == IntPtr.Zero)
             _hook = NativeMethods.SetWindowsHookEx(NativeMethods.WH_KEYBOARD_LL, _proc, IntPtr.Zero, 0);
+        // A modifier held across a click/drag/wheel is a mouse combo, not a lone tap.
+        if (_mouseHook == IntPtr.Zero)
+            _mouseHook = NativeMethods.SetWindowsHookEx(NativeMethods.WH_MOUSE_LL, _mouseProc, IntPtr.Zero, 0);
     }
 
     public void Dispose()
     {
         if (_hook != IntPtr.Zero) { NativeMethods.UnhookWindowsHookEx(_hook); _hook = IntPtr.Zero; }
+        if (_mouseHook != IntPtr.Zero) { NativeMethods.UnhookWindowsHookEx(_mouseHook); _mouseHook = IntPtr.Zero; }
+    }
+
+    private IntPtr MouseCallback(int nCode, IntPtr wParam, IntPtr lParam)
+    {
+        if (nCode >= 0)
+        {
+            int msg = wParam.ToInt32();
+            if (msg is NativeMethods.WM_LBUTTONDOWN or NativeMethods.WM_RBUTTONDOWN
+                or NativeMethods.WM_MBUTTONDOWN or NativeMethods.WM_XBUTTONDOWN
+                or NativeMethods.WM_MOUSEWHEEL or NativeMethods.WM_MOUSEHWHEEL)
+            {
+                try { _detector.CancelTap(); } catch { }
+            }
+        }
+        return NativeMethods.CallNextHookEx(_mouseHook, nCode, wParam, lParam);
     }
 
     private IntPtr Callback(int nCode, IntPtr wParam, IntPtr lParam)
@@ -48,6 +70,8 @@ public sealed class ModifierTapHook : IDisposable
                 try
                 {
                     var data = Marshal.PtrToStructure<NativeMethods.KBDLLHOOKSTRUCT>(lParam);
+                    if (data.dwExtraInfo == NativeMethods.SelfInputMarker)
+                        return NativeMethods.CallNextHookEx(_hook, nCode, wParam, lParam);
                     if (_detector.Feed(data.vkCode, down)) _onTap();
                 }
                 catch { }

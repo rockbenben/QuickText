@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>已切換便攜模式，重啟後生效。文字庫可用「匯出 / 匯入備份」搬到新位置。</value></data>
   <data name="Settings.PortableFailed"><value>無法寫入程式所在目錄（可能裝在 Program Files 等唯讀位置）。便攜模式需把程式放到可寫入位置，如 USB 隨身碟。</value></data>
   <data name="Settings.CheckUpdates"><value>啟動時檢查更新</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>開啟後僅在啟動時連線 GitHub 檢查新版本——這是本應用唯一的連線操作，其餘功能始終離線。</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>開啟後僅在啟動時連線 GitHub 檢查並下載新版本到本機，不會自動取代程式；這是本應用程式唯一的連線操作，其餘功能始終離線。</value></data>
   <data name="Settings.CheckNow"><value>立即檢查</value></data>
   <data name="Msg.UpToDate"><value>已是最新版本。</value></data>
   <data name="Msg.UpdateCheckFailed"><value>檢查更新失敗，請稍後再試。</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>主題</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>深色</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>淺色</value></data>
+  <data name="Msg.TargetLost"><value>目標視窗尚未就緒，內容已複製到剪貼簿，請手動貼上。</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>資料目錄中有檔案無法讀取，部分內容可能未顯示。詳情請見 error.log。</value></data>
+  <data name="Manager.StaleNotice"><value>資料庫已在其他視窗或外部更新，你在這裡的未儲存修改尚未寫入磁碟。儲存已暫停，請重新載入磁碟版本，或關閉視窗後重新開啟。</value></data>
+  <data name="Manager.Reload"><value>重新載入</value></data>
 </root>

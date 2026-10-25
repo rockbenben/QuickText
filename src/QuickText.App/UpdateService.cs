@@ -1,8 +1,8 @@
 using System.IO;
-using System.IO.Compression;
 using System.Net.Http;
 using System.Text.Json;
 using QuickText.Core;
+using QuickText.Core.Updates;
 
 namespace QuickText.App;
 
@@ -48,16 +48,19 @@ public static class UpdateService
     public const string ReleasePage = "https://github.com/rockbenben/QuickText/releases";
     private const string ChecksumsAsset = "SHA256SUMS.txt";
 
-    /// <summary>Where an unpacked update is put: %LOCALAPPDATA%\QuickText\Updates\&lt;version&gt;\.
-    /// Per-user and outside the program's own folder, so it survives the program being moved or
-    /// replaced, and findable without knowing where the exe was installed.</summary>
-    public static string UpdatesRoot => Path.Combine(
-        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "QuickText", "Updates");
+    /// <summary>Where an unpacked update is put: LocalAppData in installed mode, Data\Updates in
+    /// portable mode (so the portable "nothing left on the host" promise holds). The folder is
+    /// outside the program's own folder, so it survives the program being moved or replaced.</summary>
+    public static string UpdatesRoot => AppPaths.UpdatesDir;
 
     // The metadata and the checksum file are small; the zip is not. Two clients so a slow network
     // cannot turn the small calls into long waits, and so the big one is not cut off half-way.
     private static readonly HttpClient Api = new() { Timeout = TimeSpan.FromSeconds(15) };
     private static readonly HttpClient Downloads = new() { Timeout = TimeSpan.FromMinutes(10) };
+
+    // Two checks (startup + "Check now", or a double click) must not extract into the same folder
+    // at the same time. The second waits, then finds the completed first result.
+    private static readonly SemaphoreSlim Gate = new(1, 1);
 
     /// <summary>
     /// Check for a newer release and, if there is one, fetch it. Never throws: every failure comes
@@ -66,6 +69,23 @@ public static class UpdateService
     /// </summary>
     public static async Task<UpdateOutcome> RunAsync(string currentVersion, CancellationToken ct = default)
     {
+        try
+        {
+            await Gate.WaitAsync(ct).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException ex)
+        {
+            return new(UpdateStatus.Failed, null, null, null, ex.Message);
+        }
+        try
+        {
+            return await RunCoreAsync(currentVersion, ct).ConfigureAwait(false);
+        }
+        finally { Gate.Release(); }
+    }
+
+    private static async Task<UpdateOutcome> RunCoreAsync(string currentVersion, CancellationToken ct)
+    {
         string? releaseUrl = null;
         string tempDir = "";
         try
@@ -73,9 +93,9 @@ public static class UpdateService
             using var req = new HttpRequestMessage(HttpMethod.Get, ApiUrl);
             req.Headers.UserAgent.ParseAdd("QuickText-update-check");   // GitHub API rejects a missing UA
             req.Headers.Accept.ParseAdd("application/vnd.github+json");
-            using var resp = await Api.SendAsync(req, ct);
+            using var resp = await Api.SendAsync(req, ct).ConfigureAwait(false);
             resp.EnsureSuccessStatusCode();
-            using var doc = JsonDocument.Parse(await resp.Content.ReadAsStringAsync(ct));
+            using var doc = JsonDocument.Parse(await resp.Content.ReadAsStringAsync(ct).ConfigureAwait(false));
             var root = doc.RootElement;
 
             // A draft or a prerelease is not something to put in front of a user who is running a
@@ -103,30 +123,26 @@ public static class UpdateService
             string version = UpdateCheck.NormalizeVersion(tag);
             string destDir = Path.Combine(UpdatesRoot, version);
 
-            // Already fetched before: the folder is only ever written after the checksum matched,
-            // so the program in it is a verified one. Fetching it again would re-download tens of
-            // megabytes on every single start.
-            string? already = FindExecutable(destDir);
+            // Already fully installed: the completion marker is only written after extraction
+            // succeeded, so a partial folder from an interrupted run is not treated as ready.
+            // Fetching it again would re-download tens of megabytes on every single start.
+            string? already = UpdateInstaller.FindInstalledExecutable(destDir);
             if (already is not null)
                 return new(UpdateStatus.Ready, version, already, releaseUrl, null);
 
             tempDir = Path.Combine(Path.GetTempPath(), "QuickText-update-" + Guid.NewGuid().ToString("N"));
             Directory.CreateDirectory(tempDir);
             string zipPath = Path.Combine(tempDir, zipName);
-            await DownloadFileAsync(zipUrl, zipPath, ct);
+            await DownloadFileAsync(zipUrl, zipPath, ct).ConfigureAwait(false);
 
-            string sums = await ReadTextAsync(sumsUrl, ct);
+            string sums = await ReadTextAsync(sumsUrl, ct).ConfigureAwait(false);
             var checksums = UpdateCheck.ParseChecksums(sums);
             if (!checksums.TryGetValue(zipName, out var expected))
                 return new(UpdateStatus.Failed, version, null, releaseUrl, ChecksumsAsset + " does not list " + zipName);
             if (!UpdateCheck.MatchesChecksum(expected, UpdateCheck.ComputeSha256Hex(zipPath)))
                 return new(UpdateStatus.VerifyFailed, version, null, releaseUrl, "the download did not match " + expected);
 
-            Directory.CreateDirectory(destDir);
-            ZipFile.ExtractToDirectory(zipPath, destDir, overwriteFiles: true);
-            string? exe = FindExecutable(destDir);
-            if (exe is null)
-                return new(UpdateStatus.Failed, version, null, releaseUrl, "the downloaded archive holds no program");
+            string exe = UpdateInstaller.InstallFromZip(zipPath, destDir);
             return new(UpdateStatus.Ready, version, exe, releaseUrl, null);
         }
         catch (Exception ex)
@@ -159,24 +175,19 @@ public static class UpdateService
 
     private static async Task DownloadFileAsync(string url, string path, CancellationToken ct)
     {
-        using var resp = await Downloads.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct);
+        using var resp = await Downloads.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct)
+            .ConfigureAwait(false);
         resp.EnsureSuccessStatusCode();
-        await using var src = await resp.Content.ReadAsStreamAsync(ct);
+        await using var src = await resp.Content.ReadAsStreamAsync(ct).ConfigureAwait(false);
         await using var dst = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None);
-        await src.CopyToAsync(dst, ct);
+        await src.CopyToAsync(dst, ct).ConfigureAwait(false);
     }
 
     private static async Task<string> ReadTextAsync(string url, CancellationToken ct)
     {
-        using var resp = await Downloads.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct);
+        using var resp = await Downloads.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct)
+            .ConfigureAwait(false);
         resp.EnsureSuccessStatusCode();
-        return await resp.Content.ReadAsStringAsync(ct);
-    }
-
-    /// <summary>The program inside an unpacked update, or null when there is none.</summary>
-    private static string? FindExecutable(string dir)
-    {
-        if (!Directory.Exists(dir)) return null;
-        return Directory.EnumerateFiles(dir, "*.exe", SearchOption.AllDirectories).FirstOrDefault();
+        return await resp.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
     }
 }

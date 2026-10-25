@@ -648,10 +648,17 @@ public partial class SearchPanel : Window
     /// selection never re-priced the space).</summary>
     private bool _previewWanted;
 
-    private void UpdatePreview()
+    private int _previewImageGen;
+
+    private async void UpdatePreview()
     {
         // Whether the pane gets space at all is CapPreview/ApplyPreviewSpace's arithmetic; this
         // only decides whether the selection has anything to show.
+        int gen = ++_previewImageGen;
+        PreviewImage.Source = null;
+        PreviewImage.Visibility = Visibility.Collapsed;
+        PreviewText.Visibility = Visibility.Collapsed;
+
         if (ActiveList.SelectedItem is not SearchHit hit)
         {
             _previewWanted = false;
@@ -666,11 +673,19 @@ public partial class SearchPanel : Window
         var sn = hit.Snippet;
         if (sn.IsImage)
         {
-            PreviewImage.Source = LoadImage(sn.ImagePath);
-            PreviewImage.Visibility = Visibility.Visible;
-            PreviewText.Visibility = Visibility.Collapsed;
+            // Decode off the UI thread; a OneDrive placeholder can take seconds to materialize.
             PreviewSummary.Text = System.IO.Path.GetFileNameWithoutExtension(sn.ImagePath);
-            _previewWanted = PreviewImage.Source != null;
+            PreviewSummary.FlowDirection = FlowDirection.LeftToRight;
+            _previewWanted = false;
+            CapPreview();
+            var image = await ImageLoader.LoadAsync(sn.ImagePath);
+            if (gen != _previewImageGen || !ReferenceEquals(_previewHit?.Snippet, sn)) return;
+            if (image != null)
+            {
+                PreviewImage.Source = image;
+                PreviewImage.Visibility = Visibility.Visible;
+                _previewWanted = true;
+            }
         }
         else if (!string.IsNullOrEmpty(sn.Body) && PreviewAddsAnything(sn.Body))
         {
@@ -682,7 +697,6 @@ public partial class SearchPanel : Window
             PreviewText.FlowDirection = Core.BidiText.IsRightToLeft(sn.Body)
                 ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
             PreviewText.Visibility = Visibility.Visible;
-            PreviewImage.Visibility = Visibility.Collapsed;
             int nl = sn.Body.IndexOfAny(new[] { '\r', '\n' });
             PreviewSummary.Text = (nl < 0 ? sn.Body : sn.Body[..nl]).Trim();
             PreviewSummary.FlowDirection = PreviewText.FlowDirection;
@@ -693,23 +707,6 @@ public partial class SearchPanel : Window
             _previewWanted = false;
         }
         CapPreview();
-    }
-
-    private static ImageSource? LoadImage(string rel)
-    {
-        try
-        {
-            var abs = AppState.Current.ResolveImagePath(rel);
-            if (!System.IO.File.Exists(abs)) return null;
-            var bi = new BitmapImage();
-            bi.BeginInit();
-            bi.CacheOption = BitmapCacheOption.OnLoad;
-            bi.UriSource = new System.Uri(abs);
-            bi.EndInit();
-            bi.Freeze();
-            return bi;
-        }
-        catch { return null; }
     }
 
     private void PopulateBrowseList()
@@ -949,13 +946,15 @@ public partial class SearchPanel : Window
             lb.SelectedItem = item.DataContext;
     }
 
-    private void OnCtxCopy(object sender, RoutedEventArgs e)
+    private async void OnCtxCopy(object sender, RoutedEventArgs e)
     {
         if (ActiveList.SelectedItem is not SearchHit hit) return;
         var sn = hit.Snippet;
         if (sn.IsImage)
         {
-            if (LoadImage(sn.ImagePath) is BitmapSource b) PasteEngine.CopyImage(b);
+            var b = await ImageLoader.LoadAsync(sn.ImagePath);
+            if (b == null) return;
+            PasteEngine.CopyImage(b);
         }
         else
         {
@@ -989,87 +988,108 @@ public partial class SearchPanel : Window
         list.ScrollIntoView(list.SelectedItem);
     }
 
-    private void Output()
+    private bool _sending;
+
+    private async void Output()
     {
+        if (_sending) return;
         if (ActiveList.SelectedItem is not SearchHit hit) return;
         var sn = hit.Snippet;
-
-        if (!_pinned) Hide();
-
-        string? text = null;
-        int caret = 0;
-        bool hasCursor = false;
-        BitmapSource? image = null;
-        if (sn.IsImage)
+        _sending = true;
+        try
         {
-            image = LoadImage(sn.ImagePath) as BitmapSource;
-        }
-        else
-        {
-            var resolved = BodyResolver.Resolve(sn.Body, sn.UseVariables);
-            if (resolved == null) return;   // user cancelled — send nothing
-            text = resolved.Text;
-            caret = resolved.CaretFromEnd;
-            hasCursor = resolved.HasCursor;
-        }
+            string? text = null;
+            int caret = 0;
+            bool hasCursor = false;
+            BitmapSource? image = null;
+            if (sn.IsImage)
+            {
+                image = await ImageLoader.LoadAsync(sn.ImagePath);
+                if (image == null) return;   // missing/unreadable: leave the panel up
+                // A slow decode (OneDrive placeholder) can outlive the panel: if the user
+                // dismissed it or switched apps, do not steal focus back and paste.
+                if (!IsVisible && !_pinned) return;
+                if (!_pinned) Hide();
+            }
+            else
+            {
+                if (!_pinned) Hide();   // hide before a modal variable prompt would sit behind Topmost
+                var resolved = BodyResolver.Resolve(sn.Body, sn.UseVariables);
+                if (resolved == null)
+                {
+                    // Cancelling the prompt must return the user to the results they were
+                    // looking at, not leave them in the target app with the panel gone.
+                    if (!_pinned)
+                    {
+                        Show();
+                        App.BringToFront(this);
+                    }
+                    Query.Focus();
+                    return;
+                }
+                text = resolved.Text;
+                caret = resolved.CaretFromEnd;
+                hasCursor = resolved.HasCursor;
+            }
 
-        AppState.Current.RecordUse(sn.Id);
-        var settings = AppState.Current.Settings;
-        var pinned = _pinned;
+            AppState.Current.RecordUse(sn.Id);
+            var settings = AppState.Current.Settings;
+            var pinned = _pinned;
 
-        // Per-snippet output override beats the global settings ("" = follow global). No paste target
-        // (the panel was opened BY launching the app, so the "previous window" is just whatever the
-        // user double-clicked from — typically an Explorer window) degrades to copy: pasting there
-        // types into the file list or, worse, into an open rename box.
-        var mode = sn.OutputMode ?? "";
-        bool copyOnly = mode == "copy" || (mode.Length == 0 && settings.CopyToClipboardOnly)
-                        || _target == IntPtr.Zero;
+            // Per-snippet output override beats the global settings ("" = follow global). No paste target
+            // (the panel was opened BY launching the app, so the "previous window" is just whatever the
+            // user double-clicked from — typically an Explorer window) degrades to copy: pasting there
+            // types into the file list or, worse, into an open rename box.
+            var mode = sn.OutputMode ?? "";
+            bool noTarget = _target == IntPtr.Zero;
+            bool copyOnly = mode == "copy" || (mode.Length == 0 && settings.CopyToClipboardOnly)
+                            || noTarget;
+            // Only the implicit no-target fallback is surprising: the footer says "send", but
+            // there is nowhere to paste. Explicit copy mode/global copy need no explanation.
+            bool explainCopy = noTarget && mode != "copy"
+                               && !(mode.Length == 0 && settings.CopyToClipboardOnly);
 
-        if (copyOnly)
-        {
-            // Just put it on the clipboard; the user pastes it themselves.
-            Dispatcher.BeginInvoke(new Action(() =>
+            if (copyOnly)
+            {
+                // Just put it on the clipboard; the user pastes it themselves.
+                _ = Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    bool copied = image != null
+                        ? PasteEngine.CopyImage(image)
+                        : text != null && PasteEngine.CopyText(text);
+                    if (explainCopy && copied)
+                        (Application.Current as App)?.Notify(
+                            LocalizationService.Instance["Msg.TargetLost"], warning: true);
+                    if (pinned) ReactivatePinned();
+                }), DispatcherPriority.Background);
+                return;
+            }
+
+            NativeMethods.ForceForeground(_target);   // robust handoff — the panel just Hid and may have lost foreground
+            var restore = settings.RestoreClipboard;
+            // A {光标} token means "keep typing here" — never auto-Enter, even when the marker is
+            // trailing (caret 0). PasteEngine can't tell that case apart, so decide it here.
+            var autoSend = mode switch { "paste-enter" => true, "paste" => false, _ => settings.AutoSend }
+                           && !hasCursor;
+
+            void CopyInstead()
             {
                 if (image != null) PasteEngine.CopyImage(image);
                 else if (text != null) PasteEngine.CopyText(text);
+                (Application.Current as App)?.Notify(LocalizationService.Instance["Msg.TargetLost"], warning: true);
                 if (pinned) ReactivatePinned();
-            }), DispatcherPriority.Background);
-            return;
-        }
+            }
 
-        NativeMethods.ForceForeground(_target);   // robust handoff — the panel just Hid and may have lost foreground
-        var restore = settings.RestoreClipboard;
-        // A {光标} token means "keep typing here" — never auto-Enter, even when the marker is
-        // trailing (caret 0). PasteEngine can't tell that case apart, so decide it here.
-        var autoSend = mode switch { "paste-enter" => true, "paste" => false, _ => settings.AutoSend }
-                       && !hasCursor;
-        WhenTargetIsForeground(() =>
-        {
-            if (image != null) PasteEngine.PasteImage(image, autoSend, restoreClipboard: restore);
-            else if (text != null) PasteEngine.Paste(text, restore, autoSend, caret);
-            if (pinned) ReactivatePinned();
-        });
-    }
-
-    /// <summary>
-    /// Run <paramref name="paste"/> once the target window actually holds the foreground.
-    /// SetForegroundWindow only *requests* the handoff — activation is cross-process and lands
-    /// asynchronously, so a Ctrl+V sent into that gap sits in the target's message queue and is
-    /// consumed at an unpredictable time. That is what lets the clipboard restore beat the paste
-    /// (the panel pastes, the app reads late, and by then the user's clipboard is back). The
-    /// abbreviation path never sees this: there the target is already active.
-    /// </summary>
-    private void WhenTargetIsForeground(Action paste, int triesLeft = 12)
-    {
-        // ponytail: polling beats a EVENT_SYSTEM_FOREGROUND hook here — no unhook bookkeeping, and
-        // the budget is bounded (12 × 20ms). Raise it if a heavy app still misses the window.
-        if (triesLeft == 0 || NativeMethods.GetForegroundWindow() == _target)
-        {
-            Dispatcher.BeginInvoke(paste, DispatcherPriority.Background);
-            return;
+            ForegroundTarget.WhenForeground(_target, () =>
+            {
+                bool pasted = image != null
+                    ? PasteEngine.PasteImage(image, autoSend, restoreClipboard: restore)
+                    : text != null && PasteEngine.Paste(text, restore, autoSend, caret);
+                if (!pasted) { CopyInstead(); return; }
+                if (pinned) ReactivatePinned();
+            }, CopyInstead);
         }
-        System.Threading.Tasks.Task.Delay(20).ContinueWith(_ =>
-            Dispatcher.Invoke(() => WhenTargetIsForeground(paste, triesLeft - 1)));
+        finally { _sending = false; }
     }
 
     private void ReactivatePinned() =>

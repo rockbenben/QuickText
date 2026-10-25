@@ -13,23 +13,22 @@ public partial class AppDialog : Window
         WindowTheming.UseDarkChrome(this);
         WindowTheming.CapHeightToMonitor(this);   // SizeToContent=Height + NoResize: bound it or the OK button leaves the screen
         WindowTheming.ApplyFlowDirection(this);
-        // Esc always means cancel — never set DialogResult here, so ShowDialog() returns null
-        // exactly as it does when the window is closed via its native close button (X). Both
-        // Prompt and Confirm already treat null the same as their explicit Cancel-button result
-        // (both check "== true"), so this is a no-op for them and is what lets the three-way
-        // ConfirmSaveDiscard tell "cancel" (null) apart from "discard" (false).
+        // Esc means cancel. Do not rely on ShowDialog() returning null for a plain Close():
+        // WPF returns false there, which made every three-way prompt read Cancel as Discard.
+        // _choice is the explicit contract; it stays null for Esc, Cancel and the window's X.
         PreviewKeyDown += (_, e) =>
         {
             if (e.Key == Key.Escape) { e.Handled = true; Close(); }
         };
     }
 
-    private void OnOk(object sender, RoutedEventArgs e) => DialogResult = true;
+    private bool? _choice;
 
-    // Leaves DialogResult unset (null) rather than false — see the Esc comment above.
+    private void OnOk(object sender, RoutedEventArgs e) { _choice = true; DialogResult = true; }
+
     private void OnCancel(object sender, RoutedEventArgs e) => Close();
 
-    private void OnDiscard(object sender, RoutedEventArgs e) => DialogResult = false;
+    private void OnDiscard(object sender, RoutedEventArgs e) { _choice = false; DialogResult = false; }
 
     private static string L(string key) => LocalizationService.Instance[key];
 
@@ -82,8 +81,9 @@ public partial class AppDialog : Window
 
     /// <summary>Three-way question (e.g. Save / Don't save / Cancel). Returns true if
     /// <paramref name="saveText"/> was chosen, false for <paramref name="discardText"/>, or null
-    /// if the user cancelled (Esc or the window's close button) — cancel must never be treated
-    /// as a silent discard by the caller.
+    /// if the user cancelled (Esc, Cancel or the window's close button) — cancel must never be
+    /// treated as a silent discard by the caller. The result comes from the dialog's explicit
+    /// choice, not ShowDialog(): a plain Close() reports false, indistinguishable from Discard.
     /// <para>Discard carries DANGER styling for the same reason <see cref="Confirm"/>'s OK does:
     /// it is the button that throws the user's unsaved edits away. Left in the default grey it was
     /// pixel-identical to Cancel right beside it — two buttons that look the same and do opposite
@@ -100,7 +100,8 @@ public partial class AppDialog : Window
         d.DiscardButton.Content = discardText;
         d.DiscardButton.Visibility = Visibility.Visible;
         d.CancelButton.Content = cancelText;
-        return d.ShowDialog();
+        d.ShowDialog();
+        return d._choice;
     }
 
     /// <summary>Single-button message.</summary>

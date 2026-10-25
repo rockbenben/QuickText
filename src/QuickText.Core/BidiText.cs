@@ -25,8 +25,9 @@ public static class BidiText
     {
         foreach (var c in text ?? "")
         {
-            if (IsStrongRtl(c)) return true;
-            if (char.IsLetter(c)) return false;   // any other letter is a strong LTR character
+            // Only LETTERS are strong: Arabic-Indic digits and Arabic punctuation sit inside the
+            // RTL blocks but are weak by category, exactly like ASCII digits in "365 README".
+            if (char.IsLetter(c)) return IsStrongRtl(c);
         }
         return false;   // no strong character at all (digits/punctuation only) — treat as LTR
     }

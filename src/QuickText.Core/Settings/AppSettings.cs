@@ -54,9 +54,9 @@ public sealed class AppSettings
     public double BodyWinY { get; set; }
     public double BodyWinW { get; set; }
     public double BodyWinH { get; set; }
-    // Opt-in, OFF by default: when true the app makes ONE network request to the GitHub Releases API
-    // at startup to see if a newer version exists (everything else stays fully offline). Off keeps the
-    // "no network" promise intact.
+    // Opt-in, OFF by default: when true the app contacts the GitHub Releases API at startup, and if
+    // a newer version exists downloads its zip and checksums (everything else stays fully offline).
+    // It never replaces the running program. Off keeps the "no network" promise intact.
     public bool CheckUpdates { get; set; }
 
     // Where the summon panel appears: "window" (active window's monitor, default),

@@ -7,13 +7,18 @@ public sealed record AbbrMatch(int BackspaceCount, string Abbr, Snippet Snippet)
 
 public sealed class AbbrMatcher
 {
-    private readonly int _maxBuffer;
+    private readonly int _minBuffer;
+    private int _maxBuffer;
     private readonly StringBuilder _buffer = new();
     // Case-insensitive: ";QM" typed with CapsLock on must still trigger the "qm" snippet.
     private Dictionary<string, Snippet> _abbrs = new(StringComparer.OrdinalIgnoreCase);
     private int _maxAbbrLen;
 
-    public AbbrMatcher(int maxBuffer = 32) => _maxBuffer = maxBuffer;
+    public AbbrMatcher(int maxBuffer = 32)
+    {
+        _minBuffer = maxBuffer;
+        _maxBuffer = maxBuffer;
+    }
 
     /// <summary>
     /// Rebuild the trigger table. <paramref name="prefix"/> is prepended to every stored
@@ -28,6 +33,9 @@ public sealed class AbbrMatcher
             if (!string.IsNullOrEmpty(s.Abbr))
                 _abbrs[prefix + s.Abbr] = s;
         _maxAbbrLen = _abbrs.Keys.Count == 0 ? 0 : _abbrs.Keys.Max(k => k.Length);
+        // The Manager field is free text, so a trigger may be longer than the old fixed 32-char
+        // window. Keep one extra char so the word-boundary check can still see what preceded it.
+        _maxBuffer = _maxAbbrLen == 0 ? _minBuffer : Math.Max(_minBuffer, _maxAbbrLen + 1);
         _buffer.Clear();
     }
 

@@ -58,6 +58,9 @@ public partial class TrashDialog : Window
         bool empty = _trash.Count == 0;
         EmptyText.Visibility = empty ? Visibility.Visible : Visibility.Collapsed;
         RestoreButton.IsEnabled = DeleteButton.IsEnabled = EmptyButton.IsEnabled = !empty;
+        // Restore/Delete act on SelectedEntries. Without a default selection the first row is
+        // not selected, so those enabled buttons silently did nothing until the row was clicked.
+        if (!empty) Items.SelectedIndex = 0;
     }
 
     private static List<Row> RowsOf(List<TrashEntry> entries) => entries
@@ -92,6 +95,8 @@ public partial class TrashDialog : Window
         Items.ItemsSource = RowsOf(_trash);
         EmptyText.Visibility = Visibility.Collapsed;
         RestoreButton.IsEnabled = DeleteButton.IsEnabled = EmptyButton.IsEnabled = true;
+        // Mirror Reload(): the real dialog selects the first row, so the primary action is
+        // immediately usable. The fixture must render the same state.
         Items.SelectedIndex = 0;
     }
 
@@ -127,7 +132,9 @@ public partial class TrashDialog : Window
         _trash.RemoveAll(selected.Contains);
         state.MarkSelfWrite();
         state.Store.SaveTrash(_trash);
-        state.ReloadData();
+        // The owning Manager is modal/disabled and reloads when this dialog closes; notifying it
+        // here would make it refresh (or prompt about a conflict) behind an open modal.
+        state.ReloadData(notify: false);
         Reload();
     }
 
@@ -149,11 +156,13 @@ public partial class TrashDialog : Window
     private void PurgeEntries(List<TrashEntry> entries)
     {
         var state = AppState.Current;
+        var remaining = _trash.Where(t => !entries.Contains(t)).ToList();
+        state.MarkSelfWrite();
+        // Trash metadata first: if this write fails, nothing has been deleted yet.
+        state.Store.SaveTrash(remaining);
+        _trash = remaining;
         foreach (var t in entries)
             if (t.Snippet.IsImage) state.Store.DeleteImage(t.Snippet.ImagePath);
-        _trash.RemoveAll(entries.Contains);
-        state.MarkSelfWrite();
-        state.Store.SaveTrash(_trash);
         Reload();
     }
 

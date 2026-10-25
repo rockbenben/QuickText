@@ -42,7 +42,8 @@
         <!-- WrapPanel for the same reason as AppDialog: 420 DIP minus margins leaves 372 for two
              buttons whose labels grow in translation. -->
         <WrapPanel Grid.Row="2" HorizontalAlignment="Right" Margin="0,6,0,-8">
-            <Button x:Name="CancelButton" Style="{StaticResource DarkButton}" MinWidth="84" Padding="16,7" Margin="0,0,10,8" Click="OnCancel"/>
+            <Button x:Name="CancelButton" Style="{StaticResource DarkButton}" MinWidth="84" Padding="16,7" Margin="0,0,10,8"
+                    IsCancel="True" Click="OnCancel"/>
             <Button x:Name="OkButton" Style="{StaticResource DarkButtonPrimary}" MinWidth="84" Padding="16,7" Margin="0,0,0,8" Click="OnOk" IsDefault="True"/>
         </WrapPanel>
     </Grid>

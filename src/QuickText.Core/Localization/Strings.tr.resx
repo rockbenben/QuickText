@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>Taşınabilir mod değiştirildi — uygulamak için yeniden başlatın. Metin kitaplığınızı Yedeği dışa/içe aktar ile taşıyın.</value></data>
   <data name="Settings.PortableFailed"><value>Uygulamanın yanına yazılamıyor (Program Files gibi salt okunur bir konumda olabilir). Taşınabilir mod, uygulamanın USB bellek gibi yazılabilir bir yerde olmasını gerektirir.</value></data>
   <data name="Settings.CheckUpdates"><value>Başlangıçta güncellemeleri denetle</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>Açıkken, başlangıçta bir kez GitHub'a bağlanarak yeni sürüm olup olmadığını denetler — uygulamanın çevrimiçi olduğu tek an budur; gerisi hep çevrimdışı çalışır.</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Açıldığında uygulama, başlangıçta bir kez GitHub'a bağlanarak daha yeni bir sürümü denetler ve yerel diske indirir. Çalışan programın yerini almaz; bu, uygulamanın tek ağ işlemidir.</value></data>
   <data name="Settings.CheckNow"><value>Şimdi denetle</value></data>
   <data name="Msg.UpToDate"><value>En son sürümü kullanıyorsunuz.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Güncellemeler denetlenemedi. Daha sonra tekrar deneyin.</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>Tema</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Koyu</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Açık</value></data>
+  <data name="Msg.TargetLost"><value>Hedef pencere hazır değildi. İçerik panoya kopyalandı; elle yapıştırın.</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>Veri klasöründeki bazı dosyalar okunamadı; kitaplığın bir kısmı eksik olabilir. Ayrıntılar için error.log dosyasına bakın.</value></data>
+  <data name="Manager.StaleNotice"><value>Kitaplık başka bir pencerede veya uygulamanın dışında güncellendi. Buradaki kaydedilmemiş değişiklikleriniz henüz diske yazılmadı. Kaydetme duraklatıldı; diskteki sürümü yeniden yükleyin veya bu pencereyi kapatıp yeniden açın.</value></data>
+  <data name="Manager.Reload"><value>Yeniden yükle</value></data>
 </root>

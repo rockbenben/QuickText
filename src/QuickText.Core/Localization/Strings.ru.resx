@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>Переносной режим переключён — перезапустите для применения. Перенесите библиотеку через Экспорт / Импорт копии.</value></data>
   <data name="Settings.PortableFailed"><value>Не удаётся записать рядом с приложением (возможно, оно в папке только для чтения, например Program Files). Переносному режиму нужно, чтобы приложение было в папке с правом записи, например на USB-накопителе.</value></data>
   <data name="Settings.CheckUpdates"><value>Проверять обновления при запуске</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>Если включено, при запуске один раз подключается к GitHub для проверки новой версии — это единственный выход приложения в интернет; всё остальное работает офлайн.</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Если включено, при запуске приложение один раз обращается к GitHub, чтобы проверить и загрузить новую версию на локальный диск. Работающая программа не заменяется; это единственное сетевое действие приложения.</value></data>
   <data name="Settings.CheckNow"><value>Проверить сейчас</value></data>
   <data name="Msg.UpToDate"><value>У вас последняя версия.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Не удалось проверить обновления. Повторите попытку позже.</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>Тема</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Тёмная</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Светлая</value></data>
+  <data name="Msg.TargetLost"><value>Целевое окно не было готово. Содержимое скопировано в буфер обмена; вставьте его вручную.</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>Не удалось прочитать некоторые файлы в папке данных; часть библиотеки может отсутствовать. Подробности см. в error.log.</value></data>
+  <data name="Manager.StaleNotice"><value>Библиотека была обновлена в другом окне или вне приложения. Несохранённые изменения здесь ещё не записаны на диск. Сохранение приостановлено; загрузите версию с диска заново или закройте и снова откройте это окно.</value></data>
+  <data name="Manager.Reload"><value>Загрузить заново</value></data>
 </root>

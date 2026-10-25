@@ -1,4 +1,5 @@
 using System;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -34,6 +35,26 @@ public partial class SettingsWindow : Window
     // Picker items: follow-system (localized) first, then the languages by native name.
     private static LangItem[] LanguageChoices() =>
         Languages.Prepend(new LangItem("", LocalizationService.Instance["Settings.FollowSystem"])).ToArray();
+
+    private bool _saving;
+    private bool _closeApproved;
+    private bool _closePromptOpen;
+    private FormState? _savedForm;
+
+    private sealed record FormState(
+        string Hotkey, string CaptureHotkey, string SummonMode, string SummonTapKey,
+        bool TapDouble, string DataFolder, string Language, string AbbrBlacklist, string AbbrPrefix,
+        bool AbbrEnabled, bool RestoreClipboard, bool AutoSend, bool ClickToSend, bool ClipboardOnly,
+        string Placement, string Theme, bool Autostart, bool CheckUpdates);
+
+    private FormState CurrentForm() => new(
+        _hotkey.Trim(), _captureHotkey.Trim(), _summonMode, _summonTapKey,
+        SummonTapDouble.IsChecked == true, DataFolder.Text.Trim(), (LangCombo.SelectedValue as string) ?? "",
+        AbbrBlacklist.Text.Trim(), AbbrPrefixBox.Text.Trim(), AbbrEnabled.IsChecked == true,
+        RestoreClipboard.IsChecked == true, AutoSend.IsChecked == true, ClickToSend.IsChecked == true,
+        _clipboardOnly, _placement, _theme, Autostart.IsChecked == true, CheckUpdates.IsChecked == true);
+
+    private static string L(string key) => LocalizationService.Instance[key];
 
     private string _hotkey = "";
     private string _captureHotkey = "";
@@ -101,6 +122,39 @@ public partial class SettingsWindow : Window
         // window constructed-but-never-shown (no OnSourceInitialized) can neither strand the
         // count nor spuriously decrement it.
         Closed += (_, _) => { if (_suspended) (Application.Current as App)?.ResumeSummonTriggers(); };
+        Closing += OnClosing;
+        _savedForm = CurrentForm();
+    }
+
+    /// <summary>A settings change is not applied until Save (except the live theme preview), so a
+    /// bare X must not silently discard it. Keep the Manager's Save/Don't-save/Cancel choice;
+    /// discarding also reverts the preview so the UI matches the persisted theme.</summary>
+    private void OnClosing(object? sender, CancelEventArgs e)
+    {
+        if (App.InSmoke || _saving || _closeApproved || _savedForm == null) return;
+        if (CurrentForm() == _savedForm) return;
+
+        // Always abort this close and ask afterwards. Prompting (or starting the async save)
+        // inside Closing leaves the window in its closing state: a Cancel cannot be undone
+        // cleanly and a save that calls Close() later throws "window is closing".
+        e.Cancel = true;
+        if (_closePromptOpen) return;
+        _closePromptOpen = true;
+        Dispatcher.BeginInvoke(new Action(AskToClose));
+    }
+
+    private void AskToClose()
+    {
+        _closePromptOpen = false;
+        if (!IsVisible) return;
+
+        bool? choice = AppDialog.ConfirmSaveDiscard(this, L("App.Name"), L("Manager.UnsavedConfirm"),
+            L("Manager.Save"), L("Manager.DontSave"), L("Dialog.Cancel"));
+        if (choice == null) return;
+        if (choice == true) { OnSave(this, new RoutedEventArgs()); return; }
+        ThemeService.Apply(AppState.Current.Settings.Theme);   // discard the live preview
+        _closeApproved = true;
+        Close();
     }
 
     private bool _suspended;   // this window incremented the summon-trigger ref-count
@@ -384,10 +438,16 @@ public partial class SettingsWindow : Window
     }
 
     // Check GitHub for a newer release right now (explicit user action, so it runs regardless of the
-    // saved opt-in flag). The App shows the result as a tray balloon: newer → click to download,
-    // otherwise "up to date" / "check failed".
-    private void OnCheckUpdatesNow(object sender, RoutedEventArgs e)
-        => (Application.Current as App)?.CheckForUpdatesAsync(manual: true);
+    // saved opt-in flag). The App shows the result as a tray balloon and downloads a newer build.
+    private async void OnCheckUpdatesNow(object sender, RoutedEventArgs e)
+    {
+        CheckNowButton.IsEnabled = false;
+        try
+        {
+            if (Application.Current is App app) await app.CheckForUpdatesAsync(manual: true);
+        }
+        finally { CheckNowButton.IsEnabled = true; }
+    }
 
     private void OnOpenRepo(object sender, RoutedEventArgs e)
     {
@@ -442,18 +502,21 @@ public partial class SettingsWindow : Window
         }
     }
 
-    private void OnImportBackup(object sender, RoutedEventArgs e)
-    {
-        var loc = LocalizationService.Instance;
-        var dlg = new Microsoft.Win32.OpenFileDialog { Filter = "Zip (*.zip)|*.zip" };
-        if (dlg.ShowDialog() != true) return;
+    private bool _importing;
 
+    private async void OnImportBackup(object sender, RoutedEventArgs e)
+    {
+        if (_importing) return;
+        _importing = true;
+        var loc = LocalizationService.Instance;
         // Extract to a temp dir first so a bad zip never touches the live library.
         var tmp = System.IO.Path.Combine(System.IO.Path.GetTempPath(),
             "QuickText-import-" + Guid.NewGuid().ToString("N"));
         try
         {
-            System.IO.Compression.ZipFile.ExtractToDirectory(dlg.FileName, tmp);
+            var dlg = new Microsoft.Win32.OpenFileDialog { Filter = "Zip (*.zip)|*.zip" };
+            if (dlg.ShowDialog() != true) return;
+            await Task.Run(() => System.IO.Compression.ZipFile.ExtractToDirectory(dlg.FileName, tmp));
 
             // A QuickText backup is the data folder zipped: index.json must exist and parse.
             var idxPath = System.IO.Path.Combine(tmp, "index.json");
@@ -470,83 +533,104 @@ public partial class SettingsWindow : Window
             if (!AppDialog.Confirm(this, loc["App.Name"], loc["Msg.ImportConfirm"],
                     loc["Settings.ImportBackup"])) return;
 
+            // An open Manager holds a whole-category model; importing behind its back would let its
+            // next save overwrite the imported files. Close it first (its own prompt may cancel).
+            var manager = Application.Current.Windows.OfType<ManagerWindow>().FirstOrDefault();
+            if (manager != null)
+            {
+                manager.Close();
+                if (manager.IsVisible) return;   // user kept it open (unsaved-changes prompt)
+            }
+
             var dest = AppState.Current.ResolveDataFolder();
-            AppState.Current.MarkSelfWrite();
-            CopyTree(tmp, dest);
+            AppState.Current.MarkSelfWrite(60_000);
+            await Task.Run(() => QuickText.Core.Persistence.FileTreeCopy.CopyWithRollback(tmp, dest));
             AppState.Current.MarkSelfWrite();   // extend suppression past the last copied file
-            AppState.Current.ReloadData();
+            await AppState.Current.ReloadDataAsync();
             AppDialog.Alert(this, loc["App.Name"], loc["Msg.Imported"]);
         }
         catch (Exception ex)
         {
+            AppState.Current.MarkSelfWrite(0);   // let a failed import's restore be seen by the watcher
             AppDialog.Alert(this, loc["App.Name"], ex.Message);
         }
         finally
         {
+            _importing = false;
             try { System.IO.Directory.Delete(tmp, recursive: true); } catch { }
         }
     }
 
-    private static void CopyTree(string from, string to)
+    private async void OnSave(object sender, RoutedEventArgs e)
     {
-        System.IO.Directory.CreateDirectory(to);
-        foreach (var file in System.IO.Directory.GetFiles(from))
-            System.IO.File.Copy(file, System.IO.Path.Combine(to, System.IO.Path.GetFileName(file)), overwrite: true);
-        foreach (var dir in System.IO.Directory.GetDirectories(from))
-            CopyTree(dir, System.IO.Path.Combine(to, System.IO.Path.GetFileName(dir)));
-    }
-
-    private void OnSave(object sender, RoutedEventArgs e)
-    {
-        var s = AppState.Current.Settings;
-        // "tap" mode needs a VALID modifier to work; if the captured key isn't one recognized
-        // (empty, an old-build name, a hand-edited value), save as "hotkey" so the mode shown next
-        // time matches the trigger that actually fires. Same predicate the runtime arming uses, so
-        // display and trigger can't disagree.
-        s.SummonMode = Core.Interop.ModifierTapKeys.IsValidTap(_summonMode, _summonTapKey) ? "tap" : "hotkey";
-        s.Hotkey = _hotkey.Trim();
-        s.CaptureHotkey = _captureHotkey.Trim();
-        s.SummonTapKey = _summonTapKey;
-        s.SummonTapDouble = SummonTapDouble.IsChecked == true;
-        s.DataFolder = DataFolder.Text.Trim();
-        s.Language = (LangCombo.SelectedValue as string) ?? "";
-        s.AbbrBlacklist = AbbrBlacklist.Text.Trim();
-        s.AbbrPrefix = AbbrPrefixBox.Text.Trim();
-        s.AbbrEnabled = AbbrEnabled.IsChecked == true;
-        s.RestoreClipboard = RestoreClipboard.IsChecked == true;
-        s.AutoSend = AutoSend.IsChecked == true;
-        s.ClickToSend = ClickToSend.IsChecked == true;
-        s.CopyToClipboardOnly = _clipboardOnly;
-        s.PanelPlacement = _placement;
-        s.Theme = _theme;
-        s.Autostart = Autostart.IsChecked == true;
-        s.CheckUpdates = CheckUpdates.IsChecked == true;
-
-        AppState.Current.SettingsStore.Save(s);
-
-        // Guard: only apply a known culture (SetCulture throws on bad input).
-        if (KnownLanguages.Contains(s.Language))
-        {
-            try { LocalizationService.Instance.SetCulture(s.Language); }
-            catch (CultureNotFoundException) { /* keep current culture */ }
-        }
-
+        if (_saving) return;
+        _saving = true;
+        SaveButton.IsEnabled = false;
         try
         {
-            if (s.Autostart) QuickText.App.Interop.Autostart.Enable();
-            else QuickText.App.Interop.Autostart.Disable();
-        }
-        catch (Exception ex)
-        {
-            AppDialog.Alert(this, LocalizationService.Instance["App.Name"],
-                $"Could not update the autostart setting: {ex.Message}");
-        }
+            var s = AppState.Current.Settings;
+            // "tap" mode needs a VALID modifier to work; if the captured key isn't one recognized
+            // (empty, an old-build name, a hand-edited value), save as "hotkey" so the mode shown next
+            // time matches the trigger that actually fires. Same predicate the runtime arming uses, so
+            // display and trigger can't disagree.
+            s.SummonMode = Core.Interop.ModifierTapKeys.IsValidTap(_summonMode, _summonTapKey) ? "tap" : "hotkey";
+            s.Hotkey = _hotkey.Trim();
+            s.CaptureHotkey = _captureHotkey.Trim();
+            s.SummonTapKey = _summonTapKey;
+            s.SummonTapDouble = SummonTapDouble.IsChecked == true;
+            s.DataFolder = DataFolder.Text.Trim();
+            s.Language = (LangCombo.SelectedValue as string) ?? "";
+            s.AbbrBlacklist = AbbrBlacklist.Text.Trim();
+            s.AbbrPrefix = AbbrPrefixBox.Text.Trim();
+            s.AbbrEnabled = AbbrEnabled.IsChecked == true;
+            s.RestoreClipboard = RestoreClipboard.IsChecked == true;
+            s.AutoSend = AutoSend.IsChecked == true;
+            s.ClickToSend = ClickToSend.IsChecked == true;
+            s.CopyToClipboardOnly = _clipboardOnly;
+            s.PanelPlacement = _placement;
+            s.Theme = _theme;
+            s.Autostart = Autostart.IsChecked == true;
+            s.CheckUpdates = CheckUpdates.IsChecked == true;
 
-        // Apply hotkey / data folder / abbreviation changes immediately — no restart. The summon
-        // triggers stay suspended until this window's Close decrements the ref-count and re-arms
-        // them, so Close MUST run even if ReapplySettings throws — otherwise the window stays open,
-        // the ref-count never drops, and the global hotkey + tap-summon stay dead for the session.
-        try { (Application.Current as App)?.ReapplySettings(); }
-        finally { Close(); }
+            AppState.Current.SettingsStore.Save(s);
+            _savedForm = CurrentForm();
+
+            // Guard: only apply a known culture (SetCulture throws on bad input).
+            if (KnownLanguages.Contains(s.Language))
+            {
+                try { LocalizationService.Instance.SetCulture(s.Language); }
+                catch (CultureNotFoundException) { /* keep current culture */ }
+            }
+
+            try
+            {
+                if (s.Autostart) QuickText.App.Interop.Autostart.Enable();
+                else QuickText.App.Interop.Autostart.Disable();
+            }
+            catch (Exception ex)
+            {
+                AppDialog.Alert(this, LocalizationService.Instance["App.Name"],
+                    $"Could not update the autostart setting: {ex.Message}");
+            }
+
+            // Apply hotkey / data folder / abbreviation changes immediately — no restart. The summon
+            // triggers stay suspended until this window's Close decrements the ref-count and re-arms
+            // them, so Close MUST run even if the apply throws — otherwise the window stays open, the
+            // ref-count never drops, and the global hotkey + tap-summon stay dead for the session.
+            try
+            {
+                if (Application.Current is App app) await app.ReapplySettingsAsync();
+            }
+            finally
+            {
+                if (IsVisible) Close();
+            }
+        }
+        catch
+        {
+            _saving = false;
+            SaveButton.IsEnabled = true;
+            throw;
+        }
     }
 }

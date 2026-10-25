@@ -149,4 +149,180 @@ public class StoreTests : IDisposable
             """[{"Name":"n","Body":"b"}]""", QuickText.Core.Persistence.JsonConfig.Read)!;
         Assert.True(string.IsNullOrEmpty(back[0].CodeFormat));
     }
+
+    // --- persisted paths are user-editable library data: never let them escape the data folder ---
+
+    private void WriteIndex(params (string Name, string File)[] refs)
+    {
+        var idx = new LibraryIndex
+        {
+            Categories = refs.Select(r => new CategoryRef { Name = r.Name, File = r.File }).ToList(),
+        };
+        File.WriteAllText(Path.Combine(_root, "index.json"),
+            System.Text.Json.JsonSerializer.Serialize(idx, JsonConfig.Write));
+    }
+
+    private static string OutsidePath(string extension) =>
+        Path.Combine(Path.GetTempPath(), "khoutside_" + Guid.NewGuid().ToString("N") + extension);
+
+    [Fact]
+    public void ResolveImage_accepts_only_paths_inside_the_library()
+    {
+        var store = new Store(_root);
+        var inside = store.ResolveImage(Path.Combine("images", "a.png"));
+        Assert.NotNull(inside);
+        Assert.StartsWith(Path.GetFullPath(_root), Path.GetFullPath(inside));
+
+        Assert.Null(store.ResolveImage(Path.Combine("..", "outside.png")));
+        Assert.Null(store.ResolveImage(Path.Combine(Path.GetTempPath(), "outside.png")));
+        Assert.Null(store.ResolveImage(""));
+        // A library file is not an image; deleting the snippet must not delete index.json.
+        Assert.Null(store.ResolveImage("index.json"));
+        Assert.Null(store.ResolveImage(Path.Combine("images", "..", "index.json")));
+    }
+
+    [Fact]
+    public void DeleteImage_never_deletes_the_library_index_or_category_files()
+    {
+        var index = Path.Combine(_root, "index.json");
+        File.WriteAllText(index, "{}");
+        new Store(_root).DeleteImage("index.json");
+        Assert.True(File.Exists(index));
+    }
+
+    [Fact]
+    public void DeleteImage_never_deletes_a_file_outside_the_library()
+    {
+        var outside = OutsidePath(".png");
+        File.WriteAllText(outside, "keep me");
+        try
+        {
+            new Store(_root).DeleteImage(Path.Combine("..", Path.GetFileName(outside)));
+            Assert.True(File.Exists(outside));
+        }
+        finally { File.Delete(outside); }
+    }
+
+    [Fact]
+    public void LoadAll_ignores_category_file_paths_outside_the_library()
+    {
+        var outside = OutsidePath(".json");
+        File.WriteAllText(outside, """[{"Id":"x","Name":"outside","Body":"b"}]""");
+        try
+        {
+            WriteIndex(("evil", Path.Combine("..", Path.GetFileName(outside))));
+            var store = new Store(_root);
+            Assert.Empty(store.LoadAll());
+            Assert.NotEmpty(store.LoadWarnings);
+        }
+        finally { File.Delete(outside); }
+    }
+
+    [Fact]
+    public void SaveCategory_repairs_an_unsafe_index_file_reference()
+    {
+        var outside = OutsidePath(".json");
+        try
+        {
+            WriteIndex(("evil", Path.Combine("..", Path.GetFileName(outside))));
+            var store = new Store(_root);
+            var cat = new Category { Name = "evil" };
+            cat.Snippets.Add(new Snippet { Id = "x", Name = "n", Body = "b" });
+
+            store.SaveCategory(cat);
+
+            Assert.False(File.Exists(outside));                 // no write outside the library
+            var loaded = store.LoadAll().Single(c => c.Name == "evil");
+            Assert.Single(loaded.Snippets);
+            var refi = store.LoadIndex().Categories.Single();
+            Assert.DoesNotContain("..", refi.File);
+            Assert.True(File.Exists(Path.Combine(_root, refi.File)));
+        }
+        finally { try { File.Delete(outside); } catch { } }
+    }
+
+    [Fact]
+    public void DeleteCategory_never_deletes_a_file_outside_the_library()
+    {
+        var outside = OutsidePath(".json");
+        File.WriteAllText(outside, "keep me");
+        try
+        {
+            WriteIndex(("evil", Path.Combine("..", Path.GetFileName(outside))));
+            new Store(_root).DeleteCategory("evil");
+            Assert.True(File.Exists(outside));
+        }
+        finally { File.Delete(outside); }
+    }
+
+    [Fact]
+    public void LoadAll_reports_a_corrupt_index_instead_of_silently_empty()
+    {
+        File.WriteAllText(Path.Combine(_root, "index.json"), "{ broken");
+        var store = new Store(_root);
+        Assert.Empty(store.LoadAll());
+        Assert.NotEmpty(store.LoadWarnings);
+    }
+
+    [Fact]
+    public void LoadAll_reports_missing_and_corrupt_category_files()
+    {
+        var store = new Store(_root);
+        store.SaveCategory(new Category { Name = "好的" });
+        store.SaveCategory(new Category { Name = "坏的" });
+        File.WriteAllText(Path.Combine(_root, Store.SanitizeFile("坏的")), "{ broken");
+        WriteIndex(("好的", Store.SanitizeFile("好的")), ("坏的", Store.SanitizeFile("坏的")),
+                   ("缺失", "missing.json"));
+
+        var reloaded = new Store(_root);
+        reloaded.LoadAll();
+        Assert.Contains(reloaded.LoadWarnings, w => w.Contains("坏的"));
+        Assert.Contains(reloaded.LoadWarnings, w => w.Contains("missing.json"));
+    }
+
+    [Fact]
+    public void Category_names_cannot_overwrite_index_or_trash_state_files()
+    {
+        var store = new Store(_root);
+        var index = new Category { Name = "index" };
+        index.Snippets.Add(new Snippet { Id = "i", Name = "I", Body = "b" });
+        var trash = new Category { Name = "trash" };
+        trash.Snippets.Add(new Snippet { Id = "t", Name = "T", Body = "b" });
+
+        store.SaveCategory(index);
+        store.SaveCategory(trash);
+
+        Assert.Equal("index_category.json", Store.SanitizeFile("index"));
+        Assert.Equal(2, store.LoadAll().Count);
+        Assert.Empty(store.LoadTrash());   // trash.json was not turned into a snippet array
+        Assert.Empty(store.LoadWarnings);
+    }
+
+    [Fact]
+    public void A_settings_category_is_allowed_when_the_library_is_not_the_machine_state_folder()
+    {
+        var store = new Store(_root);
+        var cat = new Category { Name = "settings" };
+        cat.Snippets.Add(new Snippet { Id = "s", Name = "S", Body = "b" });
+
+        store.SaveCategory(cat);
+
+        Assert.Equal("settings.json", Store.SanitizeFile("settings"));
+        Assert.Single(store.LoadAll());
+        Assert.True(File.Exists(Path.Combine(_root, "settings.json")));
+    }
+
+    [Fact]
+    public void FindConflictFiles_does_not_flag_an_indexed_category_named_like_a_cloud_copy()
+    {
+        var store = new Store(_root);
+        var cat = new Category { Name = "项目 (1)" };
+        cat.Snippets.Add(new Snippet { Id = "x", Name = "n", Body = "b" });
+        store.SaveCategory(cat);
+
+        Assert.Empty(store.FindConflictFiles());   // a real category, not a sync conflict
+
+        File.WriteAllText(Path.Combine(_root, "项目 (1) (conflict).json"), "[]");
+        Assert.Contains(store.FindConflictFiles(), f => f!.Contains("conflict"));
+    }
 }

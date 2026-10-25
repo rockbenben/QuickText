@@ -228,6 +228,36 @@ public class PlaceholdersTests
     }
 
     [Fact]
+    public void Protected_brace_sentinels_never_corrupt_user_private_use_text()
+    {
+        // Icon-font glyphs live in the BMP private-use area; restoring nested braces must not
+        // turn a user's own U+E000/U+E001 into '{'/'}'.
+        const string userText = "图标 a\uE000b\uE001c";
+        Assert.Equal(userText, Placeholders.UnprotectBraces(userText));
+    }
+
+    [Fact]
+    public void ExpandSnippets_reports_whether_it_protected_anything()
+    {
+        (string, bool)? Lookup(string n) =>
+            n == "code" ? ("if (x) { return; }", false) : null;
+
+        var expanded = Placeholders.ExpandSnippets("A {片段:code} B", Lookup, out bool protectedAny);
+        Assert.True(protectedAny);
+        Assert.Contains("\uFDD0", expanded);
+
+        var plain = Placeholders.ExpandSnippets("A {片段:missing} B", Lookup, out bool none);
+        Assert.False(none);
+        Assert.Equal("A {片段:missing} B", plain);
+
+        // Text that happens to contain the private-use chars must be returned untouched when no
+        // nested body needed protection.
+        var userText = "a\uE000b";
+        Assert.Equal(userText, Placeholders.ExpandSnippets(userText, Lookup, out bool untouched));
+        Assert.False(untouched);
+    }
+
+    [Fact]
     public void Empty_name_tokens_stay_literal()
     {
         // {:x} / {|a|b} parse to an empty variable name: they're never prompted, so they

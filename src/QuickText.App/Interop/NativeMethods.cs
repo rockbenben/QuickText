@@ -105,6 +105,8 @@ internal static class NativeMethods
     public const int WM_RBUTTONDOWN = 0x0204;
     public const int WM_MBUTTONDOWN = 0x0207;
     public const int WM_XBUTTONDOWN = 0x020B;
+    public const int WM_MOUSEWHEEL = 0x020A;
+    public const int WM_MOUSEHWHEEL = 0x020E;
 
     public delegate IntPtr HookProc(int nCode, IntPtr wParam, IntPtr lParam);
 
@@ -131,6 +133,11 @@ internal static class NativeMethods
     public const int INPUT_KEYBOARD = 1;
     public const uint KEYEVENTF_KEYUP = 0x0002;
     public const uint KEYEVENTF_UNICODE = 0x0004;
+
+    /// <summary>Tag on every synthesized key event. Low-level hooks check it instead of relying
+    /// only on the suppression flag: SendInput can deliver the hook callback after the flag is
+    /// cleared, which used to let our own Ctrl+V consume the one-shot expansion undo.</summary>
+    public static readonly IntPtr SelfInputMarker = (IntPtr)0x51545831;
     public const ushort VK_CONTROL = 0x11;
     public const ushort VK_V = 0x56;
     public const ushort VK_BACK = 0x08;

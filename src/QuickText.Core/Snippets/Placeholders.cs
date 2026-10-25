@@ -172,14 +172,22 @@ public static class Placeholders
         return false;
     }
 
-    // Private-use sentinels: braces of a VERBATIM (UseVariables=false) nested body are
-    // swapped for these during expansion so the host's variable pipeline can't rewrite the
-    // nested literal {…}; UnprotectBraces restores them as the final output step. Same
-    // char length, so {光标} caret arithmetic is unaffected.
-    private const char BraceOpen = '\uE000';
-    private const char BraceClose = '\uE001';
+    // Noncharacter sentinels: braces of a VERBATIM (UseVariables=false) nested body are swapped
+    // for these during expansion so the host's variable pipeline can't rewrite the nested literal
+    // {…}; UnprotectBraces restores them as the final output step. Same char length, so {光标}
+    // caret arithmetic is unaffected. Noncharacters (not the BMP private-use range) are far less
+    // likely to occur in user text than icon-font glyphs.
+    private const char BraceOpen = '\uFDD0';
+    private const char BraceClose = '\uFDD1';
 
-    private static string ProtectBraces(string s) => s.Replace('{', BraceOpen).Replace('}', BraceClose);
+    private sealed class ProtectionState { public bool Used; }
+
+    private static string ProtectBraces(string s, ProtectionState state)
+    {
+        if (s.IndexOf('{') < 0 && s.IndexOf('}') < 0) return s;
+        state.Used = true;
+        return s.Replace('{', BraceOpen).Replace('}', BraceClose);
+    }
 
     /// <summary>Restore protected braces after <see cref="Fill"/> — call as the last step.</summary>
     public static string UnprotectBraces(string s) =>
@@ -201,10 +209,24 @@ public static class Placeholders
 
     public static string ExpandSnippets(
         string body, Func<string, (string Body, bool UseVariables)?> lookup, int maxDepth = 3)
-        => ExpandSnippets(body, lookup, maxDepth, new[] { MaxExpansions });
+        => ExpandSnippets(body, lookup, maxDepth, new[] { MaxExpansions }, new ProtectionState());
+
+    /// <summary>Same expansion, also reporting whether any nested verbatim body had braces that
+    /// needed protecting. Callers that only unprotect when this is true leave a user's own
+    /// private-use/noncharacter text untouched.</summary>
+    public static string ExpandSnippets(
+        string body, Func<string, (string Body, bool UseVariables)?> lookup, out bool protectedAny,
+        int maxDepth = 3)
+    {
+        var state = new ProtectionState();
+        var result = ExpandSnippets(body, lookup, maxDepth, new[] { MaxExpansions }, state);
+        protectedAny = state.Used;
+        return result;
+    }
 
     private static string ExpandSnippets(
-        string body, Func<string, (string Body, bool UseVariables)?> lookup, int maxDepth, int[] budget)
+        string body, Func<string, (string Body, bool UseVariables)?> lookup, int maxDepth,
+        int[] budget, ProtectionState state)
     {
         if (string.IsNullOrEmpty(body) || maxDepth <= 0) return body ?? "";
         return Token.Replace(body, m =>
@@ -219,7 +241,8 @@ public static class Placeholders
             if (nested == null) return m.Value;
             budget[0]--;
             var (nb, useVars) = nested.Value;
-            return useVars ? ExpandSnippets(nb, lookup, maxDepth - 1, budget) : ProtectBraces(nb);
+            return useVars ? ExpandSnippets(nb, lookup, maxDepth - 1, budget, state)
+                           : ProtectBraces(nb, state);
         });
     }
 

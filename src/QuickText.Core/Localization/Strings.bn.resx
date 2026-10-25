@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>পোর্টেবল মোড বদলানো হয়েছে — প্রয়োগে পুনরায় চালু করুন। ব্যাকআপ রপ্তানি / আমদানি দিয়ে আপনার টেক্সট লাইব্রেরি সরান।</value></data>
   <data name="Settings.PortableFailed"><value>অ্যাপের পাশে লেখা যাচ্ছে না (এটি Program Files-এর মতো শুধু-পঠনযোগ্য স্থানে থাকতে পারে)। পোর্টেবল মোডের জন্য অ্যাপটি একটি লেখার-যোগ্য স্থানে থাকা দরকার, যেমন একটি USB স্টিক।</value></data>
   <data name="Settings.CheckUpdates"><value>চালু হওয়ার সময় আপডেট দেখুন</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>চালু থাকলে শুরুর সময় একবার GitHub-এ সংযোগ করে নতুন সংস্করণ আছে কিনা দেখে — অ্যাপটি কেবল তখনই ইন্টারনেট ব্যবহার করে, বাকি সব সময় অফলাইনে চলে।</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>চালু থাকলে অ্যাপটি শুরুতে একবার GitHub-এ সংযোগ করে নতুন সংস্করণ পরীক্ষা করে স্থানীয় ডিস্কে ডাউনলোড করে। এটি চলমান প্রোগ্রাম প্রতিস্থাপন করে না; এটিই অ্যাপের একমাত্র নেটওয়ার্ক কাজ।</value></data>
   <data name="Settings.CheckNow"><value>এখনই দেখুন</value></data>
   <data name="Msg.UpToDate"><value>আপনি সর্বশেষ সংস্করণে আছেন।</value></data>
   <data name="Msg.UpdateCheckFailed"><value>আপডেট দেখা যায়নি। পরে আবার চেষ্টা করুন।</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>থিম</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>গাঢ়</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>উজ্জ্বল</value></data>
+  <data name="Msg.TargetLost"><value>লক্ষ্য উইন্ডো প্রস্তুত ছিল না। বিষয়বস্তু ক্লিপবোর্ডে কপি করা হয়েছে; ম্যানুয়ালি পেস্ট করুন।</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>ডেটা ফোল্ডারের কিছু ফাইল পড়া যায়নি; লাইব্রেরির কিছু অংশ অনুপস্থিত থাকতে পারে। বিস্তারিত error.log-এ দেখুন।</value></data>
+  <data name="Manager.StaleNotice"><value>লাইব্রেরি অন্য উইন্ডোতে বা অ্যাপের বাইরে আপডেট হয়েছে। এখানে আপনার অসংরক্ষিত পরিবর্তনগুলো এখনও ডিস্কে লেখা হয়নি। সংরক্ষণ সাময়িকভাবে বন্ধ আছে; ডিস্কের সংস্করণটি আবার লোড করুন, অথবা এই উইন্ডোটি বন্ধ করে আবার খুলুন।</value></data>
+  <data name="Manager.Reload"><value>আবার লোড করুন</value></data>
 </root>

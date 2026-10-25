@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>Modo portátil alterado — reinicie para aplicar. Mova a sua biblioteca de texto com Exportar / Importar cópia.</value></data>
   <data name="Settings.PortableFailed"><value>Não é possível escrever junto à app (pode estar num local só de leitura como Program Files). O modo portátil precisa da app num local com permissão de escrita, como uma pen USB.</value></data>
   <data name="Settings.CheckUpdates"><value>Verificar atualizações ao iniciar</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>Quando ativado, conecta-se ao GitHub uma vez ao iniciar para procurar uma versão mais recente — é a única vez que o app acessa a internet; o restante funciona offline.</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Se ativado, a app acede ao GitHub uma vez no arranque para verificar e transferir uma versão mais recente para o disco local. Não substitui o programa em execução; é a única operação de rede da app.</value></data>
   <data name="Settings.CheckNow"><value>Verificar agora</value></data>
   <data name="Msg.UpToDate"><value>Você está na versão mais recente.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Não foi possível verificar atualizações. Tente novamente mais tarde.</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>Tema</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Escuro</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Claro</value></data>
+  <data name="Msg.TargetLost"><value>A janela de destino não estava pronta. O conteúdo foi copiado para a área de transferência; cole-o manualmente.</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>Não foi possível ler alguns ficheiros da pasta de dados; parte da biblioteca pode estar em falta. Consulte error.log para obter detalhes.</value></data>
+  <data name="Manager.StaleNotice"><value>A biblioteca foi atualizada noutra janela ou fora da app. As suas alterações não guardadas aqui ainda não foram escritas no disco. Guardar está em pausa; recarregue a versão do disco ou feche e reabra esta janela.</value></data>
+  <data name="Manager.Reload"><value>Recarregar</value></data>
 </root>

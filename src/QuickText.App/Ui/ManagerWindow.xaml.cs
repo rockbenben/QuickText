@@ -20,6 +20,13 @@ public partial class ManagerWindow : Window
     private Category? _editingCategory;
     private readonly HashSet<Category> _dirty = new();
 
+    /// <summary>AppState.DataVersion this window loaded. A mismatch means an external/in-app
+    /// reload replaced the library; writing this window's stale categories would lose that data.</summary>
+    private int _loadedVersion;
+    private bool _staleNoticeShown;
+    private bool _reloadPending;
+    private bool _reloadQueued;
+
     /// <summary>The editable fields as they were when the current snippet was loaded. Dirty means
     /// "the controls differ from this", not "the editor was touched" — clicking into a snippet and
     /// straight back out must never prompt. Null when no snippet is loaded.</summary>
@@ -60,7 +67,81 @@ public partial class ManagerWindow : Window
         ApplyImageSection();
 
         Closing += OnClosing;
+        AppState.Current.DataReloaded += OnDataReloaded;
+        Closed += (_, _) => AppState.Current.DataReloaded -= OnDataReloaded;
         Load();
+    }
+
+    private bool IsStale => _loadedVersion != AppState.Current.DataVersion;
+
+    private bool HasOpenOwnedWindow()
+    {
+        foreach (Window w in OwnedWindows)
+            if (w.IsVisible) return true;
+        return false;
+    }
+
+    private void OnDataReloaded()
+    {
+        if (App.InSmoke || !IsVisible || !IsStale) return;
+        _reloadPending = true;
+        if (!HasOpenOwnedWindow()) ApplyReloadToModel();
+    }
+
+    /// <summary>Reconcile with the latest AppState snapshot. Called only when no modal owned
+    /// window is open, so a full body editor's target cannot be orphaned mid-save.</summary>
+    private void ApplyReloadToModel()
+    {
+        if (!IsVisible || HasOpenOwnedWindow()) return;
+        if (!IsStale) { _reloadPending = false; return; }
+        _reloadPending = false;
+
+        if (!EditorIsDirty() && _dirty.Count == 0)
+        {
+            var keep = SelectedSnippet?.Id;
+            LoadFromState();
+            if (!string.IsNullOrEmpty(keep)) SelectSnippet(keep);
+            return;
+        }
+
+        // Never replace an editor with unsaved work behind the user's back; tell them once and
+        // leave the write gate (EnsureFreshForWrite) armed.
+        Dispatcher.BeginInvoke(new Action(ShowStaleNotice),
+            System.Windows.Threading.DispatcherPriority.Background);
+    }
+
+    /// <summary>Queue reconciliation after the current modal-close call stack has finished; using
+    /// Background priority is what lets the enlarged editor's Save/Discard result reach the old
+    /// model before the model is replaced.</summary>
+    private void QueuePendingReload()
+    {
+        if (_reloadQueued || !IsVisible) return;
+        if (!IsStale) { _reloadPending = false; return; }
+        _reloadPending = true;
+        _reloadQueued = true;
+        Dispatcher.BeginInvoke(new Action(() =>
+        {
+            _reloadQueued = false;
+            if (_reloadPending) ApplyReloadToModel();
+        }), System.Windows.Threading.DispatcherPriority.Background);
+    }
+
+    private void ShowStaleNotice()
+    {
+        if (!IsLoaded || !IsStale || _staleNoticeShown) return;
+        _staleNoticeShown = true;
+        AppDialog.Alert(this, L("App.Name"), L("Manager.StaleNotice"));
+    }
+
+    /// <summary>Called at every write point. A stale window may not write: offer a reload that
+    /// discards its local snapshot, or abort the operation.</summary>
+    private bool EnsureFreshForWrite()
+    {
+        if (!IsStale) return true;
+        bool reload = AppDialog.Confirm(this, L("App.Name"), L("Manager.StaleNotice"),
+            L("Manager.Reload"), L("Dialog.Cancel"));
+        if (reload) LoadFromState();
+        return false;
     }
 
     private void ApplyWrap() => Body.WrapText = WrapToggle.IsChecked == true;
@@ -138,7 +219,7 @@ public partial class ManagerWindow : Window
         // over the now-selected one's — land it on the snippet the window was opened for instead.
         if (!ReferenceEquals(_editing, target))
         {
-            if (!win.Committed) return;   // discarded: nothing to write anywhere
+            if (!win.Committed) { if (_reloadPending) QueuePendingReload(); return; }   // discarded
             bool changed = target.Body != win.ResultText
                            || (target.CodeFormat ?? "") != win.ResultCodeFormat;
             if (changed)
@@ -148,6 +229,7 @@ public partial class ManagerWindow : Window
                 target.UpdatedAt = DateTimeOffset.UtcNow;
                 if (_cats.FirstOrDefault(c => c.Snippets.Contains(target)) is { } cat) _dirty.Add(cat);
             }
+            if (_reloadPending) QueuePendingReload();
             return;
         }
 
@@ -169,6 +251,7 @@ public partial class ManagerWindow : Window
             ResetBaseline();
         }
         Body.FocusEditor();
+        if (_reloadPending) QueuePendingReload();
     }
 
     /// <summary>Ctrl+Shift+Enter / F11 while editing the body opens the enlarged editor.</summary>
@@ -192,22 +275,38 @@ public partial class ManagerWindow : Window
         base.OnActivated(e);
         // Reflect a prefix change made in Settings while this window stayed open.
         AbbrPrefixText.Text = AppState.Current.Settings.AbbrPrefix;
+        // A reload that arrived while a modal dialog was open is reconciled after that dialog's
+        // caller has finished handling its result.
+        if (IsStale && !HasOpenOwnedWindow()) QueuePendingReload();
     }
 
-    private void Load()
+    private void Load() => ApplyModel(AppState.Current.Store.LoadAll());
+
+    /// <summary>Refresh from the snapshot AppState just loaded, without another disk read.</summary>
+    private void LoadFromState() =>
+        ApplyModel(AppState.Current.SnapshotCategories().ToList());
+
+    private void ApplyModel(List<Category> cats)
     {
-        _cats = AppState.Current.Store.LoadAll();
+        var keepId = SelectedSnippet?.Id;
+        _cats = cats;
         _editing = null;
         _editingCategory = null;
+        _baseline = null;
+        _dirty.Clear();
+        _deleted.Clear();
+        _staleNoticeShown = false;
         Categories.ItemsSource = null;
         Categories.ItemsSource = _cats;
         if (_cats.Count > 0) Categories.SelectedIndex = 0;
         // With no category/snippet (e.g. an empty library) nothing set _editing, so make sure
         // the editor reflects that and is grayed out rather than a live-looking dead form.
         EditorPane.IsEnabled = _editing != null;
-        // A disk reload can change which snippet names exist (add/rename/delete/category
+        // A reload can change which snippet names exist (add/rename/delete/category
         // add-or-delete all route through here) — clear any now-stale nested-reference marks.
         Body.Rescan();
+        if (!string.IsNullOrEmpty(keepId)) SelectSnippet(keepId);
+        _loadedVersion = AppState.Current.DataVersion;
     }
 
     private Category? SelectedCategory => Categories.SelectedItem as Category;
@@ -252,6 +351,7 @@ public partial class ManagerWindow : Window
     public void AddSnippet(string name, string body, string? preferCategoryName = null)
     {
         if (!TryLeaveEditor()) return;
+        if (!EnsureFreshForWrite()) return;
         var c = (preferCategoryName is not null ? _cats.FirstOrDefault(x => x.Name == preferCategoryName) : null)
                 ?? SelectedCategory ?? _cats.FirstOrDefault();
         if (c is null)                   // empty library: start a category so the snippet has a home
@@ -270,6 +370,47 @@ public partial class ManagerWindow : Window
         RefreshSnippets(sn);                                  // land on (and reveal) the new snippet
         Body.Rescan();   // the new name may resolve a nested reference elsewhere
         FocusNameField();
+    }
+
+    /// <summary>Silent capture while the Manager is open: add to the first category and persist
+    /// through this window's model, so its later whole-category save cannot drop the new snippet.
+    /// Returns false when this window is stale or has no category; the caller then falls back to
+    /// the disk path (whose reload will make this window reconcile or pause saving).</summary>
+    public bool TryAddCapturedSnippet(string name, string body)
+    {
+        if (IsStale || _cats.FirstOrDefault() is not { } c) return false;
+        var sn = new Snippet
+        {
+            Name = string.IsNullOrWhiteSpace(name) ? L("Manager.NewSnippetName") : name,
+            Body = body ?? "",
+        };
+        bool wasDirty = _dirty.Contains(c);
+        c.Snippets.Add(sn);
+        _dirty.Add(c);
+        if (!PersistCategory(c))
+        {
+            c.Snippets.Remove(sn);
+            if (!wasDirty) _dirty.Remove(c);
+            return false;
+        }
+        AppState.Current.ApplyCategories(_cats);
+        _loadedVersion = AppState.Current.DataVersion;
+        _staleNoticeShown = false;
+        if (ReferenceEquals(SelectedCategory, c))
+        {
+            // Keep the editor exactly where it was: RefreshSnippets would re-select a row and
+            // re-enter TryLeaveEditor, turning a silent capture into an unsaved-changes prompt.
+            var selected = SelectedSnippet;
+            _revertingSelection = true;
+            try
+            {
+                Snippets.ItemsSource = FilteredSnippets(c);
+                if (selected != null) Snippets.SelectedItem = selected;
+            }
+            finally { _revertingSelection = false; }
+        }
+        Body.Rescan();   // the new name may resolve a nested reference in the open editor
+        return true;
     }
 
     /// <summary>The editable fields as the controls currently hold them.</summary>
@@ -308,6 +449,7 @@ public partial class ManagerWindow : Window
     /// prompt-free flow's sibling and by every TryLeaveEditor prompt that answers Save.</summary>
     private bool CommitAndPersistCurrent()
     {
+        if (!EnsureFreshForWrite()) return false;
         CommitEditor();
         bool ok = _editingCategory == null || PersistCategory(_editingCategory);
         if (!ok) AlertSaveFailed();
@@ -319,8 +461,9 @@ public partial class ManagerWindow : Window
     }
 
     /// <summary>
-    /// Gate every path that leaves the snippet currently in the editor. Returns false only when
-    /// the user chose Cancel — the caller MUST then abort whatever it was doing.
+    /// Gate every path that leaves the snippet currently in the editor. Returns false when the
+    /// user chose Cancel, or when a stale-library reload discarded the local snapshot; the caller
+    /// MUST then abort whatever it was doing (the navigation can be retried after the reload).
     /// <para>Structural operations call this too, but what it asks about is the half-finished
     /// snippet sitting in the EDITOR (those operations move the selection or rewrite the list).
     /// It never asks about the structural operation itself — renames, drags and deletes are
@@ -329,6 +472,11 @@ public partial class ManagerWindow : Window
     private bool TryLeaveEditor()
     {
         if (!EditorIsDirty()) return true;
+        if (IsStale)
+        {
+            // The dialog below would save into a stale model; offer the reload first.
+            return EnsureFreshForWrite();
+        }
 
         bool? choice = AppDialog.ConfirmSaveDiscard(this, L("App.Name"), L("Manager.UnsavedConfirm"),
             L("Manager.Save"), L("Manager.DontSave"), L("Dialog.Cancel"));
@@ -385,6 +533,7 @@ public partial class ManagerWindow : Window
     /// </summary>
     private bool PersistDirty()
     {
+        if (IsStale) return false;
         bool ok = true;
         foreach (var c in _dirty.ToList())
             if (!PersistCategory(c)) ok = false;
@@ -397,6 +546,7 @@ public partial class ManagerWindow : Window
     private bool PersistCategory(Category c)
     {
         if (!_dirty.Contains(c)) return true;
+        if (IsStale) return false;
         try
         {
             AppState.Current.MarkSelfWrite();
@@ -598,6 +748,7 @@ public partial class ManagerWindow : Window
     private void OnImageRemove(object sender, RoutedEventArgs e)
     {
         if (_editing == null) return;
+        if (!EnsureFreshForWrite()) return;
         var old = _editing.ImagePath;
         _editing.ImagePath = "";
         _editing.UpdatedAt = DateTimeOffset.UtcNow;
@@ -609,6 +760,7 @@ public partial class ManagerWindow : Window
     private void SetImage(byte[] data, string ext)
     {
         if (_editing == null) return;
+        if (!EnsureFreshForWrite()) return;
         var old = _editing.ImagePath;
         _editing.ImagePath = AppState.Current.Store.SaveImage(data, ext);
         _editing.UpdatedAt = DateTimeOffset.UtcNow;
@@ -632,6 +784,7 @@ public partial class ManagerWindow : Window
     {
         if (SelectedCategory is not Category c || sender is not Button b) return;
         if (!TryLeaveEditor()) return;
+        if (!EnsureFreshForWrite()) return;
         var prevColor = c.Color;
         c.Color = (b.Tag as string) ?? "";
         AppState.Current.MarkSelfWrite();
@@ -643,6 +796,7 @@ public partial class ManagerWindow : Window
     private void OnAddCategory(object s, RoutedEventArgs e)
     {
         if (!TryLeaveEditor()) return;
+        if (!EnsureFreshForWrite()) return;
         var name = AppDialog.Prompt(this, L("Manager.NewCategory"), L("Manager.CategoryName"), UniqueCategoryName());
         if (string.IsNullOrWhiteSpace(name)) return;
         if (_cats.Any(x => x.Name == name))
@@ -650,7 +804,7 @@ public partial class ManagerWindow : Window
             AppDialog.Alert(this, L("App.Name"), L("Manager.DuplicateCategory"));
             return;
         }
-        PersistDirty();
+        if (!PersistDirty()) { AlertSaveFailed(); return; }
         if (FilterBox.Text.Length > 0) FilterBox.Text = "";   // a stale filter would hide the starter snippet
         // Seed the new category with one starter snippet, so the (always-visible) editor is
         // bound to a real item from the start — otherwise anything typed into the fields of a
@@ -666,6 +820,7 @@ public partial class ManagerWindow : Window
         catch { AlertSaveFailed(); return; }
         Load();                                    // one disk read: picks up the new category + index order
         AppState.Current.ApplyCategories(_cats);   // rebuild indexes from it (was a second full read)
+        _loadedVersion = AppState.Current.DataVersion;
         SelectCategoryByName(name);                // its lone snippet auto-selects (RefreshSnippets picks row 0)
         FocusNameField();                          // ready to rename the starter snippet
     }
@@ -690,6 +845,7 @@ public partial class ManagerWindow : Window
     private void OnRenameCategory(object s, RoutedEventArgs e)
     {
         if (!TryLeaveEditor()) return;
+        if (!EnsureFreshForWrite()) return;
         if (SelectedCategory is not { } c) return;
         var name = AppDialog.Prompt(this, L("Manager.RenameCategory"), L("Manager.CategoryName"), c.Name);
         if (string.IsNullOrWhiteSpace(name) || name == c.Name) return;
@@ -698,7 +854,7 @@ public partial class ManagerWindow : Window
             AppDialog.Alert(this, L("App.Name"), L("Manager.DuplicateCategory"));
             return;
         }
-        PersistDirty();
+        if (!PersistDirty()) { AlertSaveFailed(); return; }
         var oldName = c.Name;
         c.Name = name;
         // Write the new-name file+index entry, THEN delete the old one — never the reverse, so a
@@ -718,17 +874,19 @@ public partial class ManagerWindow : Window
         catch { c.Name = oldName; AlertSaveFailed(); return; }
         Load();                                    // one disk read instead of ReloadData + Load
         AppState.Current.ApplyCategories(_cats);
+        _loadedVersion = AppState.Current.DataVersion;
         SelectCategoryByName(name);
     }
 
     private void OnDeleteCategory(object s, RoutedEventArgs e)
     {
+        if (!EnsureFreshForWrite()) return;
         if (SelectedCategory is not { } c) return;
         if (!AppDialog.Confirm(this, L("App.Name"),
                 string.Format(L("Manager.DeleteCategoryConfirm"), c.Name), L("Manager.Delete"))) return;
         _dirty.Remove(c);   // don't bother persisting a category we're about to delete
         int idx = Categories.SelectedIndex;
-        PersistDirty();
+        if (!PersistDirty()) { _dirty.Add(c); AlertSaveFailed(); return; }
         // Copy the snippets to the trash and delete the category on disk, BEFORE mutating the model:
         // on failure abort with a message rather than a raw exception, and re-add c to _dirty so its
         // own unsaved edits (dropped above) aren't lost. The snippets live on in the trash 30 days.
@@ -746,12 +904,14 @@ public partial class ManagerWindow : Window
         if (_editingCategory == c) { _editing = null; _editingCategory = null; }
         Load();                                    // one disk read instead of ReloadData + Load
         AppState.Current.ApplyCategories(_cats);
+        _loadedVersion = AppState.Current.DataVersion;
         if (_cats.Count > 0) Categories.SelectedIndex = Math.Min(idx, _cats.Count - 1);
     }
 
     private void OnAddSnippet(object s, RoutedEventArgs e)
     {
         if (!TryLeaveEditor()) return;
+        if (!EnsureFreshForWrite()) return;
         if (SelectedCategory is not { } c) return;
         var sn = new Snippet { Name = L("Manager.NewSnippetName") };
         c.Snippets.Add(sn);
@@ -766,6 +926,7 @@ public partial class ManagerWindow : Window
     private void OnDuplicateSnippet(object s, RoutedEventArgs e)
     {
         if (!TryLeaveEditor()) return;
+        if (!EnsureFreshForWrite()) return;
         if (SelectedCategory is not { } c || SelectedSnippet is not { } sn) return;
         // Abbr stays empty: two snippets with the same abbreviation would be ambiguous.
         var copy = new Snippet { Name = sn.Name + " (2)", Body = sn.Body, UseVariables = sn.UseVariables, OutputMode = sn.OutputMode, CodeFormat = sn.CodeFormat };
@@ -774,11 +935,13 @@ public partial class ManagerWindow : Window
             // Copy the image file — sharing one file would break when either snippet is deleted.
             try
             {
-                var bytes = File.ReadAllBytes(AppState.Current.Store.ResolveImage(sn.ImagePath));
+                var source = AppState.Current.Store.ResolveImage(sn.ImagePath)
+                             ?? throw new FileNotFoundException("image path is outside the library");
+                var bytes = File.ReadAllBytes(source);
                 var ext = Path.GetExtension(sn.ImagePath);
                 copy.ImagePath = AppState.Current.Store.SaveImage(bytes, string.IsNullOrEmpty(ext) ? ".png" : ext);
             }
-            catch { }
+            catch { AlertSaveFailed(); return; }   // don't create a silently image-less duplicate
         }
         c.Snippets.Insert(c.Snippets.IndexOf(sn) + 1, copy);
         _dirty.Add(c);
@@ -794,6 +957,7 @@ public partial class ManagerWindow : Window
 
     private void DeleteSnippets(List<Snippet> selected)
     {
+        if (!EnsureFreshForWrite()) return;
         if (SelectedCategory is not { } c || selected.Count == 0) return;
         int idx = Snippets.SelectedIndex;
         // Persist the trash copy FIRST (never lose the copy). Do it BEFORE touching the model:
@@ -922,6 +1086,7 @@ public partial class ManagerWindow : Window
     private void MoveSelectedTo(Category target)
     {
         if (!TryLeaveEditor()) return;
+        if (!EnsureFreshForWrite()) return;
         if (SelectedCategory is not { } from || ReferenceEquals(from, target)) return;
         foreach (var sn in SelectedSnippets())
         {
@@ -966,6 +1131,7 @@ public partial class ManagerWindow : Window
 
     private void UndoDelete()
     {
+        if (!EnsureFreshForWrite()) return;
         if (_deleted.Count == 0) return;
         var (cat, sn, index) = _deleted.Pop();
         if (!_cats.Contains(cat)) return;   // its category was deleted meanwhile
@@ -988,12 +1154,14 @@ public partial class ManagerWindow : Window
 
     private void OnSave(object s, RoutedEventArgs e)
     {
+        if (!EnsureFreshForWrite()) return;
         CommitEditor();
         // Two snippets with the same abbreviation would expand ambiguously — warn (still saves).
         if (_editing is { } cur && !string.IsNullOrWhiteSpace(cur.Abbr))
         {
             var clash = _cats.SelectMany(x => x.Snippets)
-                .FirstOrDefault(x => x.Id != cur.Id && x.Abbr == cur.Abbr);
+                .FirstOrDefault(x => x.Id != cur.Id
+                    && string.Equals(x.Abbr.Trim(), cur.Abbr.Trim(), StringComparison.OrdinalIgnoreCase));
             if (clash != null)
                 AppDialog.Alert(this, L("App.Name"),
                     string.Format(L("Manager.DuplicateAbbr"), cur.Abbr, clash.Name));
@@ -1005,6 +1173,8 @@ public partial class ManagerWindow : Window
         // from it in memory instead of re-reading the whole library off disk (that read-back
         // was the main "卡住" on sync drives).
         AppState.Current.ApplyCategories(_cats);
+        _loadedVersion = AppState.Current.DataVersion;
+        _staleNoticeShown = false;
         ResetBaseline();   // what we just wrote is the new "unchanged" state
         // Refresh names, then keep the user on the snippet they were editing.
         RefreshSnippets(keep);
@@ -1052,6 +1222,7 @@ public partial class ManagerWindow : Window
     /// <summary>Drop on the snippet list: reorder within the current category.</summary>
     private void OnSnippetsDrop(object sender, DragEventArgs e)
     {
+        if (!EnsureFreshForWrite()) return;
         if (SelectedCategory is not { } c) return;
         if (e.Data.GetData(typeof(Snippet)) is not Snippet dragged) return;
         if (!string.IsNullOrEmpty(_filter)) return;   // reordering a filtered view is ambiguous
@@ -1070,6 +1241,7 @@ public partial class ManagerWindow : Window
     /// <summary>Drop on the category list: a snippet moves to that category; a category reorders.</summary>
     private void OnCategoriesDrop(object sender, DragEventArgs e)
     {
+        if (!EnsureFreshForWrite()) return;
         if (e.Data.GetData(typeof(Snippet)) is Snippet sn)
         {
             var dest = DropTarget<Category>(e);
@@ -1118,6 +1290,18 @@ public partial class ManagerWindow : Window
         // The editor's own half-finished edit is the only thing that gets asked about. Structural
         // changes (renames, drags, deletes) are deliberate acts with a visible result and keep
         // their existing save timing — asking about them again would be noise, not safety.
+        if (IsStale)
+        {
+            if (_dirty.Count > 0 || EditorIsDirty())
+            {
+                bool discard = AppDialog.Confirm(this, L("App.Name"), L("Manager.StaleNotice"),
+                    L("Manager.DontSave"), L("Dialog.Cancel"));
+                if (!discard) { e.Cancel = true; return; }
+            }
+            _dirty.Clear();
+            _deleted.Clear();
+            return;   // never write or publish the stale model
+        }
         if (!TryLeaveEditor()) { e.Cancel = true; return; }
 
         PruneBlankDrafts();   // an abandoned blank "new" shouldn't survive to the next launch
@@ -1126,14 +1310,17 @@ public partial class ManagerWindow : Window
         // 30-day purge is what finally deletes image files.
         _deleted.Clear();
         AppState.Current.ApplyCategories(_cats);   // in memory; no disk read-back on close
+        _loadedVersion = AppState.Current.DataVersion;
     }
 
     private void OnOpenTrash(object s, RoutedEventArgs e)
     {
         if (!TryLeaveEditor()) return;
-        PersistDirty();
+        if (!EnsureFreshForWrite()) return;
+        if (!PersistDirty()) { AlertSaveFailed(); return; }
         new TrashDialog { Owner = this }.ShowDialog();
         Load();   // one disk read: restored snippets should appear immediately
         AppState.Current.ApplyCategories(_cats);
+        _loadedVersion = AppState.Current.DataVersion;
     }
 }

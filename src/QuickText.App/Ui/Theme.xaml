@@ -8,7 +8,6 @@
     <ui:IndexBadgeConverter x:Key="IndexBadge"/>
     <ui:FavoriteVisibilityConverter x:Key="FavVis"/>
     <ui:HexToBrushConverter x:Key="HexBrush"/>
-    <ui:ImagePathToSourceConverter x:Key="ImgSrc"/>
     <ui:NonEmptyToCollapsedConverter x:Key="NonEmptyToCollapsed"/>
     <ui:ContentFlowDirectionConverter x:Key="ContentFlow"/>
     <BooleanToVisibilityConverter x:Key="BoolToVis"/>
@@ -250,7 +249,7 @@
                     </StackPanel>
                 </Grid>
                 <Grid Margin="0,3,0,0">
-                    <Image Source="{Binding Snippet.ImagePath, Converter={StaticResource ImgSrc}}"
+                    <Image ui:AsyncImage.Path="{Binding Snippet.ImagePath}"
                            Height="30" Stretch="Uniform" HorizontalAlignment="Left"
                            Visibility="{Binding Snippet.ImagePath, Converter={StaticResource EmptyToCollapsed}}"/>
                     <!-- Body-only hits report no name span, so the query is accented here instead —

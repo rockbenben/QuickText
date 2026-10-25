@@ -126,6 +126,10 @@ public sealed class KeyboardHook : IDisposable
             }
 
             var data = System.Runtime.InteropServices.Marshal.PtrToStructure<KBDLLHOOKSTRUCT>(lParam);
+            // Never process our own synthesized input, even if the hook callback is delivered
+            // after _suppressingSelfInput was cleared (it would eat the one-shot undo).
+            if (data.dwExtraInfo == SelfInputMarker)
+                return CallNextHookEx(_hook, nCode, wParam, lParam);
             uint vk = data.vkCode;
 
             // Shift / CapsLock change no text: they must neither break the token being
@@ -189,28 +193,47 @@ public sealed class KeyboardHook : IDisposable
     private void DispatchExpansion(AbbrMatch match)
     {
         // Run off the hook thread so we can prompt / synthesize input without re-entrancy.
-        System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+        System.Windows.Application.Current.Dispatcher.BeginInvoke(
+            new Action(() => _ = ExpandAsync(match)));
+    }
+
+    private async Task ExpandAsync(AbbrMatch match)
+    {
+        try
         {
             var target = GetForegroundWindow();   // the app where the abbreviation was typed
             var sn = match.Snippet;
 
-            // Image snippet: delete the typed abbr, then paste (or copy) the image. No undo —
-            // "N backspaces" has no reliable meaning for a pasted image across apps.
+            // Image snippet: load off the UI thread, then delete the typed abbr and paste/copy.
             if (sn.IsImage)
             {
-                var image = QuickText.App.Ui.ImageLoader.Load(sn.ImagePath);
+                var image = await QuickText.App.Ui.ImageLoader.LoadAsync(sn.ImagePath);
                 if (image == null) return;   // file missing — leave the typed abbreviation alone
-                _suppressingSelfInput = true;
-                try
+
+                void EmitImage()
                 {
-                    PasteEngine.SendBackspaces(match.BackspaceCount);
-                    if (sn.OutputMode == "copy") PasteEngine.CopyImage(image);
-                    else PasteEngine.PasteImage(image, autoSend: sn.OutputMode == "paste-enter",
-                        restoreClipboard: _restoreClipboard());
-                    _pendingUndo = null;
-                    if (!string.IsNullOrEmpty(sn.Id)) _recordUse?.Invoke(sn.Id);
+                    _suppressingSelfInput = true;
+                    try
+                    {
+                        bool deleted = PasteEngine.SendBackspaces(match.BackspaceCount);
+                        bool ok = sn.OutputMode == "copy"
+                            ? PasteEngine.CopyImage(image)
+                            : PasteEngine.PasteImage(image, autoSend: sn.OutputMode == "paste-enter",
+                                restoreClipboard: _restoreClipboard());
+                        if (deleted && !ok) PasteEngine.SendUnicodeText(match.Abbr);
+                        _pendingUndo = null;
+                        if (ok && !string.IsNullOrEmpty(sn.Id)) _recordUse?.Invoke(sn.Id);
+                    }
+                    finally { _suppressingSelfInput = false; }
                 }
-                finally { _suppressingSelfInput = false; }
+
+                if (GetForegroundWindow() == target) EmitImage();
+                else ForegroundTarget.WhenForeground(target, EmitImage, () =>
+                {
+                    PasteEngine.CopyImage(image);
+                    (System.Windows.Application.Current as QuickText.App.App)?.Notify(
+                        QuickText.Core.Localization.LocalizationService.Instance["Msg.TargetLost"], warning: true);
+                });
                 return;
             }
 
@@ -218,8 +241,8 @@ public sealed class KeyboardHook : IDisposable
             // tokens — identical to the search panel's send and copy paths.
             var resolved = QuickText.App.Ui.BodyResolver.Resolve(sn.Body, sn.UseVariables);
             if (resolved == null) return;          // cancelled — leave the typed abbreviation untouched
-            if (resolved.Prompted) ForceForeground(target);   // the modal dialog stole focus; hand it back
             string text = resolved.Text;
+            if (string.IsNullOrEmpty(text)) return;   // nothing to send — do not delete the trigger
             int caret = resolved.CaretFromEnd;
             bool prompted = resolved.Prompted;
             // Per-snippet output override. "copy": remove the typed abbr, put the text on the
@@ -233,15 +256,19 @@ public sealed class KeyboardHook : IDisposable
                 _suppressingSelfInput = true;
                 try
                 {
-                    PasteEngine.SendBackspaces(match.BackspaceCount);
+                    bool deleted = PasteEngine.SendBackspaces(match.BackspaceCount);
                     if (copyOnly)
                     {
-                        PasteEngine.CopyText(text);
+                        bool copied = PasteEngine.CopyText(text);
+                        if (deleted && !copied) PasteEngine.SendUnicodeText(match.Abbr);
                         _pendingUndo = null;   // nothing was pasted; Backspace stays literal
-                        if (!string.IsNullOrEmpty(sn.Id)) _recordUse?.Invoke(sn.Id);
+                        if (copied && !string.IsNullOrEmpty(sn.Id)) _recordUse?.Invoke(sn.Id);
                         return;
                     }
                     bool pasted = PasteEngine.Paste(text, restoreClipboard: _restoreClipboard(), autoSend: autoSend, caretFromEnd: caret);
+                    // A failed clipboard/send (locked clipboard, UIPI) must not cost the typed
+                    // trigger: put it back if the Backspaces actually went through.
+                    if (deleted && !pasted) PasteEngine.SendUnicodeText(match.Abbr);
                     // Arm the one-shot undo — except when {光标} moved the caret off the end,
                     // where "delete N from the end" would hit the wrong span. Also skip large
                     // bodies: undoing would synthesize thousands of Backspace events into the
@@ -260,13 +287,38 @@ public sealed class KeyboardHook : IDisposable
                 finally { _suppressingSelfInput = false; }
             }
 
-            // Only defer when a prompt stole focus — let it settle back on the target first.
-            // The common (no-variable) path stays inline, exactly as snappy as before.
-            if (prompted)
-                System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(Emit), System.Windows.Threading.DispatcherPriority.Background);
+            // A prompt stole focus; wait for the target to really hold it again. On timeout copy
+            // instead of firing Ctrl+V into whatever happens to be focused.
+            if (prompted && copyOnly)
+            {
+                // Still needs the target: Emit deletes the typed abbreviation before copying.
+                ForceForeground(target);
+                ForegroundTarget.WhenForeground(target, Emit, () =>
+                {
+                    PasteEngine.CopyText(text);
+                    (System.Windows.Application.Current as QuickText.App.App)?.Notify(
+                        QuickText.Core.Localization.LocalizationService.Instance["Msg.TargetLost"], warning: true);
+                });
+            }
+            else if (prompted)
+            {
+                ForceForeground(target);
+                ForegroundTarget.WhenForeground(target, Emit, () =>
+                {
+                    PasteEngine.CopyText(text);
+                    (System.Windows.Application.Current as QuickText.App.App)?.Notify(
+                        QuickText.Core.Localization.LocalizationService.Instance["Msg.TargetLost"], warning: true);
+                });
+            }
             else
-                Emit();
-        }));
+            {
+                Emit();   // the target is already active on the common no-variable path
+            }
+        }
+        catch (Exception ex)
+        {
+            QuickText.Core.Log.Error("abbreviation expansion", ex);
+        }
     }
 
     private void DispatchUndo(int backspaces, string abbr)

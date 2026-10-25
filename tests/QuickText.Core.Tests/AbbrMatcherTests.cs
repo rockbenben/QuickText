@@ -134,6 +134,37 @@ public class AbbrMatcherTests
     }
 
     [Fact]
+    public void Abbreviation_longer_than_the_default_buffer_still_fires()
+    {
+        // The Manager field is free text; a 40-character trigger must not silently become dead.
+        var abbr = new string('a', 40);
+        var m = new AbbrMatcher();
+        m.Rebuild(new[] { new Snippet { Abbr = abbr, Body = "x" } });
+        Type(m, abbr);
+        Assert.Equal("x", m.OnTerminator()!.Snippet.Body);
+    }
+
+    [Fact]
+    public void Long_abbreviation_still_needs_a_word_boundary()
+    {
+        var abbr = new string('a', 40);
+        var m = new AbbrMatcher();
+        m.Rebuild(new[] { new Snippet { Abbr = abbr, Body = "x" } });
+        Type(m, "z" + abbr);   // buffer must keep the preceding letter to reject this
+        Assert.Null(m.OnTerminator());
+    }
+
+    [Fact]
+    public void Global_prefix_counts_toward_the_dynamic_buffer()
+    {
+        var abbr = new string('b', 40);
+        var m = new AbbrMatcher();
+        m.Rebuild(new[] { new Snippet { Abbr = abbr, Body = "x" } }, ";");
+        Type(m, ";" + abbr);
+        Assert.Equal(41, m.OnTerminator()!.BackspaceCount);
+    }
+
+    [Fact]
     public void Global_prefix_is_prepended_to_stored_abbr()
     {
         var m = new AbbrMatcher();

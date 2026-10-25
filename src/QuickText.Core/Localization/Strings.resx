@@ -263,7 +263,7 @@
   <data name="Settings.PortableRestart"><value>已切换便携模式，重启后生效。文本库可用「导出 / 导入备份」搬到新位置。</value></data>
   <data name="Settings.PortableFailed"><value>无法写入程序所在目录（可能装在 Program Files 等只读位置）。便携模式需把程序放到可写位置，如 U 盘。</value></data>
   <data name="Settings.CheckUpdates"><value>启动时检查更新</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>开启后仅在启动时联网访问 GitHub 检查新版本——这是本应用唯一的联网操作，其余功能始终离线。</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>开启后仅在启动时联网访问 GitHub 检查并下载新版本到本地，不会自动替换程序；这是本应用唯一的联网操作，其余功能始终离线。</value></data>
   <data name="Settings.CheckNow"><value>立即检查</value></data>
   <data name="Msg.UpToDate"><value>已是最新版本。</value></data>
   <data name="Msg.UpdateCheckFailed"><value>检查更新失败，请稍后重试。</value></data>
@@ -276,4 +276,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>主题</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>深色</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>浅色</value></data>
+  <data name="Msg.TargetLost"><value>目标窗口未就绪，内容已复制到剪贴板，请手动粘贴。</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>数据目录中有文件无法读取，部分内容可能未显示。详情见 error.log。</value></data>
+  <data name="Manager.StaleNotice"><value>库已在其他窗口或外部更新，你在这里的未保存修改尚未写入磁盘。保存已暂停，请重新加载磁盘版本，或关闭窗口后重新打开。</value></data>
+  <data name="Manager.Reload"><value>重新加载</value></data>
 </root>

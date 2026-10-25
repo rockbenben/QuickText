@@ -13,9 +13,17 @@ public sealed class AppState
 
     public SettingsStore SettingsStore { get; } = new(Core.Settings.SettingsStore.DefaultPath);
     public AppSettings Settings { get; set; } = new();
-    public Store Store { get; set; } = null!;
+    public Store Store { get; private set; } = null!;
     public SearchIndex Search { get; } = new(new CachedPinyinProvider(new ToolGoodPinyinProvider()));
     public AbbrMatcher Abbr { get; } = new();
+
+    /// <summary>Increments every time the library model is replaced (disk reload or an in-memory
+    /// apply). The Manager records the value it loaded; a mismatch means its whole-category save
+    /// would overwrite newer data, so writes are paused until the user reloads.</summary>
+    public int DataVersion { get; private set; }
+
+    /// <summary>Warnings produced by the last disk load (corrupt index/category, unsafe paths).</summary>
+    public IReadOnlyList<string> LoadWarnings { get; private set; } = Array.Empty<string>();
 
     /// <summary>Categories with their snippets, for browse-by-category in the search panel.</summary>
     public IReadOnlyList<Category> Categories { get; private set; } = new List<Category>();
@@ -74,9 +82,62 @@ public sealed class AppState
     {
         var folder = ResolveDataFolder();   // never throws (best-effort create)
         Store = new Store(folder);
+        LoadWarnings = Array.Empty<string>();
         Usage?.Flush();
         try { Usage = new UsageStore(MachineStateDir); } catch { Usage = new UsageStore(System.IO.Path.GetTempPath()); }
         RebuildIndexes(new List<Category>());
+    }
+
+    /// <summary>Read the library off the UI thread, then apply it on the caller's (UI) thread.</summary>
+    public async Task ReloadDataAsync(bool notify = true)
+    {
+        var folder = ResolveDataFolder();
+        var store = new Store(folder);
+        var cats = await Task.Run(() => store.LoadAll());
+        if (!string.Equals(folder, ResolveDataFolder(), StringComparison.OrdinalIgnoreCase)) return;
+        ApplyLoaded(folder, cats, store, notify);
+    }
+
+    /// <summary>Rebuild the abbreviation trigger table from the CURRENT saved model, without a disk
+    /// read or a version bump. Used when a settings-only save changes the prefix.</summary>
+    public void RefreshAbbrTriggers()
+    {
+        Abbr.Rebuild(Categories.SelectMany(c => c.Snippets), Settings.AbbrPrefix);
+    }
+
+    /// <summary>A deep copy the Manager can mutate without touching AppState's snapshot.</summary>
+    public IReadOnlyList<Category> SnapshotCategories() => DeepCopy(Categories);
+
+    private readonly SemaphoreSlim _captureGate = new(1, 1);
+
+    /// <summary>Save one clipboard capture into the first category, reading and writing off the UI
+    /// thread, then publish the new snapshot. Call from the UI thread. Returns null when the data
+    /// folder changed underneath the capture.</summary>
+    public async Task<Snippet?> CaptureClipboardAsync(string name, string body)
+    {
+        await _captureGate.WaitAsync();
+        try
+        {
+            var folder = ResolveDataFolder();
+            var store = Store;
+            MarkSelfWrite(10_000);
+            var cats = await Task.Run(() => store.LoadAll());
+            if (!ReferenceEquals(Store, store)) return null;
+
+            var cat = cats.Count > 0
+                ? cats[0]
+                : new Category { Name = Core.Localization.LocalizationService.Instance["Manager.Categories"] };
+            if (cats.Count == 0) cats.Add(cat);
+            var sn = new Snippet { Name = name, Body = body };
+            cat.Snippets.Add(sn);
+            await Task.Run(() => store.SaveCategory(cat));
+            if (!ReferenceEquals(Store, store)) return null;
+
+            ApplyLoaded(folder, cats, store);
+            MarkSelfWrite();
+            return sn;
+        }
+        finally { _captureGate.Release(); }
     }
 
     /// <summary>On a fresh install (no library yet), seed a small starter set so the tool is usable immediately.</summary>
@@ -244,24 +305,31 @@ public sealed class AppState
 
     /// <summary>Read the whole library from disk (blocking I/O) and apply it. Use off the UI
     /// thread for external/watcher-driven reloads; see <see cref="ScheduleReload"/>.</summary>
-    public void ReloadData()
+    public void ReloadData(bool notify = true)
     {
         var folder = ResolveDataFolder();
-        var cats = new Store(folder).LoadAll();   // disk read + JSON parse
-        ApplyLoaded(folder, cats);
+        var store = new Store(folder);
+        var cats = store.LoadAll();   // disk read + JSON parse
+        ApplyLoaded(folder, cats, store, notify);
     }
 
     // Swap in a library that was just read from disk: point the Store at the folder, refresh
     // the machine-local usage store, then rebuild the in-memory indexes.
-    private void ApplyLoaded(string folder, List<Category> cats)
+    private void ApplyLoaded(string folder, List<Category> cats, Store? store = null, bool notify = true)
     {
-        Store = new Store(folder);
+        Store = store ?? new Store(folder);
         Usage?.Flush();   // don't lose a debounced write when swapping stores (null on first load)
         // Usage counts are machine-local state: keep them OUT of the (possibly synced)
         // data folder — the file changes on every send and would conflict across machines.
         MigrateUsageStats(folder);
         Usage = new UsageStore(MachineStateDir);
         RebuildIndexes(cats);
+        LoadWarnings = Store.LoadWarnings.ToList();
+        foreach (var warning in LoadWarnings)
+            Core.Log.Write("library load: " + warning);
+        if (!notify) return;
+        try { DataReloaded?.Invoke(); }
+        catch (Exception ex) { Core.Log.Error("DataReloaded subscriber", ex); }
     }
 
     /// <summary>
@@ -292,6 +360,7 @@ public sealed class AppState
         // Snapshot the membership so later in-memory edits in the Manager don't leak into the
         // search index before they're saved (each apply gets its own list, as reloads did).
         Categories = cats.ToList();
+        DataVersion++;
         _byId.Clear();
         foreach (var c in cats)
             foreach (var s in c.Snippets)
@@ -316,10 +385,20 @@ public sealed class AppState
     private System.Windows.Threading.DispatcherTimer? _reloadDebounce;
     private int _reloadGen;    // UI-thread only: monotonic tag assigned per scheduled reload
     private int _appliedGen;   // UI-thread only: highest reload generation actually applied
+    /// <summary>Raised on the UI thread after the whole library model was replaced (disk reload,
+    /// import or capture). Open windows must reconcile with the new snapshot instead of saving
+    /// their old model over it.</summary>
     public event Action? DataReloaded;
-    private DateTime _selfWriteUntil;
 
-    public void MarkSelfWrite() => _selfWriteUntil = DateTime.UtcNow.AddMilliseconds(800);
+    private long _selfWriteUntilTicks;
+
+    /// <summary>Suppress watcher-driven reloads for our own writes. The watcher runs on a pool
+    /// thread, so use an atomic tick value rather than a plain DateTime field.</summary>
+    public void MarkSelfWrite(int milliseconds = 800) =>
+        Volatile.Write(ref _selfWriteUntilTicks, DateTime.UtcNow.AddMilliseconds(milliseconds).Ticks);
+
+    private bool IsSelfWriteSuppressed =>
+        DateTime.UtcNow.Ticks < Volatile.Read(ref _selfWriteUntilTicks);
 
     public string CategoryOf(string id) => _byId.TryGetValue(id, out var v) ? v.Category : "";
 
@@ -338,8 +417,8 @@ public sealed class AppState
     /// <summary>Abbreviations claimed by more than one snippet (the matcher keeps only one) — surfaced at startup.</summary>
     public IReadOnlyList<string> AbbrConflicts { get; private set; } = Array.Empty<string>();
 
-    public string ResolveImagePath(string relativePath) =>
-        System.IO.Path.Combine(ResolveDataFolder(), relativePath);
+    /// <summary>The absolute image path, or "" when the stored path escapes the library.</summary>
+    public string ResolveImagePath(string relativePath) => Store.ResolveImage(relativePath) ?? "";
 
     public void RecordUse(string id) => Usage.Record(id);
 
@@ -367,14 +446,14 @@ public sealed class AppState
         _watcher = null;
         // An unreachable/absent data folder (offline share, unplugged USB) makes the
         // FileSystemWatcher ctor throw — don't let that take down startup; live reload simply
-        // stays off until the folder is present again (re-armed on the next ReapplySettings).
+        // stays off until the folder is present again (re-armed on the next settings apply).
         try
         {
             var w = new System.IO.FileSystemWatcher(folder, "*.json")
                 { NotifyFilter = System.IO.NotifyFilters.LastWrite | System.IO.NotifyFilters.FileName, EnableRaisingEvents = true };
             System.IO.FileSystemEventHandler handler = (_, _) =>
             {
-                if (DateTime.UtcNow < _selfWriteUntil) return;
+                if (IsSelfWriteSuppressed) return;
                 System.Windows.Application.Current?.Dispatcher.BeginInvoke(new Action(ScheduleReload));
             };
             w.Changed += handler; w.Created += handler;
@@ -406,15 +485,15 @@ public sealed class AppState
                 int gen = ++_reloadGen;
                 System.Threading.Tasks.Task.Run(() =>
                 {
+                    var store = new Store(folder);
                     List<Category> cats;
-                    try { cats = new Store(folder).LoadAll(); }
+                    try { cats = store.LoadAll(); }
                     catch { return; }   // mid-write by the sync client: let the next event retry
                     System.Windows.Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
                     {
                         if (gen <= _appliedGen) return;   // an equal-or-newer reload already applied
                         _appliedGen = gen;
-                        ApplyLoaded(folder, cats);
-                        DataReloaded?.Invoke();
+                        ApplyLoaded(folder, cats, store);
                     }));
                 });
             };

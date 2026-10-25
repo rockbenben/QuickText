@@ -20,7 +20,8 @@ public static class BodyResolver
 
         // Inline {片段:名称} references first, so a nested body's variables prompt too.
         // A referenced snippet with variables OFF is inlined brace-protected (verbatim).
-        body = Placeholders.ExpandSnippets(body, AppState.Current.SnippetForNesting);
+        body = Placeholders.ExpandSnippets(body, AppState.Current.SnippetForNesting,
+            out bool protectedAny);
 
         var vars = Placeholders.VariableSpecs(body);
         IReadOnlyDictionary<string, string>? values = null;
@@ -40,7 +41,9 @@ public static class BodyResolver
         // Interface-language culture so {日期=dddd} names the weekday in the UI's language.
         var (text, caret, hasCursor) = Placeholders.FillWithCaret(body, values, clip,
             culture: QuickText.Core.Localization.LocalizationService.Instance.Culture);
-        text = Placeholders.UnprotectBraces(text);   // restore verbatim nested bodies' literal {…}
+        // Only touch the sentinels when expansion actually protected something; otherwise a
+        // user's own noncharacter/private-use text would be rewritten into braces.
+        if (protectedAny) text = Placeholders.UnprotectBraces(text);
         return new Resolved(text, caret, hasCursor, prompted);
     }
 }

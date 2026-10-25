@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>Modo portátil cambiado: reinicia para aplicar. Traslada tu biblioteca con Exportar / Importar copia.</value></data>
   <data name="Settings.PortableFailed"><value>No se puede escribir junto a la app (puede estar en una ubicación de solo lectura como Program Files). El modo portátil necesita la app en un lugar escribible, como una memoria USB.</value></data>
   <data name="Settings.CheckUpdates"><value>Buscar actualizaciones al iniciar</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>Si se activa, se conecta a GitHub una vez al iniciar para comprobar si hay una versión nueva; es la única vez que la app usa Internet, el resto funciona sin conexión.</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Si se activa, la app contacta con GitHub una vez al iniciar para comprobar y descargar una versión más reciente al disco local. No sustituye el programa en ejecución; es la única operación de red de la app.</value></data>
   <data name="Settings.CheckNow"><value>Buscar ahora</value></data>
   <data name="Msg.UpToDate"><value>Tienes la última versión.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>No se pudo buscar actualizaciones. Inténtalo más tarde.</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>Tema</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Oscuro</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Claro</value></data>
+  <data name="Msg.TargetLost"><value>La ventana de destino no estaba lista. El contenido se copió al portapapeles; pégalo manualmente.</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>No se pudieron leer algunos archivos de la carpeta de datos; puede faltar parte de la biblioteca. Consulta error.log para más detalles.</value></data>
+  <data name="Manager.StaleNotice"><value>La biblioteca se actualizó en otra ventana o fuera de la app. Tus cambios sin guardar aquí no se han escrito en el disco. Guardar está en pausa; vuelve a cargar la versión del disco o cierra y vuelve a abrir esta ventana.</value></data>
+  <data name="Manager.Reload"><value>Recargar</value></data>
 </root>

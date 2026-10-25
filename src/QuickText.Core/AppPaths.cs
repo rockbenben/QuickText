@@ -88,6 +88,22 @@ public static class AppPaths
     public static string SettingsPath => Path.Combine(MachineStateDir, SettingsFileName);
     public static string BackupDir => Path.Combine(MachineStateDir, "backups");
 
+    /// <summary>Where downloaded updates are unpacked. Portable mode keeps them inside Data so the
+    /// "nothing left on the host" promise still holds; installed mode uses LocalAppData (unchanged
+    /// from previous versions, so an already-downloaded update is not fetched again).</summary>
+    public static string UpdatesDirAt(string exeDir) =>
+        IsPortableAt(exeDir)
+            ? Path.Combine(exeDir, PortableDataDirName, "Updates")
+            : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                           "QuickText", "Updates");
+
+    /// <summary>Ambient updates folder, using the PINNED mode (toggling portable in Settings only
+    /// takes effect next startup, including where an update is downloaded to).</summary>
+    public static string UpdatesDir => IsPortable
+        ? Path.Combine(MachineStateDir, "Updates")
+        : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                       "QuickText", "Updates");
+
     // --- toggle portable mode (Settings does this for the user, instead of hand-creating a file) --
 
     /// <summary>

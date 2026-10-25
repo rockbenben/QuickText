@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>تم تبديل الوضع المحمول — أعد التشغيل للتطبيق. انقل مكتبة نصوصك عبر تصدير / استيراد نسخة احتياطية.</value></data>
   <data name="Settings.PortableFailed"><value>تعذّرت الكتابة بجوار التطبيق (قد يكون في موقع للقراءة فقط مثل Program Files). يتطلب الوضع المحمول وجود التطبيق في مكان قابل للكتابة، مثل ذاكرة USB.</value></data>
   <data name="Settings.CheckUpdates"><value>التحقق من التحديثات عند بدء التشغيل</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>عند التفعيل، يتصل بـ GitHub مرة واحدة عند بدء التشغيل للتحقق من وجود إصدار أحدث — وهي المرة الوحيدة التي يتصل فيها التطبيق بالإنترنت؛ وكل ما عداها يعمل دون اتصال.</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>عند التفعيل، يتصل التطبيق بـ GitHub مرة واحدة عند بدء التشغيل للتحقق من إصدار أحدث وتنزيله إلى القرص المحلي. لا يستبدل البرنامج قيد التشغيل؛ هذا هو اتصال الشبكة الوحيد للتطبيق.</value></data>
   <data name="Settings.CheckNow"><value>تحقق الآن</value></data>
   <data name="Msg.UpToDate"><value>أنت تستخدم أحدث إصدار.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>تعذّر التحقق من التحديثات. حاول مرة أخرى لاحقًا.</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>المظهر</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>داكن</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>فاتح</value></data>
+  <data name="Msg.TargetLost"><value>لم تكن النافذة الهدف جاهزة. تم نسخ المحتوى إلى الحافظة؛ الصقه يدويًا.</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>تعذّرت قراءة بعض الملفات في مجلد البيانات؛ قد يكون جزء من المكتبة مفقودًا. راجع error.log للتفاصيل.</value></data>
+  <data name="Manager.StaleNotice"><value>تم تحديث المكتبة في نافذة أخرى أو خارج التطبيق. لم يتم حفظ تغييراتك غير المحفوظة هنا على القرص بعد. تم إيقاف الحفظ مؤقتًا؛ أعد تحميل النسخة من القرص أو أغلق هذه النافذة وأعد فتحها.</value></data>
+  <data name="Manager.Reload"><value>إعادة التحميل</value></data>
 </root>

@@ -296,7 +296,7 @@
                                   Content="{Binding [Settings.CheckUpdates], Source={x:Static app:LocProxy.Instance}}"/>
                         <TextBlock Text="{Binding [Settings.CheckUpdatesHint], Source={x:Static app:LocProxy.Instance}}"
                                    FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="24,3,0,0" TextWrapping="Wrap"/>
-                        <Button HorizontalAlignment="Left" Style="{StaticResource DarkButton}" Padding="12,6" Margin="24,8,0,0"
+                        <Button x:Name="CheckNowButton" HorizontalAlignment="Left" Style="{StaticResource DarkButton}" Padding="12,6" Margin="24,8,0,0"
                                 Content="{Binding [Settings.CheckNow], Source={x:Static app:LocProxy.Instance}}" Click="OnCheckUpdatesNow"/>
                     </StackPanel>
                 </Border>

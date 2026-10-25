@@ -17,6 +17,13 @@ public class BidiTextTests
     // "365 README 备注" was being displayed as "README 备注 365" in an Arabic UI.
     [InlineData("365 README 备注", false)]
     [InlineData("365 مرحبا", true)]
+    // Arabic-Indic digits are still DIGITS (Unicode category Nd), not strong RTL letters. The
+    // first strong character rule must skip them, exactly as it skips ASCII digits.
+    [InlineData("١٢ abc", false)]
+    [InlineData("١٢٣", false)]
+    [InlineData("٣ مرحبا", true)]
+    [InlineData("مرحبا ١٢", true)]
+    [InlineData("\u060C abc", false)]                 // Arabic comma is punctuation, not a letter
     [InlineData("  \"'-  ", false)]                   // no strong character at all
     [InlineData("", false)]
     [InlineData(null, false)]

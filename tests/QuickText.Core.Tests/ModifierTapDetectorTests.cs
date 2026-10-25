@@ -69,6 +69,39 @@ public class ModifierTapDetectorTests
     }
 
     [Fact]
+    public void A_long_hold_is_not_a_tap()
+    {
+        var clock = new Clock();
+        var d = new ModifierTapDetector(RCtrl, requireDouble: false, () => clock.Now);
+        d.Feed(RCtrl, true);
+        clock.Advance(ModifierTapDetector.MaxHoldMs + 100);
+        Assert.False(d.Feed(RCtrl, false));
+    }
+
+    [Fact]
+    public void Pointer_activity_cancels_a_held_tap()
+    {
+        var d = new ModifierTapDetector(RCtrl, requireDouble: false);
+        d.Feed(RCtrl, true);       // held while the user clicks / scrolls with the mouse
+        d.CancelTap();
+        Assert.False(d.Feed(RCtrl, false));
+    }
+
+    [Fact]
+    public void Pointer_activity_between_taps_breaks_the_double_tap()
+    {
+        var clock = new Clock();
+        var d = new ModifierTapDetector(RCtrl, requireDouble: true, () => clock.Now);
+
+        d.Feed(RCtrl, true);
+        Assert.False(d.Feed(RCtrl, false));   // first tap
+        d.CancelTap();                         // user clicks between the taps
+        clock.Advance(120);
+        d.Feed(RCtrl, true);
+        Assert.False(d.Feed(RCtrl, false));    // must not fire
+    }
+
+    [Fact]
     public void Double_tap_ignores_a_dirty_first_press()
     {
         var clock = new Clock();

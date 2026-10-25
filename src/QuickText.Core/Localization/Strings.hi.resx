@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>पोर्टेबल मोड बदला गया — लागू करने के लिए पुनरारंभ करें। अपनी टेक्स्ट लाइब्रेरी को बैकअप निर्यात / आयात से स्थानांतरित करें।</value></data>
   <data name="Settings.PortableFailed"><value>ऐप के बगल में लिख नहीं सकते (यह Program Files जैसे केवल-पढ़ने योग्य स्थान में हो सकता है)। पोर्टेबल मोड के लिए ऐप को लिखने योग्य स्थान पर होना चाहिए, जैसे USB स्टिक।</value></data>
   <data name="Settings.CheckUpdates"><value>शुरू होने पर अपडेट जाँचें</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>चालू होने पर शुरू होते समय एक बार GitHub से जुड़कर नया संस्करण जाँचता है — ऐप केवल तभी इंटरनेट का उपयोग करता है, बाकी सब ऑफ़लाइन चलता है।</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>चालू होने पर ऐप स्टार्टअप पर एक बार GitHub से संपर्क करके नया संस्करण जाँचता और स्थानीय डिस्क पर डाउनलोड करता है। यह चल रहे प्रोग्राम को नहीं बदलता; ऐप का यह एकमात्र नेटवर्क कार्य है।</value></data>
   <data name="Settings.CheckNow"><value>अभी जाँचें</value></data>
   <data name="Msg.UpToDate"><value>आप नवीनतम संस्करण पर हैं।</value></data>
   <data name="Msg.UpdateCheckFailed"><value>अपडेट जाँच नहीं सका। बाद में पुनः प्रयास करें।</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>थीम</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>गहरा</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>हल्का</value></data>
+  <data name="Msg.TargetLost"><value>लक्ष्य विंडो तैयार नहीं थी। सामग्री क्लिपबोर्ड पर कॉपी कर दी गई है; इसे मैन्युअल रूप से पेस्ट करें।</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>डेटा फ़ोल्डर की कुछ फ़ाइलें पढ़ी नहीं जा सकीं; लाइब्रेरी का कुछ भाग गायब हो सकता है। विवरण के लिए error.log देखें।</value></data>
+  <data name="Manager.StaleNotice"><value>लाइब्रेरी किसी अन्य विंडो में या ऐप के बाहर अपडेट हुई है। यहाँ किए गए आपके बिना सहेजे बदलाव अभी डिस्क पर नहीं लिखे गए हैं। सहेजना रोका गया है; डिस्क वाला संस्करण फिर से लोड करें, या यह विंडो बंद करके फिर खोलें।</value></data>
+  <data name="Manager.Reload"><value>फिर से लोड करें</value></data>
 </root>

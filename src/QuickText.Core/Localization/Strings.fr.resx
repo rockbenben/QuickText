@@ -213,7 +213,7 @@
   <data name="Settings.PortableRestart"><value>Mode portable modifié — redémarrez pour appliquer. Déplacez votre bibliothèque de texte avec Exporter / Importer une sauvegarde.</value></data>
   <data name="Settings.PortableFailed"><value>Impossible d'écrire à côté de l'application (elle est peut-être dans un emplacement en lecture seule comme Program Files). Le mode portable nécessite l'application dans un emplacement inscriptible, comme une clé USB.</value></data>
   <data name="Settings.CheckUpdates"><value>Vérifier les mises à jour au démarrage</value></data>
-  <data name="Settings.CheckUpdatesHint"><value>Si activé, se connecte à GitHub une fois au démarrage pour vérifier s'il existe une nouvelle version — le seul moment où l'application accède à Internet ; le reste fonctionne hors ligne.</value></data>
+  <data name="Settings.CheckUpdatesHint"><value>Si cette option est activée, l'application contacte GitHub une fois au démarrage pour vérifier et télécharger une version plus récente sur le disque local. Elle ne remplace jamais le programme en cours d'exécution ; c'est la seule opération réseau de l'application.</value></data>
   <data name="Settings.CheckNow"><value>Vérifier maintenant</value></data>
   <data name="Msg.UpToDate"><value>Vous avez la dernière version.</value></data>
   <data name="Msg.UpdateCheckFailed"><value>Impossible de vérifier les mises à jour. Réessayez plus tard.</value></data>
@@ -226,4 +226,8 @@
   <data name="Settings.Theme" xml:space="preserve"><value>Thème</value></data>
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Sombre</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Clair</value></data>
+  <data name="Msg.TargetLost"><value>La fenêtre cible n'était pas prête. Le contenu a été copié dans le presse-papiers ; collez-le manuellement.</value></data>
+  <data name="Msg.LibraryLoadWarning"><value>Certains fichiers du dossier de données n'ont pas pu être lus ; une partie de la bibliothèque peut manquer. Consultez error.log pour plus de détails.</value></data>
+  <data name="Manager.StaleNotice"><value>La bibliothèque a été mise à jour dans une autre fenêtre ou en dehors de l'application. Vos modifications non enregistrées ici n'ont pas été écrites sur le disque. L'enregistrement est suspendu ; rechargez la version du disque ou fermez puis rouvrez cette fenêtre.</value></data>
+  <data name="Manager.Reload"><value>Recharger</value></data>
 </root>

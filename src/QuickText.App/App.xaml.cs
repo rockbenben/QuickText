@@ -357,9 +357,16 @@ public partial class App : Application
             }
         };
 
+        state.DataReloaded += () =>
+        {
+            if (state.LoadWarnings.Count > 0)
+                Balloon(LocalizationService.Instance["Msg.LibraryLoadWarning"], NotificationIcon.Warning);
+        };
         state.StartWatching();
         if (dataFolderUnavailable)
             Balloon(LocalizationService.Instance["Msg.DataFolderUnavailable"], NotificationIcon.Warning);
+        if (state.LoadWarnings.Count > 0)
+            Balloon(LocalizationService.Instance["Msg.LibraryLoadWarning"], NotificationIcon.Warning);
         var conflicts = state.Store.FindConflictFiles();
         if (conflicts.Count > 0)
             Balloon(string.Format(LocalizationService.Instance["Msg.ConflictFiles"], conflicts.Count), NotificationIcon.Warning);
@@ -404,7 +411,7 @@ public partial class App : Application
         // Opt-in, off by default (the only feature in the app that goes online): ask GitHub whether
         // a newer release exists, and fetch it if so. Fire-and-forget so a slow/absent network
         // never delays the tray coming up.
-        if (state.Settings.CheckUpdates) CheckForUpdatesAsync(manual: false);
+        if (state.Settings.CheckUpdates) _ = CheckForUpdatesAsync(manual: false);
 
         // A hand-launched exe (double-click) opens search, same as double-clicking the tray or
         // relaunching while we're already running — otherwise the app just "does nothing visible".
@@ -424,8 +431,12 @@ public partial class App : Application
     /// <para>The running program is never replaced: Windows locks a running executable, so the new
     /// build is unpacked into a folder of its own and the user is told where it is.</para>
     /// </summary>
-    public async void CheckForUpdatesAsync(bool manual)
+    private bool _updateCheckRunning;
+
+    public async Task CheckForUpdatesAsync(bool manual)
     {
+        if (_updateCheckRunning) return;
+        _updateCheckRunning = true;
         var loc = LocalizationService.Instance;
         try
         {
@@ -439,21 +450,25 @@ public partial class App : Application
                     break;
                 case UpdateStatus.VerifyFailed:
                     // The download did not match the published checksum, so it was thrown away.
-                    // Say so: a silent no-op here would read as "no update available".
+                    // Always leave a trace; the automatic startup check has no balloon to show.
+                    Core.Log.Write("update verify failed: " + (outcome.Error ?? "no detail"));
                     if (manual) Balloon(loc["Msg.UpdateVerifyFailed"], NotificationIcon.Warning);
                     break;
                 case UpdateStatus.UpToDate:
                     if (manual) Balloon(loc["Msg.UpToDate"], NotificationIcon.Info);
                     break;
                 default:
+                    Core.Log.Write("update check failed: " + (outcome.Error ?? outcome.Status.ToString()));
                     if (manual) Balloon(loc["Msg.UpdateCheckFailed"], NotificationIcon.Warning);
                     break;
             }
         }
-        catch
+        catch (Exception ex)
         {
+            Core.Log.Error("update check", ex);
             if (manual) Balloon(loc["Msg.UpdateCheckFailed"], NotificationIcon.Warning);
         }
+        finally { _updateCheckRunning = false; }
     }
 
     /// <summary>A background index build finished. Two things hang off it.
@@ -485,6 +500,10 @@ public partial class App : Application
         _updateUrl = url;
         _tray?.ShowNotification(LocalizationService.Instance["App.Name"], message, icon);
     }
+
+    /// <summary>Show an ordinary tray message from a sibling window (no click-through URL).</summary>
+    internal void Notify(string message, bool warning = false) =>
+        Balloon(message, warning ? NotificationIcon.Warning : NotificationIcon.Info);
 
     protected override void OnExit(ExitEventArgs e)
     {
@@ -1219,14 +1238,23 @@ public partial class App : Application
     }
 
     /// <summary>Apply changed settings live so nothing needs a restart.</summary>
-    public void ReapplySettings()
+    public async Task ReapplySettingsAsync()
     {
         var state = AppState.Current;
 
-        // Data folder may have changed — reload from it and re-watch. Keep the
-        // current data if the new folder is unusable rather than crashing.
-        try { state.ReloadData(); state.StartWatching(); }
-        catch { /* bad folder: retain existing data */ }
+        // Only a data-folder change needs a disk reload. Theme/language/abbreviation changes must
+        // not re-read the whole library on the UI thread (and must not make an open Manager stale).
+        var currentFolder = state.Store.Root;
+        var nextFolder = state.ResolveDataFolder();
+        if (!string.Equals(currentFolder, nextFolder, StringComparison.OrdinalIgnoreCase))
+        {
+            try { await state.ReloadDataAsync(); }
+            catch { /* bad folder: retain existing data */ }
+        }
+        try { state.StartWatching(); }
+        catch { /* unreachable folder: retry on the next apply */ }
+
+        state.RefreshAbbrTriggers();
 
         // Re-arm the summon triggers with the new combos. Stays OFF while a Settings window is
         // still open (this runs from OnSave before the window closes); the close re-arms it.
@@ -1266,7 +1294,6 @@ public partial class App : Application
     /// away in the tray menu.</summary>
     private void OnTrayDoubleClick(object s, RoutedEventArgs e) => ShowSearch(toggle: false);
 
-    /// <summary>Save the current clipboard text as a new snippet in the first category; null if no text.</summary>
     /// <summary>Build a snippet from the clipboard (name = first line trimmed to a listable length,
     /// body = full text), or null when it holds no usable text. Shared so the silent capture hotkey
     /// and the tray "new from clipboard" derive it identically.</summary>
@@ -1281,20 +1308,37 @@ public partial class App : Application
         return (name, text);
     }
 
-    /// <summary>Silent capture (hotkey): no Manager is involved, so save straight to disk.</summary>
-    private static Core.Models.Snippet? SaveClipboardSnippet()
+    /// <summary>Silent capture (hotkey): route into an open Manager's model when possible, else
+    /// save through AppState on a background read/write. A balloon is the only feedback.</summary>
+    private async void CaptureClipboard()
     {
-        if (ClipboardSnippet() is not { } cs) return null;
-        var state = AppState.Current;
-        var cats = state.Store.LoadAll();
-        var cat = cats.Count > 0 ? cats[0]
-            : new Core.Models.Category { Name = LocalizationService.Instance["Manager.Categories"] };
-        var sn = new Core.Models.Snippet { Name = cs.Name, Body = cs.Body };
-        cat.Snippets.Add(sn);
-        state.MarkSelfWrite();
-        state.Store.SaveCategory(cat);
-        state.ReloadData();
-        return sn;
+        var loc = LocalizationService.Instance;
+        if (ClipboardSnippet() is not { } cs)
+        {
+            Balloon(loc["Msg.CaptureEmpty"], NotificationIcon.Warning);
+            return;
+        }
+
+        var manager = Windows.OfType<ManagerWindow>().FirstOrDefault();
+        if (manager != null && manager.TryAddCapturedSnippet(cs.Name, cs.Body))
+        {
+            Balloon(string.Format(loc["Msg.Captured"], cs.Name), NotificationIcon.Info);
+            return;
+        }
+
+        try
+        {
+            var sn = await AppState.Current.CaptureClipboardAsync(cs.Name, cs.Body);
+            if (sn != null)
+                Balloon(string.Format(loc["Msg.Captured"], sn.Name), NotificationIcon.Info);
+            else
+                Balloon(loc["Manager.SaveFailed"], NotificationIcon.Warning);
+        }
+        catch (Exception ex)
+        {
+            Core.Log.Error("clipboard capture", ex);
+            Balloon(loc["Manager.SaveFailed"], NotificationIcon.Warning);
+        }
     }
 
     /// <summary>Tray: capture the clipboard as a new snippet and open the Manager to finish it —
@@ -1305,15 +1349,6 @@ public partial class App : Application
         ShowSingleton(() => new ManagerWindow()).AddSnippet(cs.Name, cs.Body);
     }
 
-    /// <summary>Capture hotkey: save the clipboard silently — a balloon is the only feedback.</summary>
-    private void CaptureClipboard()
-    {
-        var loc = LocalizationService.Instance;
-        if (SaveClipboardSnippet() is { } sn)
-            Balloon(string.Format(loc["Msg.Captured"], sn.Name), NotificationIcon.Info);
-        else
-            Balloon(loc["Msg.CaptureEmpty"], NotificationIcon.Warning);
-    }
     private void OnSettings(object s, RoutedEventArgs e) => ShowSingleton(() => new SettingsWindow());
     private void OnExit(object s, RoutedEventArgs e)
     {
