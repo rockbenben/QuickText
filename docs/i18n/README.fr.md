@@ -18,6 +18,8 @@
 - Les données sont du **JSON local** dans votre propre dossier — placez-le dans Dropbox / OneDrive / un NAS pour le synchroniser.
 - Thèmes sombre et clair (ou suivre Windows), **18 langues d'interface** (avec miroir de droite à gauche pour l'arabe), les réglages s'appliquent instantanément.
 
+## Téléchargement
+
 **[⬇ Télécharger la dernière version](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable en un seul fichier. Non signé, donc SmartScreen avertit au premier lancement : **Informations complémentaires → Exécuter quand même**.
 
 - `QuickText-<version>-win-x64.zip` — le runtime .NET est intégré : aucun prérequis, il tourne sur n'importe quel Windows 10/11 x64. À prendre en cas de doute : postes en intranet ou hors ligne, ou clé USB que vous transportez.
@@ -135,7 +137,7 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 - **Dossier de données** — pointez-le vers un lecteur de synchronisation ; **exporter / importer une sauvegarde** (zip, validée avec confirmation d'écrasement) ; **sauvegarde automatique** quotidienne sur cette machine (les 10 plus récentes conservées, accès au dossier en un clic).
 - **Langue** — **18 langues** : English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, changées instantanément. **Démarrer avec Windows** en option.
 - **Thème** — sombre (par défaut) / clair / suivre Windows, appliqué dès le clic, sans redémarrage.
-- **Vérifier les mises à jour** — désactivé par défaut ; si activé, se connecte à GitHub une fois au démarrage pour vérifier s'il existe une nouvelle version (le seul moment où l'application accède à Internet). « Vérifier maintenant » l'exécute à la demande.
+- **Vérifier les mises à jour** — désactivé par défaut ; si activé, se connecte à GitHub au démarrage pour vérifier et télécharger une nouvelle version sur le disque local (ne remplace jamais le programme en cours d'exécution ; le seul moment où l'application accède à Internet). « Vérifier maintenant » l'exécute à la demande.
 
 ## Aide-mémoire clavier
 
@@ -211,10 +213,6 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotn
 ```
 
 Nécessite le SDK .NET 10. Windows uniquement (raccourci global Win32 / hook clavier / presse-papiers).
-
-## Licence
-
-[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Libre d'utilisation, de modification et de distribution.
 
 ## À propos du 365 Open Source Plan
 

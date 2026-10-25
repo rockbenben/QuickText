@@ -18,6 +18,8 @@
 - Los datos son **JSON local** en tu propia carpeta: ponlos en Dropbox / OneDrive / un NAS para sincronizarlos.
 - Temas oscuro y claro (o seguir a Windows), **18 idiomas de interfaz** (con reflejo de derecha a izquierda para el árabe), los ajustes se aplican al instante.
 
+## Descargar
+
 **[⬇ Descargar la última versión](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable de un solo archivo. No está firmado digitalmente, así que SmartScreen avisa la primera vez: **Más información → Ejecutar de todas formas**.
 
 - `QuickText-<version>-win-x64.zip`: incluye el runtime de .NET, así que funciona en cualquier Windows 10/11 x64 sin requisitos previos. Elige este si tienes dudas: equipos en intranet o sin conexión, o para llevarlo en un USB.
@@ -135,7 +137,7 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 - **Carpeta de datos** — apúntala a una unidad de sincronización; **exportar / importar copia de seguridad** (zip, validada con confirmación de sobrescritura); **copia automática** diaria a esta máquina (se conservan las 10 más recientes, acceso a la carpeta con un clic).
 - **Idioma** — **18 idiomas**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, con cambio instantáneo. **Iniciar con Windows** opcional.
 - **Tema** — oscuro (predeterminado) / claro / seguir a Windows; se aplica al elegirlo, sin reiniciar.
-- **Buscar actualizaciones** — desactivado por defecto; si se activa, contacta con GitHub una vez al iniciar para comprobar si hay una versión nueva (la única vez que usa Internet). «Buscar ahora» lo ejecuta al momento.
+- **Buscar actualizaciones** — desactivado por defecto; si se activa, contacta con GitHub al iniciar para comprobar y descargar una versión nueva al disco local (no sustituye el programa en ejecución; la única vez que usa Internet). «Buscar ahora» lo ejecuta al momento.
 
 ## Chuleta de teclado
 
@@ -211,10 +213,6 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotn
 ```
 
 Requiere el SDK de .NET 10. Solo Windows (tecla rápida global de Win32 / gancho de teclado / portapapeles).
-
-## Licencia
-
-[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Libre de usar, modificar y distribuir.
 
 ## Sobre el Plan 365 de código abierto
 

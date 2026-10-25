@@ -18,6 +18,8 @@
 - Veriler kendi klasörünüzdeki **yerel JSON** olarak durur — senkronize etmek için Dropbox / OneDrive / bir NAS içine koyun.
 - Koyu ve açık tema (veya Windows’u izle), **18 arayüz dili** (Arapça için sağdan sola yansıtmayla), ayarlar anında uygulanır.
 
+## İndir
+
 **[⬇ En son sürümü indir](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, tek dosya taşınabilir. Kod imzalı değil, bu yüzden SmartScreen ilk çalıştırmada uyarır: **More info → Run anyway**.
 
 - `QuickText-<version>-win-x64.zip` — .NET çalışma zamanı gömülü olduğu için hiçbir ön koşul olmadan her Windows 10/11 x64 makinede çalışır. Emin değilseniz bunu indirin: intranetteki veya internete bağlı olmayan bilgisayarlar ya da USB'de yanınızda taşımak için.
@@ -135,7 +137,7 @@ Ayrıntılar: eşleştirme **büyük/küçük harfe duyarlı değildir** (`;SIG`
 - **Veri klasörü** — bir senkronizasyon sürücüsüne yönlendirin; **yedeği dışa / içe aktar** (zip, üzerine yazma onayıyla doğrulanır); bu makineye günlük **otomatik yedekleme** (en yeni 10 tanesi tutulur, tek tıkla klasör erişimi).
 - **Dil** — **18 dil**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, anında değişir. **Windows ile başlat** isteğe bağlı.
 - **Tema** — koyu (varsayılan) / açık / Windows’u izle; seçtiğiniz anda uygulanır, yeniden başlatma gerekmez.
-- **Güncellemeleri denetle** — varsayılan olarak kapalı; açıkken başlangıçta bir kez GitHub'a bağlanarak yeni sürüm olup olmadığını denetler (çevrimiçi olduğu tek an). «Şimdi denetle» ile isteğe bağlı çalıştırın.
+- **Güncellemeleri denetle** — varsayılan olarak kapalı; açıkken başlangıçta GitHub'a bağlanarak yeni sürümü denetler ve yerel diske indirir (çalışan programın yerini almaz; çevrimiçi olduğu tek an). «Şimdi denetle» ile isteğe bağlı çalıştırın.
 
 ## Klavye kısa referansı
 
@@ -211,10 +213,6 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotn
 ```
 
 .NET 10 SDK gerektirir. Yalnızca Windows (Win32 global kısayol / klavye kancası / pano).
-
-## Lisans
-
-[MIT License](../../LICENSE) · Telif hakkı © 2026 rockbenben. Kullanmakta, değiştirmekte ve dağıtmakta özgürsünüz.
 
 ## 365 Açık Kaynak Planı hakkında
 

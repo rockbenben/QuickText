@@ -18,6 +18,8 @@
 - Data berupa **JSON lokal** di folder Anda sendiri — taruh di Dropbox / OneDrive / NAS untuk sinkronisasi.
 - Tema gelap dan terang (atau ikuti Windows), **18 bahasa UI** (dengan pencerminan kanan-ke-kiri untuk bahasa Arab), pengaturan berlaku seketika.
 
+## Unduh
+
 **[⬇ Unduh versi terbaru](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portabel satu file. Tidak ditandatangani, jadi SmartScreen memperingatkan saat pertama dijalankan: **More info → Run anyway**.
 
 - `QuickText-<version>-win-x64.zip` — runtime .NET sudah disertakan, jadi langsung jalan di Windows 10/11 x64 mana pun tanpa prasyarat. Pilih ini kalau ragu: komputer di intranet atau tanpa internet, atau dibawa-bawa lewat USB.
@@ -135,7 +137,7 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 - **Folder data** — arahkan ke drive sinkronisasi; **ekspor / impor cadangan** (zip, divalidasi dengan konfirmasi penimpaan); **cadangan otomatis harian** ke mesin ini (10 terbaru disimpan, akses folder sekali klik).
 - **Bahasa** — **18 bahasa**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, diganti seketika. **Mulai bersama Windows** opsional.
 - **Tema** — gelap (bawaan) / terang / ikuti Windows, langsung berlaku tanpa mulai ulang.
-- **Periksa pembaruan** — nonaktif secara bawaan; jika aktif, terhubung ke GitHub sekali saat mulai untuk memeriksa versi baru (satu-satunya saat daring). «Periksa sekarang» menjalankannya sesuai permintaan.
+- **Periksa pembaruan** — nonaktif secara bawaan; jika aktif, terhubung ke GitHub saat mulai untuk memeriksa dan mengunduh versi baru ke disk lokal (tidak mengganti program yang sedang berjalan; satu-satunya saat daring). «Periksa sekarang» menjalankannya sesuai permintaan.
 
 ## Contekan keyboard
 
@@ -211,10 +213,6 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotn
 ```
 
 Membutuhkan .NET 10 SDK. Hanya Windows (hotkey global Win32 / keyboard hook / clipboard).
-
-## Lisensi
-
-[MIT License](../../LICENSE) · Hak Cipta © 2026 rockbenben. Bebas digunakan, dimodifikasi, dan didistribusikan.
 
 ## Tentang 365 Open Source Plan
 

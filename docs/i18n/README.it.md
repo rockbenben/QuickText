@@ -18,6 +18,8 @@
 - I dati sono in **JSON locale** nella tua cartella — mettila su Dropbox / OneDrive / un NAS per sincronizzarli.
 - Temi scuro e chiaro (o segui Windows), **18 lingue dell'interfaccia** (con rispecchiamento da destra a sinistra per l'arabo), le impostazioni si applicano all'istante.
 
+## Download
+
 **[⬇ Scarica l'ultima versione](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable in un solo file. Non è firmato, quindi SmartScreen avvisa al primo avvio: **Ulteriori informazioni → Esegui comunque**.
 
 - `QuickText-<version>-win-x64.zip` — include il runtime .NET, quindi gira su qualsiasi Windows 10/11 x64 senza prerequisiti. Nel dubbio scegli questo: macchine in intranet o offline, o una chiavetta USB da portare in giro.
@@ -135,7 +137,7 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 - **Cartella dati** — puntala su un'unità di sincronizzazione; **esporta / importa backup** (zip, convalidato con conferma di sovrascrittura); **backup automatico** giornaliero su questo computer (mantenuti i 10 più recenti, accesso alla cartella con un clic).
 - **Lingua** — **18 lingue**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, cambiate all'istante. **Avvio con Windows** opzionale.
 - **Tema** — scuro (predefinito) / chiaro / segui Windows, si applica subito, senza riavvio.
-- **Controlla aggiornamenti** — disattivato per impostazione predefinita; se attivo, si connette a GitHub una volta all'avvio per verificare la presenza di una nuova versione (l'unica volta in cui va online). «Controlla ora» lo esegue su richiesta.
+- **Controlla aggiornamenti** — disattivato per impostazione predefinita; se attivo, si connette a GitHub all'avvio per verificare e scaricare una nuova versione sul disco locale (non sostituisce il programma in esecuzione; l'unica volta in cui va online). «Controlla ora» lo esegue su richiesta.
 
 ## Riepilogo scorciatoie da tastiera
 
@@ -211,10 +213,6 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotn
 ```
 
 Richiede l'SDK .NET 10. Solo Windows (scorciatoia globale Win32 / hook della tastiera / appunti).
-
-## Licenza
-
-[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Libero di usare, modificare e distribuire.
 
 ## Informazioni sul 365 Open Source Plan
 

@@ -18,6 +18,8 @@
 - Dữ liệu là **JSON cục bộ** trong thư mục của riêng bạn — đặt nó vào Dropbox / OneDrive / một NAS để đồng bộ.
 - Giao diện tối và sáng (hoặc theo Windows), **18 ngôn ngữ giao diện** (có phản chiếu phải-sang-trái cho tiếng Ả Rập), thiết lập áp dụng tức thì.
 
+## Tải xuống
+
 **[⬇ Tải bản mới nhất](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable một tệp. Không được ký số nên lần chạy đầu SmartScreen sẽ cảnh báo: **More info → Run anyway**.
 
 - `QuickText-<version>-win-x64.zip` — đã đóng gói sẵn .NET runtime nên chạy được trên mọi máy Windows 10/11 x64 mà không cần cài gì thêm. Không chắc thì chọn bản này: máy trong mạng nội bộ, máy không có mạng, hay mang theo trong USB.
@@ -135,7 +137,7 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 - **Thư mục dữ liệu** — trỏ nó vào một ổ đĩa đồng bộ; **xuất / nhập bản sao lưu** (zip, được kiểm tra với xác nhận ghi đè); **tự động sao lưu** hàng ngày về máy này (giữ 10 bản mới nhất, truy cập thư mục bằng một cú nhấp).
 - **Ngôn ngữ** — **18 ngôn ngữ**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, chuyển đổi tức thì. **Khởi động cùng Windows** tùy chọn.
 - **Giao diện** — tối (mặc định) / sáng / theo Windows, áp dụng ngay khi chọn, không cần khởi động lại.
-- **Kiểm tra cập nhật** — tắt theo mặc định; khi bật, ứng dụng kết nối GitHub một lần lúc khởi động để kiểm tra phiên bản mới (lần duy nhất truy cập mạng). «Kiểm tra ngay» chạy khi cần.
+- **Kiểm tra cập nhật** — tắt theo mặc định; khi bật, ứng dụng kết nối GitHub lúc khởi động để kiểm tra và tải bản mới về ổ đĩa cục bộ (không thay thế chương trình đang chạy; lần duy nhất truy cập mạng). «Kiểm tra ngay» chạy khi cần.
 
 ## Bảng tra cứu nhanh phím tắt
 
@@ -211,10 +213,6 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotn
 ```
 
 Yêu cầu .NET 10 SDK. Chỉ dành cho Windows (phím tắt toàn cục Win32 / keyboard hook / clipboard).
-
-## Giấy phép
-
-[MIT License](../../LICENSE) · Bản quyền © 2026 rockbenben. Tự do sử dụng, chỉnh sửa, và phân phối.
 
 ## Giới thiệu về 365 Open Source Plan
 

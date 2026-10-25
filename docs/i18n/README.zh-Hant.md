@@ -18,6 +18,8 @@
 - 資料是存在你自己資料夾裡的**本機 JSON**——放進 Dropbox / OneDrive / NAS 即可同步。
 - 深色／淺色主題（也可跟隨系統）、**18 種介面語言**（阿拉伯文支援由右至左鏡像），設定即時生效。
 
+## 下載
+
 **[⬇ 下載最新版](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64，單檔綠色版。程式未做程式碼簽章，首次執行 SmartScreen 會攔一下：點**其他資訊 → 仍要執行**。
 
 - `QuickText-<版本>-win-x64.zip` —— 已內建 .NET 執行階段，任何 Windows 10/11 x64 都能直接跑，沒有前置需求。拿不準就下這個：內網電腦、離線電腦，或用 USB 隨身帶著跑。
@@ -135,7 +137,7 @@
 - **資料夾** — 指向同步磁碟；**匯出／匯入備份**（zip，經驗證並附覆寫確認）；每日**自動備份**到本機（保留最新 10 份，一鍵開啟資料夾）。
 - **語言** — **18 種語言**：English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe，即時切換。**開機自動啟動**為選用。
 - **主題** —— 深色（預設）／淺色／跟隨系統，點選即時生效，不用重啟。
-- **檢查更新** — 預設關閉；開啟後僅在啟動時連線 GitHub 檢查有無新版本（本應用唯一的連線操作）。也可按「立即檢查」隨時觸發。
+- **檢查更新** — 預設關閉；開啟後僅在啟動時連線 GitHub 檢查並下載新版本到本機，不會自動取代程式（本應用唯一的連線操作）。也可按「立即檢查」隨時觸發。
 
 ## 鍵盤速查表
 
@@ -211,10 +213,6 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotn
 ```
 
 需要 .NET 10 SDK。僅限 Windows（Win32 全域熱鍵／鍵盤掛勾／剪貼簿）。
-
-## 授權
-
-[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. 可自由使用、修改與散布。
 
 ## 關於 365 開源計劃
 

@@ -18,6 +18,8 @@
 - Os dados são **JSON local** na sua própria pasta — coloque-os no Dropbox / OneDrive / num NAS para sincronizar.
 - Temas escuro e claro (ou seguir o Windows), **18 idiomas de interface** (com espelhamento da direita para a esquerda para o árabe), configurações aplicadas instantaneamente.
 
+## Download
+
 **[⬇ Baixar a versão mais recente](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portátil em arquivo único. Não é assinado, então o SmartScreen avisa na primeira execução: **Mais informações → Executar assim mesmo**.
 
 - `QuickText-<version>-win-x64.zip` — traz o runtime do .NET embutido, então roda em qualquer Windows 10/11 x64 sem pré-requisitos. Escolha este na dúvida: máquinas em intranet ou offline, ou para levar num pendrive.
@@ -135,7 +137,7 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 - **Pasta de dados** — aponte-a para um drive de sincronização; **exportar / importar backup** (zip, validado com confirmação de sobrescrita); **backup automático** diário nesta máquina (os 10 mais recentes são mantidos, acesso à pasta com um clique).
 - **Idioma** — **18 idiomas**: English · 简体中文 · 繁體中文 · 日本語 · 한국어 · Español · Português · Français · Deutsch · Italiano · Русский · Tiếng Việt · ไทย · Bahasa Indonesia · हिन्दी · বাংলা · العربية (RTL) · Türkçe, trocados instantaneamente. **Iniciar com o Windows** opcional.
 - **Tema** — escuro (padrão) / claro / seguir o Windows, aplicado na hora, sem reiniciar.
-- **Verificar atualizações** — desativado por padrão; quando ativado, conecta-se ao GitHub uma vez ao iniciar para procurar uma versão mais recente (a única vez que acessa a internet). «Verificar agora» executa sob demanda.
+- **Verificar atualizações** — desativado por padrão; quando ativado, conecta-se ao GitHub ao iniciar para procurar e transferir uma versão mais recente para o disco local (não substitui o programa em execução; a única vez que acessa a internet). «Verificar agora» executa sob demanda.
 
 ## Referência rápida de teclado
 
@@ -211,10 +213,6 @@ dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotn
 ```
 
 Requer o SDK do .NET 10. Apenas Windows (tecla de atalho global / hook de teclado / área de transferência do Win32).
-
-## Licença
-
-[MIT License](../../LICENSE) · Copyright © 2026 rockbenben. Livre para usar, modificar e distribuir.
 
 ## Sobre o Plano 365 Open Source
 
