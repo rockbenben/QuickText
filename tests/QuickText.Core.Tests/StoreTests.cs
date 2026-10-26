@@ -98,6 +98,26 @@ public class StoreTests : IDisposable
     }
 
     [Fact]
+    public void FindConflictFiles_returns_empty_when_the_index_is_unreadable()
+    {
+        File.WriteAllText(Path.Combine(_root, "index.json"), "{ broken");
+        File.WriteAllText(Path.Combine(_root, "项目A (conflict).json"), "[]");
+
+        Assert.Empty(new Store(_root).FindConflictFiles());
+    }
+
+    [Fact]
+    public void FindConflictFiles_does_not_record_a_warning_for_an_unreadable_index()
+    {
+        File.WriteAllText(Path.Combine(_root, "index.json"), "{ broken");
+        var store = new Store(_root);
+
+        store.FindConflictFiles();
+
+        Assert.Empty(store.LoadWarnings);
+    }
+
+    [Fact]
     public void Categories_with_colliding_sanitized_names_do_not_lose_data()
     {
         var store = new Store(_root);

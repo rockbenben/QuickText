@@ -367,9 +367,7 @@ public partial class App : Application
             Balloon(LocalizationService.Instance["Msg.DataFolderUnavailable"], NotificationIcon.Warning);
         if (state.LoadWarnings.Count > 0)
             Balloon(LocalizationService.Instance["Msg.LibraryLoadWarning"], NotificationIcon.Warning);
-        var conflicts = state.Store.FindConflictFiles();
-        if (conflicts.Count > 0)
-            Balloon(string.Format(LocalizationService.Instance["Msg.ConflictFiles"], conflicts.Count), NotificationIcon.Warning);
+        ReportConflictFilesAsync(state);
         if (firstRun)
             Balloon(string.Format(LocalizationService.Instance["Msg.FirstRunHint"], state.Settings.Hotkey), NotificationIcon.Info);
 
@@ -504,6 +502,32 @@ public partial class App : Application
     /// <summary>Show an ordinary tray message from a sibling window (no click-through URL).</summary>
     internal void Notify(string message, bool warning = false) =>
         Balloon(message, warning ? NotificationIcon.Warning : NotificationIcon.Info);
+
+    /// <summary>The conflict-file scan can touch a sleeping USB or sync folder. Keep it off the
+    /// startup path and report only after the tray exists.</summary>
+    private void ReportConflictFilesAsync(AppState state)
+    {
+        _ = Task.Run(() => state.Store.FindConflictFiles())
+            .ContinueWith(t =>
+            {
+                if (!t.IsCompletedSuccessfully)
+                {
+                    if (t.Exception is { } ex) Core.Log.Error("conflict scan", ex);
+                    return;
+                }
+                if (t.Result.Count == 0) return;
+                try
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        if (Application.Current?.Dispatcher.HasShutdownStarted == true) return;
+                        Balloon(string.Format(LocalizationService.Instance["Msg.ConflictFiles"], t.Result.Count),
+                            NotificationIcon.Warning);
+                    }));
+                }
+                catch { /* shutting down */ }
+            }, TaskScheduler.Default);
+    }
 
     protected override void OnExit(ExitEventArgs e)
     {

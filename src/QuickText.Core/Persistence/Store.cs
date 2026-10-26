@@ -8,9 +8,9 @@ public sealed class Store
     private readonly string _root;
     public Store(string root) => _root = root;
 
-    /// <summary>Files skipped or unreadable during the last <see cref="LoadAll"/>. Index/category
-    /// JSON is user-editable and arrives through backups and sync folders, so a bad file must not
-    /// turn the whole library into a silent empty one.</summary>
+    /// <summary>Files skipped or unreadable during library/index reads. Index/category JSON is
+    /// user-editable and arrives through backups and sync folders, so a bad file must not turn the
+    /// whole library into a silent empty one.</summary>
     public List<string> LoadWarnings { get; } = new();
 
     /// <summary>The library folder this store reads and writes.</summary>
@@ -127,7 +127,11 @@ public sealed class Store
         else File.Move(tmp, path);
     }
 
-    public LibraryIndex LoadIndex()
+    public LibraryIndex LoadIndex() => LoadIndexCore(reportWarnings: true) ?? new LibraryIndex();
+
+    /// <summary>The conflict scan runs off the UI thread, so it must not mutate
+    /// <see cref="LoadWarnings"/>; null marks an unreadable index instead of an empty one.</summary>
+    private LibraryIndex? LoadIndexCore(bool reportWarnings)
     {
         try
         {
@@ -137,8 +141,8 @@ public sealed class Store
         }
         catch (Exception ex)
         {
-            LoadWarnings.Add($"index.json: {ex.Message}");
-            return new LibraryIndex();
+            if (reportWarnings) LoadWarnings.Add($"index.json: {ex.Message}");
+            return null;
         }
     }
 
@@ -291,8 +295,9 @@ public sealed class Store
     public IReadOnlyList<string> FindConflictFiles()
     {
         if (!Directory.Exists(_root)) return Array.Empty<string>();
+        if (LoadIndexCore(reportWarnings: false) is not { } index) return Array.Empty<string>();
         var indexed = new HashSet<string>(
-            LoadIndex().Categories.Select(r => r.File), StringComparer.OrdinalIgnoreCase);
+            index.Categories.Select(r => r.File), StringComparer.OrdinalIgnoreCase);
         return Directory.GetFiles(_root, "*.json")
             .Select(Path.GetFileName)
             .Where(f => f != null && !indexed.Contains(f)
