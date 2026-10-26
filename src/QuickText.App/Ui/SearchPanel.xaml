@@ -59,20 +59,25 @@
                            Foreground="{DynamicResource Brush.TextMuted}" VerticalAlignment="Center" Margin="0,0,13,0"/>
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="10,0,0,0">
                     <Button Style="{StaticResource GhostIconButton}" FontSize="14"
+                            AutomationProperties.Name="{Binding [Search.Hint.New], Source={x:Static app:LocProxy.Instance}}"
                             Content="&#xE710;" Click="OnNewSnippet"
                             ToolTip="{Binding [Search.Hint.New], Source={x:Static app:LocProxy.Instance}}"/>
                     <Button Style="{StaticResource GhostIconButton}" FontSize="14" Margin="4,0,0,0"
+                            AutomationProperties.Name="{Binding [Tray.OpenManager], Source={x:Static app:LocProxy.Instance}}"
                             Content="&#xE8F1;" Click="OnOpenManager"
                             ToolTip="{Binding [Tray.OpenManager], Source={x:Static app:LocProxy.Instance}}"/>
                     <Button Style="{StaticResource GhostIconButton}" FontSize="14" Margin="4,0,0,0"
+                            AutomationProperties.Name="{Binding [Tray.Settings], Source={x:Static app:LocProxy.Instance}}"
                             Content="&#xE713;" Click="OnOpenSettings"
                             ToolTip="{Binding [Tray.Settings], Source={x:Static app:LocProxy.Instance}}"/>
                     <Button x:Name="PinButton" Style="{StaticResource GhostIconButton}" FontSize="14"
+                            AutomationProperties.Name="{Binding [Search.KeepOpen], Source={x:Static app:LocProxy.Instance}}"
                             Content="&#xE718;" Margin="4,0,0,0" Click="OnTogglePin"
                             ToolTip="{Binding [Search.KeepOpen], Source={x:Static app:LocProxy.Instance}}"/>
                 </StackPanel>
                 <Grid Grid.Column="1">
                     <TextBox x:Name="Query" Background="Transparent" BorderThickness="0" Padding="0"
+                             AutomationProperties.Name="{Binding [Search.Placeholder], Source={x:Static app:LocProxy.Instance}}"
                              FontFamily="{StaticResource Font.Ui}" FontSize="19"
                              Foreground="{DynamicResource Brush.TextPrimary}"
                              CaretBrush="{DynamicResource Brush.Accent}"
@@ -245,6 +250,12 @@
                         <StackPanel x:Name="HintSend" Orientation="Horizontal" Margin="0,0,16,4">
                             <Border Style="{StaticResource HintKey}"><TextBlock Text="↵" Style="{StaticResource HintKeyText}"/></Border>
                             <TextBlock Text="{Binding [Search.Hint.Send], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
+                        </StackPanel>
+                        <StackPanel x:Name="HintQuick" Orientation="Horizontal" Margin="0,0,16,4">
+                            <Border Style="{StaticResource HintKey}">
+                                <TextBlock Text="Alt+1–9" FlowDirection="LeftToRight" Style="{StaticResource HintKeyText}"/>
+                            </Border>
+                            <TextBlock Text="{Binding [Search.Hint.QuickPick], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource HintLabel}"/>
                         </StackPanel>
                         <!-- Search.Hint.Create, NOT Search.Hint.New: this Enter runs the same action
                              as the empty-state button (Search.CreateNew, "创建「x」"), and an action

@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>略語「{0}」は「{1}」で既に使用されています。展開が曖昧になります</value></data>
   <data name="Msg.FirstRunHint"><value>{0} でパネルを呼び出せます</value></data>
   <data name="Settings.OpenFolder"><value>データフォルダーを開く</value></data>
+  <data name="Settings.ChooseFolder"><value>フォルダーを選択</value></data>
   <data name="Tray.NewFromClipboard"><value>クリップボードから新規</value></data>
   <data name="Ctx.Edit"><value>この項目を編集</value></data>
   <data name="Ctx.Copy"><value>内容をコピー</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>送信</value></data>
   <data name="Search.Hint.Close"><value>閉じる</value></data>
   <data name="Search.Hint.SwitchCat"><value>カテゴリ</value></data>
+  <data name="Search.Hint.QuickPick"><value>クイック選択</value></data>
   <data name="Search.Empty.Title"><value>スニペットがありません</value></data>
   <data name="Search.Empty.Sub"><value>最初のスニペットを追加すると、ホットキーでいつでも呼び出せます</value></data>
   <data name="Search.Empty.Action"><value>スニペットを追加</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>ダーク</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>ライト</value></data>
   <data name="Msg.TargetLost"><value>対象ウィンドウの準備ができませんでした。内容をクリップボードにコピーしました。手動で貼り付けてください。</value></data>
+  <data name="Msg.NoTarget"><value>クリップボードにコピーしました。手動で貼り付けるか、入力欄でパネルを呼び出して選び直すと直接貼り付けられます。</value></data>
   <data name="Msg.LibraryLoadWarning"><value>データフォルダー内の一部のファイルを読み取れませんでした。ライブラリの一部が表示されていない可能性があります。詳細は error.log を参照してください。</value></data>
   <data name="Manager.StaleNotice"><value>ライブラリが別のウィンドウまたは外部で更新されました。ここでの未保存の変更はまだディスクに書き込まれていません。保存は停止中です。ディスク上のバージョンを再読み込みするか、このウィンドウを閉じて開き直してください。</value></data>
   <data name="Manager.Reload"><value>再読み込み</value></data>

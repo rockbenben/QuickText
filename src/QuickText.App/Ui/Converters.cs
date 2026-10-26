@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
@@ -11,16 +12,21 @@ using QuickText.App;
 namespace QuickText.App.Ui;
 
 /// <summary>Snippet-relative image path -> a loaded, file-unlocked, frozen BitmapImage (null if
-/// missing or outside the library). Decoded images are cached by path + file stamp; callers that
-/// run on the UI thread should use <see cref="LoadAsync"/>.</summary>
+/// missing or outside the library). Decoded images are cached by path, file stamp and decode width;
+/// callers that run on the UI thread should use <see cref="LoadAsync"/>.</summary>
 public static class ImageLoader
 {
     private sealed record Entry(DateTime LastWriteUtc, long Length, BitmapImage Image);
     private static readonly Dictionary<string, Entry> Cache = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly List<string> Lru = new();
     private static readonly object Gate = new();
+    private static readonly ConcurrentDictionary<string, Task<BitmapImage?>> InFlight =
+        new(StringComparer.OrdinalIgnoreCase);
     private const int MaxCachedImages = 128;
 
-    public static BitmapImage? Load(string relativePath)
+    /// <param name="decodeWidth">0 = full resolution (send/copy); a positive value decodes a
+    /// display thumbnail, so rows and previews do not hold multi-megapixel bitmaps.</param>
+    public static BitmapImage? Load(string relativePath, int decodeWidth = 0)
     {
         if (string.IsNullOrWhiteSpace(relativePath)) return null;
         try
@@ -31,31 +37,69 @@ public static class ImageLoader
             if (!info.Exists) return null;
             var stamp = info.LastWriteTimeUtc;
             long length = info.Length;
+            var key = Key(abs, decodeWidth);
             lock (Gate)
             {
-                if (Cache.TryGetValue(abs, out var hit) && hit.LastWriteUtc == stamp && hit.Length == length)
-                    return hit.Image;
+                if (Cache.TryGetValue(key, out var hit))
+                {
+                    if (hit.LastWriteUtc == stamp && hit.Length == length)
+                    {
+                        Touch(key);
+                        return hit.Image;
+                    }
+                    Cache.Remove(key);
+                    Lru.Remove(key);
+                }
             }
 
             var bi = new BitmapImage();
             bi.BeginInit();
             bi.CacheOption = BitmapCacheOption.OnLoad;   // load fully so the file isn't locked
+            if (decodeWidth > 0) bi.DecodePixelWidth = decodeWidth;
             bi.UriSource = new Uri(abs);
             bi.EndInit();
             bi.Freeze();
 
-            lock (Gate)
-            {
-                if (Cache.Count >= MaxCachedImages) Cache.Clear();
-                Cache[abs] = new Entry(stamp, length, bi);
-            }
+            lock (Gate) Add(key, new Entry(stamp, length, bi));
             return bi;
         }
         catch { return null; }
     }
 
-    public static Task<BitmapImage?> LoadAsync(string relativePath) =>
-        Task.Run(() => Load(relativePath));
+    public static Task<BitmapImage?> LoadAsync(string relativePath, int decodeWidth = 0)
+    {
+        if (string.IsNullOrWhiteSpace(relativePath)) return Task.FromResult<BitmapImage?>(null);
+        // Best-effort dedupe: concurrent first asks usually share one decode; correctness never
+        // depends on it.
+        var inflightKey = relativePath + "|" + decodeWidth.ToString(CultureInfo.InvariantCulture);
+        return InFlight.GetOrAdd(inflightKey, k => Task.Run(() =>
+        {
+            try { return Load(relativePath, decodeWidth); }
+            finally { InFlight.TryRemove(k, out _); }
+        }));
+    }
+
+    private static string Key(string abs, int decodeWidth) =>
+        abs + "|" + decodeWidth.ToString(CultureInfo.InvariantCulture);
+
+    private static void Touch(string key)
+    {
+        Lru.Remove(key);
+        Lru.Add(key);
+    }
+
+    private static void Add(string key, Entry entry)
+    {
+        if (Cache.ContainsKey(key)) { Cache[key] = entry; Touch(key); return; }
+        while (Cache.Count >= MaxCachedImages && Lru.Count > 0)
+        {
+            var oldest = Lru[0];
+            Lru.RemoveAt(0);
+            Cache.Remove(oldest);
+        }
+        Cache[key] = entry;
+        Lru.Add(key);
+    }
 }
 
 /// <summary>Attached behavior: decode the image path off the UI thread and assign it when ready.
@@ -66,24 +110,57 @@ public static class AsyncImage
     public static readonly DependencyProperty PathProperty = DependencyProperty.RegisterAttached(
         "Path", typeof(string), typeof(AsyncImage), new PropertyMetadata("", OnPathChanged));
 
+    public static readonly DependencyProperty DecodeWidthProperty = DependencyProperty.RegisterAttached(
+        "DecodeWidth", typeof(int), typeof(AsyncImage), new PropertyMetadata(0, OnDecodeWidthChanged));
+
     public static void SetPath(DependencyObject o, string v) => o.SetValue(PathProperty, v);
     public static string GetPath(DependencyObject o) => (string)o.GetValue(PathProperty);
+    public static void SetDecodeWidth(DependencyObject o, int v) => o.SetValue(DecodeWidthProperty, v);
+    public static int GetDecodeWidth(DependencyObject o) => (int)o.GetValue(DecodeWidthProperty);
 
-    private static async void OnPathChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+    private static void OnPathChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
     {
-        if (o is not Image image) return;
-        var path = e.NewValue as string ?? "";
+        if (o is Image image) _ = ReloadAsync(image);
+    }
+
+    private static void OnDecodeWidthChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+    {
+        if (o is Image image) _ = ReloadAsync(image);
+    }
+
+    private static async Task ReloadAsync(Image image)
+    {
+        var path = GetPath(image);
+        var decodeWidth = GetDecodeWidth(image);
         image.Source = null;
         if (string.IsNullOrWhiteSpace(path)) return;
 
         try
         {
-            var bitmap = await ImageLoader.LoadAsync(path);
-            if (!string.Equals(GetPath(image), path, StringComparison.Ordinal)) return;   // a newer path won
+            var bitmap = await ImageLoader.LoadAsync(path, decodeWidth);
+            if (!string.Equals(GetPath(image), path, StringComparison.Ordinal)
+                || GetDecodeWidth(image) != decodeWidth) return;   // a newer path/width won
             image.Source = bitmap;
         }
         catch { /* a missing/locked image is already represented by a null source */ }
     }
+}
+
+/// <summary>Display the abbreviation as the user actually types it: the configured trigger
+/// prefix plus the stored bare abbreviation. The Manager edits the bare value beside its prefix;
+/// the search row should not show a different trigger.</summary>
+public sealed class AbbrTriggerConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        var abbr = value as string ?? "";
+        if (abbr.Length == 0) return "";
+        var prefix = AppState.Current.Settings.AbbrPrefix ?? "";
+        return prefix + abbr;
+    }
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        => throw new NotSupportedException();
 }
 
 /// <summary>Non-empty string -> Collapsed, empty -> Visible (inverse of EmptyToCollapsed).</summary>

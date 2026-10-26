@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>La abreviatura «{0}» ya la usa «{1}»: la expansión sería ambigua</value></data>
   <data name="Msg.FirstRunHint"><value>Pulsa {0} para abrir el panel</value></data>
   <data name="Settings.OpenFolder"><value>Abrir carpeta de datos</value></data>
+  <data name="Settings.ChooseFolder"><value>Elegir carpeta</value></data>
   <data name="Tray.NewFromClipboard"><value>Nuevo desde el portapapeles</value></data>
   <data name="Ctx.Edit"><value>Editar</value></data>
   <data name="Ctx.Copy"><value>Copiar contenido</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>Enviar</value></data>
   <data name="Search.Hint.Close"><value>Cerrar</value></data>
   <data name="Search.Hint.SwitchCat"><value>Categoría</value></data>
+  <data name="Search.Hint.QuickPick"><value>Selección rápida</value></data>
   <data name="Search.Empty.Title"><value>Aún no hay fragmentos</value></data>
   <data name="Search.Empty.Sub"><value>Añade tu primer fragmento; luego invocas el panel con el atajo</value></data>
   <data name="Search.Empty.Action"><value>Añadir un fragmento</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Oscuro</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Claro</value></data>
   <data name="Msg.TargetLost"><value>La ventana de destino no estaba lista. El contenido se copió al portapapeles; pégalo manualmente.</value></data>
+  <data name="Msg.NoTarget"><value>Copiado al portapapeles. Pégalo manualmente o abre el panel desde el campo de entrada y vuelve a elegirlo para pegar directamente.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>No se pudieron leer algunos archivos de la carpeta de datos; puede faltar parte de la biblioteca. Consulta error.log para más detalles.</value></data>
   <data name="Manager.StaleNotice"><value>La biblioteca se actualizó en otra ventana o fuera de la app. Tus cambios sin guardar aquí no se han escrito en el disco. Guardar está en pausa; vuelve a cargar la versión del disco o cierra y vuelve a abrir esta ventana.</value></data>
   <data name="Manager.Reload"><value>Recargar</value></data>

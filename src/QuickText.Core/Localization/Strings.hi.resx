@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>संक्षिप्त रूप “{0}” पहले से “{1}” द्वारा उपयोग में है — विस्तार अस्पष्ट होगा</value></data>
   <data name="Msg.FirstRunHint"><value>पैनल खोलने के लिए {0} दबाएँ</value></data>
   <data name="Settings.OpenFolder"><value>डेटा फ़ोल्डर खोलें</value></data>
+  <data name="Settings.ChooseFolder"><value>फ़ोल्डर चुनें</value></data>
   <data name="Tray.NewFromClipboard"><value>क्लिपबोर्ड से नया</value></data>
   <data name="Ctx.Edit"><value>संपादित करें</value></data>
   <data name="Ctx.Copy"><value>सामग्री कॉपी करें</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>भेजें</value></data>
   <data name="Search.Hint.Close"><value>बंद करें</value></data>
   <data name="Search.Hint.SwitchCat"><value>श्रेणी</value></data>
+  <data name="Search.Hint.QuickPick"><value>त्वरित चयन</value></data>
   <data name="Search.Empty.Title"><value>अभी कोई स्निपेट नहीं</value></data>
   <data name="Search.Empty.Sub"><value>अपना पहला स्निपेट जोड़ें — फिर हॉटकी से पैनल कभी भी बुलाएँ</value></data>
   <data name="Search.Empty.Action"><value>स्निपेट जोड़ें</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>गहरा</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>हल्का</value></data>
   <data name="Msg.TargetLost"><value>लक्ष्य विंडो तैयार नहीं थी। सामग्री क्लिपबोर्ड पर कॉपी कर दी गई है; इसे मैन्युअल रूप से पेस्ट करें।</value></data>
+  <data name="Msg.NoTarget"><value>क्लिपबोर्ड पर कॉपी किया गया। इसे मैन्युअल रूप से पेस्ट करें, या सीधे पेस्ट करने के लिए इनपुट बॉक्स से पैनल खोलकर फिर से चुनें।</value></data>
   <data name="Msg.LibraryLoadWarning"><value>डेटा फ़ोल्डर की कुछ फ़ाइलें पढ़ी नहीं जा सकीं; लाइब्रेरी का कुछ भाग गायब हो सकता है। विवरण के लिए error.log देखें।</value></data>
   <data name="Manager.StaleNotice"><value>लाइब्रेरी किसी अन्य विंडो में या ऐप के बाहर अपडेट हुई है। यहाँ किए गए आपके बिना सहेजे बदलाव अभी डिस्क पर नहीं लिखे गए हैं। सहेजना रोका गया है; डिस्क वाला संस्करण फिर से लोड करें, या यह विंडो बंद करके फिर खोलें।</value></data>
   <data name="Manager.Reload"><value>फिर से लोड करें</value></data>

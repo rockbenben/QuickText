@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>Abréviation « {0} » déjà utilisée par « {1} » — l'expansion serait ambiguë</value></data>
   <data name="Msg.FirstRunHint"><value>Appuyez sur {0} pour ouvrir le panneau</value></data>
   <data name="Settings.OpenFolder"><value>Ouvrir le dossier de données</value></data>
+  <data name="Settings.ChooseFolder"><value>Choisir un dossier</value></data>
   <data name="Tray.NewFromClipboard"><value>Nouveau depuis le presse-papiers</value></data>
   <data name="Ctx.Edit"><value>Modifier</value></data>
   <data name="Ctx.Copy"><value>Copier le contenu</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>Envoyer</value></data>
   <data name="Search.Hint.Close"><value>Fermer</value></data>
   <data name="Search.Hint.SwitchCat"><value>Catégorie</value></data>
+  <data name="Search.Hint.QuickPick"><value>Sélection rapide</value></data>
   <data name="Search.Empty.Title"><value>Aucun extrait pour l'instant</value></data>
   <data name="Search.Empty.Sub"><value>Ajoutez votre premier extrait — le raccourci l'affiche à tout moment</value></data>
   <data name="Search.Empty.Action"><value>Ajouter un extrait</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Sombre</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Clair</value></data>
   <data name="Msg.TargetLost"><value>La fenêtre cible n'était pas prête. Le contenu a été copié dans le presse-papiers ; collez-le manuellement.</value></data>
+  <data name="Msg.NoTarget"><value>Copié dans le presse-papiers. Collez-le manuellement ou ouvrez le panneau depuis le champ de saisie et choisissez à nouveau pour coller directement.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>Certains fichiers du dossier de données n'ont pas pu être lus ; une partie de la bibliothèque peut manquer. Consultez error.log pour plus de détails.</value></data>
   <data name="Manager.StaleNotice"><value>La bibliothèque a été mise à jour dans une autre fenêtre ou en dehors de l'application. Vos modifications non enregistrées ici n'ont pas été écrites sur le disque. L'enregistrement est suspendu ; rechargez la version du disque ou fermez puis rouvrez cette fenêtre.</value></data>
   <data name="Manager.Reload"><value>Recharger</value></data>

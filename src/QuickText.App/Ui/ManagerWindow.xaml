@@ -36,12 +36,16 @@
                                     Content="{Binding [Manager.Categories], Source={x:Static app:LocProxy.Instance}}"/>
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Button x:Name="AddCategoryButton" Style="{StaticResource GhostIconButton}" Content="&#xE710;" Click="OnAddCategory"
+                                AutomationProperties.Name="{Binding [Manager.NewCategory], Source={x:Static app:LocProxy.Instance}}"
                                 ToolTip="{Binding [Manager.NewCategory], Source={x:Static app:LocProxy.Instance}}"/>
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE70F;" Click="OnRenameCategory"
+                                AutomationProperties.Name="{Binding [Manager.Rename], Source={x:Static app:LocProxy.Instance}}"
                                 ToolTip="{Binding [Manager.Rename], Source={x:Static app:LocProxy.Instance}}"/>
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE738;" Click="OnDeleteCategory"
+                                AutomationProperties.Name="{Binding [Manager.Delete], Source={x:Static app:LocProxy.Instance}}"
                                 ToolTip="{Binding [Manager.Delete], Source={x:Static app:LocProxy.Instance}}"/>
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE81C;" Click="OnOpenTrash"
+                                AutomationProperties.Name="{Binding [Manager.Trash], Source={x:Static app:LocProxy.Instance}}"
                                 ToolTip="{Binding [Manager.Trash], Source={x:Static app:LocProxy.Instance}}"/>
                     </StackPanel>
                 </Grid>
@@ -75,15 +79,19 @@
                                     Content="{Binding [Manager.Snippets], Source={x:Static app:LocProxy.Instance}}"/>
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE710;" Click="OnAddSnippet"
+                                AutomationProperties.Name="{Binding [Manager.AddSnippet], Source={x:Static app:LocProxy.Instance}}"
                                 ToolTip="{Binding [Manager.AddSnippet], Source={x:Static app:LocProxy.Instance}}"/>
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE8C8;" Click="OnDuplicateSnippet"
+                                AutomationProperties.Name="{Binding [Manager.Duplicate], Source={x:Static app:LocProxy.Instance}}"
                                 ToolTip="{Binding [Manager.Duplicate], Source={x:Static app:LocProxy.Instance}}"/>
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE738;" Click="OnDeleteSnippet"
+                                AutomationProperties.Name="{Binding [Manager.Delete], Source={x:Static app:LocProxy.Instance}}"
                                 ToolTip="{Binding [Manager.Delete], Source={x:Static app:LocProxy.Instance}}"/>
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="4" Margin="0,8,0,0">
                     <TextBox x:Name="FilterBox" Style="{StaticResource DarkTextBox}" FontSize="12.5" Padding="8,5"
+                             AutomationProperties.Name="{Binding [Manager.Filter], Source={x:Static app:LocProxy.Instance}}"
                              TextChanged="OnFilterChanged"/>
                     <TextBlock Text="{Binding [Manager.Filter], Source={x:Static app:LocProxy.Instance}}"
                                FontSize="12.5" Margin="10,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False"
@@ -123,11 +131,12 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="0" Style="{StaticResource FieldLabel}"
+            <TextBlock Grid.Row="0" x:Name="NameLabel" Style="{StaticResource FieldLabel}"
                        Text="{Binding [Manager.Name], Source={x:Static app:LocProxy.Instance}}"/>
-            <TextBox Grid.Row="1" x:Name="SnippetName" Style="{StaticResource DarkTextBox}" FontSize="14"/>
+            <TextBox Grid.Row="1" x:Name="SnippetName" Style="{StaticResource DarkTextBox}" FontSize="14"
+                     AutomationProperties.LabeledBy="{Binding ElementName=NameLabel}"/>
 
-            <TextBlock Grid.Row="2" Style="{StaticResource FieldLabel}" Margin="2,18,0,6"
+            <TextBlock Grid.Row="2" x:Name="AbbrLabel" Style="{StaticResource FieldLabel}" Margin="2,18,0,6"
                        Text="{Binding [Manager.Abbr], Source={x:Static app:LocProxy.Instance}}"/>
             <!-- The conflict hint is error text — it must never lose a word to the card edge. A
                  horizontal StackPanel measures children at INFINITE width, so at MinWidth the hint
@@ -143,6 +152,7 @@
                                FontFamily="{StaticResource Font.Mono}" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"
                                ToolTip="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"/>
                     <TextBox x:Name="Abbr" Style="{StaticResource DarkTextBox}" Width="180"
+                             AutomationProperties.LabeledBy="{Binding ElementName=AbbrLabel}"
                              FontFamily="{StaticResource Font.Mono}" TextChanged="OnAbbrChanged"/>
                 </StackPanel>
                 <TextBlock Grid.Row="1" x:Name="AbbrConflict" Margin="2,6,0,0" FontSize="12.5" TextWrapping="Wrap"
@@ -158,7 +168,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Style="{StaticResource FieldLabel}" Margin="0,0,12,0"
+                <TextBlock Grid.Column="0" x:Name="BodyLabel" Style="{StaticResource FieldLabel}" Margin="0,0,12,0"
                            VerticalAlignment="Center"
                            Text="{Binding [Manager.Body], Source={x:Static app:LocProxy.Instance}}"/>
                 <WrapPanel Grid.Column="1" HorizontalAlignment="Right">
@@ -176,7 +186,8 @@
                             ToolTip="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"/>
                 </WrapPanel>
             </Grid>
-            <ui:BodyEditor Grid.Row="5" x:Name="Body" MinHeight="120" ShowStatusBar="True"/>
+            <ui:BodyEditor Grid.Row="5" x:Name="Body" MinHeight="120" ShowStatusBar="True"
+                           AutomationProperties.LabeledBy="{Binding ElementName=BodyLabel}"/>
 
             <!-- WrapPanel, not a horizontal StackPanel: a StackPanel measures its children at
                  INFINITE width, so at the window's own MinWidth this row simply overflowed and the
@@ -190,7 +201,7 @@
                           Content="{Binding [Manager.UseVars], Source={x:Static app:LocProxy.Instance}}"
                           ToolTip="{Binding [Manager.UseVarsHint], Source={x:Static app:LocProxy.Instance}}"/>
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                    <TextBlock VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"
+                    <TextBlock x:Name="OutputModeLabel" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"
                                Foreground="{DynamicResource Brush.TextMuted}"
                                Text="{Binding [Manager.OutputMode], Source={x:Static app:LocProxy.Instance}}"/>
                     <!-- MinWidth, not Width: the items are translated, and the longest ("Suivre les
@@ -199,6 +210,7 @@
                          and 140 only sets the floor for the short ones. The WrapPanel above absorbs
                          the extra width at narrow window sizes. -->
                     <ComboBox x:Name="OutputMode" MinWidth="140" VerticalAlignment="Center" Style="{StaticResource DarkComboBox}"
+                              AutomationProperties.LabeledBy="{Binding ElementName=OutputModeLabel}"
                               ToolTip="{Binding [Manager.OutputModeHint], Source={x:Static app:LocProxy.Instance}}"/>
                 </StackPanel>
             </WrapPanel>

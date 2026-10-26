@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>“{0}” kısaltması zaten “{1}” tarafından kullanılıyor — genişletme belirsiz olur</value></data>
   <data name="Msg.FirstRunHint"><value>Paneli açmak için {0} tuşuna basın</value></data>
   <data name="Settings.OpenFolder"><value>Veri klasörünü aç</value></data>
+  <data name="Settings.ChooseFolder"><value>Klasör seç</value></data>
   <data name="Tray.NewFromClipboard"><value>Panodan yeni</value></data>
   <data name="Ctx.Edit"><value>Düzenle</value></data>
   <data name="Ctx.Copy"><value>İçeriği kopyala</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>Gönder</value></data>
   <data name="Search.Hint.Close"><value>Kapat</value></data>
   <data name="Search.Hint.SwitchCat"><value>Kategori</value></data>
+  <data name="Search.Hint.QuickPick"><value>Hızlı seçim</value></data>
   <data name="Search.Empty.Title"><value>Henüz metin yok</value></data>
   <data name="Search.Empty.Sub"><value>İlk metninizi ekleyin — sonrasında paneli kısayol tuşuyla istediğiniz an çağırın</value></data>
   <data name="Search.Empty.Action"><value>Metin ekle</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Koyu</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Açık</value></data>
   <data name="Msg.TargetLost"><value>Hedef pencere hazır değildi. İçerik panoya kopyalandı; elle yapıştırın.</value></data>
+  <data name="Msg.NoTarget"><value>Panoya kopyalandı. Elle yapıştırın veya doğrudan yapıştırmak için giriş alanından paneli açıp yeniden seçin.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>Veri klasöründeki bazı dosyalar okunamadı; kitaplığın bir kısmı eksik olabilir. Ayrıntılar için error.log dosyasına bakın.</value></data>
   <data name="Manager.StaleNotice"><value>Kitaplık başka bir pencerede veya uygulamanın dışında güncellendi. Buradaki kaydedilmemiş değişiklikleriniz henüz diske yazılmadı. Kaydetme duraklatıldı; diskteki sürümü yeniden yükleyin veya bu pencereyi kapatıp yeniden açın.</value></data>
   <data name="Manager.Reload"><value>Yeniden yükle</value></data>

@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>L'abbreviazione “{0}” è già usata da “{1}” — l'espansione sarebbe ambigua</value></data>
   <data name="Msg.FirstRunHint"><value>Premi {0} per aprire il pannello</value></data>
   <data name="Settings.OpenFolder"><value>Apri cartella dati</value></data>
+  <data name="Settings.ChooseFolder"><value>Scegli cartella</value></data>
   <data name="Tray.NewFromClipboard"><value>Nuovo dagli appunti</value></data>
   <data name="Ctx.Edit"><value>Modifica</value></data>
   <data name="Ctx.Copy"><value>Copia contenuto</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>Invia</value></data>
   <data name="Search.Hint.Close"><value>Chiudi</value></data>
   <data name="Search.Hint.SwitchCat"><value>Categoria</value></data>
+  <data name="Search.Hint.QuickPick"><value>Selezione rapida</value></data>
   <data name="Search.Empty.Title"><value>Ancora nessun frammento</value></data>
   <data name="Search.Empty.Sub"><value>Aggiungi il tuo primo frammento: da lì il pannello si richiama con la scorciatoia</value></data>
   <data name="Search.Empty.Action"><value>Aggiungi un frammento</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Scuro</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Chiaro</value></data>
   <data name="Msg.TargetLost"><value>La finestra di destinazione non era pronta. Il contenuto è stato copiato negli appunti; incollalo manualmente.</value></data>
+  <data name="Msg.NoTarget"><value>Copiato negli appunti. Incollalo manualmente oppure apri il pannello dal campo di input e scegli di nuovo per incollare direttamente.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>Impossibile leggere alcuni file nella cartella dati; parte della libreria potrebbe mancare. Vedi error.log per i dettagli.</value></data>
   <data name="Manager.StaleNotice"><value>La libreria è stata aggiornata in un'altra finestra o all'esterno dell'app. Le modifiche non salvate qui non sono state scritte sul disco. Il salvataggio è sospeso; ricarica la versione dal disco oppure chiudi e riapri questa finestra.</value></data>
   <data name="Manager.Reload"><value>Ricarica</value></data>

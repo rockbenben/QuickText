@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:app="clr-namespace:QuickText.App"
+        xmlns:ui="clr-namespace:QuickText.App.Ui"
         Title="{Binding [App.Name], Source={x:Static app:LocProxy.Instance}}"
         Width="860" SizeToContent="Height" ResizeMode="NoResize"
         Background="{DynamicResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
@@ -27,6 +28,7 @@
             <!-- GitHub mark → project home; hover brightens it (a Button, not a Hyperlink, so the
                  embedded vector reliably receives the click). -->
             <Button Click="OnOpenRepo" HorizontalAlignment="Left" VerticalAlignment="Center"
+                    AutomationProperties.Name="GitHub"
                     Cursor="Hand" ToolTip="https://github.com/rockbenben/QuickText">
                 <Button.Template>
                     <ControlTemplate TargetType="Button">
@@ -79,13 +81,15 @@
 
                         <!-- mode: key combo -->
                         <StackPanel x:Name="HotkeyModePanel" Margin="0,6,0,0">
-                            <Border x:Name="HotkeyBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
+                            <ui:AccessibleHotkeyBox x:Name="HotkeyBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
                                     BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}"
+                                    AutomationProperties.Name="{Binding [Settings.Hotkey], Source={x:Static app:LocProxy.Instance}}"
+                                    AutomationProperties.HelpText="{Binding [Settings.HotkeyHint], Source={x:Static app:LocProxy.Instance}}"
                                     MouseLeftButtonDown="OnHotkeyBoxClick" PreviewKeyDown="OnHotkeyKeyDown"
                                     LostKeyboardFocus="OnHotkeyLostFocus">
                                 <TextBlock x:Name="HotkeyText" FontFamily="{StaticResource Font.Ui}" FontSize="14"
                                            Foreground="{DynamicResource Brush.TextPrimary}"/>
-                            </Border>
+                            </ui:AccessibleHotkeyBox>
                             <TextBlock Text="{Binding [Settings.HotkeyHint], Source={x:Static app:LocProxy.Instance}}"
                                        FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="2,6,0,0" TextWrapping="Wrap"/>
                         </StackPanel>
@@ -101,12 +105,14 @@
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Border Grid.Column="0" x:Name="SummonTapBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
+                                <ui:AccessibleHotkeyBox Grid.Column="0" x:Name="SummonTapBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
                                         BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}" MinWidth="88"
+                                        AutomationProperties.Name="{Binding [Settings.SummonModeTap], Source={x:Static app:LocProxy.Instance}}"
+                                        AutomationProperties.HelpText="{Binding [Settings.SummonTapHint], Source={x:Static app:LocProxy.Instance}}"
                                         MouseLeftButtonDown="OnSummonTapClick" PreviewKeyDown="OnSummonTapKeyDown" LostKeyboardFocus="OnSummonTapLostFocus">
                                     <TextBlock x:Name="SummonTapText" FontFamily="{StaticResource Font.Ui}" FontSize="14"
                                                Foreground="{DynamicResource Brush.TextPrimary}"/>
-                                </Border>
+                                </ui:AccessibleHotkeyBox>
                                 <CheckBox Grid.Column="1" x:Name="SummonTapDouble" Style="{StaticResource DarkCheckBox}" VerticalAlignment="Center" Margin="12,0,0,0">
                                     <TextBlock Text="{Binding [Settings.SummonTapDouble], Source={x:Static app:LocProxy.Instance}}"
                                                TextWrapping="Wrap"/>
@@ -118,13 +124,15 @@
 
                         <TextBlock Text="{Binding [Settings.CaptureHotkey], Source={x:Static app:LocProxy.Instance}}"
                                    Style="{StaticResource FieldLabel}" Margin="2,12,0,6"/>
-                        <Border x:Name="CaptureBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
+                        <ui:AccessibleHotkeyBox x:Name="CaptureBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
                                 BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}"
+                                AutomationProperties.Name="{Binding [Settings.CaptureHotkey], Source={x:Static app:LocProxy.Instance}}"
+                                AutomationProperties.HelpText="{Binding [Settings.CaptureHotkeyHint], Source={x:Static app:LocProxy.Instance}}"
                                 MouseLeftButtonDown="OnCaptureBoxClick" PreviewKeyDown="OnHotkeyKeyDown"
                                 LostKeyboardFocus="OnHotkeyLostFocus">
                             <TextBlock x:Name="CaptureText" FontFamily="{StaticResource Font.Ui}" FontSize="14"
                                        Foreground="{DynamicResource Brush.TextPrimary}"/>
-                        </Border>
+                        </ui:AccessibleHotkeyBox>
                         <TextBlock Text="{Binding [Settings.CaptureHotkeyHint], Source={x:Static app:LocProxy.Instance}}"
                                    FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="2,6,0,0" TextWrapping="Wrap"/>
 
@@ -149,17 +157,19 @@
                         <CheckBox x:Name="AbbrEnabled" Style="{StaticResource DarkCheckBox}"
                                   Content="{Binding [Settings.AbbrEnabled], Source={x:Static app:LocProxy.Instance}}"/>
                         <StackPanel IsEnabled="{Binding IsChecked, ElementName=AbbrEnabled}" Margin="0,12,0,0">
-                            <TextBlock Text="{Binding [Settings.AbbrPrefix], Source={x:Static app:LocProxy.Instance}}"
+                            <TextBlock x:Name="AbbrPrefixLabel" Text="{Binding [Settings.AbbrPrefix], Source={x:Static app:LocProxy.Instance}}"
                                        Style="{StaticResource FieldLabel}"/>
                             <TextBox x:Name="AbbrPrefixBox" Style="{StaticResource DarkTextBox}" HorizontalAlignment="Left" Width="90"
+                                     AutomationProperties.LabeledBy="{Binding ElementName=AbbrPrefixLabel}"
                                      FontFamily="{StaticResource Font.Mono}" FontSize="14"/>
                             <TextBlock Text="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"
                                        FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="2,6,0,14" TextWrapping="Wrap"/>
                             <TextBlock Text="{Binding [Settings.AbbrExpandHint], Source={x:Static app:LocProxy.Instance}}"
                                        FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="2,-8,0,14" TextWrapping="Wrap"/>
-                            <TextBlock Text="{Binding [Settings.AbbrBlacklist], Source={x:Static app:LocProxy.Instance}}"
+                            <TextBlock x:Name="AbbrBlacklistLabel" Text="{Binding [Settings.AbbrBlacklist], Source={x:Static app:LocProxy.Instance}}"
                                        Style="{StaticResource FieldLabel}"/>
                             <TextBox x:Name="AbbrBlacklist" Style="{StaticResource DarkTextBox}"
+                                     AutomationProperties.LabeledBy="{Binding ElementName=AbbrBlacklistLabel}"
                                      FontFamily="{StaticResource Font.Mono}" FontSize="13"/>
                             <TextBlock Text="{Binding [Settings.AbbrBlacklistHint], Source={x:Static app:LocProxy.Instance}}"
                                        FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="2,6,0,0" TextWrapping="Wrap"/>
@@ -200,10 +210,12 @@
                     <StackPanel>
                         <ContentControl Margin="0,0,0,10" Style="{StaticResource SetHeader}"
                                         Content="{Binding [Settings.SectionData], Source={x:Static app:LocProxy.Instance}}"/>
-                        <TextBlock Text="{Binding [Settings.DataFolder], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource FieldLabel}"/>
+                        <TextBlock x:Name="DataFolderLabel" Text="{Binding [Settings.DataFolder], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource FieldLabel}"/>
                         <DockPanel>
-                            <Button DockPanel.Dock="Right" Content="…" Width="38" Margin="8,0,0,0" Style="{StaticResource DarkButton}" Click="OnBrowse"/>
+                            <Button DockPanel.Dock="Right" Content="…" Width="38" Margin="8,0,0,0" Style="{StaticResource DarkButton}" Click="OnBrowse"
+                                    AutomationProperties.Name="{Binding [Settings.ChooseFolder], Source={x:Static app:LocProxy.Instance}}"/>
                             <Button DockPanel.Dock="Right" Width="38" Margin="8,0,0,0" Style="{StaticResource DarkButton}" Click="OnOpenFolder"
+                                    AutomationProperties.Name="{Binding [Settings.OpenFolder], Source={x:Static app:LocProxy.Instance}}"
                                     ToolTip="{Binding [Settings.OpenFolder], Source={x:Static app:LocProxy.Instance}}">
                                 <TextBlock Text="&#xE838;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
                             </Button>
@@ -212,7 +224,8 @@
                                  placeholder shows where the library actually lives (same resolution
                                  the store uses), and vanishes the moment anything is typed. -->
                             <Grid>
-                                <TextBox x:Name="DataFolder" Style="{StaticResource DarkTextBox}"/>
+                                <TextBox x:Name="DataFolder" Style="{StaticResource DarkTextBox}"
+                                         AutomationProperties.LabeledBy="{Binding ElementName=DataFolderLabel}"/>
                                 <TextBlock x:Name="DataFolderPlaceholder" Margin="10,0,0,0" VerticalAlignment="Center"
                                            IsHitTestVisible="False" TextTrimming="CharacterEllipsis"
                                            FontFamily="{StaticResource Font.Ui}" FontSize="13"
@@ -261,10 +274,11 @@
                     <StackPanel>
                         <ContentControl Margin="0,0,0,10" Style="{StaticResource SetHeader}"
                                         Content="{Binding [Settings.SectionGeneral], Source={x:Static app:LocProxy.Instance}}"/>
-                        <TextBlock Text="{Binding [Settings.Language], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource FieldLabel}"/>
+                        <TextBlock x:Name="LanguageLabel" Text="{Binding [Settings.Language], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource FieldLabel}"/>
                         <!-- 18 UI languages + follow-system: a dropdown keeps the card compact.
                              Items (code + native name) are supplied in code so the dark item style applies. -->
                         <ComboBox x:Name="LangCombo" Style="{StaticResource DarkComboBox}"
+                                  AutomationProperties.LabeledBy="{Binding ElementName=LanguageLabel}"
                                   SelectedValuePath="Code" HorizontalAlignment="Left" MinWidth="190">
                             <!-- An explicit ItemTemplate (not DisplayMemberPath): the dark template's
                                  selection box renders via SelectionBoxItemTemplate, which DisplayMemberPath

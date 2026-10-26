@@ -150,7 +150,8 @@ public sealed class AppState
         // back to English. The STRUCTURE — which snippets, their category, and which bodies use
         // {variables} — lives HERE, once; only the translated strings vary per language (in
         // SeedContentFor). Abbreviations are stored bare; the trigger prefix (default ";") is
-        // prepended when matching, so they fire as ";yx", ";em", … The meeting body uses a plain
+        // prepended when matching and when the search panel renders the keycap, so they fire and
+        // read as ";yx", ";em", … The meeting body uses a plain
         // {开始时间} variable — NOT the built-in {时间}, which would auto-fill the current clock time
         // instead of asking for the meeting's start.
         var t = SeedContentFor(SeedLang(Core.Localization.LocalizationService.Instance.Culture));

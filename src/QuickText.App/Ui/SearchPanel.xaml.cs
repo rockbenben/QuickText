@@ -674,11 +674,15 @@ public partial class SearchPanel : Window
         if (sn.IsImage)
         {
             // Decode off the UI thread; a OneDrive placeholder can take seconds to materialize.
-            PreviewSummary.Text = System.IO.Path.GetFileNameWithoutExtension(sn.ImagePath);
-            PreviewSummary.FlowDirection = FlowDirection.LeftToRight;
+            // Image files are internal GUIDs; show the localized image label, not that file name.
+            // The label is UI text, so it keeps the window's direction (RTL included).
+            PreviewSummary.Text = LocalizationService.Instance["Manager.ImageSection"];
+            // The text branch above sets a local content direction; clear it so this UI label
+            // follows the window (RTL included) instead of the previously selected body.
+            PreviewSummary.ClearValue(FlowDirectionProperty);
             _previewWanted = false;
             CapPreview();
-            var image = await ImageLoader.LoadAsync(sn.ImagePath);
+            var image = await ImageLoader.LoadAsync(sn.ImagePath, 960);
             if (gen != _previewImageGen || !ReferenceEquals(_previewHit?.Snippet, sn)) return;
             if (image != null)
             {
@@ -788,7 +792,8 @@ public partial class SearchPanel : Window
     /// </summary>
     private void SetHints(bool hasRows, bool canCreate)
     {
-        HintNav.Visibility = HintSend.Visibility = hasRows ? Visibility.Visible : Visibility.Collapsed;
+        HintNav.Visibility = HintSend.Visibility = HintQuick.Visibility =
+            hasRows ? Visibility.Visible : Visibility.Collapsed;
         HintCreate.Visibility = !hasRows && canCreate ? Visibility.Visible : Visibility.Collapsed;
     }
 
@@ -1045,7 +1050,8 @@ public partial class SearchPanel : Window
             bool copyOnly = mode == "copy" || (mode.Length == 0 && settings.CopyToClipboardOnly)
                             || noTarget;
             // Only the implicit no-target fallback is surprising: the footer says "send", but
-            // there is nowhere to paste. Explicit copy mode/global copy need no explanation.
+            // there is nowhere to paste. It gets Msg.NoTarget with the direct-paste recovery;
+            // a real paste failure below keeps Msg.TargetLost. Explicit copy needs no explanation.
             bool explainCopy = noTarget && mode != "copy"
                                && !(mode.Length == 0 && settings.CopyToClipboardOnly);
 
@@ -1059,7 +1065,7 @@ public partial class SearchPanel : Window
                         : text != null && PasteEngine.CopyText(text);
                     if (explainCopy && copied)
                         (Application.Current as App)?.Notify(
-                            LocalizationService.Instance["Msg.TargetLost"], warning: true);
+                            LocalizationService.Instance["Msg.NoTarget"], warning: true);
                     if (pinned) ReactivatePinned();
                 }), DispatcherPriority.Background);
                 return;

@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>সংক্ষিপ্ত রূপ “{0}” ইতিমধ্যে “{1}” ব্যবহার করছে — সম্প্রসারণ অস্পষ্ট হবে</value></data>
   <data name="Msg.FirstRunHint"><value>প্যানেল খুলতে {0} চাপুন</value></data>
   <data name="Settings.OpenFolder"><value>ডেটা ফোল্ডার খুলুন</value></data>
+  <data name="Settings.ChooseFolder"><value>ফোল্ডার বাছাই করুন</value></data>
   <data name="Tray.NewFromClipboard"><value>ক্লিপবোর্ড থেকে নতুন</value></data>
   <data name="Ctx.Edit"><value>সম্পাদনা</value></data>
   <data name="Ctx.Copy"><value>বিষয়বস্তু কপি করুন</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>পাঠান</value></data>
   <data name="Search.Hint.Close"><value>বন্ধ</value></data>
   <data name="Search.Hint.SwitchCat"><value>বিভাগ</value></data>
+  <data name="Search.Hint.QuickPick"><value>দ্রুত নির্বাচন</value></data>
   <data name="Search.Empty.Title"><value>এখনো কোনো স্নিপেট নেই</value></data>
   <data name="Search.Empty.Sub"><value>আপনার প্রথম স্নিপেট যোগ করুন — তারপর হটকি যেকোনো সময় প্যানেল ডাকবে</value></data>
   <data name="Search.Empty.Action"><value>স্নিপেট যোগ করুন</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>গাঢ়</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>উজ্জ্বল</value></data>
   <data name="Msg.TargetLost"><value>লক্ষ্য উইন্ডো প্রস্তুত ছিল না। বিষয়বস্তু ক্লিপবোর্ডে কপি করা হয়েছে; ম্যানুয়ালি পেস্ট করুন।</value></data>
+  <data name="Msg.NoTarget"><value>ক্লিপবোর্ডে অনুলিপি করা হয়েছে। ম্যানুয়ালি পেস্ট করুন, অথবা সরাসরি পেস্ট করতে ইনপুট বাক্স থেকে প্যানেল খুলে আবার বেছে নিন।</value></data>
   <data name="Msg.LibraryLoadWarning"><value>ডেটা ফোল্ডারের কিছু ফাইল পড়া যায়নি; লাইব্রেরির কিছু অংশ অনুপস্থিত থাকতে পারে। বিস্তারিত error.log-এ দেখুন।</value></data>
   <data name="Manager.StaleNotice"><value>লাইব্রেরি অন্য উইন্ডোতে বা অ্যাপের বাইরে আপডেট হয়েছে। এখানে আপনার অসংরক্ষিত পরিবর্তনগুলো এখনও ডিস্কে লেখা হয়নি। সংরক্ষণ সাময়িকভাবে বন্ধ আছে; ডিস্কের সংস্করণটি আবার লোড করুন, অথবা এই উইন্ডোটি বন্ধ করে আবার খুলুন।</value></data>
   <data name="Manager.Reload"><value>আবার লোড করুন</value></data>

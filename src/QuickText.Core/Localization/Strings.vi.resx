@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>Chữ viết tắt “{0}” đã được “{1}” dùng — mở rộng sẽ nhập nhằng</value></data>
   <data name="Msg.FirstRunHint"><value>Nhấn {0} để mở bảng</value></data>
   <data name="Settings.OpenFolder"><value>Mở thư mục dữ liệu</value></data>
+  <data name="Settings.ChooseFolder"><value>Chọn thư mục</value></data>
   <data name="Tray.NewFromClipboard"><value>Tạo từ bộ nhớ tạm</value></data>
   <data name="Ctx.Edit"><value>Chỉnh sửa</value></data>
   <data name="Ctx.Copy"><value>Sao chép nội dung</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>Gửi</value></data>
   <data name="Search.Hint.Close"><value>Đóng</value></data>
   <data name="Search.Hint.SwitchCat"><value>Danh mục</value></data>
+  <data name="Search.Hint.QuickPick"><value>Chọn nhanh</value></data>
   <data name="Search.Empty.Title"><value>Chưa có mẫu nào</value></data>
   <data name="Search.Empty.Sub"><value>Thêm mẫu văn bản đầu tiên — rồi gọi bảng điều khiển bất cứ lúc nào bằng phím nóng</value></data>
   <data name="Search.Empty.Action"><value>Thêm mẫu văn bản</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Tối</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Sáng</value></data>
   <data name="Msg.TargetLost"><value>Cửa sổ đích chưa sẵn sàng. Nội dung đã được sao chép vào clipboard; hãy dán thủ công.</value></data>
+  <data name="Msg.NoTarget"><value>Đã sao chép vào clipboard. Dán thủ công hoặc mở bảng từ ô nhập và chọn lại để dán trực tiếp.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>Không thể đọc một số tệp trong thư mục dữ liệu; một phần thư viện có thể bị thiếu. Xem error.log để biết chi tiết.</value></data>
   <data name="Manager.StaleNotice"><value>Thư viện đã được cập nhật trong cửa sổ khác hoặc bên ngoài ứng dụng. Các thay đổi chưa lưu của bạn ở đây chưa được ghi vào đĩa. Việc lưu đã tạm dừng; hãy tải lại phiên bản trên đĩa hoặc đóng rồi mở lại cửa sổ này.</value></data>
   <data name="Manager.Reload"><value>Tải lại</value></data>

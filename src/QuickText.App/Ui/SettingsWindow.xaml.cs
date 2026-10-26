@@ -70,6 +70,10 @@ public partial class SettingsWindow : Window
     public SettingsWindow()
     {
         InitializeComponent();
+        // A screen reader's Invoke action starts the same capture as clicking the box.
+        HotkeyBox.InvokeRequested += (_, _) => BeginCapture(HotkeyBox);
+        SummonTapBox.InvokeRequested += (_, _) => StartTapCapture();
+        CaptureBox.InvokeRequested += (_, _) => BeginCapture(CaptureBox);
         WindowTheming.UseDarkChrome(this);
         WindowTheming.ApplyFlowDirection(this);
         WindowTheming.PlaceOnActiveMonitor(this);   // shared with Manager: on the user's monitor, capped, on-screen
@@ -275,8 +279,8 @@ public partial class SettingsWindow : Window
     {
         if (_capBox is null)
         {
-            // Enter/Space on a focused-but-idle box = clicking it. Without this the box is a fake
-            // tab stop: focus lands on it, but no key can start the capture.
+            // Enter/Space on a focused-but-idle box = clicking it. The box is a custom focusable
+            // Border, not a Button, so without this focus lands on it but no key starts capture.
             if (e.Key is Key.Enter or Key.Space && sender is Border idleBox) { BeginCapture(idleBox); e.Handled = true; }
             return;
         }

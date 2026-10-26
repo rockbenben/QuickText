@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>A abreviatura “{0}” já é usada por “{1}” — a expansão seria ambígua</value></data>
   <data name="Msg.FirstRunHint"><value>Prima {0} para abrir o painel</value></data>
   <data name="Settings.OpenFolder"><value>Abrir pasta de dados</value></data>
+  <data name="Settings.ChooseFolder"><value>Escolher pasta</value></data>
   <data name="Tray.NewFromClipboard"><value>Novo da área de transferência</value></data>
   <data name="Ctx.Edit"><value>Editar</value></data>
   <data name="Ctx.Copy"><value>Copiar conteúdo</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>Enviar</value></data>
   <data name="Search.Hint.Close"><value>Fechar</value></data>
   <data name="Search.Hint.SwitchCat"><value>Categoria</value></data>
+  <data name="Search.Hint.QuickPick"><value>Seleção rápida</value></data>
   <data name="Search.Empty.Title"><value>Ainda não há excertos</value></data>
   <data name="Search.Empty.Sub"><value>Adicione o seu primeiro excerto — depois invoque o painel a qualquer momento com o atalho</value></data>
   <data name="Search.Empty.Action"><value>Adicionar um excerto</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Escuro</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Claro</value></data>
   <data name="Msg.TargetLost"><value>A janela de destino não estava pronta. O conteúdo foi copiado para a área de transferência; cole-o manualmente.</value></data>
+  <data name="Msg.NoTarget"><value>Copiado para a área de transferência. Cole manualmente ou abra o painel no campo de entrada e escolha novamente para colar diretamente.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>Não foi possível ler alguns ficheiros da pasta de dados; parte da biblioteca pode estar em falta. Consulte error.log para obter detalhes.</value></data>
   <data name="Manager.StaleNotice"><value>A biblioteca foi atualizada noutra janela ou fora da app. As suas alterações não guardadas aqui ainda não foram escritas no disco. Guardar está em pausa; recarregue a versão do disco ou feche e reabra esta janela.</value></data>
   <data name="Manager.Reload"><value>Recarregar</value></data>

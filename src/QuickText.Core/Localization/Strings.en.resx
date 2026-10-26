@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>Abbreviation “{0}” is already used by “{1}” — expansion would be ambiguous</value></data>
   <data name="Msg.FirstRunHint"><value>Press {0} to open the panel</value></data>
   <data name="Settings.OpenFolder"><value>Open data folder</value></data>
+  <data name="Settings.ChooseFolder"><value>Choose folder</value></data>
   <data name="Tray.NewFromClipboard"><value>New from clipboard</value></data>
   <data name="Ctx.Edit"><value>Edit</value></data>
   <data name="Ctx.Copy"><value>Copy content</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>Send</value></data>
   <data name="Search.Hint.Close"><value>Close</value></data>
   <data name="Search.Hint.SwitchCat"><value>Category</value></data>
+  <data name="Search.Hint.QuickPick"><value>Quick pick</value></data>
   <data name="Search.Empty.Title"><value>No snippets yet</value></data>
   <data name="Search.Empty.Sub"><value>Add your first snippet — then summon the panel anytime with the hotkey</value></data>
   <data name="Search.Empty.Action"><value>Add a snippet</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Dark</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Light</value></data>
   <data name="Msg.TargetLost"><value>The target window wasn't ready. The content was copied to the clipboard; paste it manually.</value></data>
+  <data name="Msg.NoTarget"><value>Copied to the clipboard. Paste it manually, or open the panel from the input box and pick again to paste directly.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>Some files in the data folder could not be read; part of the library may be missing. See error.log for details.</value></data>
   <data name="Manager.StaleNotice"><value>The library was updated in another window or outside the app. Your unsaved changes here have not been written to disk. Saving is paused; reload the on-disk version, or close and reopen this window.</value></data>
   <data name="Manager.Reload"><value>Reload</value></data>

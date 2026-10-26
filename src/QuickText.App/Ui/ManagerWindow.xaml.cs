@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using QuickText.App;
 using QuickText.Core.Localization;
 using QuickText.Core.Models;
@@ -67,8 +68,13 @@ public partial class ManagerWindow : Window
         ApplyImageSection();
 
         Closing += OnClosing;
+        _filterDebounce.Tick += (_, _) => ApplyFilter();
         AppState.Current.DataReloaded += OnDataReloaded;
-        Closed += (_, _) => AppState.Current.DataReloaded -= OnDataReloaded;
+        Closed += (_, _) =>
+        {
+            _filterDebounce.Stop();
+            AppState.Current.DataReloaded -= OnDataReloaded;
+        };
         Load();
     }
 
@@ -278,6 +284,13 @@ public partial class ManagerWindow : Window
         // A reload that arrived while a modal dialog was open is reconciled after that dialog's
         // caller has finished handling its result.
         if (IsStale && !HasOpenOwnedWindow()) QueuePendingReload();
+        // A filter tick deferred while a modal was open is applied now, after its selection can no
+        // longer change behind the dialog.
+        if (_filterRefreshPending && !HasOpenOwnedWindow())
+        {
+            _filterRefreshPending = false;
+            RefreshSnippets(SelectedSnippet);
+        }
     }
 
     private void Load() => ApplyModel(AppState.Current.Store.LoadAll());
@@ -563,10 +576,25 @@ public partial class ManagerWindow : Window
 
     // ---------- snippet list (filter-aware) ----------
     private string _filter = "";
+    private bool _filterRefreshPending;
+    private readonly DispatcherTimer _filterDebounce = new() { Interval = TimeSpan.FromMilliseconds(120) };
 
     private void OnFilterChanged(object s, TextChangedEventArgs e)
     {
+        // Keep the effective filter current immediately, but defer the full-category scan:
+        // typing a word otherwise rebuilds the list once per keystroke, scanning every body.
         _filter = FilterBox.Text.Trim();
+        _filterDebounce.Stop();
+        _filterDebounce.Start();
+    }
+
+    private void ApplyFilter()
+    {
+        _filterDebounce.Stop();
+        // A DispatcherTimer keeps ticking inside ShowDialog's nested loop. Refreshing here would
+        // move the selection behind the modal (and can stack a second unsaved-changes prompt).
+        if (HasOpenOwnedWindow()) { _filterRefreshPending = true; return; }
+        _filterRefreshPending = false;
         RefreshSnippets(SelectedSnippet);
     }
 
@@ -704,9 +732,11 @@ public partial class ManagerWindow : Window
         ApplyImageSection();
         if (_editing is not { IsImage: true } s) return;
         var rel = s.ImagePath;
+        // The 72-DIP box leaves 64 DIPs for the image; at Windows' 500% maximum scale that is
+        // 320 physical px. Reuse the row's decode width so both surfaces share one cache entry.
         System.Threading.Tasks.Task.Run(() =>
         {
-            var img = ImageLoader.Load(rel);
+            var img = ImageLoader.Load(rel, 320);
             Dispatcher.BeginInvoke(new Action(() =>
             {
                 // Both surfaces are filled HERE, once the bitmap exists — assigning the peek

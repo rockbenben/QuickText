@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>Singkatan “{0}” sudah dipakai oleh “{1}” — perluasan jadi ambigu</value></data>
   <data name="Msg.FirstRunHint"><value>Tekan {0} untuk membuka panel</value></data>
   <data name="Settings.OpenFolder"><value>Buka folder data</value></data>
+  <data name="Settings.ChooseFolder"><value>Pilih folder</value></data>
   <data name="Tray.NewFromClipboard"><value>Baru dari clipboard</value></data>
   <data name="Ctx.Edit"><value>Edit</value></data>
   <data name="Ctx.Copy"><value>Salin konten</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>Kirim</value></data>
   <data name="Search.Hint.Close"><value>Tutup</value></data>
   <data name="Search.Hint.SwitchCat"><value>Kategori</value></data>
+  <data name="Search.Hint.QuickPick"><value>Pilih cepat</value></data>
   <data name="Search.Empty.Title"><value>Belum ada snippet</value></data>
   <data name="Search.Empty.Sub"><value>Tambah snippet pertama — panel dipanggil kapan saja lewat hotkey</value></data>
   <data name="Search.Empty.Action"><value>Tambah snippet</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Gelap</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Terang</value></data>
   <data name="Msg.TargetLost"><value>Jendela tujuan belum siap. Konten telah disalin ke clipboard; tempelkan secara manual.</value></data>
+  <data name="Msg.NoTarget"><value>Disalin ke papan klip. Tempel secara manual, atau buka panel dari kotak input dan pilih lagi untuk menempel langsung.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>Beberapa file di folder data tidak dapat dibaca; sebagian pustaka mungkin hilang. Lihat error.log untuk detailnya.</value></data>
   <data name="Manager.StaleNotice"><value>Pustaka diperbarui di jendela lain atau di luar aplikasi. Perubahan Anda yang belum disimpan di sini belum ditulis ke disk. Penyimpanan dijeda; muat ulang versi di disk, atau tutup dan buka kembali jendela ini.</value></data>
   <data name="Manager.Reload"><value>Muat ulang</value></data>

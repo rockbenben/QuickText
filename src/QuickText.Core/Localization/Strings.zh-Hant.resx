@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>縮寫「{0}」已被「{1}」使用，展開時會有歧義</value></data>
   <data name="Msg.FirstRunHint"><value>按 {0} 呼出面板</value></data>
   <data name="Settings.OpenFolder"><value>開啟資料夾</value></data>
+  <data name="Settings.ChooseFolder"><value>選擇資料夾</value></data>
   <data name="Tray.NewFromClipboard"><value>從剪貼簿新增</value></data>
   <data name="Ctx.Edit"><value>編輯此條</value></data>
   <data name="Ctx.Copy"><value>複製內容</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>發送</value></data>
   <data name="Search.Hint.Close"><value>關閉</value></data>
   <data name="Search.Hint.SwitchCat"><value>切分類</value></data>
+  <data name="Search.Hint.QuickPick"><value>快選</value></data>
   <data name="Search.Empty.Title"><value>還沒有內容</value></data>
   <data name="Search.Empty.Sub"><value>新增第一條文字，隨時按熱鍵呼叫</value></data>
   <data name="Search.Empty.Action"><value>新增文字</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>深色</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>淺色</value></data>
   <data name="Msg.TargetLost"><value>目標視窗尚未就緒，內容已複製到剪貼簿，請手動貼上。</value></data>
+  <data name="Msg.NoTarget"><value>已複製到剪貼簿，可手動貼上；想直接貼上，請先在輸入框裡呼出面板再選擇。</value></data>
   <data name="Msg.LibraryLoadWarning"><value>資料目錄中有檔案無法讀取，部分內容可能未顯示。詳情請見 error.log。</value></data>
   <data name="Manager.StaleNotice"><value>資料庫已在其他視窗或外部更新，你在這裡的未儲存修改尚未寫入磁碟。儲存已暫停，請重新載入磁碟版本，或關閉視窗後重新開啟。</value></data>
   <data name="Manager.Reload"><value>重新載入</value></data>

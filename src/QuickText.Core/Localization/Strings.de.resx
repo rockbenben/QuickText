@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>Kürzel „{0}“ wird bereits von „{1}“ verwendet – die Erweiterung wäre mehrdeutig</value></data>
   <data name="Msg.FirstRunHint"><value>{0} drücken, um das Panel zu öffnen</value></data>
   <data name="Settings.OpenFolder"><value>Datenordner öffnen</value></data>
+  <data name="Settings.ChooseFolder"><value>Ordner auswählen</value></data>
   <data name="Tray.NewFromClipboard"><value>Neu aus Zwischenablage</value></data>
   <data name="Ctx.Edit"><value>Bearbeiten</value></data>
   <data name="Ctx.Copy"><value>Inhalt kopieren</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>Senden</value></data>
   <data name="Search.Hint.Close"><value>Schließen</value></data>
   <data name="Search.Hint.SwitchCat"><value>Kategorie</value></data>
+  <data name="Search.Hint.QuickPick"><value>Schnellwahl</value></data>
   <data name="Search.Empty.Title"><value>Noch keine Bausteine</value></data>
   <data name="Search.Empty.Sub"><value>Lege deinen ersten Baustein an — per Hotkey rufst du das Panel jederzeit auf</value></data>
   <data name="Search.Empty.Action"><value>Baustein anlegen</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Dunkel</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Hell</value></data>
   <data name="Msg.TargetLost"><value>Das Zielfenster war nicht bereit. Der Inhalt wurde in die Zwischenablage kopiert; füge ihn manuell ein.</value></data>
+  <data name="Msg.NoTarget"><value>In die Zwischenablage kopiert. Fügen Sie den Inhalt manuell ein oder rufen Sie das Panel im Eingabefeld auf und wählen Sie erneut, um direkt einzufügen.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>Einige Dateien im Datenordner konnten nicht gelesen werden; ein Teil der Bibliothek fehlt möglicherweise. Einzelheiten stehen in error.log.</value></data>
   <data name="Manager.StaleNotice"><value>Die Bibliothek wurde in einem anderen Fenster oder außerhalb der App aktualisiert. Deine ungespeicherten Änderungen hier wurden noch nicht auf den Datenträger geschrieben. Das Speichern ist pausiert; lade die Version vom Datenträger neu oder schließe und öffne dieses Fenster erneut.</value></data>
   <data name="Manager.Reload"><value>Neu laden</value></data>

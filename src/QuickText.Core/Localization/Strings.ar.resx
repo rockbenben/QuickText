@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>الاختصار ”{0}“ مُستخدم بالفعل في ”{1}“ — سيكون التوسيع مبهمًا</value></data>
   <data name="Msg.FirstRunHint"><value>اضغط {0} لفتح اللوحة</value></data>
   <data name="Settings.OpenFolder"><value>فتح مجلد البيانات</value></data>
+  <data name="Settings.ChooseFolder"><value>اختيار مجلد</value></data>
   <data name="Tray.NewFromClipboard"><value>جديد من الحافظة</value></data>
   <data name="Ctx.Edit"><value>تحرير</value></data>
   <data name="Ctx.Copy"><value>نسخ المحتوى</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>إرسال</value></data>
   <data name="Search.Hint.Close"><value>إغلاق</value></data>
   <data name="Search.Hint.SwitchCat"><value>الفئة</value></data>
+  <data name="Search.Hint.QuickPick"><value>اختيار سريع</value></data>
   <data name="Search.Empty.Title"><value>لا مقتطفات بعد</value></data>
   <data name="Search.Empty.Sub"><value>أضف أول مقتطف — وبعدها تستدعي اللوحة بمفتاح الاختصار في أي وقت</value></data>
   <data name="Search.Empty.Action"><value>إضافة مقتطف</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>داكن</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>فاتح</value></data>
   <data name="Msg.TargetLost"><value>لم تكن النافذة الهدف جاهزة. تم نسخ المحتوى إلى الحافظة؛ الصقه يدويًا.</value></data>
+  <data name="Msg.NoTarget"><value>تم النسخ إلى الحافظة. الصقه يدويًا، أو افتح اللوحة من حقل الإدخال واختر مرة أخرى للصق مباشرة.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>تعذّرت قراءة بعض الملفات في مجلد البيانات؛ قد يكون جزء من المكتبة مفقودًا. راجع error.log للتفاصيل.</value></data>
   <data name="Manager.StaleNotice"><value>تم تحديث المكتبة في نافذة أخرى أو خارج التطبيق. لم يتم حفظ تغييراتك غير المحفوظة هنا على القرص بعد. تم إيقاف الحفظ مؤقتًا؛ أعد تحميل النسخة من القرص أو أغلق هذه النافذة وأعد فتحها.</value></data>
   <data name="Manager.Reload"><value>إعادة التحميل</value></data>

@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>ตัวย่อ "{0}" ถูกใช้โดย "{1}" แล้ว — การขยายจะกำกวม</value></data>
   <data name="Msg.FirstRunHint"><value>กด {0} เพื่อเปิดแผง</value></data>
   <data name="Settings.OpenFolder"><value>เปิดโฟลเดอร์ข้อมูล</value></data>
+  <data name="Settings.ChooseFolder"><value>เลือกโฟลเดอร์</value></data>
   <data name="Tray.NewFromClipboard"><value>สร้างใหม่จากคลิปบอร์ด</value></data>
   <data name="Ctx.Edit"><value>แก้ไข</value></data>
   <data name="Ctx.Copy"><value>คัดลอกเนื้อหา</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>ส่ง</value></data>
   <data name="Search.Hint.Close"><value>ปิด</value></data>
   <data name="Search.Hint.SwitchCat"><value>หมวดหมู่</value></data>
+  <data name="Search.Hint.QuickPick"><value>เลือกด่วน</value></data>
   <data name="Search.Empty.Title"><value>ยังไม่มีข้อความ</value></data>
   <data name="Search.Empty.Sub"><value>เพิ่มข้อความแรกของคุณ แล้วเรียกแผงได้ทุกเมื่อด้วยคีย์ลัด</value></data>
   <data name="Search.Empty.Action"><value>เพิ่มข้อความ</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>มืด</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>สว่าง</value></data>
   <data name="Msg.TargetLost"><value>หน้าต่างเป้าหมายยังไม่พร้อม เนื้อหาถูกคัดลอกไปยังคลิปบอร์ดแล้ว โปรดวางด้วยตนเอง</value></data>
+  <data name="Msg.NoTarget"><value>คัดลอกไปยังคลิปบอร์ดแล้ว วางด้วยตนเอง หรือเปิดแผงจากช่องป้อนข้อมูลแล้วเลือกอีกครั้งเพื่อวางโดยตรง</value></data>
   <data name="Msg.LibraryLoadWarning"><value>ไม่สามารถอ่านไฟล์บางไฟล์ในโฟลเดอร์ข้อมูลได้ ไลบรารีบางส่วนอาจหายไป ดูรายละเอียดใน error.log</value></data>
   <data name="Manager.StaleNotice"><value>ไลบรารีถูกอัปเดตในหน้าต่างอื่นหรือนอกแอป การเปลี่ยนแปลงที่ยังไม่ได้บันทึกของคุณที่นี่ยังไม่ได้เขียนลงดิสก์ การบันทึกถูกหยุดชั่วคราว โปรดโหลดเวอร์ชันจากดิสก์ใหม่ หรือปิดแล้วเปิดหน้าต่างนี้ใหม่</value></data>
   <data name="Manager.Reload"><value>โหลดใหม่</value></data>

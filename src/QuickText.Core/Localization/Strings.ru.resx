@@ -137,6 +137,7 @@
   <data name="Manager.DuplicateAbbr"><value>Сокращение «{0}» уже используется в «{1}» — подстановка будет неоднозначной</value></data>
   <data name="Msg.FirstRunHint"><value>Нажмите {0}, чтобы открыть панель</value></data>
   <data name="Settings.OpenFolder"><value>Открыть папку данных</value></data>
+  <data name="Settings.ChooseFolder"><value>Выбрать папку</value></data>
   <data name="Tray.NewFromClipboard"><value>Создать из буфера обмена</value></data>
   <data name="Ctx.Edit"><value>Изменить</value></data>
   <data name="Ctx.Copy"><value>Копировать содержимое</value></data>
@@ -199,6 +200,7 @@
   <data name="Search.Hint.Send"><value>Отправить</value></data>
   <data name="Search.Hint.Close"><value>Закрыть</value></data>
   <data name="Search.Hint.SwitchCat"><value>Категория</value></data>
+  <data name="Search.Hint.QuickPick"><value>Быстрый выбор</value></data>
   <data name="Search.Empty.Title"><value>Пока нет фрагментов</value></data>
   <data name="Search.Empty.Sub"><value>Добавьте первый фрагмент — панель вызывается горячей клавишей в любой момент</value></data>
   <data name="Search.Empty.Action"><value>Добавить фрагмент</value></data>
@@ -227,6 +229,7 @@
   <data name="Settings.ThemeDark" xml:space="preserve"><value>Тёмная</value></data>
   <data name="Settings.ThemeLight" xml:space="preserve"><value>Светлая</value></data>
   <data name="Msg.TargetLost"><value>Целевое окно не было готово. Содержимое скопировано в буфер обмена; вставьте его вручную.</value></data>
+  <data name="Msg.NoTarget"><value>Скопировано в буфер обмена. Вставьте вручную или откройте панель в поле ввода и выберите ещё раз, чтобы вставить напрямую.</value></data>
   <data name="Msg.LibraryLoadWarning"><value>Не удалось прочитать некоторые файлы в папке данных; часть библиотеки может отсутствовать. Подробности см. в error.log.</value></data>
   <data name="Manager.StaleNotice"><value>Библиотека была обновлена в другом окне или вне приложения. Несохранённые изменения здесь ещё не записаны на диск. Сохранение приостановлено; загрузите версию с диска заново или закройте и снова откройте это окно.</value></data>
   <data name="Manager.Reload"><value>Загрузить заново</value></data>
