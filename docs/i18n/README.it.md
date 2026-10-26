@@ -85,9 +85,9 @@ Fai doppio clic su **`QuickText.exe`**; vive nella **barra delle applicazioni** 
 
 ## Aggiungi / modifica il tuo testo
 
-![Gestore: categorie a sinistra, snippet al centro, editor a destra](../images/quicktext-manager.webp)
+![Gestore: categorie e snippet a sinistra, editor a destra](../images/quicktext-manager.webp)
 
-- **Barra delle applicazioni → Apri Gestore** — l'editor completo: categorie a sinistra, snippet a destra, editor in basso. Aggiungi/rinomina/elimina categorie (con un'etichetta a **7 colori**), modifica gli snippet (nome, abbreviazione, corpo, immagine). Trascina per riordinare o spostare tra categorie; `Ctrl+Z` annulla un'eliminazione.
+- **Barra delle applicazioni → Apri Gestore** — l'editor completo: categorie e snippet a sinistra, editor a destra. Aggiungi/rinomina/elimina categorie (con un'etichetta a **7 colori**), modifica gli snippet (nome, abbreviazione, corpo, immagine). Trascina per riordinare o spostare tra categorie; `Ctrl+Z` annulla un'eliminazione.
 - **Barra delle applicazioni → Nuovo dagli appunti** — crea un nuovo snippet dal contenuto attuale degli appunti e lo apre nel Gestore per completarlo (premi **Salva** per scriverlo su disco; chiudendo il Gestore ti verrà chiesto se salvare o scartare).
 - **Crea nel pannello** — digita il testo nella casella di ricerca e premi `Ctrl+N` per salvarlo come nuovo snippet (quel testo diventa il corpo; `@categoria …` lo archivia in quella categoria) e passare al Gestore per completarlo (`Ctrl+E` modifica quello selezionato).
 
@@ -178,7 +178,7 @@ Cartella dati (predefinita `Documents\QuickText`, modificabile nelle Impostazion
   └─ images/           # file immagine per gli snippet con immagine
 ```
 
-- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
+- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, codeFormat?, updatedAt }`.
 - **Scritture atomiche** (`*.tmp` → `File.Replace`) così una sincronizzazione non legge mai un file scritto a metà; ricaricamento a caldo con `FileSystemWatcher` (raggruppato), con protezione dalle proprie scritture.
 - Lo stato locale del computer resta **fuori dalla cartella di sincronizzazione**: le impostazioni in `%APPDATA%\QuickText\settings.json`, i conteggi d'uso / preferiti in `%APPDATA%\QuickText\usage.stats` (cambiano a ogni invio ed entrerebbero in conflitto tra computer), i backup automatici giornalieri in `%APPDATA%\QuickText\backups\`.
 - **Modalità portatile** (senza tracce / USB): attivala in **Impostazioni → Dati → Modalità portatile** — inserisce un marcatore `QuickText.portable` accanto a `QuickText.exe` e **si applica al riavvio successivo** (il primo avvio portatile porta con sé le tue impostazioni e i dati d'uso, così non devi riconfigurare). Impostazioni, dati d'uso, backup e la libreria predefinita vivono quindi sotto `<cartella exe>\Data\` invece di `%APPDATA%` / Documenti, e "avvio con Windows" usa un collegamento nella cartella Esecuzione automatica anziché il registro — così l'intero strumento viaggia su una chiavetta e non lascia nulla sull'host. L'app deve trovarsi in una posizione scrivibile (una chiavetta USB, non `Program Files`); la **libreria di testo si sposta tramite Esporta / Importa backup**. L'avvio con Windows è tracciato per modalità, quindi rimetti la spunta nella nuova modalità dopo il passaggio se lo desideri. Lascialo disattivato per il layout installato descritto sopra (la scelta giusta quando la cartella dati è un'unità di sincronizzazione).<br>_(Deve trattarsi di un file marcatore, non di una semplice impostazione — decide dove risiede lo stesso `settings.json`; l'interruttore ha effetto solo al prossimo avvio, senza mai disturbare la sessione corrente.)_

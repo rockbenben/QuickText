@@ -85,9 +85,9 @@ Double-cliquez sur **`QuickText.exe`** ; il réside dans la **zone de notificati
 
 ## Ajouter / modifier vos textes
 
-![Gestionnaire : catégories à gauche, fragments au centre, éditeur à droite](../images/quicktext-manager.webp)
+![Gestionnaire : catégories et fragments à gauche, éditeur à droite](../images/quicktext-manager.webp)
 
-- **Zone de notification → Ouvrir le Gestionnaire** — l'éditeur complet : catégories à gauche, fragments à droite, éditeur en dessous. Ajouter/renommer/supprimer des catégories (avec une étiquette **7 couleurs**), modifier les fragments (nom, abréviation, corps, image). Glissez pour réordonner ou déplacer entre catégories ; `Ctrl+Z` annule une suppression.
+- **Zone de notification → Ouvrir le Gestionnaire** — l'éditeur complet : catégories et fragments à gauche, éditeur à droite. Ajouter/renommer/supprimer des catégories (avec une étiquette **7 couleurs**), modifier les fragments (nom, abréviation, corps, image). Glissez pour réordonner ou déplacer entre catégories ; `Ctrl+Z` annule une suppression.
 - **Zone de notification → Nouveau depuis le presse-papiers** — créez un nouveau fragment à partir du presse-papiers actuel et ouvrez-le dans le Gestionnaire pour le compléter (appuyez sur **Enregistrer** pour l'écrire sur le disque ; fermer le Gestionnaire demande s'il faut enregistrer ou abandonner).
 - **Créer dans le panneau** — tapez le texte dans le champ de recherche et appuyez sur `Ctrl+N` pour l'enregistrer comme nouveau fragment (ce texte devient le corps ; `@catégorie …` le classe dans cette catégorie) et sauter au Gestionnaire pour le compléter (`Ctrl+E` modifie celui qui est sélectionné).
 
@@ -178,7 +178,7 @@ Dossier de données (par défaut `Documents\QuickText`, modifiable dans les Rég
   └─ images/           # fichiers image des fragments image
 ```
 
-- `Snippet` : `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
+- `Snippet` : `{ id, name, abbr, body, useVariables, outputMode, imagePath?, codeFormat?, updatedAt }`.
 - **Écritures atomiques** (`*.tmp` → `File.Replace`) pour qu'une synchronisation ne lise jamais un fichier écrit à moitié ; rechargement à chaud par `FileSystemWatcher` (fusionné), avec une garde contre les auto-écritures.
 - L'état local à la machine reste **hors du dossier de synchronisation** : réglages dans `%APPDATA%\QuickText\settings.json`, compteurs d'usage / favoris dans `%APPDATA%\QuickText\usage.stats` (ils changent à chaque envoi et entreraient en conflit d'une machine à l'autre), sauvegardes automatiques quotidiennes dans `%APPDATA%\QuickText\backups\`.
 - **Mode portable** (sans trace / USB) : activez-le sous **Réglages → Données → Mode portable** — il dépose un marqueur `QuickText.portable` à côté de `QuickText.exe` et **s'applique au prochain redémarrage** (le premier démarrage en mode portable transfère vos réglages et votre usage, vous n'avez donc pas à tout reconfigurer). Les réglages, l'usage, les sauvegardes et la bibliothèque par défaut résident alors sous **`<dossier de l'exe>\Data\`** au lieu de `%APPDATA%` / Documents, et « démarrer avec Windows » utilise un raccourci dans le dossier Démarrage plutôt que le registre — ainsi tout l'outil voyage sur une clé et ne laisse rien sur l'hôte. L'application doit se trouver dans un emplacement inscriptible (une clé USB, pas `Program Files`) ; la **bibliothèque de textes se déplace via Exporter / Importer une sauvegarde**. Le démarrage avec Windows est suivi par mode, donc recochez-le dans le nouveau mode après le changement si vous le voulez. Laissez-le désactivé pour la disposition installée ci-dessus (le bon choix quand le dossier de données est un lecteur de synchronisation).<br>_(Ce doit être un fichier marqueur, pas un simple réglage — il décide où se trouve `settings.json` lui-même ; le changement ne prend effet qu'au démarrage suivant, sans jamais perturber la session en cours.)_

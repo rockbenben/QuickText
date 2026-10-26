@@ -93,9 +93,9 @@ Double-click **`QuickText.exe`**; it lives in the **system tray** (no taskbar bu
 
 ## Add / edit your text
 
-![Manager: categories on the left, snippets in the middle, the editor on the right](docs/images/quicktext-manager.webp)
+![Manager: categories and snippets on the left, the editor on the right](docs/images/quicktext-manager.webp)
 
-- **Tray → Open Manager** — the full editor: categories on the left, snippets on the right, editor below. Add/rename/delete categories (with a **7-color** tag), edit snippets (name, abbreviation, body, image). Drag to reorder or move between categories; `Ctrl+Z` undoes a delete.
+- **Tray → Open Manager** — the full editor: categories and snippets on the left, the editor on the right. Add/rename/delete categories (with a **7-color** tag), edit snippets (name, abbreviation, body, image). Drag to reorder or move between categories; `Ctrl+Z` undoes a delete.
 - **Tray → New from clipboard** — create a new snippet from the current clipboard and open it in the Manager to finish (press **Save** to write it to disk; nothing is written until you do, and anything unsaved is confirmed before it can be lost — on closing the Manager, on closing the enlarged editor, and on switching to another snippet).
 - **Create in the panel** — type the text in the search box and press `Ctrl+N` to save it as a new snippet (that text becomes the body; `@category …` files it in that category) and jump to the Manager to finish (`Ctrl+E` edits the selected one).
 
@@ -186,7 +186,7 @@ Data folder (default `Documents\QuickText`, changeable in Settings, can point at
   └─ images/           # image files for image snippets
 ```
 
-- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
+- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, codeFormat?, updatedAt }`.
 - **Atomic writes** (`*.tmp` → `File.Replace`) so a sync never reads a half-written file; `FileSystemWatcher` hot-reload (coalesced), with a self-write guard.
 - Machine-local state stays **out of the sync folder**: settings in `%APPDATA%\QuickText\settings.json`, usage counts / favorites in `%APPDATA%\QuickText\usage.stats` (they change on every send and would conflict across machines), daily auto-backups in `%APPDATA%\QuickText\backups\`.
 - **Portable mode** (trace-free / USB): turn it on under **Settings → Data → Portable mode** — it drops a `QuickText.portable` marker next to `QuickText.exe` and **applies on the next restart** (the first portable start carries your settings and usage across, so you don't reconfigure). Settings, usage, backups, downloaded updates and the default library then live under `<exe folder>\Data\` instead of `%APPDATA%` / Documents, and "start with Windows" uses a Startup-folder shortcut rather than the registry — so the whole tool travels on a stick and leaves nothing on the host. The app must sit in a writable location (a USB stick, not `Program Files`); the **text library moves via Export / Import backup**. Start-with-Windows is tracked per mode, so re-tick it in the new mode after switching if you want it. Leave it off for the installed layout above (the right choice when the data folder is a sync drive).<br>_(It has to be a marker file, not a plain setting — it decides where `settings.json` itself lives; the switch only takes effect next start, never disturbing the current session.)_

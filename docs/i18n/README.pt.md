@@ -85,9 +85,9 @@ Dê um duplo clique em **`QuickText.exe`**; ele fica na **bandeja do sistema** (
 
 ## Adicione / edite seu texto
 
-![Gerenciador: categorias à esquerda, trechos no centro, editor à direita](../images/quicktext-manager.webp)
+![Gerenciador: categorias e trechos à esquerda, editor à direita](../images/quicktext-manager.webp)
 
-- **Bandeja → Abrir Gerenciador** — o editor completo: categorias à esquerda, trechos à direita, editor abaixo. Adicione/renomeie/exclua categorias (com uma etiqueta de **7 cores**), edite trechos (nome, abreviação, corpo, imagem). Arraste para reordenar ou mover entre categorias; `Ctrl+Z` desfaz uma exclusão.
+- **Bandeja → Abrir Gerenciador** — o editor completo: categorias e trechos à esquerda, editor à direita. Adicione/renomeie/exclua categorias (com uma etiqueta de **7 cores**), edite trechos (nome, abreviação, corpo, imagem). Arraste para reordenar ou mover entre categorias; `Ctrl+Z` desfaz uma exclusão.
 - **Bandeja → Novo a partir da área de transferência** — cria um novo trecho a partir do conteúdo atual da área de transferência e o abre no Gerenciador para finalizar (pressione **Salvar** para gravá-lo no disco; fechar o Gerenciador pergunta se deseja salvar ou descartar).
 - **Criar no painel** — digite o texto na caixa de busca e pressione `Ctrl+N` para salvá-lo como um novo snippet (esse texto vira o corpo; `@categoria …` o arquiva nessa categoria) e ir ao Gerenciador para finalizar (`Ctrl+E` edita o selecionado).
 
@@ -178,7 +178,7 @@ Pasta de dados (padrão `Documents\QuickText`, alterável em Configurações, po
   └─ images/           # image files for image snippets
 ```
 
-- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
+- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, codeFormat?, updatedAt }`.
 - **Gravações atômicas** (`*.tmp` → `File.Replace`) para que uma sincronização nunca leia um arquivo escrito pela metade; recarga a quente com `FileSystemWatcher` (coalescida), com uma proteção contra a própria gravação.
 - O estado local da máquina permanece **fora da pasta de sincronização**: configurações em `%APPDATA%\QuickText\settings.json`, contagens de uso / favoritos em `%APPDATA%\QuickText\usage.stats` (mudam a cada envio e entrariam em conflito entre máquinas), backups automáticos diários em `%APPDATA%\QuickText\backups\`.
 - **Modo portátil** (sem rastros / USB): ative-o em **Configurações → Dados → Modo portátil** — ele deixa um marcador `QuickText.portable` ao lado de `QuickText.exe` e **passa a valer na próxima reinicialização** (a primeira execução portátil leva junto suas configurações e uso, então você não precisa reconfigurar). As configurações, o uso, os backups e a biblioteca padrão passam a ficar em `<exe folder>\Data\` em vez de `%APPDATA%` / Documents, e o "iniciar com o Windows" usa um atalho na pasta Inicializar em vez do registro — assim a ferramenta inteira viaja num pen drive e não deixa nada na máquina anfitriã. O aplicativo precisa ficar num local gravável (um pen drive, não `Program Files`); a **biblioteca de textos migra via Exportar / Importar backup**. O "iniciar com o Windows" é rastreado por modo, então marque-o de novo no novo modo após trocar, se quiser. Deixe-o desligado para o layout instalado acima (a escolha certa quando a pasta de dados é um drive de sincronização).<br>_(Precisa ser um arquivo marcador, não uma simples configuração — ele decide onde o próprio `settings.json` fica; o interruptor só passa a valer na próxima inicialização, nunca perturbando a sessão atual.)_

@@ -85,9 +85,9 @@ Nhấp đúp **`QuickText.exe`**; nó nằm trong **khay hệ thống** (không 
 
 ## Thêm / chỉnh sửa văn bản của bạn
 
-![Trình quản lý: danh mục bên trái, đoạn văn bản ở giữa, trình soạn thảo bên phải](../images/quicktext-manager.webp)
+![Trình quản lý: danh mục và đoạn văn bản bên trái, trình soạn thảo bên phải](../images/quicktext-manager.webp)
 
-- **Khay → Mở Trình quản lý** — trình soạn thảo đầy đủ: danh mục bên trái, đoạn văn bản bên phải, trình soạn thảo bên dưới. Thêm/đổi tên/xóa danh mục (với thẻ **7 màu**), chỉnh sửa đoạn văn bản (tên, từ viết tắt, nội dung, hình ảnh). Kéo để sắp xếp lại hoặc chuyển giữa các danh mục; `Ctrl+Z` hoàn tác một thao tác xóa.
+- **Khay → Mở Trình quản lý** — trình soạn thảo đầy đủ: danh mục và đoạn văn bản bên trái, trình soạn thảo bên phải. Thêm/đổi tên/xóa danh mục (với thẻ **7 màu**), chỉnh sửa đoạn văn bản (tên, từ viết tắt, nội dung, hình ảnh). Kéo để sắp xếp lại hoặc chuyển giữa các danh mục; `Ctrl+Z` hoàn tác một thao tác xóa.
 - **Khay → Tạo mới từ clipboard** — tạo một đoạn văn bản mới từ clipboard hiện tại và mở nó trong Trình quản lý để hoàn thiện (nhấn **Lưu** để ghi vào ổ đĩa; đóng Trình quản lý sẽ hỏi bạn muốn lưu hay hủy).
 - **Tạo trong bảng** — gõ nội dung vào ô tìm kiếm và nhấn `Ctrl+N` để lưu thành đoạn mới (văn bản đó trở thành nội dung; `@danh mục …` xếp nó vào danh mục đó) và nhảy đến Trình quản lý để hoàn thiện (`Ctrl+E` chỉnh sửa mục đang chọn).
 
@@ -178,7 +178,7 @@ Thư mục dữ liệu (mặc định `Documents\QuickText`, có thể thay đ�
   └─ images/           # image files for image snippets
 ```
 
-- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
+- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, codeFormat?, updatedAt }`.
 - **Ghi nguyên tử** (`*.tmp` → `File.Replace`) để việc đồng bộ không bao giờ đọc một tệp ghi dở; tải lại nóng bằng `FileSystemWatcher` (được gộp lại), với một cơ chế bảo vệ chống tự-ghi.
 - Trạng thái cục bộ của máy nằm **ngoài thư mục đồng bộ**: cài đặt trong `%APPDATA%\QuickText\settings.json`, số lượt dùng / mục yêu thích trong `%APPDATA%\QuickText\usage.stats` (chúng thay đổi mỗi lần gửi và sẽ xung đột giữa các máy), tự động sao lưu hàng ngày trong `%APPDATA%\QuickText\backups\`.
 - **Chế độ di động** (không để lại dấu vết / USB): bật nó ở **Cài đặt → Dữ liệu → Chế độ di động** — nó đặt một tệp đánh dấu `QuickText.portable` cạnh `QuickText.exe` và **áp dụng ở lần khởi động lại tiếp theo** (lần khởi động di động đầu tiên mang theo cài đặt và số lượt dùng của bạn, nên bạn không phải cấu hình lại). Cài đặt, số lượt dùng, bản sao lưu và thư viện mặc định khi đó nằm dưới `<exe folder>\Data\` thay vì `%APPDATA%` / Documents, và "khởi động cùng Windows" dùng một shortcut trong thư mục Startup thay vì registry — nên toàn bộ công cụ di chuyển được trên một chiếc USB và không để lại gì trên máy chủ. Ứng dụng phải nằm ở một vị trí có thể ghi (một chiếc USB, không phải `Program Files`); **thư viện văn bản di chuyển qua Xuất / Nhập bản sao lưu**. Khởi động-cùng-Windows được theo dõi theo từng chế độ, nên hãy đánh dấu lại nó ở chế độ mới sau khi chuyển đổi nếu bạn muốn. Để tắt nó cho bố cục đã cài đặt ở trên (lựa chọn đúng khi thư mục dữ liệu là một ổ đĩa đồng bộ).<br>_(Nó bắt buộc phải là một tệp đánh dấu, không phải một cài đặt thông thường — nó quyết định bản thân `settings.json` nằm ở đâu; công tắc chỉ có hiệu lực ở lần khởi động tiếp theo, không bao giờ làm gián đoạn phiên hiện tại.)_

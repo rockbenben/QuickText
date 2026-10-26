@@ -85,9 +85,9 @@ Klik ganda **`QuickText.exe`**; ia tinggal di **system tray** (tanpa tombol task
 
 ## Tambah / edit teks Anda
 
-![Manager: kategori di kiri, snippet di tengah, editor di kanan](../images/quicktext-manager.webp)
+![Manager: kategori dan snippet di kiri, editor di kanan](../images/quicktext-manager.webp)
 
-- **Tray → Buka Manager** — editor lengkap: kategori di kiri, snippet di kanan, editor di bawah. Tambah/ganti nama/hapus kategori (dengan tag **7 warna**), edit snippet (nama, singkatan, isi, gambar). Seret untuk menyusun ulang atau memindahkan antar kategori; `Ctrl+Z` membatalkan penghapusan.
+- **Tray → Buka Manager** — editor lengkap: kategori dan snippet di kiri, editor di kanan. Tambah/ganti nama/hapus kategori (dengan tag **7 warna**), edit snippet (nama, singkatan, isi, gambar). Seret untuk menyusun ulang atau memindahkan antar kategori; `Ctrl+Z` membatalkan penghapusan.
 - **Tray → Baru dari clipboard** — buat snippet baru dari isi clipboard saat ini dan buka di Manager untuk menyelesaikannya (tekan **Simpan** untuk menulisnya ke disk; menutup Manager akan menanyakan apakah ingin menyimpan atau membuang perubahan).
 - **Buat di panel** — ketik teks di kotak pencarian lalu tekan `Ctrl+N` untuk menyimpannya sebagai snippet baru (teks itu menjadi isi; `@kategori …` menaruhnya di kategori tersebut) dan langsung ke Manager untuk menyelesaikan (`Ctrl+E` mengedit yang terpilih).
 
@@ -178,7 +178,7 @@ Folder data (default `Documents\QuickText`, bisa diubah di Pengaturan, dapat men
   └─ images/           # file gambar untuk snippet gambar
 ```
 
-- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
+- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, codeFormat?, updatedAt }`.
 - **Penulisan atomik** (`*.tmp` → `File.Replace`) agar sinkronisasi tak pernah membaca file yang setengah tertulis; hot-reload `FileSystemWatcher` (digabungkan), dengan penjaga tulisan-sendiri.
 - Status lokal-mesin tetap **di luar folder sinkronisasi**: pengaturan di `%APPDATA%\QuickText\settings.json`, hitungan pemakaian / favorit di `%APPDATA%\QuickText\usage.stats` (keduanya berubah setiap pengiriman dan akan bentrok antar mesin), cadangan otomatis harian di `%APPDATA%\QuickText\backups\`.
 - **Mode portabel** (tanpa jejak / USB): aktifkan di **Pengaturan → Data → Mode portabel** — ia menaruh penanda `QuickText.portable` di sebelah `QuickText.exe` dan **berlaku pada restart berikutnya** (start portabel pertama membawa pengaturan dan pemakaian Anda ikut, jadi Anda tak perlu mengatur ulang). Pengaturan, pemakaian, cadangan, dan pustaka default lalu tinggal di bawah `<exe folder>\Data\` alih-alih `%APPDATA%` / Documents, dan "mulai bersama Windows" memakai pintasan folder Startup ketimbang registri — sehingga seluruh alat bisa dibawa di flash disk dan tak meninggalkan apa pun di host. Aplikasi harus berada di lokasi yang bisa ditulis (flash disk USB, bukan `Program Files`); **pustaka teks berpindah lewat Ekspor / Impor cadangan**. Mulai-bersama-Windows dilacak per mode, jadi centang lagi di mode baru setelah beralih bila Anda menginginkannya. Biarkan mati untuk tata letak terpasang di atas (pilihan yang tepat saat folder data adalah drive sinkronisasi).<br>_(Ini harus berupa file penanda, bukan pengaturan biasa — ia menentukan di mana `settings.json` itu sendiri tinggal; saklarnya baru berlaku pada start berikutnya, tak pernah mengganggu sesi saat ini.)_

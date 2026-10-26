@@ -85,9 +85,9 @@ Kısaltmalar ve değişkenlerle ilgili tüm ayrıntılar aşağıdaki **Ayrınt�
 
 ## Metninizi ekleyin / düzenleyin
 
-![Yönetici: solda kategoriler, ortada snippet'ler, sağda düzenleyici](../images/quicktext-manager.webp)
+![Yönetici: solda kategoriler ve snippet'ler, sağda düzenleyici](../images/quicktext-manager.webp)
 
-- **Tepsi → Yöneticiyi Aç** — tam editör: solda kategoriler, sağda snippet'ler, altta editör. Kategori ekleyin/yeniden adlandırın/silin (**7 renkli** bir etiketle), snippet'leri düzenleyin (ad, kısaltma, gövde, görsel). Yeniden sıralamak veya kategoriler arasında taşımak için sürükleyin; `Ctrl+Z` bir silmeyi geri alır.
+- **Tepsi → Yöneticiyi Aç** — tam editör: solda kategoriler, ortada snippet'ler, sağda editör. Kategori ekleyin/yeniden adlandırın/silin (**7 renkli** bir etiketle), snippet'leri düzenleyin (ad, kısaltma, gövde, görsel). Yeniden sıralamak veya kategoriler arasında taşımak için sürükleyin; `Ctrl+Z` bir silmeyi geri alır.
 - **Tepsi → Panodan yeni** — mevcut panodan yeni bir snippet oluşturun ve tamamlamak için Yönetici'de açın (diske yazmak için **Kaydet**'e basın; Yönetici'yi kapatırken kaydetmek mi yoksa vazgeçmek mi istediğiniz sorulur).
 - **Panelde oluşturun** — arama kutusuna metni yazın ve `Ctrl+N` tuşuna basarak yeni bir parça olarak kaydedin (bu metin gövde olur; `@kategori …` onu o kategoriye yerleştirir) ve tamamlamak üzere Yönetici'ye geçin (`Ctrl+E` seçili olanı düzenler).
 
@@ -178,7 +178,7 @@ Veri klasörü (varsayılan `Documents\QuickText`, Ayarlar'da değiştirilebilir
   └─ images/           # image files for image snippets
 ```
 
-- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
+- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, codeFormat?, updatedAt }`.
 - **Atomik yazma** (`*.tmp` → `File.Replace`), böylece bir senkronizasyon asla yarı yazılmış bir dosyayı okumaz; `FileSystemWatcher` sıcak yeniden yüklemesi (birleştirilmiş), bir kendi kendine yazma korumasıyla.
 - Makineye özel durum **senkronizasyon klasörünün dışında kalır**: ayarlar `%APPDATA%\QuickText\settings.json` içinde, kullanım sayıları / sık kullanılanlar `%APPDATA%\QuickText\usage.stats` içinde (her gönderimde değişirler ve makineler arasında çakışırlar), günlük otomatik yedeklemeler `%APPDATA%\QuickText\backups\` içinde.
 - **Taşınabilir mod** (iz bırakmayan / USB): **Ayarlar → Veri → Taşınabilir mod** altında açın — `QuickText.exe` yanına bir `QuickText.portable` işaretçisi bırakır ve **bir sonraki yeniden başlatmada uygulanır** (ilk taşınabilir başlatma, ayarlarınızı ve kullanımınızı beraberinde taşır, böylece yeniden yapılandırmazsınız). Ayarlar, kullanım, yedeklemeler ve varsayılan kitaplık bundan sonra `%APPDATA%` / Documents yerine `<exe folder>\Data\` altında yaşar ve "Windows ile başlat" kayıt defteri yerine bir Başlangıç klasörü kısayolu kullanır — böylece tüm araç bir bellekte gezer ve ana bilgisayarda hiçbir şey bırakmaz. Uygulama yazılabilir bir konumda bulunmalıdır (bir USB bellek, `Program Files` değil); **metin kitaplığı Dışa / İçe aktar yedeği aracılığıyla taşınır**. Windows ile başlatma mod başına izlenir, bu nedenle geçiş yaptıktan sonra isterseniz yeni modda tekrar işaretleyin. Yukarıdaki kurulu düzen için kapalı bırakın (veri klasörü bir senkronizasyon sürücüsü olduğunda doğru seçim).<br>_(Bir işaretçi dosyası olması gerekir, düz bir ayar değil — `settings.json` dosyasının kendisinin nerede yaşayacağına karar verir; anahtar yalnızca bir sonraki başlatmada etkinleşir, mevcut oturumu asla bozmaz.)_

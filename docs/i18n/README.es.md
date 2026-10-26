@@ -85,9 +85,9 @@ Haz doble clic en **`QuickText.exe`**; vive en la **bandeja del sistema** (sin b
 
 ## Añadir / editar tu texto
 
-![Gestor: categorías a la izquierda, fragmentos en el centro, editor a la derecha](../images/quicktext-manager.webp)
+![Gestor: categorías y fragmentos a la izquierda, editor a la derecha](../images/quicktext-manager.webp)
 
-- **Bandeja → Abrir Gestor** — el editor completo: categorías a la izquierda, fragmentos a la derecha, editor debajo. Añade/renombra/elimina categorías (con una etiqueta de **7 colores**), edita fragmentos (nombre, abreviatura, cuerpo, imagen). Arrastra para reordenar o mover entre categorías; `Ctrl+Z` deshace un borrado.
+- **Bandeja → Abrir Gestor** — el editor completo: categorías y fragmentos a la izquierda, editor a la derecha. Añade/renombra/elimina categorías (con una etiqueta de **7 colores**), edita fragmentos (nombre, abreviatura, cuerpo, imagen). Arrastra para reordenar o mover entre categorías; `Ctrl+Z` deshace un borrado.
 - **Bandeja → Nuevo desde el portapapeles** — crea un fragmento nuevo a partir del portapapeles actual y ábrelo en el Gestor para completarlo (pulsa **Guardar** para escribirlo en disco; al cerrar el Gestor te preguntará si guardar o descartar).
 - **Crear en el panel** — escribe el texto en el cuadro de búsqueda y pulsa `Ctrl+N` para guardarlo como un fragmento nuevo (ese texto pasa a ser el cuerpo; `@categoría …` lo archiva en esa categoría) y saltar al Gestor a completarlo (`Ctrl+E` edita el seleccionado).
 
@@ -178,7 +178,7 @@ Carpeta de datos (por defecto `Documents\QuickText`, cambiable en Ajustes, puede
   └─ images/           # archivos de imagen de los fragmentos con imagen
 ```
 
-- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
+- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, codeFormat?, updatedAt }`.
 - **Escrituras atómicas** (`*.tmp` → `File.Replace`) para que una sincronización nunca lea un archivo a medio escribir; recarga en caliente con `FileSystemWatcher` (agrupada), con una protección contra la propia escritura.
 - El estado propio de la máquina se mantiene **fuera de la carpeta de sincronización**: los ajustes en `%APPDATA%\QuickText\settings.json`, los recuentos de uso / favoritos en `%APPDATA%\QuickText\usage.stats` (cambian en cada envío y entrarían en conflicto entre máquinas), las copias automáticas diarias en `%APPDATA%\QuickText\backups\`.
 - **Modo portátil** (sin rastro / USB): actívalo en **Ajustes → Datos → Modo portátil** — coloca un marcador `QuickText.portable` junto a `QuickText.exe` y **se aplica en el siguiente reinicio** (el primer arranque portátil lleva consigo tus ajustes y tu uso, así que no reconfiguras). Los ajustes, el uso, las copias de seguridad y la biblioteca por defecto pasan entonces a estar bajo `<carpeta del exe>\Data\` en lugar de `%APPDATA%` / Documents, y "iniciar con Windows" usa un acceso directo en la carpeta de Inicio en vez del registro, de modo que toda la herramienta viaja en una memoria USB sin dejar nada en el equipo anfitrión. La aplicación debe estar en una ubicación con permiso de escritura (una memoria USB, no `Program Files`); la **biblioteca de texto se mueve con Exportar / Importar copia de seguridad**. El inicio con Windows se registra por modo, así que vuelve a marcarlo en el nuevo modo tras cambiar si lo quieres. Déjalo desactivado para la disposición instalada de arriba (la opción correcta cuando la carpeta de datos es una unidad de sincronización).<br>_(Tiene que ser un archivo marcador, no un ajuste normal: decide dónde vive `settings.json` mismo; el interruptor solo surte efecto en el siguiente arranque, sin alterar nunca la sesión actual.)_

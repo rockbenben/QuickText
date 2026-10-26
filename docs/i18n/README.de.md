@@ -85,9 +85,9 @@ Doppelklicke **`QuickText.exe`**; es lebt im **System-Infobereich** (keine Taskl
 
 ## Deinen Text hinzufügen / bearbeiten
 
-![Manager: Kategorien links, Snippets in der Mitte, Editor rechts](../images/quicktext-manager.webp)
+![Manager: Kategorien und Snippets links, Editor rechts](../images/quicktext-manager.webp)
 
-- **Infobereich → Manager öffnen** — der vollständige Editor: Kategorien links, Snippets rechts, Editor darunter. Kategorien hinzufügen/umbenennen/löschen (mit einer **7-farbigen** Markierung), Snippets bearbeiten (Name, Kürzel, Text, Bild). Zum Umsortieren oder Verschieben zwischen Kategorien ziehen; `Ctrl+Z` macht ein Löschen rückgängig.
+- **Infobereich → Manager öffnen** — der vollständige Editor: Kategorien und Snippets links, Editor rechts. Kategorien hinzufügen/umbenennen/löschen (mit einer **7-farbigen** Markierung), Snippets bearbeiten (Name, Kürzel, Text, Bild). Zum Umsortieren oder Verschieben zwischen Kategorien ziehen; `Ctrl+Z` macht ein Löschen rückgängig.
 - **Infobereich → Neu aus Zwischenablage** — erstellt ein neues Snippet aus dem aktuellen Inhalt der Zwischenablage und öffnet es im Manager zum Fertigstellen (auf **Speichern** klicken, um es auf den Datenträger zu schreiben; beim Schließen des Managers wirst du gefragt, ob gespeichert oder verworfen werden soll).
 - **Im Panel erstellen** — tippe den Text ins Suchfeld und drücke `Ctrl+N`, um ihn als neuen Baustein zu speichern (dieser Text wird der Inhalt; `@Kategorie …` legt ihn in dieser Kategorie ab) und zum Fertigstellen in den Manager zu springen (`Ctrl+E` bearbeitet das ausgewählte).
 
@@ -178,7 +178,7 @@ Datenordner (Standard `Documents\QuickText`, in den Einstellungen änderbar, kan
   └─ images/           # image files for image snippets
 ```
 
-- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, updatedAt }`.
+- `Snippet`: `{ id, name, abbr, body, useVariables, outputMode, imagePath?, codeFormat?, updatedAt }`.
 - **Atomare Schreibvorgänge** (`*.tmp` → `File.Replace`), damit eine Synchronisierung nie eine halb geschriebene Datei liest; `FileSystemWatcher`-Hot-Reload (gebündelt), mit einem Schutz gegen Selbst-Schreibvorgänge.
 - Maschinenlokaler Zustand bleibt **außerhalb des Synchronisierungsordners**: Einstellungen in `%APPDATA%\QuickText\settings.json`, Nutzungszähler / Favoriten in `%APPDATA%\QuickText\usage.stats` (sie ändern sich bei jedem Senden und würden zwischen Rechnern kollidieren), tägliche Auto-Backups in `%APPDATA%\QuickText\backups\`.
 - **Portabler Modus** (spurenfrei / USB): Aktiviere ihn unter **Einstellungen → Daten → Portabler Modus** — er legt eine `QuickText.portable`-Markierung neben `QuickText.exe` ab und **greift beim nächsten Neustart** (der erste portable Start überträgt deine Einstellungen und Nutzung mit, sodass du nicht neu konfigurieren musst). Einstellungen, Nutzung, Backups und die Standardbibliothek liegen dann unter `<exe folder>\Data\` statt in `%APPDATA%` / Documents, und „mit Windows starten“ verwendet eine Verknüpfung im Autostart-Ordner statt der Registry — so reist das ganze Tool auf einem Stick und hinterlässt nichts auf dem Host. Die App muss an einem beschreibbaren Ort liegen (ein USB-Stick, nicht `Program Files`); die **Textbibliothek wandert über Backup exportieren / importieren**. „Mit Windows starten“ wird pro Modus verfolgt, also hake es nach dem Wechsel im neuen Modus erneut an, falls du es möchtest. Lass es für das oben beschriebene installierte Layout aus (die richtige Wahl, wenn der Datenordner ein Synchronisierungslaufwerk ist).<br>_(Es muss eine Markierungsdatei sein, keine einfache Einstellung — sie entscheidet, wo `settings.json` selbst liegt; der Schalter greift erst beim nächsten Start und stört nie die laufende Sitzung.)_
