@@ -45,14 +45,15 @@ public partial class SettingsWindow : Window
         string Hotkey, string CaptureHotkey, string SummonMode, string SummonTapKey,
         bool TapDouble, string DataFolder, string Language, string AbbrBlacklist, string AbbrPrefix,
         bool AbbrEnabled, bool RestoreClipboard, bool AutoSend, bool ClickToSend, bool ClipboardOnly,
-        string Placement, string Theme, bool Autostart, bool CheckUpdates);
+        string Placement, string Theme, bool Autostart, bool AutostartElevated, bool CheckUpdates);
 
     private FormState CurrentForm() => new(
         _hotkey.Trim(), _captureHotkey.Trim(), _summonMode, _summonTapKey,
         SummonTapDouble.IsChecked == true, DataFolder.Text.Trim(), (LangCombo.SelectedValue as string) ?? "",
         AbbrBlacklist.Text.Trim(), AbbrPrefixBox.Text.Trim(), AbbrEnabled.IsChecked == true,
         RestoreClipboard.IsChecked == true, AutoSend.IsChecked == true, ClickToSend.IsChecked == true,
-        _clipboardOnly, _placement, _theme, Autostart.IsChecked == true, CheckUpdates.IsChecked == true);
+        _clipboardOnly, _placement, _theme, Autostart.IsChecked == true,
+        AutostartElevated.IsChecked == true, CheckUpdates.IsChecked == true);
 
     private static string L(string key) => LocalizationService.Instance[key];
 
@@ -100,7 +101,10 @@ public partial class SettingsWindow : Window
         RestoreClipboard.IsChecked = s.RestoreClipboard;
         AutoSend.IsChecked = s.AutoSend;
         ClickToSend.IsChecked = s.ClickToSend;
-        Autostart.IsChecked = QuickText.App.Interop.Autostart.IsEnabled();
+        var (autostart, elevated) = QuickText.App.Interop.Autostart.CurrentState();
+        Autostart.IsChecked = autostart;
+        AutostartElevated.IsChecked = elevated;
+        AutostartElevated.IsEnabled = autostart;
         CheckUpdates.IsChecked = s.CheckUpdates;
         PortableMode.IsChecked = Core.AppPaths.IsPortable;   // Click-wired, so this set won't fire the handler
         VersionText.Text = LocalizationService.Instance["App.Name"] + " v" +
@@ -182,6 +186,17 @@ public partial class SettingsWindow : Window
         if (sender is RadioButton rb) _clipboardOnly = (string?)rb.Tag == "clip";
     }
 
+    /// <summary>The elevated mode is a refinement of "start with Windows", not an independent
+    /// switch: with autostart off it must neither be clickable nor be read back as a saved mode.
+    /// Wired to Click (user interaction only), so the constructor's OS-derived IsChecked doesn't
+    /// fire it.</summary>
+    private void OnAutostartChecked(object sender, RoutedEventArgs e)
+    {
+        bool on = Autostart.IsChecked == true;
+        AutostartElevated.IsEnabled = on;
+        if (!on) AutostartElevated.IsChecked = false;
+    }
+
     private void OnPlacementChecked(object sender, RoutedEventArgs e)
     {
         if (sender is RadioButton rb) _placement = (string?)rb.Tag ?? "window";
@@ -246,6 +261,16 @@ public partial class SettingsWindow : Window
     /// no fixture at all (a mode-selected conditional panel is invisible to the whole shot matrix).</summary>
     internal void ShotsComboMode() =>
         ((System.Windows.Controls.RadioButton)SummonModePanel.Children[0]).IsChecked = true;
+
+    /// <summary>--shots only: the elevated-autostart option in its enabled state. It is gated on
+    /// the "start with Windows" checkbox, which is off on this machine, so the whole shot matrix
+    /// would otherwise render this row zero times.</summary>
+    internal void ShotsElevatedAutostart()
+    {
+        Autostart.IsChecked = true;
+        AutostartElevated.IsEnabled = true;
+        AutostartElevated.IsChecked = true;
+    }
 
     private void OnCaptureBoxClick(object sender, MouseButtonEventArgs e)
     {
@@ -594,7 +619,27 @@ public partial class SettingsWindow : Window
             s.PanelPlacement = _placement;
             s.Theme = _theme;
             s.Autostart = Autostart.IsChecked == true;
+            s.AutostartElevated = s.Autostart && AutostartElevated.IsChecked == true;
             s.CheckUpdates = CheckUpdates.IsChecked == true;
+
+            // Apply autostart BEFORE persisting: enabling the elevated mode may show a UAC prompt.
+            // A declined prompt is not an error, but nothing changed — so neither settings.json
+            // nor the two checkboxes may claim a mode that isn't live. Re-read the real state from
+            // the OS instead; the next open does the same, so this can't drift.
+            var autostartRes = QuickText.App.Interop.Autostart.Apply(s.Autostart, s.AutostartElevated);
+            // A declined UAC prompt is not worth a dialog, and a real failure gets one localized
+            // sentence rather than .NET text in 17 wrong languages (the reason goes to the log).
+            if (autostartRes == QuickText.App.Interop.AutostartResult.Failed)
+                AppDialog.Alert(this, L("App.Name"), L("Settings.AutostartFailed"));
+            if (autostartRes != QuickText.App.Interop.AutostartResult.Applied)
+            {
+                var (realOn, realElevated) = QuickText.App.Interop.Autostart.CurrentState();
+                Autostart.IsChecked = realOn;
+                AutostartElevated.IsChecked = realElevated;
+                AutostartElevated.IsEnabled = realOn;
+                s.Autostart = realOn;
+                s.AutostartElevated = realElevated;
+            }
 
             AppState.Current.SettingsStore.Save(s);
             _savedForm = CurrentForm();
@@ -604,17 +649,6 @@ public partial class SettingsWindow : Window
             {
                 try { LocalizationService.Instance.SetCulture(s.Language); }
                 catch (CultureNotFoundException) { /* keep current culture */ }
-            }
-
-            try
-            {
-                if (s.Autostart) QuickText.App.Interop.Autostart.Enable();
-                else QuickText.App.Interop.Autostart.Disable();
-            }
-            catch (Exception ex)
-            {
-                AppDialog.Alert(this, LocalizationService.Instance["App.Name"],
-                    $"Could not update the autostart setting: {ex.Message}");
             }
 
             // Apply hotkey / data folder / abbreviation changes immediately — no restart. The summon

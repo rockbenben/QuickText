@@ -233,4 +233,7 @@
   <data name="Msg.LibraryLoadWarning"><value>تعذّرت قراءة بعض الملفات في مجلد البيانات؛ قد يكون جزء من المكتبة مفقودًا. راجع error.log للتفاصيل.</value></data>
   <data name="Manager.StaleNotice"><value>تم تحديث المكتبة في نافذة أخرى أو خارج التطبيق. لم يتم حفظ تغييراتك غير المحفوظة هنا على القرص بعد. تم إيقاف الحفظ مؤقتًا؛ أعد تحميل النسخة من القرص أو أغلق هذه النافذة وأعد فتحها.</value></data>
   <data name="Manager.Reload"><value>إعادة التحميل</value></data>
+  <data name="Settings.AutostartElevated"><value>التشغيل كمسؤول عند تسجيل الدخول</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>التشغيل بصلاحيات المسؤول عند تسجيل الدخول (يلزم للصق في النوافذ المرتفعة الصلاحيات). يطلب Windows موافقة UAC مرة واحدة عند التفعيل ولا يطلبها مجددًا عند تسجيل الدخول. في الوضع المحمول تبقى المهمة على هذا الجهاز.</value></data>
+  <data name="Settings.AutostartFailed"><value>تعذّر تحديث إعداد "التشغيل مع Windows".</value></data>
 </root>

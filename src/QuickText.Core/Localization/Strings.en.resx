@@ -233,4 +233,7 @@
   <data name="Msg.LibraryLoadWarning"><value>Some files in the data folder could not be read; part of the library may be missing. See error.log for details.</value></data>
   <data name="Manager.StaleNotice"><value>The library was updated in another window or outside the app. Your unsaved changes here have not been written to disk. Saving is paused; reload the on-disk version, or close and reopen this window.</value></data>
   <data name="Manager.Reload"><value>Reload</value></data>
+  <data name="Settings.AutostartElevated"><value>Start as administrator at login</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>Start with administrator rights (needed to paste into elevated windows). Windows asks for UAC approval once when you enable this, then never at login. In portable mode the task still lives on this machine.</value></data>
+  <data name="Settings.AutostartFailed"><value>Could not update the Start with Windows setting.</value></data>
 </root>

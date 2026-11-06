@@ -2,11 +2,23 @@ using Microsoft.Win32;
 
 namespace QuickText.App.Interop;
 
+/// <summary>Outcome of <see cref="Autostart.Apply"/>. <b>Declined</b> means the user dismissed the
+/// one-time UAC prompt: nothing changed, which is not an error to report but still must not be
+/// persisted as a mode. The reason behind a <b>Failed</b> apply is in the log, not in the UI.</summary>
+public enum AutostartResult { Applied, Declined, Failed }
+
 /// <summary>
-/// "Start with Windows" toggle. Installed mode uses the HKCU Run registry value; portable
-/// mode (see <see cref="QuickText.Core.AppPaths"/>) uses a Startup-folder shortcut instead,
-/// so a USB copy leaves no registry trace. Enabling one mechanism clears the other, and
-/// Disable clears both, so switching modes never strands a second autostart entry.
+/// "Start with Windows" toggle. Two mutually exclusive mechanisms share one settings switch:
+/// <list type="bullet">
+///   <item><b>Normal</b>: installed mode uses the HKCU Run registry value; portable mode (see
+///   <see cref="QuickText.Core.AppPaths"/>) uses a Startup-folder shortcut instead, so a USB copy
+///   leaves no registry trace. Both launch unelevated.</item>
+///   <item><b>Elevated</b> (opt-in): a Task Scheduler logon task with
+///   <c>RunLevel=HighestAvailable</c>, so the app comes up as administrator and can paste into
+///   elevated windows — see <see cref="ElevatedAutostart"/>. The Run/Shortcut entry is removed.</item>
+/// </list>
+/// Enabling one mechanism clears the other, and disabling clears both, so switching never strands
+/// a second autostart entry.
 /// </summary>
 public static class Autostart
 {
@@ -21,27 +33,82 @@ public static class Autostart
     // to Assembly.Location, which is empty for single-file (IL3000).
     private static string ExePath => Environment.ProcessPath ?? "";
 
-    public static bool IsEnabled() =>
-        Core.AppPaths.IsPortable ? StartupShortcut.Exists() : RegistryEnabled();
-
-    public static void Enable()
+    /// <summary>Which mechanism is live right now, read from the OS rather than from settings — a
+    /// user (or an uninstaller, or Task Scheduler cleanup) may have removed an entry behind our
+    /// back. Elevated wins when both exist, because that is the one Windows will actually run
+    /// with elevation. A logon task that still points at an OLD exe location counts as elevated:
+    /// its name is ours, so the toggle must offer to fix it rather than pretend nothing is on.</summary>
+    public static (bool Enabled, bool Elevated) CurrentState()
     {
-        if (Core.AppPaths.IsPortable)
-        {
-            RegistryDisable();          // clear any stale installed-mode entry
-            StartupShortcut.Create();
-        }
-        else
-        {
-            StartupShortcut.Delete();   // clear any stale portable-mode shortcut
-            RegistryEnable();
-        }
+        var state = Read();
+        return state.ElevatedTask ? (true, true)
+            : state.ModeEntry ? (true, false) : (false, false);
     }
 
-    public static void Disable()
+    private static bool ModeEnabled() =>
+        Core.AppPaths.IsPortable ? StartupShortcut.Exists() : RegistryEnabled();
+
+    private static (bool ElevatedTask, bool TaskFresh, bool ModeEntry) Read()
     {
-        StartupShortcut.Delete();
-        RegistryDisable();
+        var (exists, fresh) = ElevatedAutostart.Probe();
+        return (exists, fresh, exists ? false : ModeEnabled());
+    }
+
+    /// <summary>
+    /// Apply the saved (enabled, elevated) pair. On anything but <see cref="AutostartResult.Applied"/>
+    /// nothing was changed, so the caller must re-read the OS instead of persisting a mode that is
+    /// not live. A declined UAC prompt is <see cref="AutostartResult.Declined"/> — not an error to
+    /// show, but not a change either; it must NOT let us delete the old mechanism, or one cancelled
+    /// prompt leaves the user with no autostart at all.
+    /// </summary>
+    public static AutostartResult Apply(bool enabled, bool elevated)
+    {
+        var (currentElevated, taskFresh, currentMode) = Read();
+        bool currentEnabled = currentElevated || currentMode;
+        bool targetElevated = enabled && elevated;
+
+        // "Nothing to do" — except an elevated task left pointing at an old location (a portable
+        // copy that was moved). Answering that with "already applied" is what strands the stale
+        // path forever, because the toggle already reads as on and no later save repairs it.
+        if (currentElevated == targetElevated && currentEnabled == enabled &&
+            (!targetElevated || taskFresh)) return AutostartResult.Applied;
+
+        if (currentElevated != targetElevated || !taskFresh)
+        {
+            var taskRes = ElevatedAutostart.Apply(targetElevated);
+            if (taskRes != AutostartResult.Applied) return taskRes;
+        }
+
+        try
+        {
+            if (enabled && !elevated)
+            {
+                if (Core.AppPaths.IsPortable)
+                {
+                    RegistryDisable();          // clear any stale installed-mode entry
+                    StartupShortcut.Create();
+                }
+                else
+                {
+                    StartupShortcut.Delete();   // clear any stale portable-mode shortcut
+                    RegistryEnable();
+                }
+            }
+            else
+            {
+                StartupShortcut.Delete();
+                RegistryDisable();
+            }
+        }
+        catch (Exception ex)
+        {
+            // A read-only USB stick or a denied HKCU write: the log carries the reason, the UI gets
+            // its one localized sentence. Threading this out of an async void Save would instead
+            // take the whole tray down.
+            QuickText.Core.Log.Error("autostart entry", ex);
+            return AutostartResult.Failed;
+        }
+        return AutostartResult.Applied;
     }
 
     /// <summary>The stored Run command, or null when the value doesn't exist.</summary>

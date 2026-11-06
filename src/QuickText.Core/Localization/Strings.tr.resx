@@ -233,4 +233,7 @@
   <data name="Msg.LibraryLoadWarning"><value>Veri klasöründeki bazı dosyalar okunamadı; kitaplığın bir kısmı eksik olabilir. Ayrıntılar için error.log dosyasına bakın.</value></data>
   <data name="Manager.StaleNotice"><value>Kitaplık başka bir pencerede veya uygulamanın dışında güncellendi. Buradaki kaydedilmemiş değişiklikleriniz henüz diske yazılmadı. Kaydetme duraklatıldı; diskteki sürümü yeniden yükleyin veya bu pencereyi kapatıp yeniden açın.</value></data>
   <data name="Manager.Reload"><value>Yeniden yükle</value></data>
+  <data name="Settings.AutostartElevated"><value>Oturum açarken yönetici olarak başlat</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>Oturum açarken yönetici haklarıyla başlat (yükseltilmiş pencerelere yapıştırmak için gerekir). Windows, etkinleştirirken UAC onayını bir kez ister; sonraki oturum açmalarda istemez. Taşınabilir modda görev yine bu bilgisayarda kalır.</value></data>
+  <data name="Settings.AutostartFailed"><value>Windows ile başlatma ayarı güncelleştirilemedi.</value></data>
 </root>

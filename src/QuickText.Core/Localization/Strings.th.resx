@@ -233,4 +233,7 @@
   <data name="Msg.LibraryLoadWarning"><value>ไม่สามารถอ่านไฟล์บางไฟล์ในโฟลเดอร์ข้อมูลได้ ไลบรารีบางส่วนอาจหายไป ดูรายละเอียดใน error.log</value></data>
   <data name="Manager.StaleNotice"><value>ไลบรารีถูกอัปเดตในหน้าต่างอื่นหรือนอกแอป การเปลี่ยนแปลงที่ยังไม่ได้บันทึกของคุณที่นี่ยังไม่ได้เขียนลงดิสก์ การบันทึกถูกหยุดชั่วคราว โปรดโหลดเวอร์ชันจากดิสก์ใหม่ หรือปิดแล้วเปิดหน้าต่างนี้ใหม่</value></data>
   <data name="Manager.Reload"><value>โหลดใหม่</value></data>
+  <data name="Settings.AutostartElevated"><value>เริ่มด้วยสิทธิ์ผู้ดูแลระบบเมื่อเข้าสู่ระบบ</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>เริ่มด้วยสิทธิ์ผู้ดูแลระบบ (จำเป็นสำหรับวางในหน้าต่างที่ยกระดับสิทธิ์) Windows จะขออนุมัติ UAC ครั้งเดียวเมื่อเปิดใช้ และไม่ถามซ้ำตอนเข้าสู่ระบบ ในโหมดพกพางานนี้ยังคงอยู่ในเครื่องนี้</value></data>
+  <data name="Settings.AutostartFailed"><value>ไม่สามารถอัปเดตการตั้งค่าเปิดพร้อม Windows ได้</value></data>
 </root>

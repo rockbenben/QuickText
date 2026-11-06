@@ -233,4 +233,7 @@
   <data name="Msg.LibraryLoadWarning"><value>資料目錄中有檔案無法讀取，部分內容可能未顯示。詳情請見 error.log。</value></data>
   <data name="Manager.StaleNotice"><value>資料庫已在其他視窗或外部更新，你在這裡的未儲存修改尚未寫入磁碟。儲存已暫停，請重新載入磁碟版本，或關閉視窗後重新開啟。</value></data>
   <data name="Manager.Reload"><value>重新載入</value></data>
+  <data name="Settings.AutostartElevated"><value>以系統管理員身分開機自動啟動</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>以系統管理員權限在登入時啟動（貼上到已提高權限的視窗需要它）。啟用時 Windows 會要求一次 UAC 授權，之後開機不再提示；便攜模式下此工作仍寫在本機。</value></data>
+  <data name="Settings.AutostartFailed"><value>未能更新開機自動啟動設定。</value></data>
 </root>

@@ -18,6 +18,10 @@ public sealed class AppSettings
     public string Theme { get; set; } = "dark";
     public string DataFolder { get; set; } = "";
     public bool Autostart { get; set; }
+    // Opt-in: when Autostart is on, register a logon task with RunLevel=HighestAvailable instead
+    // of an unelevated Run key / Startup shortcut. Default false keeps old configs unchanged;
+    // an older build reading this file ignores the unknown property outright.
+    public bool AutostartElevated { get; set; }
     public bool AbbrEnabled { get; set; } = true;
     public string TerminatorChars { get; set; } = " \t\r\n";
     public string AbbrPrefix { get; set; } = ";";   // auto-prepended to every abbreviation when matching

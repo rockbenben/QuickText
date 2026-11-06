@@ -233,4 +233,7 @@
   <data name="Msg.LibraryLoadWarning"><value>Certains fichiers du dossier de données n'ont pas pu être lus ; une partie de la bibliothèque peut manquer. Consultez error.log pour plus de détails.</value></data>
   <data name="Manager.StaleNotice"><value>La bibliothèque a été mise à jour dans une autre fenêtre ou en dehors de l'application. Vos modifications non enregistrées ici n'ont pas été écrites sur le disque. L'enregistrement est suspendu ; rechargez la version du disque ou fermez puis rouvrez cette fenêtre.</value></data>
   <data name="Manager.Reload"><value>Recharger</value></data>
+  <data name="Settings.AutostartElevated"><value>Démarrer en administrateur à la connexion</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>Démarrer avec les droits administrateur (nécessaire pour coller dans une fenêtre élevée). Windows demande une fois l’approbation UAC lors de l’activation, puis plus jamais à la connexion. En mode portable, la tâche reste sur cette machine.</value></data>
+  <data name="Settings.AutostartFailed"><value>Impossible de mettre à jour le paramètre de démarrage avec Windows.</value></data>
 </root>

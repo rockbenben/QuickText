@@ -233,4 +233,7 @@
   <data name="Msg.LibraryLoadWarning"><value>Não foi possível ler alguns ficheiros da pasta de dados; parte da biblioteca pode estar em falta. Consulte error.log para obter detalhes.</value></data>
   <data name="Manager.StaleNotice"><value>A biblioteca foi atualizada noutra janela ou fora da app. As suas alterações não guardadas aqui ainda não foram escritas no disco. Guardar está em pausa; recarregue a versão do disco ou feche e reabra esta janela.</value></data>
   <data name="Manager.Reload"><value>Recarregar</value></data>
+  <data name="Settings.AutostartElevated"><value>Iniciar como administrador ao entrar</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>Inicia com privilégios de administrador (necessário para colar em janelas elevadas). O Windows pede a aprovação do UAC uma vez ao ativar e nunca mais no início de sessão. No modo portátil, a tarefa ainda fica neste computador.</value></data>
+  <data name="Settings.AutostartFailed"><value>Não foi possível atualizar a definição de iniciar com o Windows.</value></data>
 </root>

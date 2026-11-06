@@ -41,6 +41,30 @@ public class SettingsStoreTests
         File.Delete(path);
     }
 
+    // A new opt-in field must default off on a fresh config AND on a config written by an older
+    // build that never had the field: JsonSerializer leaves the property at its default when the
+    // JSON omits it, so both cases keep the previous (non-elevated) autostart behavior.
+    [Fact]
+    public void AutostartElevated_defaults_off_for_fresh_and_legacy_configs()
+    {
+        Assert.False(new AppSettings().AutostartElevated);
+
+        var path = TempFile();
+        try
+        {
+            // Hand-written JSON with Autostart but no AutostartElevated — what an older build saved.
+            File.WriteAllText(path, "{\"Autostart\":true,\"Hotkey\":\"Ctrl+Shift+8\"}");
+            var s = new SettingsStore(path).Load();
+            Assert.True(s.Autostart);
+            Assert.False(s.AutostartElevated);
+
+            // ...and the new field still round-trips when it IS present.
+            new SettingsStore(path).Save(new AppSettings { Autostart = true, AutostartElevated = true });
+            Assert.True(new SettingsStore(path).Load().AutostartElevated);
+        }
+        finally { File.Delete(path); }
+    }
+
     [Fact]
     public void Editor_settings_default_off_and_survive_a_roundtrip()
     {

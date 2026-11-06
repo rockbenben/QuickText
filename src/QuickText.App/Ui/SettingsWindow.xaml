@@ -302,8 +302,19 @@
                                          Content="{Binding [Settings.FollowSystem], Source={x:Static app:LocProxy.Instance}}"/>
                         </WrapPanel>
 
+                        <!-- Click-wired (not Checked/Unchecked): the constructor sets IsChecked from the
+                             OS, and a programmatic set must not fire the handler and clobber it. -->
                         <CheckBox x:Name="Autostart" Style="{StaticResource DarkCheckBox}" Margin="0,10,0,0"
-                                  Content="{Binding [Tray.Autostart], Source={x:Static app:LocProxy.Instance}}"/>
+                                  Content="{Binding [Tray.Autostart], Source={x:Static app:LocProxy.Instance}}"
+                                  Click="OnAutostartChecked"/>
+                        <!-- Opt-in: a logon task that starts the app elevated (one UAC prompt when
+                             enabling, none at login). Meaningless with autostart off, so it stays
+                             disabled then rather than silently writing a task the user didn't ask for. -->
+                        <CheckBox x:Name="AutostartElevated" Style="{StaticResource DarkCheckBox}" Margin="24,6,0,0"
+                                  Content="{Binding [Settings.AutostartElevated], Source={x:Static app:LocProxy.Instance}}"
+                                  AutomationProperties.Name="{Binding [Settings.AutostartElevated], Source={x:Static app:LocProxy.Instance}}"/>
+                        <TextBlock Text="{Binding [Settings.AutostartElevatedHint], Source={x:Static app:LocProxy.Instance}}"
+                                   FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="48,3,0,0" TextWrapping="Wrap"/>
 
                         <!-- opt-in update check: OFF by default; the only feature that goes online -->
                         <CheckBox x:Name="CheckUpdates" Style="{StaticResource DarkCheckBox}" Margin="0,9,0,0"

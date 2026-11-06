@@ -283,4 +283,7 @@
   <data name="Msg.LibraryLoadWarning"><value>数据目录中有文件无法读取，部分内容可能未显示。详情见 error.log。</value></data>
   <data name="Manager.StaleNotice"><value>库已在其他窗口或外部更新，你在这里的未保存修改尚未写入磁盘。保存已暂停，请重新加载磁盘版本，或关闭窗口后重新打开。</value></data>
   <data name="Manager.Reload"><value>重新加载</value></data>
+  <data name="Settings.AutostartElevated"><value>以管理员身份开机自启</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>以管理员权限登录时启动（向提权的窗口粘贴需要它）。开启时 Windows 会弹一次 UAC 授权，之后开机不再弹；便携模式下此任务仍写在本机。</value></data>
+  <data name="Settings.AutostartFailed"><value>未能更新开机自启设置。</value></data>
 </root>

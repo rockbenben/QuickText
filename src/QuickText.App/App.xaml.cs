@@ -248,6 +248,21 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
+        // One-shot elevated autostart subcommand: the non-elevated instance relaunches us with
+        // Verb=runas to register/delete the logon task. FIRST, before the single-instance mutex:
+        // the running instance must stay alive while this child does its job and exits, and the
+        // child must not build a tray, hooks or a message window. It exits with a code the parent
+        // uses to report success/failure (a declined UAC never starts a child at all).
+        if (Interop.ElevatedAutostart.RunSubcommand(e.Args) is int subcommandExit)
+        {
+            // The parent waits on the process, not on a marker: a GUI exe's exit code read via
+            // Start-Process -PassThru has a known null quirk, but Process.WaitForExit()+ExitCode
+            // (what ElevatedAutostart.Apply uses) does not.
+            Environment.ExitCode = subcommandExit;
+            Shutdown();
+            return;
+        }
+
         // Decide installed-vs-portable before any path is read: a "QuickText.portable" file
         // next to the exe redirects settings/usage/backups under <exeDir>\Data.
         Core.AppPaths.SetExeDir(System.IO.Path.GetDirectoryName(Environment.ProcessPath) ?? Core.AppPaths.ExeDir);
@@ -531,7 +546,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
-        AppState.Current.Usage.Flush();   // persist any debounced usage/favorite changes
+        AppState.Current.Usage?.Flush();   // persist any debounced usage/favorite changes
         // Hand the shell icon back explicitly. It is removed on process exit either way, but a
         // lingering icon that only disappears when the user mouses over it is the classic symptom
         // of skipping this, and ForceCreate above means we own the lifetime now.
@@ -1178,6 +1193,13 @@ public partial class App : Application
             // batch6: combo summon mode — the only way the "Ctrl/Alt/Shift/Win" hint (and the
             // combo capture box) appears on film; the machine defaults to tap mode.
             Shot(t + "settings-combo", () => new SettingsWindow(), w => { Ui.ThemeService.Apply(activeTheme); ((SettingsWindow)w).ShotsComboMode(); }, allHeights: false);
+            // The elevated-autostart sub-option is gated on the main checkbox; with the machine's
+            // autostart off, no ordinary shot would ever render its enabled state or its hint.
+            // A gated row: the panel is data-selected, so without this it has ZERO pixels in the
+            // matrix — and the hint text below it is the only wrapping TextBlock in the group.
+            // allHeights (and so the 464-DIP row) because a hint that fits at 1032 can wrap into a
+            // taller layout here. The tooltip state is set inside ShotsElevatedAutostart().
+            Shot(t + "settings-elevated", () => new SettingsWindow(), w => { Ui.ThemeService.Apply(activeTheme); ((SettingsWindow)w).ShotsElevatedAutostart(); });
 
             // Menus after settings need the theme re-asserted for the same reason.
             Ui.ThemeService.Apply(activeTheme);

@@ -233,4 +233,7 @@
   <data name="Msg.LibraryLoadWarning"><value>डेटा फ़ोल्डर की कुछ फ़ाइलें पढ़ी नहीं जा सकीं; लाइब्रेरी का कुछ भाग गायब हो सकता है। विवरण के लिए error.log देखें।</value></data>
   <data name="Manager.StaleNotice"><value>लाइब्रेरी किसी अन्य विंडो में या ऐप के बाहर अपडेट हुई है। यहाँ किए गए आपके बिना सहेजे बदलाव अभी डिस्क पर नहीं लिखे गए हैं। सहेजना रोका गया है; डिस्क वाला संस्करण फिर से लोड करें, या यह विंडो बंद करके फिर खोलें।</value></data>
   <data name="Manager.Reload"><value>फिर से लोड करें</value></data>
+  <data name="Settings.AutostartElevated"><value>लॉगिन पर व्यवस्थापक के रूप में शुरू करें</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>व्यवस्थापक अधिकारों से लॉगिन पर शुरू करें (उन्नत विंडो में पेस्ट करने के लिए आवश्यक)। सक्षम करते समय Windows एक बार UAC अनुमोदन मांगेगा, बाद के लॉगिन पर नहीं। पोर्टेबल मोड में भी यह कार्य इसी कंप्यूटर पर रहता है।</value></data>
+  <data name="Settings.AutostartFailed"><value>Windows के साथ शुरू करने की सेटिंग अपडेट नहीं की जा सकी।</value></data>
 </root>
