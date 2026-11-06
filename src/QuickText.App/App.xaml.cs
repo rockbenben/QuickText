@@ -849,12 +849,20 @@ public partial class App : Application
         // area, not the screen — and two of these three used to be raw screen heights (614 = 768/1.25,
         // 720 = 1080/1.5) while only the third had the taskbar taken off. That made the tightest row,
         // the one that exists to catch overflow, 40 DIP MORE forgiving than any real laptop.
-        const double taskbar = 40;
+        // Take 48, the tighter of the two taskbar heights.
+        //
+        // The @150% 1366x768 row is the TIGHTEST one (464 DIP) and is the whole reason it is here:
+        // a small laptop at 150% scaling is a real, shipped, common setup, and that row is 100 DIP
+        // tighter than the same screen at 125%. A window that fits at 566 can still push its Save
+        // button off the bottom here. A fallback MaxHeight sized against the wrong row passes every
+        // screenshot in every array below this one and still ships that bug.
+        const double taskbar = 48;
         var waHeights = new[]
         {
-            768 / 1.25 - taskbar,    // 1366x768  @125% -> ~574, the row that catches things
-            1080 / 1.50 - taskbar,   // 1920x1080 @150% -> ~680
-            1080 / 1.00 - taskbar,   // 1920x1080 @100% -> 1040
+            768 / 1.50 - taskbar,    // 1366x768  @150% -> ~464, the row that catches things
+            768 / 1.25 - taskbar,    // 1366x768  @125% -> ~566
+            1080 / 1.50 - taskbar,   // 1920x1080 @150% -> ~672
+            1080 / 1.00 - taskbar,   // 1920x1080 @100% -> 1032
         };
 
         void Capture(Window w, string file)

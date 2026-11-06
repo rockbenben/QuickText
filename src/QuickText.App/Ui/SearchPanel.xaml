@@ -1,3 +1,6 @@
+<!-- MaxHeight is the XAML fallback for when the monitor's work area can't be measured; the real
+     cap is derived at runtime from the work area. Sized against the tightest screen this app
+     supports (1366x768 at 150% scaling ≈ 464 DIP), not a comfortable desktop. -->
 <Window x:Class="QuickText.App.Ui.SearchPanel"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +9,7 @@
         Title="{Binding [App.Name], Source={x:Static app:LocProxy.Instance}}"
         WindowStyle="None" AllowsTransparency="True" Background="Transparent"
         WindowStartupLocation="Manual" Topmost="True" ShowInTaskbar="False"
-        Width="680" SizeToContent="Height" MinWidth="480" MinHeight="340" ResizeMode="NoResize"
+        Width="680" SizeToContent="Height" MinWidth="480" MinHeight="340" MaxHeight="464" ResizeMode="NoResize"
         Deactivated="OnDeactivated">
     <Window.Resources>
         <ContextMenu x:Key="RowMenu" Style="{StaticResource DarkContextMenu}">

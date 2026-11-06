@@ -1,7 +1,10 @@
+<!-- MaxHeight is the XAML fallback for when the monitor's work area can't be measured; the real
+     cap is derived at runtime from the work area (CapHeightToMonitor). Sized against the tightest
+     screen this app supports (1366x768 at 150% scaling ≈ 464 DIP). -->
 <Window x:Class="QuickText.App.Ui.VariablesDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Width="420" SizeToContent="Height" ResizeMode="NoResize"
+        Width="420" SizeToContent="Height" ResizeMode="NoResize" MaxHeight="464"
         WindowStartupLocation="CenterScreen" ShowInTaskbar="False" Topmost="True"
         Background="{DynamicResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
     <!-- Grid with a * row, not a StackPanel: this window is SizeToContent="Height" NoResize and one
