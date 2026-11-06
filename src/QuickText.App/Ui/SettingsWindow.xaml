@@ -316,7 +316,8 @@
                         <CheckBox x:Name="AutostartElevated" Style="{StaticResource DarkCheckBox}" Margin="24,6,0,0"
                                   Content="{Binding [Settings.AutostartElevated], Source={x:Static app:LocProxy.Instance}}"
                                   AutomationProperties.Name="{Binding [Settings.AutostartElevated], Source={x:Static app:LocProxy.Instance}}"/>
-                        <TextBlock Text="{Binding [Settings.AutostartElevatedHint], Source={x:Static app:LocProxy.Instance}}"
+                        <TextBlock x:Name="AutostartElevatedHint"
+                                   Text="{Binding [Settings.AutostartElevatedHint], Source={x:Static app:LocProxy.Instance}}"
                                    FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="48,3,0,0" TextWrapping="Wrap"/>
 
                         <!-- opt-in update check: OFF by default; the only feature that goes online -->

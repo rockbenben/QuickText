@@ -262,14 +262,19 @@ public partial class SettingsWindow : Window
     internal void ShotsComboMode() =>
         ((System.Windows.Controls.RadioButton)SummonModePanel.Children[0]).IsChecked = true;
 
-    /// <summary>--shots only: the elevated-autostart option in its enabled state. It is gated on
-    /// the "start with Windows" checkbox, which is off on this machine, so the whole shot matrix
-    /// would otherwise render this row zero times.</summary>
+    /// <summary>--shots only: the elevated-autostart option in its ENABLED state. It is gated on the
+    /// "start with Windows" checkbox, which is off on this machine, so without this no shot would
+    /// show the enabled row at all.</summary>
     internal void ShotsElevatedAutostart()
     {
         Autostart.IsChecked = true;
         AutostartElevated.IsEnabled = true;
         AutostartElevated.IsChecked = true;
+        // The group is the last thing in the body, so in the longer languages it falls below the
+        // fold at every height the matrix uses — without this the row and its wrapping hint get
+        // filmed in the machine's language only. Scrolling to the hint leaves the checkbox above
+        // it on screen as well.
+        AutostartElevatedHint.BringIntoView();
     }
 
     private void OnCaptureBoxClick(object sender, MouseButtonEventArgs e)

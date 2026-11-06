@@ -1202,11 +1202,11 @@ public partial class App : Application
             // combo capture box) appears on film; the machine defaults to tap mode.
             Shot(t + "settings-combo", () => new SettingsWindow(), w => { Ui.ThemeService.Apply(activeTheme); ((SettingsWindow)w).ShotsComboMode(); }, allHeights: false);
             // The elevated-autostart sub-option is gated on the main checkbox; with the machine's
-            // autostart off, no ordinary shot would ever render its enabled state or its hint.
-            // A gated row: the panel is data-selected, so without this it has ZERO pixels in the
-            // matrix — and the hint text below it is the only wrapping TextBlock in the group.
-            // allHeights (and so the 464-DIP row) because a hint that fits at 1032 can wrap into a
-            // taller layout here. The tooltip state is set inside ShotsElevatedAutostart().
+            // autostart off, no ordinary shot renders its enabled state or its hint. The hint is the
+            // only wrapping TextBlock in the group, and the group is the last thing in the body, so
+            // ShotsElevatedAutostart() also scrolls it into view — without that, a row that needs
+            // more than one screen of content above it is filmed in the machine's language only.
+            // allHeights, so the 464-DIP row proves the hint still fits the shortest laptop.
             Shot(t + "settings-elevated", () => new SettingsWindow(), w => { Ui.ThemeService.Apply(activeTheme); ((SettingsWindow)w).ShotsElevatedAutostart(); });
 
             // Menus after settings need the theme re-asserted for the same reason.
@@ -1246,6 +1246,10 @@ public partial class App : Application
         {
             LocalizationService.Instance.SetCulture(lang);
             Shot($"{lang}-settings", () => new SettingsWindow(), _ => Ui.ThemeService.Apply(activeTheme), allHeights: false);
+            // The gated row again: it needs autostart ticked to be enabled, and in these languages
+            // the body is long enough that it sits below the fold, so this is the only pass that
+            // proves its hint wraps the same way everywhere.
+            Shot($"{lang}-settings-elevated", () => new SettingsWindow(), w => { Ui.ThemeService.Apply(activeTheme); ((SettingsWindow)w).ShotsElevatedAutostart(); }, allHeights: false);
             Shot($"{lang}-panel", () => new SearchPanel(), w => ((SearchPanel)w).ShotsFill(""), allHeights: false);
             // Search mode too: the footer count has its own key (Search.Count.Hits) since the
             // browse/hits split, and browse-only language shots could not show it.
