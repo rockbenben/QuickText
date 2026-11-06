@@ -103,8 +103,7 @@ public partial class SettingsWindow : Window
         ClickToSend.IsChecked = s.ClickToSend;
         var (autostart, elevated) = QuickText.App.Interop.Autostart.CurrentState();
         Autostart.IsChecked = autostart;
-        AutostartElevated.IsChecked = elevated;
-        AutostartElevated.IsEnabled = autostart;
+        AutostartElevated.IsChecked = elevated;   // enabled state and hint follow the parent by binding
         CheckUpdates.IsChecked = s.CheckUpdates;
         PortableMode.IsChecked = Core.AppPaths.IsPortable;   // Click-wired, so this set won't fire the handler
         VersionText.Text = LocalizationService.Instance["App.Name"] + " v" +
@@ -186,15 +185,13 @@ public partial class SettingsWindow : Window
         if (sender is RadioButton rb) _clipboardOnly = (string?)rb.Tag == "clip";
     }
 
-    /// <summary>The elevated mode is a refinement of "start with Windows", not an independent
-    /// switch: with autostart off it must neither be clickable nor be read back as a saved mode.
-    /// Wired to Click (user interaction only), so the constructor's OS-derived IsChecked doesn't
-    /// fire it.</summary>
+    /// <summary>Turning "start with Windows" off also drops the elevated choice: the sub-row and its
+    /// hint are bound to the parent, so they disappear while a tick left on them would come back to
+    /// life the moment the parent is re-ticked. Wired to Click (user interaction only), so the
+    /// constructor's OS-derived IsChecked doesn't fire it.</summary>
     private void OnAutostartChecked(object sender, RoutedEventArgs e)
     {
-        bool on = Autostart.IsChecked == true;
-        AutostartElevated.IsEnabled = on;
-        if (!on) AutostartElevated.IsChecked = false;
+        if (Autostart.IsChecked != true) AutostartElevated.IsChecked = false;
     }
 
     private void OnPlacementChecked(object sender, RoutedEventArgs e)
@@ -267,8 +264,7 @@ public partial class SettingsWindow : Window
     /// show the enabled row at all.</summary>
     internal void ShotsElevatedAutostart()
     {
-        Autostart.IsChecked = true;
-        AutostartElevated.IsEnabled = true;
+        Autostart.IsChecked = true;      // reveals the sub-row and its hint, and enables both
         AutostartElevated.IsChecked = true;
         // The group is the last thing in the body, so in the longer languages it falls below the
         // fold at every height the matrix uses — without this the row and its wrapping hint get
@@ -641,7 +637,6 @@ public partial class SettingsWindow : Window
                 var (realOn, realElevated) = QuickText.App.Interop.Autostart.CurrentState();
                 Autostart.IsChecked = realOn;
                 AutostartElevated.IsChecked = realElevated;
-                AutostartElevated.IsEnabled = realOn;
                 s.Autostart = realOn;
                 s.AutostartElevated = realElevated;
             }

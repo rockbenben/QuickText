@@ -1206,7 +1206,8 @@ public partial class App : Application
             // only wrapping TextBlock in the group, and the group is the last thing in the body, so
             // ShotsElevatedAutostart() also scrolls it into view — without that, a row that needs
             // more than one screen of content above it is filmed in the machine's language only.
-            // allHeights, so the 464-DIP row proves the hint still fits the shortest laptop.
+            // allHeights, so the 464-DIP row proves the hint still fits the shortest laptop. The
+            // other branch (sub-row hidden, no hint) is what every plain settings shot renders.
             Shot(t + "settings-elevated", () => new SettingsWindow(), w => { Ui.ThemeService.Apply(activeTheme); ((SettingsWindow)w).ShotsElevatedAutostart(); });
 
             // Menus after settings need the theme re-asserted for the same reason.

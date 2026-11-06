@@ -311,14 +311,27 @@
                                   Content="{Binding [Tray.Autostart], Source={x:Static app:LocProxy.Instance}}"
                                   Click="OnAutostartChecked"/>
                         <!-- Opt-in: a logon task that starts the app elevated (one UAC prompt when
-                             enabling, none at login). Meaningless with autostart off, so it stays
-                             disabled then rather than silently writing a task the user didn't ask for. -->
+                             enabling, none at login). Meaningless with autostart off, so both its
+                             enabled state AND its explanation hang off the parent checkbox — one
+                             source, so the greyed row can never outlive its own hint text. -->
                         <CheckBox x:Name="AutostartElevated" Style="{StaticResource DarkCheckBox}" Margin="24,6,0,0"
+                                  IsEnabled="{Binding IsChecked, ElementName=Autostart}"
                                   Content="{Binding [Settings.AutostartElevated], Source={x:Static app:LocProxy.Instance}}"
                                   AutomationProperties.Name="{Binding [Settings.AutostartElevated], Source={x:Static app:LocProxy.Instance}}"/>
                         <TextBlock x:Name="AutostartElevatedHint"
                                    Text="{Binding [Settings.AutostartElevatedHint], Source={x:Static app:LocProxy.Instance}}"
-                                   FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="48,3,0,0" TextWrapping="Wrap"/>
+                                   FontSize="11.5" Foreground="{DynamicResource Brush.TextFaint}" Margin="48,3,0,0" TextWrapping="Wrap">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsChecked, ElementName=Autostart}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
 
                         <!-- opt-in update check: OFF by default; the only feature that goes online -->
                         <CheckBox x:Name="CheckUpdates" Style="{StaticResource DarkCheckBox}" Margin="0,9,0,0"
