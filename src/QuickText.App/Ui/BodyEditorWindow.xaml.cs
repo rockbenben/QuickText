@@ -173,7 +173,7 @@ public partial class BodyEditorWindow : Window
         int i = CodeFormatBox.SelectedIndex;
         if (i < 0 || i >= CodeLanguages.All.Count) return;
         var id = CodeLanguages.All[i].Id;
-        if (id == ResultCodeFormat) return;
+        if (id == ResultCodeFormat && CodeLanguages.ById(id).IsPlainText == (_surface is BodyEditor)) return;
 
         // Carry the work across the swap — the text lives in the editor, not in the window.
         var text = _surface.Text;

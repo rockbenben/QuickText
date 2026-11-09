@@ -205,11 +205,14 @@ Core thuần (không Win32, kiểm thử đơn vị được) được tách bi�
 | `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (giao diện tối), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Kiểm thử đơn vị Core (xUnit)                                                                                                                                                                                            |
 
+**tests/QuickText.App.Tests** — Kiểm thử hồi quy Windows/WPF biệt lập cho lưu, khôi phục, đổi thư viện, bố cục và chính sách tương tác hệ thống.
+
 ## Xây dựng & chạy
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 

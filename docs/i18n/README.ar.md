@@ -205,11 +205,14 @@
 | `src/QuickText.App`          | واجهة WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`)، `Ui/Theme.xaml` (سمة داكنة)، `Interop` (`GlobalHotkey`، `KeyboardHook`، `PasteEngine`، `Autostart`، `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | اختبارات وحدوية للنواة (xUnit)                                                                                                                                                                                         |
 
+**tests/QuickText.App.Tests** — اختبارات Windows/WPF معزولة للحفظ والاستعادة وتبديل المكتبات والتخطيط وسياسات التفاعل مع النظام.
+
 ## البناء والتشغيل
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 

@@ -223,11 +223,14 @@ Pure Core (no Win32, unit-testable) kept separate from Win32/UI.
 
 **`tests/QuickText.Core.Tests`** — Core unit tests (xUnit).
 
+**tests/QuickText.App.Tests** — Isolated Windows/WPF regression tests for saves, restores, library switching, layout and system interaction policies.
+
 ## Build & run
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 

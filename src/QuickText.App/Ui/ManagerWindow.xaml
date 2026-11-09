@@ -4,7 +4,7 @@
         xmlns:app="clr-namespace:QuickText.App"
         xmlns:ui="clr-namespace:QuickText.App.Ui"
         Title="{Binding [App.Name], Source={x:Static app:LocProxy.Instance}}"
-        Height="680" Width="880" MinWidth="680" MinHeight="520"
+        Height="680" Width="880" MinWidth="680" MinHeight="320"
         Background="{DynamicResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -118,159 +118,163 @@
 
         <!-- editor · elevated work surface, matching the Settings cards -->
         <Border Grid.Column="1" Style="{StaticResource SetCard}" Margin="20,20,20,20">
-        <Grid x:Name="EditorPane">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Grid.Row="0" x:Name="NameLabel" Style="{StaticResource FieldLabel}"
-                       Text="{Binding [Manager.Name], Source={x:Static app:LocProxy.Instance}}"/>
-            <TextBox Grid.Row="1" x:Name="SnippetName" Style="{StaticResource DarkTextBox}" FontSize="14"
-                     AutomationProperties.LabeledBy="{Binding ElementName=NameLabel}"/>
-
-            <TextBlock Grid.Row="2" x:Name="AbbrLabel" Style="{StaticResource FieldLabel}" Margin="2,18,0,6"
-                       Text="{Binding [Manager.Abbr], Source={x:Static app:LocProxy.Instance}}"/>
-            <!-- The conflict hint is error text — it must never lose a word to the card edge. A
-                 horizontal StackPanel measures children at INFINITE width, so at MinWidth the hint
-                 was sliced mid-sentence with no ellipsis; it now gets its own row and
-                 wraps. The prefix+box pair stays on line one. -->
-            <Grid Grid.Row="3">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
-                    <TextBlock x:Name="AbbrPrefixText" VerticalAlignment="Center" Margin="0,0,3,0"
-                               FontFamily="{StaticResource Font.Mono}" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"
-                               ToolTip="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"/>
-                    <TextBox x:Name="Abbr" Style="{StaticResource DarkTextBox}" Width="180"
-                             AutomationProperties.LabeledBy="{Binding ElementName=AbbrLabel}"
-                             FontFamily="{StaticResource Font.Mono}" TextChanged="OnAbbrChanged"/>
+            <DockPanel x:Name="EditorPane">
+                <!-- Two COLUMNS, not two layers in one cell — the same failure the search panel's footer
+                     already fixed: left-aligned stats and a right-aligned button in the SAME cell run
+                     into each other at the window's own MinWidth, where "已使用 88 次 · 最近 …" ends
+                     exactly where 保存 begins. The stats reserve what is left and trim; the button, which
+                     must always be hittable, keeps its size. -->
+                <Grid DockPanel.Dock="Bottom" Margin="0,16,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" x:Name="UsageStat" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           Margin="2,0,12,0" FontSize="12.5" TextTrimming="CharacterEllipsis"
+                           Foreground="{DynamicResource Brush.TextFaint}"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <TextBlock x:Name="SavedHint" VerticalAlignment="Center" Margin="0,0,14,0" Opacity="0"
+                               FontFamily="{StaticResource Font.Ui}" FontSize="13" Foreground="{DynamicResource Brush.Accent}"
+                               Text="{Binding [Manager.Saved], Source={x:Static app:LocProxy.Instance}}"/>
+                    <Button MinWidth="100" Padding="18,8" x:Name="SaveButton" Style="{StaticResource DarkButtonPrimary}" Click="OnSave"
+                            Content="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}}"/>
                 </StackPanel>
-                <TextBlock Grid.Row="1" x:Name="AbbrConflict" Margin="2,6,0,0" FontSize="12.5" TextWrapping="Wrap"
-                           Foreground="{DynamicResource Brush.Error}" Visibility="Collapsed"/>
-            </Grid>
+                </Grid>
+                <ScrollViewer x:Name="EditorScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <Grid MinHeight="{Binding ViewportHeight, ElementName=EditorScroll}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
 
-            <!-- Was a DockPanel with LastChildFill="False": every Right-docked child takes its
-                 desired width and the LAST one absorbs whatever remains — which in French was
-                 nothing, so the line-numbers checkbox rendered as a box with no label. A label
-                 column plus a WrapPanel lets the controls drop to a second line instead. -->
-            <Grid Grid.Row="4" Margin="2,18,0,6">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" x:Name="BodyLabel" Style="{StaticResource FieldLabel}" Margin="0,0,12,0"
-                           VerticalAlignment="Center"
-                           Text="{Binding [Manager.Body], Source={x:Static app:LocProxy.Instance}}"/>
-                <WrapPanel Grid.Column="1" HorizontalAlignment="Right">
-                    <CheckBox x:Name="LineNumberToggle" Style="{StaticResource DarkCheckBox}"
-                              VerticalAlignment="Center" Margin="0,0,14,2"
-                              Checked="OnLineNumbersToggled" Unchecked="OnLineNumbersToggled"
-                              Content="{Binding [Manager.LineNumbers], Source={x:Static app:LocProxy.Instance}}"/>
-                    <CheckBox x:Name="WrapToggle" Style="{StaticResource DarkCheckBox}"
-                              VerticalAlignment="Center" Margin="0,0,14,2"
-                              Checked="OnWrapToggled" Unchecked="OnWrapToggled"
-                              Content="{Binding [Manager.Wrap], Source={x:Static app:LocProxy.Instance}}"/>
-                    <Button Style="{StaticResource AccentTextIconButton}" Margin="0,0,0,2"
-                            Click="OnExpandBody" VerticalAlignment="Center"
-                            Content="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"
-                            ToolTip="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"/>
-                </WrapPanel>
-            </Grid>
-            <ui:BodyEditor Grid.Row="5" x:Name="Body" MinHeight="120" ShowStatusBar="True"
-                           AutomationProperties.LabeledBy="{Binding ElementName=BodyLabel}"/>
+                        <TextBlock Grid.Row="0" x:Name="NameLabel" Style="{StaticResource FieldLabel}"
+                                   Text="{Binding [Manager.Name], Source={x:Static app:LocProxy.Instance}}"/>
+                        <TextBox Grid.Row="1" x:Name="SnippetName" Style="{StaticResource DarkTextBox}" FontSize="14"
+                                 AutomationProperties.LabeledBy="{Binding ElementName=NameLabel}"/>
 
-            <!-- WrapPanel, not a horizontal StackPanel: a StackPanel measures its children at
-                 INFINITE width, so at the window's own MinWidth this row simply overflowed and the
-                 output-mode combo (and the Save button below it) were clipped by the card. Wrapping
-                 drops the output-mode pair onto its own line instead. The label and combo are one
-                 inner group so they can only wrap together. -->
-            <WrapPanel Grid.Row="6" Margin="2,12,0,0">
-                <CheckBox x:Name="UseVars" Style="{StaticResource DarkCheckBox}" VerticalAlignment="Center"
-                          Margin="0,0,28,4"
-                          Checked="OnUseVarsToggled" Unchecked="OnUseVarsToggled"
-                          Content="{Binding [Manager.UseVars], Source={x:Static app:LocProxy.Instance}}"
-                          ToolTip="{Binding [Manager.UseVarsHint], Source={x:Static app:LocProxy.Instance}}"/>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
-                    <TextBlock x:Name="OutputModeLabel" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"
-                               Foreground="{DynamicResource Brush.TextMuted}"
-                               Text="{Binding [Manager.OutputMode], Source={x:Static app:LocProxy.Instance}}"/>
-                    <!-- MinWidth, not Width: the items are translated, and the longest ("Suivre les
-                         réglages globaux", fr) needs ~205 DIP against a hard 140. A ComboBox with no
-                         Width measures to its widest item, so every language gets the room it needs
-                         and 140 only sets the floor for the short ones. The WrapPanel above absorbs
-                         the extra width at narrow window sizes. -->
-                    <ComboBox x:Name="OutputMode" MinWidth="140" VerticalAlignment="Center" Style="{StaticResource DarkComboBox}"
-                              AutomationProperties.LabeledBy="{Binding ElementName=OutputModeLabel}"
-                              ToolTip="{Binding [Manager.OutputModeHint], Source={x:Static app:LocProxy.Instance}}"/>
-                </StackPanel>
-            </WrapPanel>
+                        <TextBlock Grid.Row="2" x:Name="AbbrLabel" Style="{StaticResource FieldLabel}" Margin="2,18,0,6"
+                                   Text="{Binding [Manager.Abbr], Source={x:Static app:LocProxy.Instance}}"/>
+                        <!-- The conflict hint is error text — it must never lose a word to the card edge. A
+                             horizontal StackPanel measures children at INFINITE width, so at MinWidth the hint
+                             was sliced mid-sentence with no ellipsis; it now gets its own row and
+                             wraps. The prefix+box pair stays on line one. -->
+                        <Grid Grid.Row="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                                <TextBlock x:Name="AbbrPrefixText" VerticalAlignment="Center" Margin="0,0,3,0"
+                                           FontFamily="{StaticResource Font.Mono}" FontSize="14" Foreground="{DynamicResource Brush.TextMuted}"
+                                           ToolTip="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"/>
+                                <TextBox x:Name="Abbr" Style="{StaticResource DarkTextBox}" Width="180"
+                                         AutomationProperties.LabeledBy="{Binding ElementName=AbbrLabel}"
+                                         FontFamily="{StaticResource Font.Mono}" TextChanged="OnAbbrChanged"/>
+                            </StackPanel>
+                            <TextBlock Grid.Row="1" x:Name="AbbrConflict" Margin="2,6,0,0" FontSize="12.5" TextWrapping="Wrap"
+                                       Foreground="{DynamicResource Brush.Error}" Visibility="Collapsed"/>
+                        </Grid>
 
-            <StackPanel Grid.Row="7" Margin="0,12,0,0">
-                <StackPanel Orientation="Horizontal">
-                    <CheckBox x:Name="ImageToggle" Style="{StaticResource DisclosureToggle}"
-                              Checked="OnImageSectionToggled" Unchecked="OnImageSectionToggled"
-                              Content="{Binding [Manager.ImageSection], Source={x:Static app:LocProxy.Instance}}"/>
-                    <Border x:Name="ImagePeek" Width="20" Height="20" Margin="10,0,0,0" CornerRadius="4"
-                            Background="{DynamicResource Brush.InputBg}"
-                            BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1"
-                            VerticalAlignment="Center" Visibility="Collapsed">
-                        <Image x:Name="SnippetImagePeek" Stretch="Uniform" Margin="1"/>
-                    </Border>
-                </StackPanel>
+                        <!-- Was a DockPanel with LastChildFill="False": every Right-docked child takes its
+                             desired width and the LAST one absorbs whatever remains — which in French was
+                             nothing, so the line-numbers checkbox rendered as a box with no label. A label
+                             column plus a WrapPanel lets the controls drop to a second line instead. -->
+                        <Grid Grid.Row="4" Margin="2,18,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" x:Name="BodyLabel" Style="{StaticResource FieldLabel}" Margin="0,0,12,0"
+                                       VerticalAlignment="Center"
+                                       Text="{Binding [Manager.Body], Source={x:Static app:LocProxy.Instance}}"/>
+                            <WrapPanel Grid.Column="1" HorizontalAlignment="Right">
+                                <CheckBox x:Name="LineNumberToggle" Style="{StaticResource DarkCheckBox}"
+                                          VerticalAlignment="Center" Margin="0,0,14,2"
+                                          Checked="OnLineNumbersToggled" Unchecked="OnLineNumbersToggled"
+                                          Content="{Binding [Manager.LineNumbers], Source={x:Static app:LocProxy.Instance}}"/>
+                                <CheckBox x:Name="WrapToggle" Style="{StaticResource DarkCheckBox}"
+                                          VerticalAlignment="Center" Margin="0,0,14,2"
+                                          Checked="OnWrapToggled" Unchecked="OnWrapToggled"
+                                          Content="{Binding [Manager.Wrap], Source={x:Static app:LocProxy.Instance}}"/>
+                                <Button Style="{StaticResource AccentTextIconButton}" Margin="0,0,0,2"
+                                        Click="OnExpandBody" VerticalAlignment="Center"
+                                        Content="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"
+                                        ToolTip="{Binding [Manager.Expand], Source={x:Static app:LocProxy.Instance}}"/>
+                            </WrapPanel>
+                        </Grid>
+                        <ui:BodyEditor Grid.Row="5" x:Name="Body" MinHeight="120" ShowStatusBar="True"
+                                       MaxHeight="{Binding ViewportHeight, ElementName=EditorScroll}"
+                                       AutomationProperties.LabeledBy="{Binding ElementName=BodyLabel}"/>
 
-                <StackPanel x:Name="ImageSection" Orientation="Horizontal" Margin="0,10,0,0"
-                            Visibility="Collapsed">
-                    <Border Width="72" Height="72" CornerRadius="12" Background="{DynamicResource Brush.InputBg}"
-                            BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1">
-                        <Image x:Name="SnippetImage" Stretch="Uniform" Margin="4"/>
-                    </Border>
-                    <StackPanel VerticalAlignment="Center" Margin="14,0,0,0">
-                        <!-- No inner "图片" label: the disclosure title sits directly above the
-                             expanded section, and repeating it only doubled the word. -->
-                        <StackPanel Orientation="Horizontal">
-                            <Button Style="{StaticResource DarkButton}" Padding="12,6" Click="OnImageFromClipboard"
-                                    Content="{Binding [Manager.FromClipboard], Source={x:Static app:LocProxy.Instance}}"/>
-                            <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageFromFile"
-                                    Content="{Binding [Manager.FromFile], Source={x:Static app:LocProxy.Instance}}"/>
-                            <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageRemove"
-                                    Content="{Binding [Manager.RemoveImage], Source={x:Static app:LocProxy.Instance}}"/>
+                        <!-- WrapPanel, not a horizontal StackPanel: a StackPanel measures its children at
+                             INFINITE width, so at the window's own MinWidth this row simply overflowed and the
+                             output-mode combo (and the Save button below it) were clipped by the card. Wrapping
+                             drops the output-mode pair onto its own line instead. The label and combo are one
+                             inner group so they can only wrap together. -->
+                        <WrapPanel Grid.Row="6" Margin="2,12,0,0">
+                            <CheckBox x:Name="UseVars" Style="{StaticResource DarkCheckBox}" VerticalAlignment="Center"
+                                      Margin="0,0,28,4"
+                                      Checked="OnUseVarsToggled" Unchecked="OnUseVarsToggled"
+                                      Content="{Binding [Manager.UseVars], Source={x:Static app:LocProxy.Instance}}"
+                                      ToolTip="{Binding [Manager.UseVarsHint], Source={x:Static app:LocProxy.Instance}}"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                <TextBlock x:Name="OutputModeLabel" VerticalAlignment="Center" Margin="0,0,8,0" FontSize="13"
+                                           Foreground="{DynamicResource Brush.TextMuted}"
+                                           Text="{Binding [Manager.OutputMode], Source={x:Static app:LocProxy.Instance}}"/>
+                                <!-- MinWidth, not Width: the items are translated, and the longest ("Suivre les
+                                     réglages globaux", fr) needs ~205 DIP against a hard 140. A ComboBox with no
+                                     Width measures to its widest item, so every language gets the room it needs
+                                     and 140 only sets the floor for the short ones. The WrapPanel above absorbs
+                                     the extra width at narrow window sizes. -->
+                                <ComboBox x:Name="OutputMode" MinWidth="140" VerticalAlignment="Center" Style="{StaticResource DarkComboBox}"
+                                          AutomationProperties.LabeledBy="{Binding ElementName=OutputModeLabel}"
+                                          ToolTip="{Binding [Manager.OutputModeHint], Source={x:Static app:LocProxy.Instance}}"/>
+                            </StackPanel>
+                        </WrapPanel>
+
+                        <StackPanel Grid.Row="7" Margin="0,12,0,0">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox x:Name="ImageToggle" Style="{StaticResource DisclosureToggle}"
+                                          Checked="OnImageSectionToggled" Unchecked="OnImageSectionToggled"
+                                          Content="{Binding [Manager.ImageSection], Source={x:Static app:LocProxy.Instance}}"/>
+                                <Border x:Name="ImagePeek" Width="20" Height="20" Margin="10,0,0,0" CornerRadius="4"
+                                        Background="{DynamicResource Brush.InputBg}"
+                                        BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1"
+                                        VerticalAlignment="Center" Visibility="Collapsed">
+                                    <Image x:Name="SnippetImagePeek" Stretch="Uniform" Margin="1"/>
+                                </Border>
+                            </StackPanel>
+
+                            <StackPanel x:Name="ImageSection" Orientation="Horizontal" Margin="0,10,0,0"
+                                        Visibility="Collapsed">
+                                <Border Width="72" Height="72" CornerRadius="12" Background="{DynamicResource Brush.InputBg}"
+                                        BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1">
+                                    <Image x:Name="SnippetImage" Stretch="Uniform" Margin="4"/>
+                                </Border>
+                                <StackPanel VerticalAlignment="Center" Margin="14,0,0,0">
+                                    <!-- No inner "图片" label: the disclosure title sits directly above the
+                                         expanded section, and repeating it only doubled the word. -->
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Click="OnImageFromClipboard"
+                                                Content="{Binding [Manager.FromClipboard], Source={x:Static app:LocProxy.Instance}}"/>
+                                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageFromFile"
+                                                Content="{Binding [Manager.FromFile], Source={x:Static app:LocProxy.Instance}}"/>
+                                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageRemove"
+                                                Content="{Binding [Manager.RemoveImage], Source={x:Static app:LocProxy.Instance}}"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </StackPanel>
-            </StackPanel>
 
-            <!-- Two COLUMNS, not two layers in one cell — the same failure the search panel's footer
-                 already fixed: left-aligned stats and a right-aligned button in the SAME cell run
-                 into each other at the window's own MinWidth, where "已使用 88 次 · 最近 …" ends
-                 exactly where 保存 begins. The stats reserve what is left and trim; the button, which
-                 must always be hittable, keeps its size. -->
-            <Grid Grid.Row="8" Margin="0,16,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" x:Name="UsageStat" HorizontalAlignment="Left" VerticalAlignment="Center"
-                       Margin="2,0,12,0" FontSize="12.5" TextTrimming="CharacterEllipsis"
-                       Foreground="{DynamicResource Brush.TextFaint}"/>
-            <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                <TextBlock x:Name="SavedHint" VerticalAlignment="Center" Margin="0,0,14,0" Opacity="0"
-                           FontFamily="{StaticResource Font.Ui}" FontSize="13" Foreground="{DynamicResource Brush.Accent}"
-                           Text="{Binding [Manager.Saved], Source={x:Static app:LocProxy.Instance}}"/>
-                <Button MinWidth="100" Padding="18,8" x:Name="SaveButton" Style="{StaticResource DarkButtonPrimary}" Click="OnSave"
-                        Content="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}}"/>
-            </StackPanel>
-            </Grid>
-        </Grid>
+                    </Grid>
+                </ScrollViewer>
+            </DockPanel>
         </Border>
     </Grid>
 </Window>

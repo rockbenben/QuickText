@@ -205,11 +205,14 @@ Windows에서 **같은 내용을 반복해서 입력하는 곳이라면 어디�
 | `src/QuickText.App`          | WPF UI(`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml`(다크 테마), `Interop`(`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Core 단위 테스트(xUnit)                                                                                                                                                                                          |
 
+**tests/QuickText.App.Tests** — 저장, 복원, 라이브러리 전환, 레이아웃 및 시스템 상호 작용 정책을 위한 격리된 Windows/WPF 회귀 테스트.
+
 ## 빌드 및 실행
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 

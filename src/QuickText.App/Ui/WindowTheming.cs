@@ -146,6 +146,7 @@ internal static class WindowTheming
         w.SourceInitialized += (_, _) =>
         {
             wa = CursorWorkArea();
+            w.MinHeight = Math.Min(w.MinHeight, wa.Height);
             // Cap HEIGHT only — a too-tall window pushes the Save button under the taskbar (the
             // card area scrolls instead). NOT width: clamping a fixed-width / MinWidth window below
             // its design width would clip content (there's no horizontal scroll), so a slightly-too-

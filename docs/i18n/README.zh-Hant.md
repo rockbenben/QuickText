@@ -205,11 +205,14 @@
 | `src/QuickText.App`          | WPF UI（`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`）、`Ui/Theme.xaml`（深色主題）、`Interop`（`GlobalHotkey`、`KeyboardHook`、`PasteEngine`、`Autostart`、`NativeMethods`） |
 | `tests/QuickText.Core.Tests` | Core 單元測試（xUnit）                                                                                                                                                                                                |
 
+**tests/QuickText.App.Tests** — 隔離的 Windows/WPF 回歸測試，涵蓋儲存、還原、切換資料庫、版面及系統互動原則。
+
 ## 建置與執行
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 

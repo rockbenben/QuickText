@@ -205,11 +205,14 @@
 | `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (ডার্ক থিম), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Core ইউনিট টেস্ট (xUnit)                                                                                                                                                                                            |
 
+**tests/QuickText.App.Tests** — সংরক্ষণ, পুনরুদ্ধার, লাইব্রেরি পরিবর্তন, বিন্যাস ও সিস্টেম ইন্টারঅ্যাকশন নীতির জন্য বিচ্ছিন্ন Windows/WPF পরীক্ষা।
+
 ## বিল্ড ও রান
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 

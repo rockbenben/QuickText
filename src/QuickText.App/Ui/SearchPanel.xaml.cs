@@ -327,6 +327,12 @@ public partial class SearchPanel : Window
                 PlaceTopCenter(WorkAreaOf(_target));
                 break;
         }
+        var area = WindowTheming.MonitorWorkAreaDipAt(Left, Top);
+        MinHeight = Math.Min(340, area.Height);
+        MaxHeight = area.Height;
+        if (SizeToContent == SizeToContent.Manual) Height = Math.Min(Height, area.Height);
+        double height = SizeToContent == SizeToContent.Manual ? Height : Math.Min(estH, MaxHeight);
+        Top = Math.Max(area.Top, Math.Min(Top, area.Bottom - height));
     }
 
     /// <summary>The preview OVERLAYS the list's bottom (XAML: it lives inside BodyRow) instead of

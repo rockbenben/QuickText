@@ -205,11 +205,14 @@ Windows で**同じ文章を何度も打つ**場面ならどこでも。タス�
 | `src/QuickText.App`          | WPF UI（`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`）、`Ui/Theme.xaml`（ダークテーマ）、`Interop`（`GlobalHotkey`、`KeyboardHook`、`PasteEngine`、`Autostart`、`NativeMethods`） |
 | `tests/QuickText.Core.Tests` | Core のユニットテスト（xUnit）                                                                                                                                                                                            |
 
+**tests/QuickText.App.Tests** — 保存、復元、ライブラリ切り替え、レイアウト、システム操作方針を検証する分離された Windows/WPF 回帰テスト。
+
 ## ビルドと実行
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 

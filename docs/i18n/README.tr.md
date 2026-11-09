@@ -205,11 +205,14 @@ Saf Core (Win32 yok, birim testi yapılabilir), Win32/UI'dan ayrı tutulur.
 | `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (koyu tema), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Core birim testleri (xUnit)                                                                                                                                                                                         |
 
+**tests/QuickText.App.Tests** — Kaydetme, geri yükleme, kitaplık değiştirme, düzen ve sistem etkileşimi için yalıtılmış Windows/WPF regresyon testleri.
+
 ## Derleme ve çalıştırma
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 

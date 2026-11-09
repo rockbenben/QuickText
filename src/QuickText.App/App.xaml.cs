@@ -268,11 +268,35 @@ public partial class App : Application
         Core.AppPaths.SetExeDir(System.IO.Path.GetDirectoryName(Environment.ProcessPath) ?? Core.AppPaths.ExeDir);
         // Freeze that decision for the whole session so toggling portable in Settings can't move
         // the running app's paths mid-run (it applies on the next start); then, on the first start
-        // after a switch to portable, carry the installed config/favorites into Data\ once. Skip the
-        // seed under --smoke: it writes a persistent .seeded marker, and a smoke self-check must not
-        // seal that one-time gate before the user's real first launch.
+        // after a switch to portable, carry the installed config/favorites into Data\ once. Tool
+        // modes skip seeding so a self-check cannot seal the user's one-time migration gate.
         Core.AppPaths.PinPortableState();
-        if (!e.Args.Contains("--smoke")) Core.AppPaths.SeedPortableMachineState();
+        bool toolMode = e.Args.Contains("--smoke") || e.Args.Contains("--shots");
+        if (!toolMode)
+        {
+            // Single instance: a second launch would double-install the keyboard hook and expand
+            // every abbreviation twice. Hand off to the running instance and bow out.
+            _instanceMutex = new System.Threading.Mutex(true, "QuickText.SingleInstance.9C41", out bool isFirst);
+            if (!isFirst)
+            {
+                // An autostart launch that loses the race (the user's own Startup-folder shortcut on top
+                // of our entry, a login script, a second session) must stay silent — otherwise fixing the
+                // delivery would newly pop the panel over the desktop at every login, which is precisely
+                // what the flag exists to prevent.
+                if (!IsAutostartLaunch(e)) HandOffToRunningInstance();
+                Shutdown();
+                return;
+            }
+
+            // FIRST thing after winning the mutex: the hidden window a second launch addresses. Everything
+            // below can be slow — the tray icon, watching a data folder that may be an offline share or a
+            // sleeping USB disk, scanning it for conflict files — and until this window exists, a second
+            // launch has nothing to find and its request is dropped, which reads to the user as the very
+            // "double-click does nothing" bug this messaging exists to fix. Posted messages just queue
+            // until the dispatcher runs (after OnStartup returns), so nothing is handled half-initialized.
+            CreateMessageWindow();
+        }
+        if (!toolMode) Core.AppPaths.SeedPortableMachineState();
 
         // Last-resort net for a tray utility: a stray UI-thread exception (e.g. a sync drive
         // locking a data file mid-write) should surface as a balloon and keep the app running,
@@ -331,28 +355,6 @@ public partial class App : Application
         // Dev/CI smoke: parse every window's XAML (they load lazily in normal runs), then exit.
         if (e.Args.Contains("--smoke")) { RunSmoke(); return; }
         if (e.Args.Contains("--shots")) { RunShots(e.Args); return; }
-
-        // Single instance: a second launch would double-install the keyboard hook and expand
-        // every abbreviation twice. Hand off to the running instance and bow out.
-        _instanceMutex = new System.Threading.Mutex(true, "QuickText.SingleInstance.9C41", out bool isFirst);
-        if (!isFirst)
-        {
-            // An autostart launch that loses the race (the user's own Startup-folder shortcut on top
-            // of our entry, a login script, a second session) must stay silent — otherwise fixing the
-            // delivery would newly pop the panel over the desktop at every login, which is precisely
-            // what the flag exists to prevent.
-            if (!IsAutostartLaunch(e)) HandOffToRunningInstance();
-            Shutdown();
-            return;
-        }
-
-        // FIRST thing after winning the mutex: the hidden window a second launch addresses. Everything
-        // below can be slow — the tray icon, watching a data folder that may be an offline share or a
-        // sleeping USB disk, scanning it for conflict files — and until this window exists, a second
-        // launch has nothing to find and its request is dropped, which reads to the user as the very
-        // "double-click does nothing" bug this messaging exists to fix. Posted messages just queue
-        // until the dispatcher runs (after OnStartup returns), so nothing is handled half-initialized.
-        CreateMessageWindow();
 
         _tray = (TaskbarIcon)FindResource("Tray");   // icon comes from IconSource (Assets/quicktext.ico)
         // ForceCreate is REQUIRED here, unlike under the old Hardcodet package, which added the
@@ -546,6 +548,7 @@ public partial class App : Application
 
     protected override void OnExit(ExitEventArgs e)
     {
+        AppState.Current.StopWatching();
         AppState.Current.Usage?.Flush();   // persist any debounced usage/favorite changes
         // Hand the shell icon back explicitly. It is removed on process exit either way, but a
         // lingering icon that only disappears when the user mouses over it is the classic symptom
@@ -869,9 +872,16 @@ public partial class App : Application
         {
             w.UpdateLayout();
             Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.Loaded);
+            // Native resize notifications can arrive after the first layout pass. Let a frame
+            // complete before rendering, or a larger bitmap can retain the previous small layout.
+            var frame = new System.Windows.Threading.DispatcherFrame();
+            var settle = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(30) };
+            settle.Tick += (_, _) => { settle.Stop(); frame.Continue = false; };
+            settle.Start();
+            System.Windows.Threading.Dispatcher.PushFrame(frame);
             w.UpdateLayout();
             int pw = (int)Math.Ceiling(w.ActualWidth), ph = (int)Math.Ceiling(w.ActualHeight);
-            if (pw <= 0 || ph <= 0) return;
+            if (pw <= 0 || ph <= 0) throw new InvalidOperationException("Window rendered to zero size.");
             var rtb = new System.Windows.Media.Imaging.RenderTargetBitmap(
                 pw, ph, 96, 96, System.Windows.Media.PixelFormats.Pbgra32);
             rtb.Render(w);
@@ -953,8 +963,9 @@ public partial class App : Application
                 w.MaxHeight = wa;
                 try { tweak?.Invoke(w); }
                 catch (Exception ex) { System.IO.File.WriteAllText(System.IO.Path.Combine(dir, name + ".tweak.err.txt"), ex.ToString()); }
-                Capture(w, $"{name}@{wa:0}");
-                w.Close();
+                try { Capture(w, $"{name}@{wa:0}"); }
+                catch (Exception ex) { System.IO.File.WriteAllText(System.IO.Path.Combine(dir, name + ".err.txt"), ex.ToString()); }
+                finally { w.Close(); }
             }
         }
 
@@ -1288,12 +1299,13 @@ public partial class App : Application
             }, allHeights: false);
         }
 
-        System.IO.File.WriteAllText(System.IO.Path.Combine(dir, "_done.txt"), "OK");
+        int errors = System.IO.Directory.GetFiles(dir, "*.err.txt").Length;
+        System.IO.File.WriteAllText(System.IO.Path.Combine(dir, "_done.txt"), errors == 0 ? "OK" : $"FAILED: {errors}");
         // Not Shutdown(0): with menus opened by ShotMenu (fading popups) and an adopted tray
         // resource, Shutdown sometimes leaves the process alive holding bin\QuickText.exe —
         // the next build then fails on a file lock nobody asked for. The harness has no state
         // worth an orderly exit; every failure path already wrote its .err.txt by now.
-        System.Environment.Exit(0);
+        System.Environment.Exit(errors == 0 ? 0 : 1);
     }
 
     /// <summary>Apply changed settings live so nothing needs a restart.</summary>

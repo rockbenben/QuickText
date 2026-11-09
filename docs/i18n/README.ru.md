@@ -205,11 +205,14 @@
 | `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (тёмная тема), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Юнит-тесты ядра (xUnit)                                                                                                                                                                                               |
 
+**tests/QuickText.App.Tests** — Изолированные тесты Windows/WPF для сохранения, восстановления, смены библиотеки, компоновки и системных взаимодействий.
+
 ## Сборка и запуск
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 

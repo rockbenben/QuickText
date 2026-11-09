@@ -205,11 +205,14 @@ Core puro (nessun Win32, testabile a unità) tenuto separato da Win32/UI.
 | `src/QuickText.App`          | UI WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (tema scuro), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Test unitari del Core (xUnit)                                                                                                                                                                                        |
 
+**tests/QuickText.App.Tests** — Test Windows/WPF isolati per salvataggio, ripristino, cambio libreria, layout e interazione con il sistema.
+
 ## Compilazione ed esecuzione
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # o esegui QuickText.exe sotto bin
 ```
 

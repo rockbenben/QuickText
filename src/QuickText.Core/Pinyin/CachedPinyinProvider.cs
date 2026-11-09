@@ -4,7 +4,7 @@ namespace QuickText.Core.Pinyin;
 /// Memoizing decorator over an <see cref="IPinyinProvider"/>. Snippet names rarely change,
 /// but the search index is rebuilt on every save / hot-reload — caching per input string
 /// makes rebuilds O(changed) instead of recomputing pinyin for the whole library.
-/// Not thread-safe by design: Build runs on the UI thread only.
+/// Not thread-safe by design: SearchIndex serializes its background builds.
 /// </summary>
 public sealed class CachedPinyinProvider : IPinyinProvider
 {

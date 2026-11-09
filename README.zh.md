@@ -223,11 +223,14 @@ Core 纯逻辑（无 Win32，可单测）与 Win32/UI 隔离。
 
 **`tests/QuickText.Core.Tests`** —— Core 单元测试（xUnit）。
 
+**tests/QuickText.App.Tests** — 隔离的 Windows/WPF 回归测试，覆盖保存、恢复、切库、布局及系统交互策略。
+
 ## 构建与运行
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # 或运行 bin 下的 QuickText.exe
 ```
 

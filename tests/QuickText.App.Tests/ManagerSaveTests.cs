@@ -60,6 +60,7 @@ public class ManagerSaveTests
                 foreach (var action in new[] { "replace", "remove", "discard", "stale", "replace-twice", "capture" })
                     CheckImage(root, action);
                 CheckLibraryChanges(root);
+                CheckLayout(root);
                 CheckMove(root, lockDestination: true);
                 CheckMove(root, lockDestination: false);
                 CheckTrashDuringCapture(root);
@@ -431,6 +432,82 @@ public class ManagerSaveTests
         var savedUsage = new UsageStore(AppPaths.MachineStateDir);
         Assert.Equal(1, savedUsage.CountOf("pending"));
         Assert.True(savedUsage.IsFavorite("pending"));
+    }
+
+    private static void CheckLayout(string root)
+    {
+        var state = AppState.Current;
+        state.Settings.DataFolder = Path.Combine(root, "layout");
+        new Store(state.Settings.DataFolder).SaveCategory(new Category { Name = "Layout", Snippets = new() { new() { Name = "Entry", Body = "body" } } });
+        state.ReloadData();
+        foreach (var language in new[] { "en", "de", "ar" })
+        {
+            Core.Localization.LocalizationService.Instance.SetCulture(language);
+            var manager = new ManagerWindow { ShowActivated = false, ShowInTaskbar = false };
+            manager.SourceInitialized += (_, _) => { manager.Left = -32000; manager.Top = -32000; manager.MaxHeight = 464; };
+            manager.Show();
+            ((CheckBox)manager.FindName("ImageToggle")).IsChecked = true;
+            manager.UpdateLayout();
+            var button = (Button)manager.FindName("SaveButton");
+            Assert.True(GetWindowRect(new System.Windows.Interop.WindowInteropHelper(manager).Handle, out var bounds));
+            var bottom = button.PointToScreen(new Point(0, button.ActualHeight));
+            var scale = System.Windows.Media.VisualTreeHelper.GetDpi(manager).DpiScaleY;
+            Assert.True(manager.ActualHeight <= 464);
+            Assert.InRange((bottom.Y - bounds.Top) / scale, 1, 464);
+            var peer = System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(button);
+            Assert.Equal(Core.Localization.LocalizationService.Instance["Manager.Save"], peer.GetName());
+            manager.MaxHeight = 1032;
+            manager.Height = 680;
+            manager.UpdateLayout();
+            Await(Task.Delay(30));
+            Assert.True(manager.ActualHeight >= 600);
+            Assert.True(GetWindowRect(new System.Windows.Interop.WindowInteropHelper(manager).Handle, out var resized));
+            Assert.True((resized.Bottom - resized.Top) / scale >= 600);
+            manager.Close();
+        }
+        Core.Localization.LocalizationService.Instance.SetCulture("en");
+        state.Settings.PanelW = 700;
+        state.Settings.PanelH = 680;
+        var panel = new SearchPanel();
+        typeof(SearchPanel).GetMethod("PositionAndSize", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(panel, null);
+        var area = WindowTheming.MonitorWorkAreaDipAt(panel.Left, panel.Top);
+        Assert.Equal(area.Height, panel.MaxHeight);
+        Assert.Equal(Math.Min(680, area.Height), panel.Height);
+        panel.Close();
+        var editor = new BodyEditorWindow("JSON", "{\"a\":1}", false, 0);
+        var picker = (ComboBox)editor.FindName("CodeFormatBox");
+        var host = (ContentControl)editor.FindName("EditorHost");
+        Assert.IsType<CodeEditor>(host.Content);
+        picker.SelectedIndex = 0;
+        Assert.IsType<BodyEditor>(host.Content);
+        editor.Close();
+        var retryPanel = new SearchPanel { ShowActivated = false, ShowInTaskbar = false };
+        retryPanel.SourceInitialized += (_, _) => { retryPanel.Left = -32000; retryPanel.Top = -32000; };
+        ((TextBox)retryPanel.FindName("Query")).Text = "retry query";
+        var report = typeof(SearchPanel).GetMethod("ReportOutput", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        Assert.False((bool)report.Invoke(retryPanel, new object?[] { false, null })!);
+        Assert.True(retryPanel.IsVisible);
+        Assert.Equal("retry query", ((TextBox)retryPanel.FindName("Query")).Text);
+        retryPanel.Close();
+        var managerForDraft = new ManagerWindow { ShowActivated = false, ShowInTaskbar = false };
+        managerForDraft.SourceInitialized += (_, _) => { managerForDraft.Left = -32000; managerForDraft.Top = -32000; };
+        managerForDraft.Show();
+        var formatOnly = Assert.Single(state.Categories[0].Snippets);
+        managerForDraft.SelectSnippet(formatOnly.Id);
+        var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        var editing = (Snippet)typeof(ManagerWindow).GetField("_editing", flags)!.GetValue(managerForDraft)!;
+        // The enlarged editor supplies its format through the model; no text control changes.
+        editing.CodeFormat = "json";
+        Assert.True((bool)typeof(ManagerWindow).GetMethod("CommitAndPersistCurrent", flags)!.Invoke(managerForDraft, null)!);
+        Assert.Equal("json", Assert.Single(state.Store.LoadAll()[0].Snippets).CodeFormat);
+        Assert.Equal("body", Assert.Single(state.Store.LoadAll()[0].Snippets).Body);
+        Assert.Equal("json", Assert.Single(state.Search.Search("Entry")).Snippet.CodeFormat);
+        managerForDraft.AddSnippet("ClipboardDraft", "clipboard body");
+        Assert.True(Capture(managerForDraft, "SilentWhileDraft", "silent body"));
+        Assert.DoesNotContain(state.Store.LoadAll().SelectMany(c => c.Snippets), s => s.Name == "ClipboardDraft");
+        using (var dialogs = new DialogAnswers("DiscardButton")) managerForDraft.Close();
+        Assert.DoesNotContain(state.Store.LoadAll().SelectMany(c => c.Snippets), s => s.Name == "ClipboardDraft");
+        Assert.Single(state.Store.LoadAll().SelectMany(c => c.Snippets), s => s.Name == "SilentWhileDraft");
     }
 
     private static void CheckMove(string root, bool lockDestination)

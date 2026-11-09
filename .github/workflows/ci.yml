@@ -26,7 +26,7 @@ jobs:
       # Do NOT add --nologo here: the .NET 10 SDK doesn't claim that option yet, so it gets forwarded
       # verbatim to the test app and kills the run (exit 5) before a single test is seen.
       - name: Test (Core)
-        run: dotnet test --project tests/QuickText.Core.Tests -c Release --minimum-expected-tests 381
+        run: dotnet test --project tests/QuickText.Core.Tests -c Release --minimum-expected-tests 382
       - name: Test (App)
         run: dotnet test --project tests/QuickText.App.Tests -c Release --minimum-expected-tests 4
       - name: Build (App)

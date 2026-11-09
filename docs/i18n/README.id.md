@@ -205,11 +205,14 @@ Core Murni (tanpa Win32, bisa diuji unit) dipisahkan dari Win32/UI.
 | `src/QuickText.App`          | UI WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (tema gelap), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Tes unit Core (xUnit)                                                                                                                                                                                                |
 
+**tests/QuickText.App.Tests** — Pengujian regresi Windows/WPF terisolasi untuk penyimpanan, pemulihan, pergantian pustaka, tata letak, dan interaksi sistem.
+
 ## Build & jalankan
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # atau jalankan QuickText.exe di bawah bin
 ```
 

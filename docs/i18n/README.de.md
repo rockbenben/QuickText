@@ -205,11 +205,14 @@ Reiner Core (kein Win32, unit-testbar) getrennt von Win32/UI gehalten.
 | `src/QuickText.App`          | WPF-UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (dunkles Design), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Core-Unit-Tests (xUnit)                                                                                                                                                                                                  |
 
+**tests/QuickText.App.Tests** — Isolierte Windows/WPF-Regressionstests für Speichern, Wiederherstellen, Bibliothekswechsel, Layout und Systeminteraktion.
+
 ## Build & Ausführung
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 

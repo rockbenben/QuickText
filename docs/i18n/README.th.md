@@ -205,11 +205,14 @@ Core บริสุทธิ์ (ไม่มี Win32 ทดสอบยูน
 | `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (ธีมมืด), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | การทดสอบยูนิตของ Core (xUnit)                                                                                                                                                                                    |
 
+**tests/QuickText.App.Tests** — การทดสอบ Windows/WPF แบบแยกสำหรับการบันทึก การกู้คืน การสลับคลัง เค้าโครง และนโยบายการทำงานกับระบบ
+
 ## สร้าง & รัน
 
 ```bash
 dotnet build QuickText.sln -c Debug
-dotnet test  tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test --project tests/QuickText.Core.Tests -c Release
+dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 
