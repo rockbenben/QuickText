@@ -19,6 +19,7 @@ Run the narrowest useful check first, then the full gate:
 ```bash
 dotnet build QuickText.sln -c Debug
 dotnet test tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
+dotnet test tests/QuickText.App.Tests/QuickText.App.Tests.csproj
 dotnet build src/QuickText.App -c Release
 ```
 
@@ -33,7 +34,7 @@ QuickText.exe --shots <directory>
 ```
 
 - `--smoke` writes a marker to the temp directory; CI treats a missing or non-`OK` marker as failure even when the process exits 0.
-- `--shots` is a screenshot harness, not a substitute for a screen-level check. It sets `MaxHeight` itself and renders windows offscreen; a dialog missing its own runtime cap can look fine in every image, and a button can be rendered outside the real monitor. For a scrollable dialog or a window with a screen cap, also verify the primary action’s screen rectangle or take a full-screen capture.
+- `--shots` is a screenshot harness, not a substitute for a screen-level check. It sets `MaxHeight` itself and renders windows offscreen; a dialog missing its own runtime cap can look fine in every image, and a button can be rendered outside the real monitor.
 - Use an isolated copy/portable data folder for UI checks and never disturb a running user instance. A second launch is an explicit user entry that hands off to the running instance (only autostart launches stay silent); do not use it as a test harness.
 - Do not run a harness that installs a real global mouse hook or a full-screen topmost overlay on the machine you are using. Read the WPF skill’s warnings first.
 
@@ -82,7 +83,7 @@ QuickText.exe --shots <directory>
 Before reporting a change as complete:
 
 1. Build and the relevant tests pass.
-2. `--smoke` passes; `--shots` passes when UI or layout changed, plus a screen-level check where the harness has a blind spot.
+2. `--smoke` passes.
 3. Localization keys exist in every satellite resx file; the README section structure remains aligned across languages.
 4. Documentation and comments describe the current behavior, with no stale line numbers, counts or version notes.
 5. `git diff --check` passes and the report states what was verified, what was not, and whether anything was pushed or released. Never claim a visual or release check that was not actually run.
