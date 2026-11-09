@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.ComponentModel;
+using System.Security.Principal;
 
 namespace QuickText.App.Interop;
 
@@ -25,11 +26,17 @@ namespace QuickText.App.Interop;
 public static class ElevatedAutostart
 {
     /// <summary>One-shot subcommands handled in <c>App.OnStartup</c> before the single-instance
-    /// check. The elevated child is launched with exactly one of these and nothing else.</summary>
+    /// check. The original user's SID accompanies the command and must match in the child.</summary>
     public const string RegisterFlag = "--register-elevated-autostart";
     public const string UnregisterFlag = "--unregister-elevated-autostart";
 
-    public const string TaskName = "QuickText";
+    private const string LegacyTaskName = "QuickText";
+    private const string Description = "QuickText logon autostart (elevated)";
+    private static string UserSid
+    {
+        get { using var identity = WindowsIdentity.GetCurrent(); return identity.User!.Value; }
+    }
+    public static string TaskName => "QuickText." + UserSid;
 
     // ITaskFolder.RegisterTask / DeleteTask constants (taskschd.h).
     private const int TaskCreateOrUpdate = 6;          // TASK_CREATE_OR_UPDATE
@@ -52,15 +59,14 @@ public static class ElevatedAutostart
     {
         bool register = Array.Exists(args, a => a == RegisterFlag);
         if (!register && !Array.Exists(args, a => a == UnregisterFlag)) return null;
+        if (args.Length != 2 || args[1] != UserSid) return 2;
         var res = register ? Register(ExePath) : Unregister();
         return res == TaskOutcome.Ok ? 0 : 2;
     }
 
-    /// <summary>(task exists, task launches THIS exe). The Task Scheduler service being unavailable
-    /// is not an error here — it reads as off rather than blocking Settings. A task that exists but
-    /// points at an old location is still ours (the name is ours): <c>UpToDate=false</c> is what
-    /// makes the next save rewrite it instead of answering "already applied" forever.</summary>
-    public static (bool Exists, bool UpToDate) Probe()
+    /// <summary>Report existence and freshness separately from query failures. An unreadable or
+    /// foreign task must never be treated as permission to overwrite or delete it.</summary>
+    public static (bool Exists, bool UpToDate, bool Known) Probe()
     {
         bool exists = false, upToDate = false;
         try
@@ -70,44 +76,67 @@ public static class ElevatedAutostart
                 dynamic? task = null;
                 try
                 {
-                    try { task = folder.GetTask(TaskName); }
-                    // GetTask throws when the task is absent — that IS "not registered", not a failure.
-                    catch { return; }
+                    task = FindOwnedTask(folder, TaskName);
+                    task ??= FindOwnedTask(folder, LegacyTaskName);
+                    if (task == null) return;
                     exists = true;
-                    upToDate = PointsHere(task);
+                    upToDate = PointsHere(task) && ElevationPolicy.CanRegister(ExePath);
                 }
                 finally { if (task != null) { try { Marshal.ReleaseComObject((object)task); } catch { } } }
             });
         }
-        catch { return (false, false); }   // service unavailable reads as off rather than blocking Settings
-        return (exists, upToDate);
+        catch { return (false, false, false); }
+        return (exists, upToDate, true);
     }
 
-    /// <summary>Does the registered XML launch the exe we are running now? Anything this cannot read
-    /// answers "yes": a false "stale" costs a UAC prompt on every save that re-registering may not
-    /// even fix. Namespace-agnostic, because the schema namespace and the 1.0 form differ.</summary>
+    internal static bool BelongsTo(string xml, string sid, string account)
+    {
+        var doc = System.Xml.Linq.XDocument.Parse(xml);
+        string? Value(string name) => doc.Descendants().FirstOrDefault(e => e.Name.LocalName == name)?.Value;
+        var principal = doc.Descendants().FirstOrDefault(e => e.Name.LocalName == "Principal")?
+            .Elements().FirstOrDefault(e => e.Name.LocalName == "UserId")?.Value;
+        return Value("Description") == Description &&
+            (string.Equals(principal, sid, StringComparison.OrdinalIgnoreCase) ||
+             string.Equals(principal, account, StringComparison.OrdinalIgnoreCase)) &&
+            string.Equals(System.IO.Path.GetFileName(Value("Command")), "QuickText.exe", StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static dynamic? FindOwnedTask(dynamic folder, string name)
+    {
+        dynamic? task;
+        try { task = folder.GetTask(name); }
+        catch (Exception ex) when (ex.HResult == unchecked((int)0x80070002)) { return null; }
+        using var identity = WindowsIdentity.GetCurrent();
+        if (BelongsTo((string)task.Xml, UserSid, identity.Name)) return task;
+        Marshal.ReleaseComObject((object)task);
+        if (name == LegacyTaskName) return null;
+        throw new SecurityException("The task belongs to another application or account.");
+    }
+
+    /// <summary>Only a readable command matching this executable counts as up to date.</summary>
     private static bool PointsHere(dynamic task)
     {
         try
         {
             var cmd = System.Xml.Linq.XDocument.Parse((string)task.Xml).Descendants()
                 .FirstOrDefault(e => e.Name.LocalName == "Command")?.Value;
-            if (cmd == null) return true;
+            if (cmd == null) return false;
             return string.Equals(cmd.Trim(), ExePath, StringComparison.OrdinalIgnoreCase);
         }
-        catch { return true; }
+        catch { return false; }
     }
 
     /// <summary>Register the elevated logon task.</summary>
     private static TaskOutcome Register(string exePath) => Guard(() =>
     {
-        var user = SecurityElement.Escape(Environment.UserDomainName + "\\" + Environment.UserName) ?? "";
+        if (!ElevationPolicy.CanRegister(exePath)) throw new InvalidOperationException("Elevated autostart requires an administrator account and a protected Program Files location.");
+        var user = UserSid;
         var cmd = SecurityElement.Escape(exePath) ?? "";
         // RegisterTask takes the XML as a UTF-16 string, so no temp file and no UTF-16+BOM dance
         // (which is what schtasks.exe /XML would need).
         var xml = $@"<?xml version=""1.0"" encoding=""UTF-16""?>
 <Task version=""1.2"" xmlns=""http://schemas.microsoft.com/windows/2004/02/mit/task"">
-  <RegistrationInfo><Description>QuickText logon autostart (elevated)</Description></RegistrationInfo>
+  <RegistrationInfo><Description>{Description}</Description></RegistrationInfo>
   <Triggers><LogonTrigger><Enabled>true</Enabled><UserId>{user}</UserId></LogonTrigger></Triggers>
   <Principals><Principal id=""Author""><UserId>{user}</UserId><LogonType>InteractiveToken</LogonType><RunLevel>HighestAvailable</RunLevel></Principal></Principals>
   <Settings>
@@ -121,17 +150,33 @@ public static class ElevatedAutostart
 </Task>";
         RunTaskOp(folder =>
         {
+            dynamic? existing = FindOwnedTask(folder, TaskName);
+            if (existing != null) Marshal.ReleaseComObject((object)existing);
             dynamic? task = null;
             try { task = folder.RegisterTask(TaskName, xml, TaskCreateOrUpdate, null, null, TaskLogonInteractiveToken, null); }
             finally { if (task != null) { try { Marshal.ReleaseComObject((object)task); } catch { } } }
+            dynamic? legacy = FindOwnedTask(folder, LegacyTaskName);
+            if (legacy != null)
+            {
+                Marshal.ReleaseComObject((object)legacy);
+                folder.DeleteTask(LegacyTaskName, 0);
+            }
         });
     });
 
     /// <summary>Remove the elevated logon task. Idempotent: absent is already the target state.</summary>
     private static TaskOutcome Unregister() => Guard(() =>
     {
-        if (!Probe().Exists) return;
-        RunTaskOp(folder => folder.DeleteTask(TaskName, 0));
+        RunTaskOp(folder =>
+        {
+            foreach (var name in new[] { TaskName, LegacyTaskName })
+            {
+                dynamic? task = FindOwnedTask(folder, name);
+                if (task == null) continue;
+                Marshal.ReleaseComObject((object)task);
+                folder.DeleteTask(name, 0);
+            }
+        });
     });
 
     /// <summary>
@@ -156,7 +201,7 @@ public static class ElevatedAutostart
             var psi = new ProcessStartInfo
             {
                 FileName = ExePath,
-                Arguments = enable ? RegisterFlag : UnregisterFlag,
+                Arguments = (enable ? RegisterFlag : UnregisterFlag) + " " + UserSid,
                 Verb = "runas",
                 UseShellExecute = true,
             };

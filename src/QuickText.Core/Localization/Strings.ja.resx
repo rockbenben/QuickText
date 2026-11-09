@@ -234,6 +234,7 @@
   <data name="Manager.StaleNotice"><value>ライブラリが別のウィンドウまたは外部で更新されました。ここでの未保存の変更はまだディスクに書き込まれていません。保存は停止中です。ディスク上のバージョンを再読み込みするか、このウィンドウを閉じて開き直してください。</value></data>
   <data name="Manager.Reload"><value>再読み込み</value></data>
   <data name="Settings.AutostartElevated"><value>管理者としてログイン時に起動</value></data>
-  <data name="Settings.AutostartElevatedHint"><value>管理者権限でログイン時に起動します（昇格されたウィンドウへの貼り付けに必要）。有効にすると一度だけ UAC の承認を求められ、以降のログインでは表示されません。ポータブルモードでもこのタスクは本機に残ります。</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>管理者権限での自動起動には、管理者アカウントと、一般ユーザーが変更できない Program Files 内のプログラムおよびフォルダーが必要です。有効化時に同じアカウントでの UAC 承認を求められる場合があります。ポータブル版でもタスクはこの PC に保存されます。</value></data>
   <data name="Settings.AutostartFailed"><value>スタートアップ設定を更新できませんでした。</value></data>
+  <data name="Msg.OutputFailed"><value>出力に失敗しました。再試行してください。</value></data>
 </root>

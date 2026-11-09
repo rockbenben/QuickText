@@ -234,6 +234,7 @@
   <data name="Manager.StaleNotice"><value>Pustaka diperbarui di jendela lain atau di luar aplikasi. Perubahan Anda yang belum disimpan di sini belum ditulis ke disk. Penyimpanan dijeda; muat ulang versi di disk, atau tutup dan buka kembali jendela ini.</value></data>
   <data name="Manager.Reload"><value>Muat ulang</value></data>
   <data name="Settings.AutostartElevated"><value>Mulai sebagai administrator saat login</value></data>
-  <data name="Settings.AutostartElevatedHint"><value>Mulai dengan hak administrator (diperlukan untuk menempel ke jendela yang ditinggikan). Windows meminta persetujuan UAC sekali saat Anda mengaktifkannya, lalu tidak lagi saat login. Dalam mode portabel, tugas ini tetap tersimpan di komputer ini.</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>Mulai otomatis dengan hak tinggi memerlukan akun administrator serta program dan folder terlindungi di Program Files. Saat diaktifkan, persetujuan UAC dari akun yang sama mungkin diperlukan. Tugas tetap disimpan di komputer ini dalam mode portabel.</value></data>
   <data name="Settings.AutostartFailed"><value>Tidak dapat memperbarui pengaturan mulai bersama Windows.</value></data>
+  <data name="Msg.OutputFailed"><value>Keluaran gagal. Coba lagi.</value></data>
 </root>

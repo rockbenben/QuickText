@@ -130,6 +130,8 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 
 ## Output & pengaturan umum (Tray → Pengaturan)
 
+> Hanya salin ke papan klip juga berlaku untuk singkatan. Berpindah jendela saat keluaran membatalkan penekanan tombol yang masih menunggu. Mulai otomatis dengan hak tinggi memerlukan akun administrator serta program dan folder terlindungi di Program Files. Saat diaktifkan, persetujuan UAC dari akun yang sama mungkin diperlukan. Tugas tetap disimpan di komputer ini dalam mode portabel.
+
 - **Output** — default “tempel ke aplikasi aktif”; atau “salin ke clipboard saja” (Anda menempel dengan `Ctrl+V`). Opsional: tekan Enter setelah menempel, klik tunggal untuk mengirim, “Jaga clipboard tetap utuh” (pemulihan nonaktif secara bawaan — aplikasi yang membaca clipboard dengan lambat bisa menempelkan konten lama). **Setiap snippet bisa menimpa ini** (Manager → Output: ikuti global / tempel / tempel + Enter / salin saja) — frasa chat terkirim otomatis, snippet kode tak pernah.
 - **Posisi panel** — mengikuti jendela aktif (default) / mengikuti kursor teks / mengingat posisi terakhir.
 - **Cara memanggil (pilih satu)** — ① **kombinasi tombol**: klik kotaknya dan tekan yang baru (tombol biasa perlu `Ctrl`/`Alt`/`Shift`/`Win`; tombol fungsi **`F1`–`F24` bekerja sendirian**); atau ② **ketuk sebuah modifier**: **ketuk sekali atau dua kali satu modifier** (mis. `Ctrl` kanan, `Shift` kanan) untuk memanggil (modifier tunggal tak bisa jadi hotkey biasa, jadi dideteksi lewat ketukan). Memilih ketukan menonaktifkan kombinasi — keduanya saling eksklusif, jadi selalu jelas mana yang aktif.

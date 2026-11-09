@@ -130,6 +130,8 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 
 ## Salida y ajustes comunes (Bandeja → Ajustes)
 
+> Copiar solo al portapapeles también se aplica a las abreviaturas. Cambiar de ventana durante la salida cancela las pulsaciones pendientes. El inicio elevado requiere una cuenta de administrador y un programa y carpeta protegidos en Program Files. Al activarlo puede solicitarse aprobación UAC de la misma cuenta. La tarea permanece en este equipo incluso en modo portátil.
+
 - **Salida** — por defecto "pegar en la aplicación activa"; o "copiar solo al portapapeles" (pegas tú con `Ctrl+V`). Opcional: pulsar Enter tras pegar, un solo clic para enviar, “Mantener mi portapapeles intacto” (restaurar está desactivado por defecto: las aplicaciones que leen el portapapeles con lentitud pueden acabar pegando el contenido antiguo). **Cada fragmento puede anular esto** (Gestor → Salida: seguir global / pegar / pegar + Enter / solo copiar): las frases de chat se envían solas, los fragmentos de código nunca.
 - **Posición del panel** — seguir la ventana activa (por defecto) / seguir el cursor de texto / recordar la última posición.
 - **Método de invocación (elige uno)** — ① **combinación de teclas**: haz clic en el cuadro y pulsa una nueva (las teclas normales necesitan `Ctrl`/`Alt`/`Shift`/`Win`; las teclas de función **`F1`–`F24` funcionan solas**); o ② **pulsar un modificador**: **una o dos pulsaciones de un modificador** (p. ej. `Ctrl` derecho, `Shift` derecho) para invocar (un modificador solo no puede ser una tecla rápida normal, así que se detecta por pulsación). Elegir la pulsación desactiva la combinación: las dos son mutuamente excluyentes, así que siempre queda claro cuál está activa.

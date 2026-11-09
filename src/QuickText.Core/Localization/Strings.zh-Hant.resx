@@ -234,6 +234,7 @@
   <data name="Manager.StaleNotice"><value>資料庫已在其他視窗或外部更新，你在這裡的未儲存修改尚未寫入磁碟。儲存已暫停，請重新載入磁碟版本，或關閉視窗後重新開啟。</value></data>
   <data name="Manager.Reload"><value>重新載入</value></data>
   <data name="Settings.AutostartElevated"><value>以系統管理員身分開機自動啟動</value></data>
-  <data name="Settings.AutostartElevatedHint"><value>以系統管理員權限在登入時啟動（貼上到已提高權限的視窗需要它）。啟用時 Windows 會要求一次 UAC 授權，之後開機不再提示；便攜模式下此工作仍寫在本機。</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>提權自啟需要管理員帳戶，以及位於 Program Files 中且一般使用者無法修改的程式及目錄。啟用時可能需要一次相同帳戶的 UAC 授權。便攜模式的排程工作仍儲存在本機。</value></data>
   <data name="Settings.AutostartFailed"><value>未能更新開機自動啟動設定。</value></data>
+  <data name="Msg.OutputFailed"><value>輸出失敗，請稍後重試。</value></data>
 </root>

@@ -5,6 +5,13 @@ namespace QuickText.App.Interop;
 
 public static class PasteEngine
 {
+    internal static bool ReportOutput(bool success, string? successMessage = null)
+    {
+        if (!success || successMessage != null)
+            (Application.Current as App)?.Notify(Core.Localization.LocalizationService.Instance[
+                success ? successMessage! : "Msg.OutputFailed"], warning: true);
+        return success;
+    }
     // {光标} walks the caret back with synthesized Left presses; past this distance the
     // walk would be an arrow-key storm in the target app, so leave the caret at the end.
     private const int MaxCaretWalk = 200;
@@ -190,9 +197,10 @@ public static class PasteEngine
     }
 
     /// <summary>True when all synthesized Backspace events were accepted by the OS.</summary>
-    public static bool SendBackspaces(int count)
+    public static bool SendBackspaces(int count, IntPtr target = default)
     {
         if (count <= 0) return true;
+        if (target != IntPtr.Zero && GetForegroundWindow() != target) return false;
         var inputs = new INPUT[count * 2];
         for (int i = 0; i < count; i++)
         {
@@ -204,8 +212,10 @@ public static class PasteEngine
     }
 
     /// <summary>Returns true when the Ctrl+V was actually dispatched (callers may arm undo on it).</summary>
-    public static bool Paste(string text, bool restoreClipboard, bool autoSend = false, int caretFromEnd = 0)
+    public static bool Paste(string text, bool restoreClipboard, bool autoSend = false, int caretFromEnd = 0, IntPtr target = default)
     {
+        if (target == IntPtr.Zero) target = GetForegroundWindow();
+        if (target == IntPtr.Zero || GetForegroundWindow() != target) return false;
         if (string.IsNullOrEmpty(text)) return false; // nothing to paste — do NOT fire Ctrl+V on stale clipboard
 
         DataObject? original = restoreClipboard ? CaptureOriginal() : null;
@@ -221,7 +231,7 @@ public static class PasteEngine
             Key(VK_V, true),
             Key(VK_CONTROL, true),
         };
-        if (SendInput((uint)inputs.Length, inputs,
+        if (GetForegroundWindow() != target || SendInput((uint)inputs.Length, inputs,
                 System.Runtime.InteropServices.Marshal.SizeOf<INPUT>()) != (uint)inputs.Length)
         {
             // UIPI (elevated target) or a blocked input queue. Leave the user's clipboard as it was.
@@ -234,7 +244,7 @@ public static class PasteEngine
             // {光标}: after the paste lands, walk the caret back to the marker position.
             System.Threading.Tasks.Task.Delay(90).ContinueWith(_ =>
             {
-                Application.Current?.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher.Invoke(() => ForegroundTarget.TrySend(target, GetForegroundWindow, () =>
                 {
                     var moves = new INPUT[caretFromEnd * 2];
                     for (int i = 0; i < caretFromEnd; i++)
@@ -243,7 +253,7 @@ public static class PasteEngine
                         moves[i * 2 + 1] = Key(VK_LEFT, true);
                     }
                     SendInput((uint)moves.Length, moves, System.Runtime.InteropServices.Marshal.SizeOf<INPUT>());
-                });
+                }));
             });
         }
         // Callers suppress autoSend when the body has a {光标} token (even a trailing one,
@@ -253,11 +263,11 @@ public static class PasteEngine
             // Let the paste land first, then press Enter to send in the target app.
             System.Threading.Tasks.Task.Delay(90).ContinueWith(_ =>
             {
-                Application.Current?.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher.Invoke(() => ForegroundTarget.TrySend(target, GetForegroundWindow, () =>
                 {
                     var enter = new[] { Key(VK_RETURN, false), Key(VK_RETURN, true) };
                     SendInput((uint)enter.Length, enter, System.Runtime.InteropServices.Marshal.SizeOf<INPUT>());
-                });
+                }));
             });
         }
 
@@ -307,8 +317,10 @@ public static class PasteEngine
         image != null && SetClipboardImageWithRetry(image);
 
     public static bool PasteImage(System.Windows.Media.Imaging.BitmapSource image, bool autoSend = false,
-        bool restoreClipboard = false)
+        bool restoreClipboard = false, IntPtr target = default)
     {
+        if (target == IntPtr.Zero) target = GetForegroundWindow();
+        if (target == IntPtr.Zero || GetForegroundWindow() != target) return false;
         if (image == null) return false;
 
         // Same courtesy the text path extends: preserve the user's whole clipboard, not just text.
@@ -323,7 +335,7 @@ public static class PasteEngine
             Key(VK_V, true),
             Key(VK_CONTROL, true),
         };
-        if (SendInput((uint)inputs.Length, inputs,
+        if (GetForegroundWindow() != target || SendInput((uint)inputs.Length, inputs,
                 System.Runtime.InteropServices.Marshal.SizeOf<INPUT>()) != (uint)inputs.Length)
         {
             if (restoreClipboard && original != null) SetClipboardDataWithRetry(original);
@@ -334,11 +346,11 @@ public static class PasteEngine
         {
             System.Threading.Tasks.Task.Delay(90).ContinueWith(_ =>
             {
-                Application.Current?.Dispatcher.Invoke(() =>
+                Application.Current?.Dispatcher.Invoke(() => ForegroundTarget.TrySend(target, GetForegroundWindow, () =>
                 {
                     var enter = new[] { Key(VK_RETURN, false), Key(VK_RETURN, true) };
                     SendInput((uint)enter.Length, enter, System.Runtime.InteropServices.Marshal.SizeOf<INPUT>());
-                });
+                }));
             });
         }
 

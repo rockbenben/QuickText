@@ -234,6 +234,7 @@
   <data name="Manager.StaleNotice"><value>La biblioteca se actualizó en otra ventana o fuera de la app. Tus cambios sin guardar aquí no se han escrito en el disco. Guardar está en pausa; vuelve a cargar la versión del disco o cierra y vuelve a abrir esta ventana.</value></data>
   <data name="Manager.Reload"><value>Recargar</value></data>
   <data name="Settings.AutostartElevated"><value>Iniciar como administrador al iniciar sesión</value></data>
-  <data name="Settings.AutostartElevatedHint"><value>Inicia con privilegios de administrador (necesario para pegar en ventanas elevadas). Windows pedirá una vez la aprobación de UAC al activarlo y nunca más al iniciar sesión. En modo portátil, la tarea sigue residiendo en este equipo.</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>El inicio elevado requiere una cuenta de administrador y un programa y carpeta protegidos en Program Files. Al activarlo puede solicitarse aprobación UAC de la misma cuenta. La tarea permanece en este equipo incluso en modo portátil.</value></data>
   <data name="Settings.AutostartFailed"><value>No se pudo actualizar la configuración de iniciar con Windows.</value></data>
+  <data name="Msg.OutputFailed"><value>Error de salida. Vuelve a intentarlo.</value></data>
 </root>

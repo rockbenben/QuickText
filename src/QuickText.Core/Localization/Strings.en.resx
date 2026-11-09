@@ -234,6 +234,7 @@
   <data name="Manager.StaleNotice"><value>The library was updated in another window or outside the app. Your unsaved changes here have not been written to disk. Saving is paused; reload the on-disk version, or close and reopen this window.</value></data>
   <data name="Manager.Reload"><value>Reload</value></data>
   <data name="Settings.AutostartElevated"><value>Start as administrator at login</value></data>
-  <data name="Settings.AutostartElevatedHint"><value>Start with administrator rights (needed to paste into elevated windows). Windows asks for UAC approval once when you enable this, then never at login. In portable mode the task still lives on this machine.</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>Elevated autostart requires an administrator account and a protected program and folder under Program Files. Enabling it may ask for UAC approval from the same account. A portable copy still creates a task on this machine.</value></data>
   <data name="Settings.AutostartFailed"><value>Could not update the Start with Windows setting.</value></data>
+  <data name="Msg.OutputFailed"><value>Output failed. Please try again.</value></data>
 </root>

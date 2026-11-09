@@ -7,6 +7,13 @@ namespace QuickText.App.Interop;
 /// it runs the fallback instead of blindly sending Ctrl+V into whatever happens to be focused.</summary>
 internal static class ForegroundTarget
 {
+    internal static bool TrySend(IntPtr target, Func<IntPtr> foreground, Action send)
+    {
+        if (target == IntPtr.Zero || foreground() != target) return false;
+        send();
+        return true;
+    }
+
     public static void WhenForeground(IntPtr target, Action onReady, Action onTimeout, int triesLeft = 12)
     {
         var dispatcher = Application.Current?.Dispatcher;
@@ -16,7 +23,10 @@ internal static class ForegroundTarget
         {
             if (target != IntPtr.Zero && NativeMethods.GetForegroundWindow() == target)
             {
-                dispatcher.BeginInvoke(onReady, DispatcherPriority.Background);
+                dispatcher.BeginInvoke(new Action(() =>
+                {
+                    if (!TrySend(target, NativeMethods.GetForegroundWindow, onReady)) onTimeout();
+                }), DispatcherPriority.Background);
                 return;
             }
             if (triesLeft <= 0)

@@ -234,6 +234,7 @@
   <data name="Manager.StaleNotice"><value>Die Bibliothek wurde in einem anderen Fenster oder außerhalb der App aktualisiert. Deine ungespeicherten Änderungen hier wurden noch nicht auf den Datenträger geschrieben. Das Speichern ist pausiert; lade die Version vom Datenträger neu oder schließe und öffne dieses Fenster erneut.</value></data>
   <data name="Manager.Reload"><value>Neu laden</value></data>
   <data name="Settings.AutostartElevated"><value>Bei der Anmeldung als Administrator starten</value></data>
-  <data name="Settings.AutostartElevatedHint"><value>Mit Administratorrechten bei der Anmeldung starten (nötig zum Einfügen in erhöhte Fenster). Windows fragt beim Aktivieren einmal die UAC-Bestätigung ab, danach nie mehr bei der Anmeldung. Im portablen Modus bleibt die Aufgabe auf diesem Rechner.</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>Der erhöhte Autostart erfordert ein Administratorkonto sowie ein geschütztes Programm und Verzeichnis unter Program Files. Beim Aktivieren kann eine UAC-Bestätigung desselben Kontos nötig sein. Auch im portablen Modus bleibt die Aufgabe auf diesem PC.</value></data>
   <data name="Settings.AutostartFailed"><value>Die Einstellung zum Start mit Windows konnte nicht aktualisiert werden.</value></data>
+  <data name="Msg.OutputFailed"><value>Ausgabe fehlgeschlagen. Bitte erneut versuchen.</value></data>
 </root>

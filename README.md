@@ -138,6 +138,8 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 
 ## Output & common settings (Tray → Settings)
 
+> Copy to clipboard only also applies to abbreviations. Switching windows during output cancels pending keystrokes. Elevated autostart requires an administrator account and a protected program and folder under Program Files. Enabling it may ask for UAC approval from the same account. A portable copy still creates a task on this machine.
+
 - **Output** — default “paste into the active app”; or “copy to clipboard only” (you paste with `Ctrl+V`). Optional: press Enter after pasting, single-click to send, “Keep my clipboard intact” (off by default — apps that read the clipboard slowly can end up pasting the old content instead). **Each snippet can override this** (Manager → Output: follow global / paste / paste + Enter / copy only) — chat phrases auto-send, code snippets never do.
 - **Panel position** — follow the active window (default) / follow the text caret / remember last position.
 - **Summon method (pick one)** — ① **key combo**: click the box and press a new one (ordinary keys need `Ctrl`/`Alt`/`Shift`/`Win`; function keys **`F1`–`F24` work on their own**); or ② **tap a modifier**: **single- or double-tap one modifier** (e.g. right `Ctrl`, right `Shift`) to summon (a lone modifier can't be a normal hotkey, so it's detected by tap). Choosing tap disables the combo — the two are mutually exclusive, so it's always clear which one is live.

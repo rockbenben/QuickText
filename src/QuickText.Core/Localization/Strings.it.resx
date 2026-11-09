@@ -234,6 +234,7 @@
   <data name="Manager.StaleNotice"><value>La libreria è stata aggiornata in un'altra finestra o all'esterno dell'app. Le modifiche non salvate qui non sono state scritte sul disco. Il salvataggio è sospeso; ricarica la versione dal disco oppure chiudi e riapri questa finestra.</value></data>
   <data name="Manager.Reload"><value>Ricarica</value></data>
   <data name="Settings.AutostartElevated"><value>Avvia come amministratore all’accesso</value></data>
-  <data name="Settings.AutostartElevatedHint"><value>Avvia con privilegi di amministratore (necessario per incollare in finestre con privilegi elevati). Windows chiede l’approvazione UAC una sola volta all’attivazione, poi non più all’accesso. In modalità portabile l’attività resta su questo computer.</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>L’avvio con privilegi elevati richiede un account amministratore e un programma e una cartella protetti in Program Files. L’attivazione può richiedere l’approvazione UAC dello stesso account. Anche in modalità portatile, l’attività resta su questo PC.</value></data>
   <data name="Settings.AutostartFailed"><value>Impossibile aggiornare l’impostazione di avvio con Windows.</value></data>
+  <data name="Msg.OutputFailed"><value>Output non riuscito. Riprova.</value></data>
 </root>

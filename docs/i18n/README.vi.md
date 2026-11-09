@@ -130,6 +130,8 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 
 ## Đầu ra & cài đặt thông dụng (Khay → Cài đặt)
 
+> Chỉ sao chép vào bảng nhớ tạm cũng áp dụng cho viết tắt. Chuyển cửa sổ khi xuất sẽ hủy các phím còn chờ. Tự khởi động nâng quyền yêu cầu tài khoản quản trị viên cùng chương trình và thư mục được bảo vệ trong Program Files. Khi bật có thể cần xác nhận UAC từ cùng tài khoản. Tác vụ vẫn được lưu trên máy này trong chế độ di động.
+
 - **Đầu ra** — mặc định "dán vào ứng dụng đang hoạt động"; hoặc "chỉ sao chép vào clipboard" (bạn dán bằng `Ctrl+V`). Tùy chọn: nhấn Enter sau khi dán, nhấp một lần để gửi, “Giữ nguyên bộ nhớ tạm của tôi” (khôi phục mặc định tắt — các ứng dụng đọc clipboard chậm có thể dán ra nội dung cũ). **Mỗi đoạn văn bản có thể ghi đè điều này** (Trình quản lý → Đầu ra: theo toàn cục / dán / dán + Enter / chỉ sao chép) — câu chat tự động gửi, đoạn mã thì không bao giờ.
 - **Vị trí bảng** — theo cửa sổ đang hoạt động (mặc định) / theo con trỏ văn bản / ghi nhớ vị trí lần trước.
 - **Phương thức gọi ra (chọn một)** — ① **tổ hợp phím**: nhấp vào ô và nhấn một tổ hợp mới (phím thông thường cần `Ctrl`/`Alt`/`Shift`/`Win`; phím chức năng **`F1`–`F24` dùng độc lập được**); hoặc ② **gõ nhẹ một phím bổ trợ**: **gõ một hoặc hai lần một phím bổ trợ** (ví dụ `Ctrl` phải, `Shift` phải) để gọi ra (một phím bổ trợ đơn lẻ không thể là phím tắt thông thường, nên nó được phát hiện qua thao tác gõ nhẹ). Chọn gõ nhẹ sẽ tắt tổ hợp — hai cái loại trừ lẫn nhau, nên luôn rõ cái nào đang hoạt động.

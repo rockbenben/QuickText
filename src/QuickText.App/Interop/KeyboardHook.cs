@@ -147,7 +147,7 @@ public sealed class KeyboardHook : IDisposable
                     && fg == undo.Target
                     && DateTime.UtcNow - undo.Armed < TimeSpan.FromSeconds(5))
                 {
-                    DispatchUndo(undo.Backspaces, undo.Abbr);
+                    DispatchUndo(undo.Backspaces, undo.Abbr, undo.Target);
                     return (IntPtr)1;   // swallow the Backspace — the undo does the deleting
                 }
             }
@@ -167,7 +167,7 @@ public sealed class KeyboardHook : IDisposable
                     var match = _matcher.OnTerminator();
                     if (match != null)
                     {
-                        DispatchExpansion(match);
+                        DispatchExpansion(match, fg);
                         return (IntPtr)1; // swallow the terminator
                     }
                 }
@@ -190,19 +190,22 @@ public sealed class KeyboardHook : IDisposable
         return CallNextHookEx(_hook, nCode, wParam, lParam);
     }
 
-    private void DispatchExpansion(AbbrMatch match)
+    private void DispatchExpansion(AbbrMatch match, IntPtr target)
     {
         // Run off the hook thread so we can prompt / synthesize input without re-entrancy.
         System.Windows.Application.Current.Dispatcher.BeginInvoke(
-            new Action(() => _ = ExpandAsync(match)));
+            new Action(() => _ = ExpandAsync(match, target)));
     }
 
-    private async Task ExpandAsync(AbbrMatch match)
+    private async Task ExpandAsync(AbbrMatch match, IntPtr target)
     {
         try
         {
-            var target = GetForegroundWindow();   // the app where the abbreviation was typed
+            if (target == IntPtr.Zero || GetForegroundWindow() != target) return;
             var sn = match.Snippet;
+            var settings = AppState.Current.Settings;
+            var output = Core.Snippets.OutputPolicy.Resolve(sn.OutputMode, settings.CopyToClipboardOnly,
+                settings.AutoSend, hasCursor: false, abbreviation: true);
 
             // Image snippet: load off the UI thread, then delete the typed abbr and paste/copy.
             if (sn.IsImage)
@@ -212,15 +215,18 @@ public sealed class KeyboardHook : IDisposable
 
                 void EmitImage()
                 {
+                    if (GetForegroundWindow() != target) return;
                     _suppressingSelfInput = true;
                     try
                     {
-                        bool deleted = PasteEngine.SendBackspaces(match.BackspaceCount);
-                        bool ok = sn.OutputMode == "copy"
+                        bool deleted = PasteEngine.SendBackspaces(match.BackspaceCount, target);
+                        if (!deleted) return;
+                        bool ok = output.CopyOnly
                             ? PasteEngine.CopyImage(image)
-                            : PasteEngine.PasteImage(image, autoSend: sn.OutputMode == "paste-enter",
-                                restoreClipboard: _restoreClipboard());
-                        if (deleted && !ok) PasteEngine.SendUnicodeText(match.Abbr);
+                            : PasteEngine.PasteImage(image, autoSend: output.AutoSend,
+                                restoreClipboard: _restoreClipboard(), target: target);
+                        if (!ok && GetForegroundWindow() == target) PasteEngine.SendUnicodeText(match.Abbr);
+                        PasteEngine.ReportOutput(ok);
                         _pendingUndo = null;
                         if (ok && !string.IsNullOrEmpty(sn.Id)) _recordUse?.Invoke(sn.Id);
                     }
@@ -230,9 +236,7 @@ public sealed class KeyboardHook : IDisposable
                 if (GetForegroundWindow() == target) EmitImage();
                 else ForegroundTarget.WhenForeground(target, EmitImage, () =>
                 {
-                    PasteEngine.CopyImage(image);
-                    (System.Windows.Application.Current as QuickText.App.App)?.Notify(
-                        QuickText.Core.Localization.LocalizationService.Instance["Msg.TargetLost"], warning: true);
+                    PasteEngine.ReportOutput(PasteEngine.CopyImage(image), "Msg.TargetLost");
                 });
                 return;
             }
@@ -248,27 +252,33 @@ public sealed class KeyboardHook : IDisposable
             // Per-snippet output override. "copy": remove the typed abbr, put the text on the
             // clipboard, paste nothing. "paste-enter": auto-Enter after the paste (unless a
             // {光标} token says "keep typing here"). Global AutoSend never applies to abbrs.
-            bool copyOnly = sn.OutputMode == "copy";
-            bool autoSend = sn.OutputMode == "paste-enter" && !resolved.HasCursor;
+            output = Core.Snippets.OutputPolicy.Resolve(sn.OutputMode, settings.CopyToClipboardOnly,
+                settings.AutoSend, resolved.HasCursor, abbreviation: true);
+            bool copyOnly = output.CopyOnly;
+            bool autoSend = output.AutoSend;
 
             void Emit()
             {
+                if (GetForegroundWindow() != target) return;
                 _suppressingSelfInput = true;
                 try
                 {
-                    bool deleted = PasteEngine.SendBackspaces(match.BackspaceCount);
+                    bool deleted = PasteEngine.SendBackspaces(match.BackspaceCount, target);
+                    if (!deleted) return;
                     if (copyOnly)
                     {
                         bool copied = PasteEngine.CopyText(text);
-                        if (deleted && !copied) PasteEngine.SendUnicodeText(match.Abbr);
+                        if (!copied && GetForegroundWindow() == target) PasteEngine.SendUnicodeText(match.Abbr);
+                        PasteEngine.ReportOutput(copied);
                         _pendingUndo = null;   // nothing was pasted; Backspace stays literal
                         if (copied && !string.IsNullOrEmpty(sn.Id)) _recordUse?.Invoke(sn.Id);
                         return;
                     }
-                    bool pasted = PasteEngine.Paste(text, restoreClipboard: _restoreClipboard(), autoSend: autoSend, caretFromEnd: caret);
+                    bool pasted = PasteEngine.Paste(text, restoreClipboard: _restoreClipboard(), autoSend: autoSend, caretFromEnd: caret, target: target);
                     // A failed clipboard/send (locked clipboard, UIPI) must not cost the typed
                     // trigger: put it back if the Backspaces actually went through.
-                    if (deleted && !pasted) PasteEngine.SendUnicodeText(match.Abbr);
+                    if (!pasted && GetForegroundWindow() == target) PasteEngine.SendUnicodeText(match.Abbr);
+                    PasteEngine.ReportOutput(pasted);
                     // Arm the one-shot undo — except when {光标} moved the caret off the end,
                     // where "delete N from the end" would hit the wrong span. Also skip large
                     // bodies: undoing would synthesize thousands of Backspace events into the
@@ -278,7 +288,7 @@ public sealed class KeyboardHook : IDisposable
                     {
                         int graphemes = GraphemeCountAtMost(text, MaxUndoGraphemes);
                         if (graphemes <= MaxUndoGraphemes)
-                            _pendingUndo = (GetForegroundWindow(), graphemes, match.Abbr, DateTime.UtcNow);
+                            _pendingUndo = (target, graphemes, match.Abbr, DateTime.UtcNow);
                     }
                     // Count an expansion as a use, so abbreviation-driven snippets also rise
                     // in "最近常用" / frecency ranking (the panel already records its sends).
@@ -289,25 +299,12 @@ public sealed class KeyboardHook : IDisposable
 
             // A prompt stole focus; wait for the target to really hold it again. On timeout copy
             // instead of firing Ctrl+V into whatever happens to be focused.
-            if (prompted && copyOnly)
-            {
-                // Still needs the target: Emit deletes the typed abbreviation before copying.
-                ForceForeground(target);
-                ForegroundTarget.WhenForeground(target, Emit, () =>
-                {
-                    PasteEngine.CopyText(text);
-                    (System.Windows.Application.Current as QuickText.App.App)?.Notify(
-                        QuickText.Core.Localization.LocalizationService.Instance["Msg.TargetLost"], warning: true);
-                });
-            }
-            else if (prompted)
+            if (prompted)
             {
                 ForceForeground(target);
                 ForegroundTarget.WhenForeground(target, Emit, () =>
                 {
-                    PasteEngine.CopyText(text);
-                    (System.Windows.Application.Current as QuickText.App.App)?.Notify(
-                        QuickText.Core.Localization.LocalizationService.Instance["Msg.TargetLost"], warning: true);
+                    PasteEngine.ReportOutput(PasteEngine.CopyText(text), "Msg.TargetLost");
                 });
             }
             else
@@ -321,15 +318,16 @@ public sealed class KeyboardHook : IDisposable
         }
     }
 
-    private void DispatchUndo(int backspaces, string abbr)
+    private void DispatchUndo(int backspaces, string abbr, IntPtr target)
     {
         System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() =>
         {
+            if (GetForegroundWindow() != target) return;
             _suppressingSelfInput = true;
             try
             {
-                PasteEngine.SendBackspaces(backspaces);
-                PasteEngine.SendUnicodeText(abbr);
+                if (PasteEngine.SendBackspaces(backspaces, target) && GetForegroundWindow() == target)
+                    PasteEngine.SendUnicodeText(abbr);
             }
             finally { _suppressingSelfInput = false; }
         }));

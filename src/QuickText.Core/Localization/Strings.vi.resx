@@ -234,6 +234,7 @@
   <data name="Manager.StaleNotice"><value>Thư viện đã được cập nhật trong cửa sổ khác hoặc bên ngoài ứng dụng. Các thay đổi chưa lưu của bạn ở đây chưa được ghi vào đĩa. Việc lưu đã tạm dừng; hãy tải lại phiên bản trên đĩa hoặc đóng rồi mở lại cửa sổ này.</value></data>
   <data name="Manager.Reload"><value>Tải lại</value></data>
   <data name="Settings.AutostartElevated"><value>Khởi động với quyền quản trị khi đăng nhập</value></data>
-  <data name="Settings.AutostartElevatedHint"><value>Khởi động với quyền quản trị (cần để dán vào cửa sổ đã nâng quyền). Windows sẽ hỏi phê duyệt UAC một lần khi bạn bật, và không hỏi lại lúc đăng nhập. Ở chế độ di động, tác vụ vẫn nằm trên máy này.</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>Tự khởi động nâng quyền yêu cầu tài khoản quản trị viên cùng chương trình và thư mục được bảo vệ trong Program Files. Khi bật có thể cần xác nhận UAC từ cùng tài khoản. Tác vụ vẫn được lưu trên máy này trong chế độ di động.</value></data>
   <data name="Settings.AutostartFailed"><value>Không thể cập nhật tùy chọn khởi động cùng Windows.</value></data>
+  <data name="Msg.OutputFailed"><value>Xuất nội dung thất bại. Hãy thử lại.</value></data>
 </root>

@@ -234,6 +234,7 @@
   <data name="Manager.StaleNotice"><value>La bibliothèque a été mise à jour dans une autre fenêtre ou en dehors de l'application. Vos modifications non enregistrées ici n'ont pas été écrites sur le disque. L'enregistrement est suspendu ; rechargez la version du disque ou fermez puis rouvrez cette fenêtre.</value></data>
   <data name="Manager.Reload"><value>Recharger</value></data>
   <data name="Settings.AutostartElevated"><value>Démarrer en administrateur à la connexion</value></data>
-  <data name="Settings.AutostartElevatedHint"><value>Démarrer avec les droits administrateur (nécessaire pour coller dans une fenêtre élevée). Windows demande une fois l’approbation UAC lors de l’activation, puis plus jamais à la connexion. En mode portable, la tâche reste sur cette machine.</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>Le démarrage élevé nécessite un compte administrateur et un programme et dossier protégés sous Program Files. Une autorisation UAC du même compte peut être demandée. Même en mode portable, la tâche reste sur ce PC.</value></data>
   <data name="Settings.AutostartFailed"><value>Impossible de mettre à jour le paramètre de démarrage avec Windows.</value></data>
+  <data name="Msg.OutputFailed"><value>Échec de la sortie. Veuillez réessayer.</value></data>
 </root>

@@ -959,13 +959,13 @@ public partial class SearchPanel : Window
         {
             var b = await ImageLoader.LoadAsync(sn.ImagePath);
             if (b == null) return;
-            PasteEngine.CopyImage(b);
+            if (!PasteEngine.ReportOutput(PasteEngine.CopyImage(b))) return;
         }
         else
         {
             var resolved = BodyResolver.Resolve(sn.Body, sn.UseVariables);
             if (resolved == null) return;   // cancelled — copy nothing, keep the panel open
-            PasteEngine.CopyText(resolved.Text);
+            if (!PasteEngine.ReportOutput(PasteEngine.CopyText(resolved.Text))) return;
         }
         AppState.Current.RecordUse(sn.Id);
         if (!_pinned) Hide();
@@ -995,12 +995,23 @@ public partial class SearchPanel : Window
 
     private bool _sending;
 
+    private bool ReportOutput(bool success, string? successMessage = null)
+    {
+        if (PasteEngine.ReportOutput(success, successMessage)) return true;
+        // Output hides before variable prompts and foreground handoff. A failed copy must
+        // bring back the same results so the user can retry without summoning and searching again.
+        if (!IsVisible) Show();
+        Query.Focus();
+        return false;
+    }
+
     private async void Output()
     {
         if (_sending) return;
         if (ActiveList.SelectedItem is not SearchHit hit) return;
         var sn = hit.Snippet;
         _sending = true;
+        var target = _target;
         try
         {
             string? text = null;
@@ -1037,7 +1048,6 @@ public partial class SearchPanel : Window
                 hasCursor = resolved.HasCursor;
             }
 
-            AppState.Current.RecordUse(sn.Id);
             var settings = AppState.Current.Settings;
             var pinned = _pinned;
 
@@ -1046,9 +1056,9 @@ public partial class SearchPanel : Window
             // user double-clicked from — typically an Explorer window) degrades to copy: pasting there
             // types into the file list or, worse, into an open rename box.
             var mode = sn.OutputMode ?? "";
-            bool noTarget = _target == IntPtr.Zero;
-            bool copyOnly = mode == "copy" || (mode.Length == 0 && settings.CopyToClipboardOnly)
-                            || noTarget;
+            var output = OutputPolicy.Resolve(mode, settings.CopyToClipboardOnly, settings.AutoSend, hasCursor);
+            bool noTarget = target == IntPtr.Zero;
+            bool copyOnly = output.CopyOnly || noTarget;
             // Only the implicit no-target fallback is surprising: the footer says "send", but
             // there is nowhere to paste. It gets Msg.NoTarget with the direct-paste recovery;
             // a real paste failure below keeps Msg.TargetLost. Explicit copy needs no explanation.
@@ -1063,6 +1073,8 @@ public partial class SearchPanel : Window
                     bool copied = image != null
                         ? PasteEngine.CopyImage(image)
                         : text != null && PasteEngine.CopyText(text);
+                    if (!ReportOutput(copied)) return;
+                    AppState.Current.RecordUse(sn.Id);
                     if (explainCopy && copied)
                         (Application.Current as App)?.Notify(
                             LocalizationService.Instance["Msg.NoTarget"], warning: true);
@@ -1071,27 +1083,27 @@ public partial class SearchPanel : Window
                 return;
             }
 
-            NativeMethods.ForceForeground(_target);   // robust handoff — the panel just Hid and may have lost foreground
+            NativeMethods.ForceForeground(target);
             var restore = settings.RestoreClipboard;
             // A {光标} token means "keep typing here" — never auto-Enter, even when the marker is
             // trailing (caret 0). PasteEngine can't tell that case apart, so decide it here.
-            var autoSend = mode switch { "paste-enter" => true, "paste" => false, _ => settings.AutoSend }
-                           && !hasCursor;
+            var autoSend = output.AutoSend;
 
             void CopyInstead()
             {
-                if (image != null) PasteEngine.CopyImage(image);
-                else if (text != null) PasteEngine.CopyText(text);
-                (Application.Current as App)?.Notify(LocalizationService.Instance["Msg.TargetLost"], warning: true);
+                bool copied = image != null ? PasteEngine.CopyImage(image) : text != null && PasteEngine.CopyText(text);
+                if (!ReportOutput(copied, "Msg.TargetLost")) return;
+                AppState.Current.RecordUse(sn.Id);
                 if (pinned) ReactivatePinned();
             }
 
-            ForegroundTarget.WhenForeground(_target, () =>
+            ForegroundTarget.WhenForeground(target, () =>
             {
                 bool pasted = image != null
-                    ? PasteEngine.PasteImage(image, autoSend, restoreClipboard: restore)
-                    : text != null && PasteEngine.Paste(text, restore, autoSend, caret);
+                    ? PasteEngine.PasteImage(image, autoSend, restoreClipboard: restore, target: target)
+                    : text != null && PasteEngine.Paste(text, restore, autoSend, caret, target);
                 if (!pasted) { CopyInstead(); return; }
+                AppState.Current.RecordUse(sn.Id);
                 if (pinned) ReactivatePinned();
             }, CopyInstead);
         }

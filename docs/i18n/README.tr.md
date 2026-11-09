@@ -130,6 +130,8 @@ Ayrıntılar: eşleştirme **büyük/küçük harfe duyarlı değildir** (`;SIG`
 
 ## Çıktı ve genel ayarlar (Tepsi → Ayarlar)
 
+> Yalnızca panoya kopyalama kısaltmalar için de geçerlidir. Çıktı sırasında pencere değiştirmek bekleyen tuşları iptal eder. Yükseltilmiş otomatik başlangıç, yönetici hesabı ve Program Files altında korunan program ve klasör gerektirir. Etkinleştirme sırasında aynı hesaptan UAC onayı istenebilir. Taşınabilir modda da görev bu bilgisayarda kalır.
+
 - **Çıktı** — varsayılan "etkin uygulamaya yapıştır"; veya "yalnızca panoya kopyala" (`Ctrl+V` ile siz yapıştırırsınız). İsteğe bağlı: yapıştırmadan sonra Enter'a bas, göndermek için tek tıklama, “Panomu olduğu gibi koru” (geri yükleme varsayılan olarak kapalıdır — panoyu yavaş okuyan uygulamalar eski içeriği yapıştırabilir). **Her snippet bunu geçersiz kılabilir** (Yönetici → Çıktı: geneli takip et / yapıştır / yapıştır + Enter / yalnızca kopyala) — sohbet ifadeleri otomatik gönderilir, kod snippet'leri asla gönderilmez.
 - **Panel konumu** — etkin pencereyi takip et (varsayılan) / metin imlecini takip et / son konumu hatırla.
 - **Çağırma yöntemi (birini seçin)** — ① **tuş kombinasyonu**: kutuya tıklayın ve yeni bir tane basın (sıradan tuşlar `Ctrl`/`Alt`/`Shift`/`Win` gerektirir; işlev tuşları **`F1`–`F24` tek başına çalışır**); veya ② **bir değiştirici tuşa dokunun**: çağırmak için **bir değiştirici tuşa tek veya çift dokunun** (örneğin sağ `Ctrl`, sağ `Shift`) (tek başına bir değiştirici tuş normal kısayol olamayacağından dokunuşla algılanır). Dokunmayı seçmek kombinasyonu devre dışı bırakır — ikisi birbirini dışlar, böylece hangisinin etkin olduğu her zaman nettir.

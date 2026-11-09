@@ -234,6 +234,7 @@
   <data name="Manager.StaleNotice"><value>লাইব্রেরি অন্য উইন্ডোতে বা অ্যাপের বাইরে আপডেট হয়েছে। এখানে আপনার অসংরক্ষিত পরিবর্তনগুলো এখনও ডিস্কে লেখা হয়নি। সংরক্ষণ সাময়িকভাবে বন্ধ আছে; ডিস্কের সংস্করণটি আবার লোড করুন, অথবা এই উইন্ডোটি বন্ধ করে আবার খুলুন।</value></data>
   <data name="Manager.Reload"><value>আবার লোড করুন</value></data>
   <data name="Settings.AutostartElevated"><value>লগইনে প্রশাসক হিসেবে শুরু করুন</value></data>
-  <data name="Settings.AutostartElevatedHint"><value>লগইনের সময় প্রশাসক অনুমতিতে শুরু করুন (উন্নত উইন্ডোতে পেস্ট করতে প্রয়োজন)। চালু করার সময় Windows একবার UAC অনুমোদন চাইবে, পরবর্তী লগইনে আর চাইবে না। পোর্টেবল মোডেও এই কাজটি এই কম্পিউটারেই থাকে।</value></data>
+  <data name="Settings.AutostartElevatedHint"><value>উন্নত অধিকারে স্বয়ংক্রিয় শুরুর জন্য প্রশাসক অ্যাকাউন্ট এবং Program Files-এ সুরক্ষিত প্রোগ্রাম ও ফোল্ডার প্রয়োজন। চালু করার সময় একই অ্যাকাউন্টের UAC অনুমোদন লাগতে পারে। পোর্টেবল মোডেও কাজটি এই কম্পিউটারে থাকে।</value></data>
   <data name="Settings.AutostartFailed"><value>"Windows-এর সাথে চালু" সেটিংস হালনাগাদ করা যায়নি।</value></data>
+  <data name="Msg.OutputFailed"><value>আউটপুট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।</value></data>
 </root>

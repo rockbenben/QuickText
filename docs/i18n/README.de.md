@@ -130,6 +130,8 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 
 ## Ausgabe & gängige Einstellungen (Infobereich → Einstellungen)
 
+> Nur in die Zwischenablage kopieren gilt auch für Kürzel. Ein Fensterwechsel während der Ausgabe bricht ausstehende Tasteneingaben ab. Der erhöhte Autostart erfordert ein Administratorkonto sowie ein geschütztes Programm und Verzeichnis unter Program Files. Beim Aktivieren kann eine UAC-Bestätigung desselben Kontos nötig sein. Auch im portablen Modus bleibt die Aufgabe auf diesem PC.
+
 - **Ausgabe** — Standard „in die aktive App einfügen“; oder „nur in die Zwischenablage kopieren“ (du fügst mit `Ctrl+V` ein). Optional: nach dem Einfügen Enter drücken, mit Einfachklick senden, “Zwischenablage unverändert lassen” (Wiederherstellen ist standardmäßig aus — Apps, die die Zwischenablage langsam lesen, fügen sonst den alten Inhalt ein). **Jedes Snippet kann dies überschreiben** (Manager → Ausgabe: global folgen / einfügen / einfügen + Enter / nur kopieren) — Chat-Textbausteine werden automatisch gesendet, Code-Snippets niemals.
 - **Panel-Position** — dem aktiven Fenster folgen (Standard) / dem Textcursor folgen / letzte Position merken.
 - **Aufruf-Methode (eine wählen)** — ① **Tastenkombination**: klicke ins Feld und drücke eine neue (normale Tasten brauchen `Ctrl`/`Alt`/`Shift`/`Win`; Funktionstasten **`F1`–`F24` funktionieren allein**); oder ② **Modifikatortaste tippen**: **einfaches oder doppeltes Tippen einer Modifikatortaste** (z. B. rechte `Ctrl`, rechte `Shift`) zum Aufrufen (eine einzelne Modifikatortaste kann kein normaler Hotkey sein, wird also per Tippen erkannt). Die Wahl des Tippens deaktiviert die Kombination — beide schließen sich gegenseitig aus, sodass immer klar ist, welche aktiv ist.

@@ -623,6 +623,14 @@ public partial class SettingsWindow : Window
             s.AutostartElevated = s.Autostart && AutostartElevated.IsChecked == true;
             s.CheckUpdates = CheckUpdates.IsChecked == true;
 
+            if (s.AutostartElevated && !ElevationPolicy.CanRegister(Environment.ProcessPath ?? ""))
+            {
+                AppDialog.Alert(this, L("App.Name"), L("Settings.AutostartElevatedHint"));
+                _saving = false;
+                SaveButton.IsEnabled = true;
+                return;
+            }
+
             // Apply autostart BEFORE persisting: enabling the elevated mode may show a UAC prompt.
             // A declined prompt is not an error, but nothing changed — so neither settings.json
             // nor the two checkboxes may claim a mode that isn't live. Re-read the real state from

@@ -41,6 +41,7 @@ public static class Autostart
     public static (bool Enabled, bool Elevated) CurrentState()
     {
         var state = Read();
+        if (!state.Known) return (AppState.Current.Settings.Autostart, AppState.Current.Settings.AutostartElevated);
         return state.ElevatedTask ? (true, true)
             : state.ModeEntry ? (true, false) : (false, false);
     }
@@ -48,10 +49,14 @@ public static class Autostart
     private static bool ModeEnabled() =>
         Core.AppPaths.IsPortable ? StartupShortcut.Exists() : RegistryEnabled();
 
-    private static (bool ElevatedTask, bool TaskFresh, bool ModeEntry) Read()
+    private static (bool ElevatedTask, bool TaskFresh, bool ModeEntry, bool Known) Read()
     {
-        var (exists, fresh) = ElevatedAutostart.Probe();
-        return (exists, fresh, exists ? false : ModeEnabled());
+        try
+        {
+            var (exists, fresh, known) = ElevatedAutostart.Probe();
+            return (exists, fresh, exists ? false : ModeEnabled(), known);
+        }
+        catch { return (false, false, false, false); }
     }
 
     /// <summary>
@@ -63,7 +68,8 @@ public static class Autostart
     /// </summary>
     public static AutostartResult Apply(bool enabled, bool elevated)
     {
-        var (currentElevated, taskFresh, currentMode) = Read();
+        var (currentElevated, taskFresh, currentMode, known) = Read();
+        if (!known) return AutostartResult.Failed;
         bool currentEnabled = currentElevated || currentMode;
         bool targetElevated = enabled && elevated;
 

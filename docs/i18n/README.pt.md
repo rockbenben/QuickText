@@ -130,6 +130,8 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 
 ## Saída e configurações comuns (Bandeja → Configurações)
 
+> Copiar apenas para a área de transferência também se aplica às abreviações. Mudar de janela durante a saída cancela as teclas pendentes. A inicialização elevada exige uma conta de administrador e um programa e pasta protegidos em Program Files. Ao ativar, pode ser necessária aprovação UAC da mesma conta. A tarefa permanece neste computador mesmo no modo portátil.
+
 - **Saída** — padrão "colar no aplicativo ativo"; ou "apenas copiar para a área de transferência" (você cola com `Ctrl+V`). Opcional: pressionar Enter após colar, enviar com um clique, “Manter a minha área de transferência intacta” (a restauração vem desativada por padrão — aplicativos que leem a área de transferência lentamente podem acabar colando o conteúdo antigo). **Cada trecho pode substituir isso** (Gerenciador → Saída: seguir o global / colar / colar + Enter / apenas copiar) — frases de chat se enviam automaticamente, trechos de código nunca.
 - **Posição do painel** — seguir a janela ativa (padrão) / seguir o cursor de texto / lembrar a última posição.
 - **Método de invocação (escolha um)** — ① **combinação de teclas**: clique na caixa e pressione uma nova (teclas comuns precisam de `Ctrl`/`Alt`/`Shift`/`Win`; as teclas de função **`F1`–`F24` funcionam sozinhas**); ou ② **toque num modificador**: **toque uma ou duas vezes num modificador** (por exemplo `Ctrl` direito, `Shift` direito) para invocar (um modificador sozinho não pode ser uma tecla de atalho normal, então é detectado por toque). Escolher o toque desativa a combinação — os dois são mutuamente exclusivos, então sempre fica claro qual está ativo.

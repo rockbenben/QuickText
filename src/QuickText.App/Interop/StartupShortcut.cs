@@ -31,13 +31,12 @@ internal static class StartupShortcut
             link.SetDescription("QuickText");
             ((IPersistFile)link).Save(LinkPath, false);
         }
-        catch { /* creating the shortcut must never crash the settings save */ }
         finally { Marshal.ReleaseComObject(link); }
     }
 
     public static void Delete()
     {
-        try { if (Exists()) System.IO.File.Delete(LinkPath); } catch { }
+        if (Exists()) System.IO.File.Delete(LinkPath);
     }
 
     [ComImport, Guid("00021401-0000-0000-C000-000000000046")]
