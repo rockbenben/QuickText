@@ -77,17 +77,16 @@ public class SnippetEditTests
         Assert.Equal("json", target.CodeFormat);
     }
 
-    // Identity, the image and the timestamp are NOT editor fields: images are an immediate
-    // structural operation and the caller owns the timestamp so it only moves on a real change.
+    // Restoring an edit includes its image reference while leaving identity and timestamp to callers.
     [Fact]
-    public void ApplyTo_leaves_id_image_and_timestamp_alone()
+    public void ApplyTo_restores_image_and_preserves_id_and_timestamp()
     {
         var stamp = DateTimeOffset.UtcNow.AddDays(-3);
         var target = new Snippet { ImagePath = "images/x.png", UpdatedAt = stamp };
         var id = target.Id;
         SnippetEdit.From(Sample()).ApplyTo(target);
         Assert.Equal(id, target.Id);
-        Assert.Equal("images/x.png", target.ImagePath);
+        Assert.Equal(Sample().ImagePath, target.ImagePath);
         Assert.Equal(stamp, target.UpdatedAt);
     }
 

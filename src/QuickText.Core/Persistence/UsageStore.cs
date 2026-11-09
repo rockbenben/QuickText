@@ -15,7 +15,8 @@ public sealed class UsageStats
 }
 
 /// <summary>
-/// Per-snippet usage counts + favorites, persisted next to the library.
+/// Per-snippet usage counts + favorites. The app supplies the machine-state folder to avoid
+/// syncing a file that changes on every send.
 /// Filename is deliberately NOT *.json so the data-folder watcher ignores our own writes.
 /// </summary>
 public sealed class UsageStore
@@ -57,22 +58,27 @@ public sealed class UsageStore
     }
 
     /// <summary>Write pending changes now (no-op when clean). Call before replacing the store or on exit.</summary>
-    public void Flush()
+    public bool Flush()
     {
-        string json;
         lock (_flushLock)
         {
             _flushScheduled = false;
-            if (!_dirty) return;
-            _dirty = false;
-            json = JsonSerializer.Serialize(_stats, JsonConfig.Write);
+            if (!_dirty) return true;
+            // Keep writes ordered with mutations and retain dirty state after a failed write.
+            // Otherwise a delayed older flush can overwrite a newer favorite/count snapshot.
+            try
+            {
+                string json = JsonSerializer.Serialize(_stats, JsonConfig.Write);
+                Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
+                string temp = _path + ".tmp";
+                File.WriteAllText(temp, json);
+                if (File.Exists(_path)) File.Replace(temp, _path, null);
+                else File.Move(temp, _path);
+                _dirty = false;
+                return true;
+            }
+            catch { return false; }
         }
-        try
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
-            File.WriteAllText(_path, json);
-        }
-        catch { }
     }
 
     public void Record(string id)

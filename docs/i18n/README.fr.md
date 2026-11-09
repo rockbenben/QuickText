@@ -170,6 +170,8 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 
 ## Données et synchronisation
 
+> Un index illisible bloque les écritures. L’import vérifie les catégories et images ; un export échoué conserve la sauvegarde précédente. Si le changement de dossier échoue, le chemin précédent est conservé.
+
 Dossier de données (par défaut `Documents\QuickText`, modifiable dans les Réglages, peut pointer vers un lecteur de synchronisation) :
 
 ```text

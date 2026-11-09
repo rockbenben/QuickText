@@ -170,6 +170,8 @@ Ayrıntılar: eşleştirme **büyük/küçük harfe duyarlı değildir** (`;SIG`
 
 ## Veri ve senkronizasyon
 
+> Okunamayan dizin yazmayı durdurur. İçe aktarma kategori ve görüntüleri doğrular; başarısız dışa aktarma önceki yedeği korur. Klasör değişimi başarısızsa önceki yol korunur.
+
 Veri klasörü (varsayılan `Documents\QuickText`, Ayarlar'da değiştirilebilir, bir senkronizasyon sürücüsüne yönlendirilebilir):
 
 ```text

@@ -6,7 +6,7 @@ namespace QuickText.Core.Persistence;
 /// </summary>
 public static class FileTreeCopy
 {
-    public static void CopyWithRollback(string from, string to)
+    public static void CopyWithRollback(string from, string to, Action? verify = null)
     {
         var source = Path.GetFullPath(from);
         var dest = Path.GetFullPath(to);
@@ -17,6 +17,7 @@ public static class FileTreeCopy
             "QuickText-rollback-" + Guid.NewGuid().ToString("N"));
         var created = new List<string>();
         var backups = new List<(string Target, string Backup)>();
+        bool recoveryFailed = false;
 
         try
         {
@@ -44,19 +45,22 @@ public static class FileTreeCopy
                 }
                 File.Copy(file, target, overwrite: true);
             }
+            verify?.Invoke();
         }
-        catch
+        catch (Exception failure)
         {
             // New files first, then restore every file that had existed before the import.
             for (int i = created.Count - 1; i >= 0; i--)
-                try { File.Delete(created[i]); } catch { }
+                try { File.Delete(created[i]); } catch { recoveryFailed = true; }
             for (int i = backups.Count - 1; i >= 0; i--)
-                try { File.Copy(backups[i].Backup, backups[i].Target, overwrite: true); } catch { }
+                try { File.Copy(backups[i].Backup, backups[i].Target, overwrite: true); } catch { recoveryFailed = true; }
+            if (recoveryFailed)
+                throw new IOException("Import recovery is incomplete. Original files are retained in " + rollback, failure);
             throw;
         }
         finally
         {
-            try { if (Directory.Exists(rollback)) Directory.Delete(rollback, recursive: true); } catch { }
+            try { if (!recoveryFailed && Directory.Exists(rollback)) Directory.Delete(rollback, recursive: true); } catch { }
         }
     }
 

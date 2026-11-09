@@ -63,12 +63,13 @@ public class StoreTests : IDisposable
     }
 
     [Fact]
-    public void LoadTrash_on_missing_or_corrupt_file_returns_empty()
+    public void LoadTrash_missing_is_empty_but_corrupt_is_preserved_and_reported()
     {
         var store = new Store(_root);
         Assert.Empty(store.LoadTrash());
         File.WriteAllText(Path.Combine(_root, "trash.json"), "{ broken");
-        Assert.Empty(store.LoadTrash());
+        Assert.Throws<InvalidDataException>(() => store.LoadTrash());
+        Assert.Equal("{ broken", File.ReadAllText(Path.Combine(_root, "trash.json")));
     }
 
     [Fact]

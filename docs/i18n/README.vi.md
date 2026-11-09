@@ -170,6 +170,8 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 
 ## Dữ liệu & đồng bộ
 
+> Không ghi khi chỉ mục không đọc được. Nhập sẽ kiểm tra danh mục và ảnh; xuất thất bại giữ bản sao lưu cũ. Đổi thư mục thất bại giữ đường dẫn cũ.
+
 Thư mục dữ liệu (mặc định `Documents\QuickText`, có thể thay đổi trong Cài đặt, có thể trỏ vào một ổ đĩa đồng bộ):
 
 ```text

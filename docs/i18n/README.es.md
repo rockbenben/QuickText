@@ -170,6 +170,8 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 
 ## Datos y sincronización
 
+> Un índice ilegible impide escribir. La importación valida categorías e imágenes; si la exportación falla se conserva la copia anterior. Si falla el cambio de carpeta se mantiene la ruta anterior.
+
 Carpeta de datos (por defecto `Documents\QuickText`, cambiable en Ajustes, puede apuntar a una unidad de sincronización):
 
 ```text

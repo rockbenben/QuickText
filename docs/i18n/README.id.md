@@ -170,6 +170,8 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 
 ## Data & sinkronisasi
 
+> Indeks yang tidak terbaca menghentikan penulisan. Impor memvalidasi kategori dan gambar; ekspor yang gagal mempertahankan cadangan sebelumnya. Jika pergantian folder gagal, jalur sebelumnya dipertahankan.
+
 Folder data (default `Documents\QuickText`, bisa diubah di Pengaturan, dapat mengarah ke drive sinkronisasi):
 
 ```text

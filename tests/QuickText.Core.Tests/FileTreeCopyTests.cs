@@ -28,6 +28,25 @@ public class FileTreeCopyTests : IDisposable
     }
 
     [Fact]
+    public void Verification_failure_restores_the_original_files()
+    {
+        var from = Path.Combine(_work, "from");
+        var to = Path.Combine(_work, "to");
+        Directory.CreateDirectory(from);
+        Directory.CreateDirectory(to);
+        File.WriteAllText(Path.Combine(from, "a.txt"), "new-a");
+        File.WriteAllText(Path.Combine(from, "b.txt"), "new-b");
+        File.WriteAllText(Path.Combine(to, "a.txt"), "old-a");
+        Assert.Throws<IOException>(() => FileTreeCopy.CopyWithRollback(from, to, () =>
+        {
+            Assert.Equal("new-a", File.ReadAllText(Path.Combine(to, "a.txt")));
+            throw new IOException("Post-copy validation cannot read the library.");
+        }));
+        Assert.Equal("old-a", File.ReadAllText(Path.Combine(to, "a.txt")));
+        Assert.False(File.Exists(Path.Combine(to, "b.txt")));
+    }
+
+    [Fact]
     public void A_mid_copy_failure_restores_overwritten_files_and_removes_new_ones()
     {
         var from = Path.Combine(_work, "from");

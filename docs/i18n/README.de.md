@@ -170,6 +170,8 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 
 ## Daten & Synchronisierung
 
+> Ein unlesbarer Index verhindert Schreibvorgänge. Importe prüfen Kategorien und Bilder; ein fehlgeschlagener Export behält das bisherige Backup. Ein fehlgeschlagener Ordnerwechsel behält den bisherigen Pfad.
+
 Datenordner (Standard `Documents\QuickText`, in den Einstellungen änderbar, kann auf ein Synchronisierungslaufwerk zeigen):
 
 ```text

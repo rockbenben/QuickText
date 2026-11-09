@@ -170,6 +170,8 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 
 ## Dados e sincronização
 
+> Um índice ilegível impede gravações. A importação valida categorias e imagens; uma exportação que falhar mantém o backup anterior. Se a troca de pasta falhar, o caminho anterior é mantido.
+
 Pasta de dados (padrão `Documents\QuickText`, alterável em Configurações, pode apontar para um drive de sincronização):
 
 ```text

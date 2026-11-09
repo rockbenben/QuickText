@@ -178,6 +178,8 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 
 ## Data & sync
 
+> An unreadable index stops writes. Imports validate categories and images; a failed export keeps the previous backup. A failed data-folder switch keeps the previous path.
+
 Data folder (default `Documents\QuickText`, changeable in Settings, can point at a sync drive):
 
 ```text

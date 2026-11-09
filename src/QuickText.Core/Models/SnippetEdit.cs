@@ -9,22 +9,20 @@ namespace QuickText.Core.Models;
 /// read as dirty the moment it is opened and prompt on every selection change.</para>
 /// </summary>
 public sealed record SnippetEdit(
-    string Name, string Abbr, string Body, bool UseVariables, string OutputMode, string? CodeFormat)
+    string Name, string Abbr, string Body, bool UseVariables, string OutputMode, string? CodeFormat, string ImagePath = "")
 {
     /// <summary>Snapshot a snippet's editable fields.</summary>
     public static SnippetEdit From(Snippet s) =>
-        Of(s.Name, s.Abbr, s.Body, s.UseVariables, s.OutputMode, s.CodeFormat);
+        Of(s.Name, s.Abbr, s.Body, s.UseVariables, s.OutputMode, s.CodeFormat, s.ImagePath);
 
     /// <summary>Build from raw editor-control values. The ONE normalizing entry point —
     /// <see cref="From"/> routes through it so the two can never diverge.</summary>
     public static SnippetEdit Of(string? name, string? abbr, string? body, bool useVariables,
-                                 string? outputMode, string? codeFormat) =>
+                                 string? outputMode, string? codeFormat, string? imagePath = null) =>
         new(name ?? "", abbr ?? "", body ?? "", useVariables,
-            outputMode ?? "", string.IsNullOrEmpty(codeFormat) ? null : codeFormat);
+            outputMode ?? "", string.IsNullOrEmpty(codeFormat) ? null : codeFormat, imagePath ?? "");
 
-    /// <summary>Write these six fields onto a snippet. Deliberately does NOT touch Id, ImagePath
-    /// or UpdatedAt — images are an immediate/structural operation, and the caller owns the
-    /// timestamp so it only moves when something actually changed.</summary>
+    /// <summary>Restore editable fields while preserving identity and the caller-owned timestamp.</summary>
     public void ApplyTo(Snippet s)
     {
         s.Name = Name;
@@ -33,5 +31,6 @@ public sealed record SnippetEdit(
         s.UseVariables = UseVariables;
         s.OutputMode = OutputMode;
         s.CodeFormat = CodeFormat;   // already normalized to null when empty
+        s.ImagePath = ImagePath;
     }
 }

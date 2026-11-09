@@ -170,6 +170,8 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 
 ## Dati e sincronizzazione
 
+> Un indice illeggibile blocca le scritture. L’importazione verifica categorie e immagini; un’esportazione fallita conserva il backup precedente. Se il cambio di cartella fallisce, il percorso precedente resta attivo.
+
 Cartella dati (predefinita `Documents\QuickText`, modificabile nelle Impostazioni, può puntare a un'unità di sincronizzazione):
 
 ```text
