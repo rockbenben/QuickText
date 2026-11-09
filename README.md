@@ -109,6 +109,10 @@ Double-click **`QuickText.exe`**; it lives in the **system tray** (no taskbar bu
 
 ## Placeholders (one template, many situations) · opt-in per snippet
 
+In the Manager, Ctrl+S saves and Ctrl+F selects the filter text. The filter searches only the current category; clearing it preserves the selected snippets and editor draft. “Unsaved changes” stays visible until changes are saved or discarded, including after a failed save.
+
+The Manager’s snippet list shows a first-line preview. Use × to clear the panel search or the Manager’s filter; clearing the filter keeps the current editor draft. The category and snippet lists share the available height, and image actions wrap in narrow windows.
+
 Placeholders are a **per-snippet switch**: tick "**Enable {variable} placeholders**" in the Manager editor and the tokens below are resolved on send; **left unticked (the default), the body is sent verbatim** — code, scripts and JSON full of literal `{...}` are never misparsed or prompted on.
 
 > Upgrading: placeholders used to be always-on. The first launch after upgrading automatically ticks the switch for **existing snippets** whose body contains `{...}`, so nothing changes behavior; untick it in the Manager for the ones that are actually code.
@@ -141,6 +145,8 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 > **About the prefix:** the prefix (default `;`) keeps ordinary typing / pinyin from false-triggering a bare abbreviation. Change it under **Settings → Abbreviations → Trigger prefix** (to `,`, `:`, …) or **leave it empty**. A prefixed abbreviation is self-delimiting and fires even glued to the preceding text (e.g. `thx;sig`); with no prefix it only fires as its own word (never as the tail of a longer one like `graf`). You can also disable abbreviations per app (a blacklist, e.g. `cmd.exe; putty.exe`) or turn them off entirely.
 
 ## Output & common settings (Tray → Settings)
+
+Choose a category in the sidebar to edit its settings. Switching categories keeps unsaved edits. The window is resizable; on short screens the selected section scrolls while Save stays visible. Use the arrow keys in the sidebar or Ctrl+Tab to switch categories.
 
 > Copy to clipboard only also applies to abbreviations. Switching windows during output cancels pending keystrokes. Elevated autostart requires an administrator account and a protected program and folder under Program Files. Enabling it may ask for UAC approval from the same account. A portable copy still creates a task on this machine.
 

@@ -101,6 +101,10 @@ Klik ganda **`QuickText.exe`**; ia tinggal di **system tray** (tanpa tombol task
 
 ## Placeholder (satu templat, banyak situasi) · dipilih per snippet
 
+Di pengelola, Ctrl+S menyimpan dan Ctrl+F memilih teks filter. Filter hanya mencari dalam kategori saat ini; menghapusnya mempertahankan pilihan jamak dan draf. Penanda perubahan belum disimpan tetap terlihat sampai disimpan atau dibuang, termasuk setelah gagal menyimpan.
+
+Daftar pengelola menampilkan baris pertama teks. Gunakan × untuk menghapus pencarian panel atau filter pengelola; menghapus filter tetap mempertahankan draf saat ini. Daftar kategori dan cuplikan berbagi tinggi yang tersedia, dan tombol gambar membungkus di jendela sempit.
+
 Placeholder adalah **saklar per snippet**: centang "**Aktifkan placeholder {variable}**" di editor Manager dan token di bawah akan diselesaikan saat dikirim; **jika tidak dicentang (default), isi dikirim apa adanya** — kode, skrip, dan JSON yang penuh dengan `{...}` literal tak pernah salah diurai atau ditanyakan.
 
 > Saat memperbarui: dahulu placeholder selalu aktif. Peluncuran pertama setelah pembaruan otomatis mencentang saklar untuk **snippet yang sudah ada** yang isinya mengandung `{...}`, sehingga tidak ada perilaku yang berubah; hapus centang di Manager untuk yang sebenarnya berupa kode.
@@ -133,6 +137,8 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 > **Tentang prefiks:** prefiks (default `;`) mencegah pengetikan biasa / pinyin memicu palsu sebuah singkatan telanjang. Ubah di **Pengaturan → Singkatan → Prefiks pemicu** (menjadi `,`, `:`, …) atau **biarkan kosong**. Singkatan berprefiks bersifat membatasi diri sendiri dan terpicu bahkan saat menempel pada teks sebelumnya (mis. `thx;sig`); tanpa prefiks ia hanya terpicu sebagai kata tersendiri (tak pernah sebagai ekor kata yang lebih panjang seperti `graf`). Anda juga bisa menonaktifkan singkatan per aplikasi (daftar hitam, mis. `cmd.exe; putty.exe`) atau mematikannya sepenuhnya.
 
 ## Output & pengaturan umum (Tray → Pengaturan)
+
+Pilih kategori di bilah samping. Perubahan yang belum disimpan tetap ada saat berpindah kategori. Ukuran jendela dapat diubah; pada layar pendek, konten bergulir dan tombol Simpan tetap terlihat. Gunakan tombol panah di bilah samping atau Ctrl+Tab untuk berpindah kategori.
 
 > Hanya salin ke papan klip juga berlaku untuk singkatan. Berpindah jendela saat keluaran membatalkan penekanan tombol yang masih menunggu. Mulai otomatis dengan hak tinggi memerlukan akun administrator serta program dan folder terlindungi di Program Files. Saat diaktifkan, persetujuan UAC dari akun yang sama mungkin diperlukan. Tugas tetap disimpan di komputer ini dalam mode portabel.
 

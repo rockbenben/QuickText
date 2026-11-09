@@ -101,6 +101,10 @@ Fai doppio clic su **`QuickText.exe`**; vive nella **barra delle applicazioni** 
 
 ## Segnaposto (un modello, molte situazioni) · attivabili per singolo snippet
 
+Nel gestore, Ctrl+S salva e Ctrl+F seleziona il testo del filtro. Il filtro cerca solo nella categoria corrente. Cancellarlo mantiene la selezione multipla e la bozza. L’avviso delle modifiche non salvate resta fino al salvataggio o all’annullamento, anche se il salvataggio fallisce.
+
+L’elenco del gestore mostra la prima riga del testo. Usa × per cancellare la ricerca del pannello o il filtro del gestore; cancellare il filtro mantiene la bozza corrente. Gli elenchi condividono l’altezza disponibile e i comandi delle immagini vanno a capo nelle finestre strette.
+
 I segnaposto sono un **interruttore per singolo snippet**: spunta "**Abilita segnaposto {variabile}**" nell'editor del Gestore e i token qui sotto vengono risolti all'invio; **lasciato non spuntato (l'impostazione predefinita), il corpo viene inviato alla lettera** — codice, script e JSON pieni di `{...}` letterali non vengono mai interpretati per errore né generano richieste.
 
 > In aggiornamento: i segnaposto erano sempre attivi. Il primo avvio dopo l'aggiornamento spunta automaticamente l'interruttore per gli **snippet esistenti** il cui corpo contiene `{...}`, così nulla cambia comportamento; togli la spunta nel Gestore per quelli che sono effettivamente codice.
@@ -133,6 +137,8 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 > **A proposito del prefisso:** il prefisso (predefinito `;`) evita che la digitazione ordinaria / il pinyin attivino per errore un'abbreviazione nuda. Cambialo in **Impostazioni → Abbreviazioni → Prefisso di attivazione** (in `,`, `:`, …) oppure **lascialo vuoto**. Un'abbreviazione con prefisso è auto-delimitante e si attiva anche se attaccata al testo precedente (es. `thx;sig`); senza prefisso si attiva solo come parola a sé (mai come coda di una più lunga come `graf`). Puoi anche disabilitare le abbreviazioni per singola app (una lista di esclusione, es. `cmd.exe; putty.exe`) o disattivarle del tutto.
 
 ## Output e impostazioni comuni (Barra delle applicazioni → Impostazioni)
+
+Scegli una categoria nella barra laterale. Le modifiche non salvate vengono conservate quando cambi categoria. La finestra è ridimensionabile; sugli schermi bassi il contenuto scorre e Salva rimane visibile. Usa le frecce nella barra laterale o Ctrl+Tab per cambiare categoria.
 
 > La sola copia negli appunti vale anche per le abbreviazioni. Cambiare finestra durante l’output annulla le pressioni dei tasti in attesa. L’avvio con privilegi elevati richiede un account amministratore e un programma e una cartella protetti in Program Files. L’attivazione può richiedere l’approvazione UAC dello stesso account. Anche in modalità portatile, l’attività resta su questo PC.
 

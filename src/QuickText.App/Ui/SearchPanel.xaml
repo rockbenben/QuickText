@@ -52,14 +52,17 @@
             </Grid.RowDefinitions>
 
             <!-- input -->
-            <Grid Grid.Row="0" Margin="20,18,20,13" Background="Transparent" MouseLeftButtonDown="OnInputDrag">
+            <Grid Grid.Row="0" Margin="16,14,16,14" Background="Transparent" MouseLeftButtonDown="OnInputDrag">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Grid.ColumnSpan="2" CornerRadius="10" MinHeight="44"
+                        Background="{DynamicResource Brush.InputBg}"
+                        BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1"/>
                 <TextBlock Grid.Column="0" Text="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="17"
-                           Foreground="{DynamicResource Brush.TextMuted}" VerticalAlignment="Center" Margin="0,0,13,0"/>
+                           Foreground="{DynamicResource Brush.TextMuted}" VerticalAlignment="Center" Margin="12,0,10,0"/>
                 <StackPanel Grid.Column="2" Orientation="Horizontal" Margin="10,0,0,0">
                     <Button Style="{StaticResource GhostIconButton}" FontSize="14"
                             AutomationProperties.Name="{Binding [Search.Hint.New], Source={x:Static app:LocProxy.Instance}}"
@@ -78,18 +81,22 @@
                             Content="&#xE718;" Margin="4,0,0,0" Click="OnTogglePin"
                             ToolTip="{Binding [Search.KeepOpen], Source={x:Static app:LocProxy.Instance}}"/>
                 </StackPanel>
-                <Grid Grid.Column="1">
+                <Grid Grid.Column="1" Margin="0,0,6,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
                     <TextBox x:Name="Query" Background="Transparent" BorderThickness="0" Padding="0"
                              AutomationProperties.Name="{Binding [Search.Placeholder], Source={x:Static app:LocProxy.Instance}}"
-                             FontFamily="{StaticResource Font.Ui}" FontSize="19"
+                             FontFamily="{StaticResource Font.Ui}" FontSize="17"
                              Foreground="{DynamicResource Brush.TextPrimary}"
                              CaretBrush="{DynamicResource Brush.Accent}"
                              SelectionBrush="{DynamicResource Brush.Accent}"
                              VerticalContentAlignment="Center" TextChanged="OnQueryChanged"/>
                     <TextBlock Text="{Binding [Search.Placeholder], Source={x:Static app:LocProxy.Instance}}"
-                               FontFamily="{StaticResource Font.Ui}" FontSize="19"
+                               FontFamily="{StaticResource Font.Ui}" FontSize="17"
                                Foreground="{DynamicResource Brush.TextFaint}" IsHitTestVisible="False"
-                               VerticalAlignment="Center">
+                               VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Visibility" Value="Collapsed"/>
@@ -101,6 +108,19 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
+                    <Button Grid.Column="1" x:Name="ClearQueryButton" Content="&#xE711;"
+                            Click="OnClearQuery" AutomationProperties.Name="{Binding [Common.Clear], Source={x:Static app:LocProxy.Instance}}"
+                            ToolTip="{Binding [Common.Clear], Source={x:Static app:LocProxy.Instance}}">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource GhostIconButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=Query}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </Grid>
             </Grid>
 
@@ -111,9 +131,9 @@
                 <!-- browse mode: category rail | snippets -->
                 <Grid x:Name="BrowseView">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="182"/>
+                        <ColumnDefinition Width="0.8*" MinWidth="120" MaxWidth="182"/>
                         <ColumnDefinition Width="1"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
                     <ListBox x:Name="CategoryRail" Grid.Column="0" Background="Transparent" BorderThickness="0"
                              MaxHeight="404" HorizontalContentAlignment="Stretch"
@@ -151,11 +171,11 @@
 
                 <!-- empty state -->
                 <StackPanel x:Name="EmptyState" Visibility="Collapsed" MinHeight="118"
-                            VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20,16">
-                    <TextBlock x:Name="EmptyText" HorizontalAlignment="Center"
+                            VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="20,16">
+                    <TextBlock x:Name="EmptyText" HorizontalAlignment="Stretch" TextAlignment="Center" TextWrapping="Wrap"
                                FontFamily="{StaticResource Font.Ui}" FontSize="13"
                                Foreground="{DynamicResource Brush.TextMuted}"/>
-                    <TextBlock x:Name="EmptySub" HorizontalAlignment="Center" Margin="0,5,0,0"
+                    <TextBlock x:Name="EmptySub" HorizontalAlignment="Stretch" TextAlignment="Center" TextWrapping="Wrap" Margin="0,5,0,0"
                                FontFamily="{StaticResource Font.Ui}" FontSize="11.5"
                                Foreground="{DynamicResource Brush.TextFaint}"/>
                     <Button x:Name="CreateButton" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,14,0,0"
@@ -175,20 +195,33 @@
                         BorderBrush="{DynamicResource Brush.Divider}" BorderThickness="0,1,0,0"
                         CornerRadius="0,0,8,8" Padding="0,10,0,0">
                     <StackPanel>
-                        <Border x:Name="PreviewHeader" Cursor="Hand" Padding="2,7,2,7"
-                                MouseLeftButtonUp="OnPreviewToggle">
+                        <Button x:Name="PreviewHeader" Cursor="Hand" Padding="2,7,2,7"
+                                Click="OnPreviewToggle" HorizontalContentAlignment="Stretch"
+                                AutomationProperties.Name="{Binding [Search.Preview], Source={x:Static app:LocProxy.Instance}}"
+                                AutomationProperties.HelpText="{Binding Text, ElementName=PreviewSummary}"
+                                ToolTip="{Binding [Search.Preview], Source={x:Static app:LocProxy.Instance}}">
                             <!-- hover affordance lives in a Style, not an attribute: an inline
                                  Background would outrank the IsMouseOver trigger and eat it. -->
-                            <Border.Style>
-                                <Style TargetType="Border">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="FocusVisualStyle" Value="{StaticResource AppFocusVisual}"/>
                                     <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="Button">
+                                                <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                                                    <ContentPresenter HorizontalAlignment="Stretch"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Background" Value="{DynamicResource Brush.RowHover}"/>
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
-                            </Border.Style>
+                            </Button.Style>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -205,7 +238,7 @@
                                            FontFamily="Segoe MDL2 Assets" FontSize="11"
                                            Foreground="{DynamicResource Brush.TextMuted}" Text="&#xE70E;"/>
                             </Grid>
-                        </Border>
+                        </Button>
                         <ScrollViewer x:Name="PreviewScroll" MaxHeight="150" Visibility="Collapsed"
                                       VerticalScrollBarVisibility="Auto">
                             <Grid>

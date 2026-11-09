@@ -101,6 +101,10 @@ Dê um duplo clique em **`QuickText.exe`**; ele fica na **bandeja do sistema** (
 
 ## Espaços reservados (um modelo, muitas situações) · ativados por trecho
 
+No gerenciador, Ctrl+S salva e Ctrl+F seleciona o texto do filtro. O filtro busca apenas na categoria atual. Limpá-lo mantém a seleção múltipla e o rascunho. O aviso de alterações não salvas permanece até salvar ou descartar, mesmo se o salvamento falhar.
+
+A lista do gerenciador mostra a primeira linha do texto. Use × para limpar a busca do painel ou o filtro do gerenciador; limpar o filtro mantém o rascunho atual. As listas dividem a altura disponível e os botões de imagem quebram a linha em janelas estreitas.
+
 Os espaços reservados são um **interruptor por trecho**: marque "**Ativar espaços reservados {variable}**" no editor do Gerenciador e os tokens abaixo são resolvidos no envio; **deixado desmarcado (o padrão), o corpo é enviado literalmente** — código, scripts e JSON cheios de `{...}` literais nunca são mal interpretados nem geram perguntas.
 
 > Ao atualizar: os espaços reservados costumavam estar sempre ativos. A primeira execução após a atualização marca automaticamente o interruptor para os **trechos existentes** cujo corpo contém `{...}`, de modo que nada muda de comportamento; desmarque-o no Gerenciador para os que realmente são código.
@@ -133,6 +137,8 @@ Detalhes: a correspondência **não diferencia maiúsculas de minúsculas** (`;S
 > **Sobre o prefixo:** o prefixo (padrão `;`) impede que a digitação comum / o pinyin acionem por engano uma abreviação sem prefixo. Altere-o em **Configurações → Abreviações → Prefixo de acionamento** (para `,`, `:`, …) ou **deixe-o vazio**. Uma abreviação com prefixo é autodelimitada e dispara mesmo colada ao texto anterior (por exemplo `thx;sig`); sem prefixo, ela só dispara como uma palavra isolada (nunca como o final de uma palavra maior, como `graf`). Você também pode desativar as abreviações por aplicativo (uma lista de bloqueio, por exemplo `cmd.exe; putty.exe`) ou desligá-las por completo.
 
 ## Saída e configurações comuns (Bandeja → Configurações)
+
+Escolha uma categoria na barra lateral. As alterações não salvas são mantidas ao trocar de categoria. A janela pode ser redimensionada; em telas baixas, o conteúdo rola e Salvar continua visível. Use as setas na barra lateral ou Ctrl+Tab para trocar de categoria.
 
 > Copiar apenas para a área de transferência também se aplica às abreviações. Mudar de janela durante a saída cancela as teclas pendentes. A inicialização elevada exige uma conta de administrador e um programa e pasta protegidos em Program Files. Ao ativar, pode ser necessária aprovação UAC da mesma conta. A tarefa permanece neste computador mesmo no modo portátil.
 

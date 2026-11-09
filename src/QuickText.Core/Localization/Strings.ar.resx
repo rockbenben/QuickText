@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>إزالة</value></data>
   <data name="Manager.Saved"><value>✓ تم الحفظ</value></data>
   <data name="Manager.NewSnippetName"><value>مقتطف جديد</value></data>
-  <data name="Manager.Filter"><value>تصفية…</value></data>
+  <data name="Manager.Filter"><value>تصفية الفئة الحالية…</value></data>
   <data name="Manager.Duplicate"><value>تكرار</value></data>
   <data name="Manager.Expand"><value>تكبير</value></data>
   <data name="Manager.LineNumbers"><value>أرقام الأسطر</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>يتطلب بدء التشغيل بصلاحيات مرتفعة حساب مسؤول وبرنامجاً ومجلداً محميين داخل Program Files. قد يُطلب تأكيد UAC من الحساب نفسه عند التفعيل. تبقى المهمة على هذا الجهاز حتى في الوضع المحمول.</value></data>
   <data name="Settings.AutostartFailed"><value>تعذّر تحديث إعداد "التشغيل مع Windows".</value></data>
   <data name="Msg.OutputFailed"><value>فشل إخراج المحتوى. يرجى المحاولة مرة أخرى.</value></data>
+  <data name="Common.Clear"><value>مسح</value></data>
+  <data name="Search.Preview"><value>توسيع المعاينة أو طيها (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>تغييرات غير محفوظة</value></data>
 </root>

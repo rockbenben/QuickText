@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>Xóa</value></data>
   <data name="Manager.Saved"><value>✓ Đã lưu</value></data>
   <data name="Manager.NewSnippetName"><value>Mẫu mới</value></data>
-  <data name="Manager.Filter"><value>Lọc…</value></data>
+  <data name="Manager.Filter"><value>Lọc danh mục hiện tại…</value></data>
   <data name="Manager.Duplicate"><value>Nhân bản</value></data>
   <data name="Manager.Expand"><value>Phóng to</value></data>
   <data name="Manager.LineNumbers"><value>Số dòng</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>Tự khởi động nâng quyền yêu cầu tài khoản quản trị viên cùng chương trình và thư mục được bảo vệ trong Program Files. Khi bật có thể cần xác nhận UAC từ cùng tài khoản. Tác vụ vẫn được lưu trên máy này trong chế độ di động.</value></data>
   <data name="Settings.AutostartFailed"><value>Không thể cập nhật tùy chọn khởi động cùng Windows.</value></data>
   <data name="Msg.OutputFailed"><value>Xuất nội dung thất bại. Hãy thử lại.</value></data>
+  <data name="Common.Clear"><value>Xóa</value></data>
+  <data name="Search.Preview"><value>Mở rộng hoặc thu gọn xem trước (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>Thay đổi chưa lưu</value></data>
 </root>

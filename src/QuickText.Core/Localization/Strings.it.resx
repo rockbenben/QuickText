@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>Rimuovi</value></data>
   <data name="Manager.Saved"><value>✓ Salvato</value></data>
   <data name="Manager.NewSnippetName"><value>Nuovo frammento</value></data>
-  <data name="Manager.Filter"><value>Filtra…</value></data>
+  <data name="Manager.Filter"><value>Filtra la categoria corrente…</value></data>
   <data name="Manager.Duplicate"><value>Duplica</value></data>
   <data name="Manager.Expand"><value>Ingrandisci</value></data>
   <data name="Manager.LineNumbers"><value>Numeri di riga</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>L’avvio con privilegi elevati richiede un account amministratore e un programma e una cartella protetti in Program Files. L’attivazione può richiedere l’approvazione UAC dello stesso account. Anche in modalità portatile, l’attività resta su questo PC.</value></data>
   <data name="Settings.AutostartFailed"><value>Impossibile aggiornare l’impostazione di avvio con Windows.</value></data>
   <data name="Msg.OutputFailed"><value>Output non riuscito. Riprova.</value></data>
+  <data name="Common.Clear"><value>Cancella</value></data>
+  <data name="Search.Preview"><value>Espandi o comprimi l’anteprima (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>Modifiche non salvate</value></data>
 </root>

@@ -101,6 +101,10 @@ Double-cliquez sur **`QuickText.exe`** ; il réside dans la **zone de notificati
 
 ## Espaces réservés (un modèle, de nombreuses situations) · activation par fragment
 
+Dans le gestionnaire, Ctrl+S enregistre et Ctrl+F sélectionne le texte du filtre. Le filtre ne cherche que dans la catégorie actuelle. L’effacer conserve la sélection multiple et le brouillon. L’indication des modifications non enregistrées reste visible jusqu’à leur enregistrement ou leur abandon, même après un échec d’enregistrement.
+
+La liste du gestionnaire affiche la première ligne du texte. Cliquez sur × pour effacer la recherche du panneau ou le filtre du gestionnaire ; effacer le filtre conserve le brouillon en cours. Les listes se partagent la hauteur disponible et les actions d’image passent à la ligne dans les fenêtres étroites.
+
 Les espaces réservés sont un **interrupteur par fragment** : cochez « **Activer les espaces réservés {variable}** » dans l'éditeur du Gestionnaire et les jetons ci-dessous sont résolus à l'envoi ; **laissé décoché (par défaut), le corps est envoyé tel quel** — le code, les scripts et le JSON pleins de `{...}` littéraux ne sont jamais mal interprétés ni source d'invite.
 
 > Mise à niveau : les espaces réservés étaient auparavant toujours actifs. Le premier lancement après la mise à niveau coche automatiquement l'interrupteur pour les **fragments existants** dont le corps contient `{...}`, de sorte que rien ne change dans le comportement ; décochez-le dans le Gestionnaire pour ceux qui sont réellement du code.
@@ -133,6 +137,8 @@ Détails : la correspondance est **insensible à la casse** (`;SIG` se déclench
 > **À propos du préfixe :** le préfixe (par défaut `;`) empêche la frappe ordinaire / le pinyin de déclencher par erreur une abréviation nue. Modifiez-le sous **Réglages → Abréviations → Préfixe de déclenchement** (en `,`, `:`, …) ou **laissez-le vide**. Une abréviation préfixée est autodélimitée et se déclenche même collée au texte précédent (par ex. `thx;sig`) ; sans préfixe, elle ne se déclenche qu'en tant que mot à part entière (jamais comme la fin d'un mot plus long comme `graf`). Vous pouvez aussi désactiver les abréviations par application (une liste noire, par ex. `cmd.exe; putty.exe`) ou les désactiver complètement.
 
 ## Sortie et réglages courants (Zone de notification → Réglages)
+
+Choisissez une catégorie dans la barre latérale. Les modifications non enregistrées sont conservées quand vous changez de catégorie. La fenêtre est redimensionnable ; sur un écran bas, le contenu défile et Enregistrer reste visible. Utilisez les flèches dans la barre latérale ou Ctrl+Tab pour changer de catégorie.
 
 > La copie seule dans le presse-papiers s’applique aussi aux abréviations. Changer de fenêtre pendant la sortie annule les frappes en attente. Le démarrage élevé nécessite un compte administrateur et un programme et dossier protégés sous Program Files. Une autorisation UAC du même compte peut être demandée. Même en mode portable, la tâche reste sur ce PC.
 

@@ -101,6 +101,10 @@ Haz doble clic en **`QuickText.exe`**; vive en la **bandeja del sistema** (sin b
 
 ## Marcadores de posición (una plantilla, muchas situaciones) · opcional por fragmento
 
+En el gestor, Ctrl+S guarda y Ctrl+F selecciona el texto del filtro. El filtro solo busca en la categoría actual. Borrarlo conserva la selección múltiple y el borrador. El aviso de cambios sin guardar permanece hasta guardar o descartar, incluso si falla el guardado.
+
+La lista del gestor muestra la primera línea del texto. Usa × para borrar la búsqueda del panel o el filtro del gestor; borrar el filtro conserva el borrador actual. Las listas comparten la altura disponible y los botones de imagen se ajustan a varias líneas en ventanas estrechas.
+
 Los marcadores de posición son un **interruptor por fragmento**: marca "**Activar marcadores {variable}**" en el editor del Gestor y los tokens de abajo se resuelven al enviar; **sin marcar (por defecto), el cuerpo se envía literalmente** —el código, los scripts y el JSON llenos de `{...}` literales nunca se interpretan mal ni piden datos.
 
 > Al actualizar: los marcadores solían estar siempre activos. El primer arranque tras actualizar marca automáticamente el interruptor de los **fragmentos existentes** cuyo cuerpo contiene `{...}`, para que nada cambie de comportamiento; desmárcalo en el Gestor para los que en realidad son código.
@@ -133,6 +137,8 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 > **Sobre el prefijo:** el prefijo (por defecto `;`) evita que la escritura normal / el pinyin activen por error una abreviatura desnuda. Cámbialo en **Ajustes → Abreviaturas → Prefijo de activación** (a `,`, `:`, …) o **déjalo vacío**. Una abreviatura con prefijo se autodelimita y se activa incluso pegada al texto anterior (p. ej. `thx;sig`); sin prefijo, solo se activa como palabra propia (nunca como el final de una más larga como `graf`). También puedes desactivar las abreviaturas por aplicación (una lista negra, p. ej. `cmd.exe; putty.exe`) o desactivarlas por completo.
 
 ## Salida y ajustes comunes (Bandeja → Ajustes)
+
+Elige una categoría en la barra lateral. Los cambios sin guardar se conservan al cambiar de categoría. Puedes redimensionar la ventana; en pantallas bajas el contenido se desplaza y Guardar sigue visible. Usa las flechas en la barra lateral o Ctrl+Tab para cambiar de categoría.
 
 > Copiar solo al portapapeles también se aplica a las abreviaturas. Cambiar de ventana durante la salida cancela las pulsaciones pendientes. El inicio elevado requiere una cuenta de administrador y un programa y carpeta protegidos en Program Files. Al activarlo puede solicitarse aprobación UAC de la misma cuenta. La tarea permanece en este equipo incluso en modo portátil.
 

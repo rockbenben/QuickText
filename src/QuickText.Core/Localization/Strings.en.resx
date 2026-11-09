@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>Remove</value></data>
   <data name="Manager.Saved"><value>✓ Saved</value></data>
   <data name="Manager.NewSnippetName"><value>New snippet</value></data>
-  <data name="Manager.Filter"><value>Filter…</value></data>
+  <data name="Manager.Filter"><value>Filter current category…</value></data>
   <data name="Manager.Duplicate"><value>Duplicate</value></data>
   <data name="Manager.Expand"><value>Enlarge</value></data>
   <data name="Manager.LineNumbers"><value>Line numbers</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>Elevated autostart requires an administrator account and a protected program and folder under Program Files. Enabling it may ask for UAC approval from the same account. A portable copy still creates a task on this machine.</value></data>
   <data name="Settings.AutostartFailed"><value>Could not update the Start with Windows setting.</value></data>
   <data name="Msg.OutputFailed"><value>Output failed. Please try again.</value></data>
+  <data name="Common.Clear"><value>Clear</value></data>
+  <data name="Search.Preview"><value>Expand or collapse preview (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>Unsaved changes</value></data>
 </root>

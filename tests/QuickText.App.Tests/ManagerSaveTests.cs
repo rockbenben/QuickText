@@ -61,6 +61,8 @@ public class ManagerSaveTests
                     CheckImage(root, action);
                 CheckLibraryChanges(root);
                 CheckLayout(root);
+                CheckSettingsLayout();
+                CheckMainAndManagerLayout(root);
                 CheckMove(root, lockDestination: true);
                 CheckMove(root, lockDestination: false);
                 CheckTrashDuringCapture(root);
@@ -432,6 +434,202 @@ public class ManagerSaveTests
         var savedUsage = new UsageStore(AppPaths.MachineStateDir);
         Assert.Equal(1, savedUsage.CountOf("pending"));
         Assert.True(savedUsage.IsFavorite("pending"));
+    }
+
+    private static void InvokeButton(Button button, string expectedName)
+    {
+        var peer = System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(button);
+        Assert.Equal(expectedName, peer.GetName());
+        ((System.Windows.Automation.Provider.IInvokeProvider)peer.GetPattern(
+            System.Windows.Automation.Peers.PatternInterface.Invoke)!).Invoke();
+        // WPF queues Invoke at Input priority; a timed Normal-priority callback can run
+        // first under rendering load. Drain the queue instead of racing a delay.
+        button.Dispatcher.Invoke(() => { }, DispatcherPriority.ApplicationIdle);
+        button.UpdateLayout();
+    }
+
+    private static void CheckMainAndManagerLayout(string root)
+    {
+        var loc = Core.Localization.LocalizationService.Instance;
+        var state = AppState.Current;
+        state.StopWatching();
+        state.Settings.DataFolder = Path.Combine(root, "workspace-layout");
+        var store = new Store(state.Settings.DataFolder);
+        for (int i = 0; i < 12; i++)
+            store.SaveCategory(new Category { Name = $"Category {i:00}", Snippets = new(
+                Enumerable.Range(0, 30).Select(n => new Snippet { Name = $"Entry {n}", Body = "body preview" })) });
+        state.ReloadData();
+        var flags = BindingFlags.Instance | BindingFlags.NonPublic;
+        typeof(App).GetProperty("InSmoke", BindingFlags.Static | BindingFlags.NonPublic)!.SetValue(null, true);
+        try
+        {
+            foreach (var language in new[] { "en", "de", "ar" })
+            {
+                loc.SetCulture(language);
+                var manager = new ManagerWindow { Width = 680, ShowActivated = false, ShowInTaskbar = false };
+                manager.SourceInitialized += (_, _) => { manager.Left = -32000; manager.Top = -32000; manager.MaxHeight = 464; };
+                manager.Show();
+                manager.UpdateLayout();
+                Assert.True(((ListBox)manager.FindName("Categories")).ActualHeight >= 40);
+                var snippets = (ListBox)manager.FindName("Snippets");
+                Assert.True(snippets.ActualHeight >= 60);
+                var filter = (TextBox)manager.FindName("FilterBox");
+                filter.Text = "Entry 1";
+                typeof(ManagerWindow).GetMethod("ApplyFilter", flags)!.Invoke(manager, null);
+                Assert.True(snippets.Items.Count < 30);
+                snippets.SelectedItems.Add(snippets.Items[1]);
+                var selectedIds = snippets.SelectedItems.Cast<Snippet>().Select(x => x.Id).Order().ToArray();
+                Assert.Equal(2, selectedIds.Length);
+                var filterPeer = System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(filter);
+                Assert.Equal(loc["Manager.Filter"], filterPeer.GetName());
+                var name = (TextBox)manager.FindName("SnippetName");
+                var originalName = name.Text;
+                var status = (TextBlock)manager.FindName("UnsavedHint");
+                Assert.Equal(Visibility.Collapsed, status.Visibility);
+                name.Text = "unsaved editor draft";
+                Assert.True(status.IsVisible);
+                Assert.Equal(loc["Manager.Unsaved"],
+                    System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(status).GetName());
+                InvokeButton((Button)manager.FindName("ClearFilterButton"), loc["Common.Clear"]);
+                Assert.Equal("", filter.Text);
+                Assert.Equal(30, snippets.Items.Count);
+                Assert.Equal("unsaved editor draft", name.Text);
+                Assert.Equal(selectedIds, snippets.SelectedItems.Cast<Snippet>().Select(x => x.Id).Order().ToArray());
+                Assert.True(status.IsVisible);
+                name.Text = originalName;
+                Assert.Equal(Visibility.Collapsed, status.Visibility);
+                var body = (BodyEditor)manager.FindName("Body");
+                var savedBody = body.Text;
+                body.Text += " edited";
+                Assert.True(status.IsVisible);
+                body.Text = savedBody;
+                Assert.Equal(Visibility.Collapsed, status.Visibility);
+                var variables = (CheckBox)manager.FindName("UseVars");
+                var savedVariables = variables.IsChecked;
+                variables.IsChecked = savedVariables != true;
+                Assert.True(status.IsVisible);
+                variables.IsChecked = savedVariables;
+                Assert.Equal(Visibility.Collapsed, status.Visibility);
+                var output = (ComboBox)manager.FindName("OutputMode");
+                int savedOutput = output.SelectedIndex;
+                output.SelectedIndex = (savedOutput + 1) % output.Items.Count;
+                Assert.True(status.IsVisible);
+                output.SelectedIndex = savedOutput;
+                Assert.Equal(Visibility.Collapsed, status.Visibility);
+
+                filter.Text = "Entry";
+                Assert.True(System.Windows.Input.ApplicationCommands.Find.CanExecute(null, name));
+                System.Windows.Input.ApplicationCommands.Find.Execute(null, name);
+                Assert.Equal(filter.Text.Length, filter.SelectionLength);
+                Assert.Contains(System.Windows.Input.ApplicationCommands.Find.InputGestures.Cast<System.Windows.Input.InputGesture>(),
+                    x => x is System.Windows.Input.KeyGesture k && k.Key == System.Windows.Input.Key.F
+                        && k.Modifiers == System.Windows.Input.ModifierKeys.Control);
+                Assert.Contains(System.Windows.Input.ApplicationCommands.Save.InputGestures.Cast<System.Windows.Input.InputGesture>(),
+                    x => x is System.Windows.Input.KeyGesture k && k.Key == System.Windows.Input.Key.S
+                        && k.Modifiers == System.Windows.Input.ModifierKeys.Control);
+                var editingId = ((Snippet)snippets.SelectedItem).Id;
+                name.Text = "saved using Ctrl+S " + language;
+                Assert.True(System.Windows.Input.ApplicationCommands.Save.CanExecute(null, name));
+                if (language == "en")
+                {
+                    var category = (Category)((ListBox)manager.FindName("Categories")).SelectedItem;
+                    using (var locked = new FileStream(Path.Combine(store.Root, category.Name + ".json"), FileMode.Open, FileAccess.Read, FileShare.None))
+                    using (var answers = new DialogAnswers("OkButton"))
+                        System.Windows.Input.ApplicationCommands.Save.Execute(null, name);
+                    Assert.True(status.IsVisible);
+                }
+                System.Windows.Input.ApplicationCommands.Save.Execute(null, name);
+                Assert.Equal(Visibility.Collapsed, status.Visibility);
+                Assert.Equal("saved using Ctrl+S " + language,
+                    new Store(store.Root).LoadAll().SelectMany(c => c.Snippets).Single(x => x.Id == editingId).Name);
+                manager.Close();
+
+                var panel = new SearchPanel { Width = 480, ShowActivated = false, ShowInTaskbar = false };
+                panel.Left = -32000; panel.Top = -32000;
+                // Foreground events from the user's desktop must not hide the off-screen probe.
+                panel.ShotsPin();
+                panel.Show();
+                panel.ShotsFill("body");
+                panel.UpdateLayout();
+                var query = (TextBox)panel.FindName("Query");
+                InvokeButton((Button)panel.FindName("ClearQueryButton"), loc["Common.Clear"]);
+                Assert.Equal("", query.Text);
+                Assert.True(((FrameworkElement)panel.FindName("BrowseView")).IsVisible);
+                panel.ShotsFill("body");
+                ((DispatcherTimer)typeof(SearchPanel).GetField("_debounce", flags)!.GetValue(panel)!).Stop();
+                panel.ShotsPreviewLong();
+                panel.UpdateLayout();
+                var previewButton = (Button)panel.FindName("PreviewHeader");
+                InvokeButton(previewButton, loc["Search.Preview"]);
+                Assert.True(((ScrollViewer)panel.FindName("PreviewScroll")).IsVisible);
+                InvokeButton(previewButton, loc["Search.Preview"]);
+                Assert.False(((ScrollViewer)panel.FindName("PreviewScroll")).IsVisible);
+                panel.Close();
+            }
+        }
+        finally
+        {
+            typeof(App).GetProperty("InSmoke", BindingFlags.Static | BindingFlags.NonPublic)!.SetValue(null, false);
+            loc.SetCulture("en");
+        }
+    }
+
+    private static void CheckSettingsLayout()
+    {
+        var loc = Core.Localization.LocalizationService.Instance;
+        foreach (var language in new[] { "zh-Hans", "en", "de", "ru", "ar" })
+        {
+            loc.SetCulture(language);
+            var window = new SettingsWindow { Width = 720, ShowActivated = false, ShowInTaskbar = false };
+            window.SourceInitialized += (_, _) =>
+            {
+                window.Left = -32000;
+                window.Top = -32000;
+                window.MaxHeight = 464;
+            };
+            window.Show();
+            var tabs = (TabControl)window.FindName("SettingsTabs");
+            var folder = (TextBox)window.FindName("DataFolder");
+            var original = folder.Text;
+            folder.Text = "unsaved folder";
+            var tabsPeer = System.Windows.Automation.Peers.UIElementAutomationPeer.CreatePeerForElement(tabs);
+            var tabPeers = tabsPeer.GetChildren();
+            Assert.Equal(tabs.Items.Count, tabPeers.Count);
+            foreach (TabItem tab in tabs.Items)
+            {
+                // Exercise the same selection provider used by assistive technology.
+                var peer = tabPeers[tabs.Items.IndexOf(tab)];
+                Assert.Equal(tab.Header, peer.GetName());
+                var selection = (System.Windows.Automation.Provider.ISelectionItemProvider)peer.GetPattern(
+                    System.Windows.Automation.Peers.PatternInterface.SelectionItem)!;
+                selection.Select();
+                window.UpdateLayout();
+                Assert.True(selection.IsSelected);
+                Assert.True(((FrameworkElement)tab.Content).IsVisible);
+                var scroller = (ScrollViewer)tab.Content;
+                Assert.True(scroller.ActualHeight > 0);
+                scroller.ScrollToBottom();
+                window.UpdateLayout();
+                Assert.True(scroller.ScrollableHeight <= 0 || scroller.VerticalOffset > 0);
+                var tabBorder = (Border)tab.Template.FindName("TabBorder", tab);
+                Assert.True(tabBorder.ActualHeight <= tab.ActualHeight);
+                Assert.True(GetWindowRect(new System.Windows.Interop.WindowInteropHelper(window).Handle, out var tabBounds));
+                var tabBottom = tab.PointToScreen(new Point(0, tab.ActualHeight));
+                Assert.True(tabBottom.Y < tabBounds.Bottom);
+                var save = (Button)window.FindName("SaveButton");
+                Assert.True(GetWindowRect(new System.Windows.Interop.WindowInteropHelper(window).Handle, out var bounds));
+                var bottom = save.PointToScreen(new Point(0, save.ActualHeight));
+                var dpi = System.Windows.Media.VisualTreeHelper.GetDpi(window).DpiScaleY;
+                Assert.InRange((bottom.Y - bounds.Top) / dpi, 1, 464);
+                Assert.Equal("unsaved folder", folder.Text);
+            }
+            tabs.SelectedIndex = 0;
+            window.UpdateLayout();
+            Assert.False(((FrameworkElement)((TabItem)tabs.Items[4]).Content).IsVisible);
+            folder.Text = original;
+            window.Close();
+        }
+        loc.SetCulture("en");
     }
 
     private static void CheckLayout(string root)

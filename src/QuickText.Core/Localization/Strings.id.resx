@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>Hapus</value></data>
   <data name="Manager.Saved"><value>✓ Tersimpan</value></data>
   <data name="Manager.NewSnippetName"><value>Snippet baru</value></data>
-  <data name="Manager.Filter"><value>Saring…</value></data>
+  <data name="Manager.Filter"><value>Filter kategori saat ini…</value></data>
   <data name="Manager.Duplicate"><value>Gandakan</value></data>
   <data name="Manager.Expand"><value>Perbesar</value></data>
   <data name="Manager.LineNumbers"><value>Nomor baris</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>Mulai otomatis dengan hak tinggi memerlukan akun administrator serta program dan folder terlindungi di Program Files. Saat diaktifkan, persetujuan UAC dari akun yang sama mungkin diperlukan. Tugas tetap disimpan di komputer ini dalam mode portabel.</value></data>
   <data name="Settings.AutostartFailed"><value>Tidak dapat memperbarui pengaturan mulai bersama Windows.</value></data>
   <data name="Msg.OutputFailed"><value>Keluaran gagal. Coba lagi.</value></data>
+  <data name="Common.Clear"><value>Hapus</value></data>
+  <data name="Search.Preview"><value>Perluas atau ciutkan pratinjau (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>Perubahan belum disimpan</value></data>
 </root>

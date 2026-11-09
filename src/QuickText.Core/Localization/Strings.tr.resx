@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>Kaldır</value></data>
   <data name="Manager.Saved"><value>✓ Kaydedildi</value></data>
   <data name="Manager.NewSnippetName"><value>Yeni metin</value></data>
-  <data name="Manager.Filter"><value>Süz…</value></data>
+  <data name="Manager.Filter"><value>Geçerli kategoriyi filtrele…</value></data>
   <data name="Manager.Duplicate"><value>Çoğalt</value></data>
   <data name="Manager.Expand"><value>Büyüt</value></data>
   <data name="Manager.LineNumbers"><value>Satır numaraları</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>Yükseltilmiş otomatik başlangıç, yönetici hesabı ve Program Files altında korunan program ve klasör gerektirir. Etkinleştirme sırasında aynı hesaptan UAC onayı istenebilir. Taşınabilir modda da görev bu bilgisayarda kalır.</value></data>
   <data name="Settings.AutostartFailed"><value>Windows ile başlatma ayarı güncelleştirilemedi.</value></data>
   <data name="Msg.OutputFailed"><value>Çıktı başarısız oldu. Yeniden deneyin.</value></data>
+  <data name="Common.Clear"><value>Temizle</value></data>
+  <data name="Search.Preview"><value>Önizlemeyi genişlet veya daralt (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>Kaydedilmemiş değişiklikler</value></data>
 </root>

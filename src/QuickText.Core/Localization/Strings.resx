@@ -165,7 +165,7 @@
   <data name="Manager.RemoveImage"><value>移除</value></data>
   <data name="Manager.Saved"><value>✓ 已保存</value></data>
   <data name="Manager.NewSnippetName"><value>新文本</value></data>
-  <data name="Manager.Filter"><value>筛选…</value></data>
+  <data name="Manager.Filter"><value>筛选当前分类…</value></data>
   <data name="Manager.Duplicate"><value>复制一份</value></data>
   <data name="Manager.Expand"><value>放大编辑</value></data>
   <data name="Manager.LineNumbers"><value>行号</value></data>
@@ -287,4 +287,7 @@
   <data name="Settings.AutostartElevatedHint"><value>提权自启需要管理员账户，以及位于 Program Files 中且普通用户无法修改的程序和目录。开启时可能需要一次同一账户的 UAC 授权。便携模式的计划任务仍保存在本机。</value></data>
   <data name="Settings.AutostartFailed"><value>未能更新开机自启设置。</value></data>
   <data name="Msg.OutputFailed"><value>输出失败，请稍后重试。</value></data>
+  <data name="Common.Clear"><value>清空</value></data>
+  <data name="Search.Preview"><value>展开或收起预览（Ctrl+Space）</value></data>
+  <data name="Manager.Unsaved"><value>未保存</value></data>
 </root>

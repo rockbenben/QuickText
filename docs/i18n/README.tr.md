@@ -101,6 +101,10 @@ Kısaltmalar ve değişkenlerle ilgili tüm ayrıntılar aşağıdaki **Ayrınt�
 
 ## Yer tutucular (tek şablon, birçok durum) · snippet başına isteğe bağlı
 
+Yöneticide Ctrl+S kaydeder, Ctrl+F filtre metnini seçer. Filtre yalnızca geçerli kategoride arar; temizlemek çoklu seçimi ve taslağı korur. Kaydedilmemiş değişiklik göstergesi, kaydetme başarısız olsa bile değişiklikler kaydedilene veya atılana kadar görünür kalır.
+
+Yönetici listesi metnin ilk satırını gösterir. Panel aramasını veya yönetici filtresini temizlemek için × kullanın; filtreyi temizlemek mevcut taslağı korur. Kategori ve metin listeleri kullanılabilir yüksekliği paylaşır, dar pencerelerde resim düğmeleri alt satıra geçer.
+
 Yer tutucular **snippet başına bir anahtardır**: Yönetici editöründe "**{variable} yer tutucularını etkinleştir**" seçeneğini işaretleyin; aşağıdaki tokenlar gönderimde çözümlenir; **işaretlenmediğinde (varsayılan), gövde olduğu gibi gönderilir** — düz `{...}` dolu kod, script ve JSON asla yanlış ayrıştırılmaz veya sorulmaz.
 
 > Yükseltme: yer tutucular eskiden her zaman açıktı. Yükseltmeden sonraki ilk başlatma, gövdesinde `{...}` bulunan **mevcut snippet'ler** için anahtarı otomatik olarak işaretler, böylece davranış değişmez; gerçekten kod olanlar için Yönetici'de işareti kaldırın.
@@ -133,6 +137,8 @@ Ayrıntılar: eşleştirme **büyük/küçük harfe duyarlı değildir** (`;SIG`
 > **Önek hakkında:** önek (varsayılan `;`), sıradan yazmanın / pinyin'in çıplak bir kısaltmayı yanlışlıkla tetiklemesini engeller. **Ayarlar → Kısaltmalar → Tetikleme öneki** altında değiştirin (`,`, `:`, … olarak) veya **boş bırakın**. Önekli bir kısaltma kendi kendini sınırlar ve önündeki metne yapışık olsa bile tetiklenir (örneğin `thx;sig`); önek olmadan yalnızca kendi kelimesi olarak tetiklenir (asla `graf` gibi daha uzun bir kelimenin kuyruğu olarak değil). Kısaltmaları uygulama başına da devre dışı bırakabilir (bir kara liste, örneğin `cmd.exe; putty.exe`) veya tamamen kapatabilirsiniz.
 
 ## Çıktı ve genel ayarlar (Tepsi → Ayarlar)
+
+Kenar çubuğundan bir kategori seçin. Kategori değiştirirken kaydedilmemiş değişiklikler korunur. Pencere yeniden boyutlandırılabilir; kısa ekranlarda içerik kayar ve Kaydet görünür kalır. Kategori değiştirmek için kenar çubuğundaki ok tuşlarını veya Ctrl+Tab kullanın.
 
 > Yalnızca panoya kopyalama kısaltmalar için de geçerlidir. Çıktı sırasında pencere değiştirmek bekleyen tuşları iptal eder. Yükseltilmiş otomatik başlangıç, yönetici hesabı ve Program Files altında korunan program ve klasör gerektirir. Etkinleştirme sırasında aynı hesaptan UAC onayı istenebilir. Taşınabilir modda da görev bu bilgisayarda kalır.
 

@@ -101,6 +101,10 @@ Doppelklicke **`QuickText.exe`**; es lebt im **System-Infobereich** (keine Taskl
 
 ## Platzhalter (eine Vorlage, viele Situationen) · pro Snippet aktivierbar
 
+Im Manager speichert Ctrl+S; Ctrl+F markiert den Filtertext. Der Filter durchsucht nur die aktuelle Kategorie. Beim Leeren bleiben Mehrfachauswahl und Entwurf erhalten. Der Hinweis auf ungespeicherte Änderungen bleibt bis zum Speichern oder Verwerfen sichtbar, auch nach einem fehlgeschlagenen Speichern.
+
+Die Snippet-Liste im Manager zeigt die erste Textzeile. Mit × leerst du die Panelsuche oder den Manager-Filter; beim Leeren des Filters bleibt der aktuelle Entwurf erhalten. Kategorien und Snippets teilen sich die verfügbare Höhe, Bildaktionen werden in schmalen Fenstern umgebrochen.
+
 Platzhalter sind ein **Schalter pro Snippet**: Setze im Manager-Editor den Haken bei „**{variable}-Platzhalter aktivieren**“, und die Tokens unten werden beim Senden aufgelöst; **bleibt der Haken deaktiviert (der Standard), wird der Text wortwörtlich gesendet** — Code, Skripte und JSON voller wörtlicher `{...}` werden nie falsch interpretiert oder abgefragt.
 
 > Beim Upgrade: Platzhalter waren früher immer aktiv. Der erste Start nach dem Upgrade setzt den Haken automatisch für **vorhandene Snippets**, deren Text `{...}` enthält, sodass sich am Verhalten nichts ändert; entferne den Haken im Manager für die, die tatsächlich Code sind.
@@ -133,6 +137,8 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 > **Zum Präfix:** Das Präfix (Standard `;`) verhindert, dass normales Tippen / Pinyin ein bloßes Kürzel fälschlich auslöst. Ändere es unter **Einstellungen → Kürzel → Auslöse-Präfix** (auf `,`, `:`, …) oder **lass es leer**. Ein Kürzel mit Präfix begrenzt sich selbst und löst auch dann aus, wenn es direkt am vorangehenden Text klebt (z. B. `thx;sig`); ohne Präfix löst es nur als eigenständiges Wort aus (nie als Ende eines längeren wie `graf`). Du kannst Kürzel auch pro App deaktivieren (eine Sperrliste, z. B. `cmd.exe; putty.exe`) oder ganz ausschalten.
 
 ## Ausgabe & gängige Einstellungen (Infobereich → Einstellungen)
+
+Wähle eine Kategorie in der Seitenleiste. Nicht gespeicherte Änderungen bleiben beim Wechsel erhalten. Das Fenster lässt sich vergrößern und verkleinern; auf niedrigen Bildschirmen scrollt der Inhalt, während Speichern sichtbar bleibt. Mit den Pfeiltasten in der Seitenleiste oder Ctrl+Tab wechselst du die Kategorie.
 
 > Nur in die Zwischenablage kopieren gilt auch für Kürzel. Ein Fensterwechsel während der Ausgabe bricht ausstehende Tasteneingaben ab. Der erhöhte Autostart erfordert ein Administratorkonto sowie ein geschütztes Programm und Verzeichnis unter Program Files. Beim Aktivieren kann eine UAC-Bestätigung desselben Kontos nötig sein. Auch im portablen Modus bleibt die Aufgabe auf diesem PC.
 

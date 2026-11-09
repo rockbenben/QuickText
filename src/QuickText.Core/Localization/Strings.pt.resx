@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>Remover</value></data>
   <data name="Manager.Saved"><value>✓ Guardado</value></data>
   <data name="Manager.NewSnippetName"><value>Novo excerto</value></data>
-  <data name="Manager.Filter"><value>Filtrar…</value></data>
+  <data name="Manager.Filter"><value>Filtrar categoria atual…</value></data>
   <data name="Manager.Duplicate"><value>Duplicar</value></data>
   <data name="Manager.Expand"><value>Ampliar</value></data>
   <data name="Manager.LineNumbers"><value>Números de linha</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>A inicialização elevada exige uma conta de administrador e um programa e pasta protegidos em Program Files. Ao ativar, pode ser necessária aprovação UAC da mesma conta. A tarefa permanece neste computador mesmo no modo portátil.</value></data>
   <data name="Settings.AutostartFailed"><value>Não foi possível atualizar a definição de iniciar com o Windows.</value></data>
   <data name="Msg.OutputFailed"><value>Falha na saída. Tente novamente.</value></data>
+  <data name="Common.Clear"><value>Limpar</value></data>
+  <data name="Search.Preview"><value>Expandir ou recolher a prévia (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>Alterações não salvas</value></data>
 </root>

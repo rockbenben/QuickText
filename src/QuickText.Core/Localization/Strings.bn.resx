@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>সরান</value></data>
   <data name="Manager.Saved"><value>✓ সংরক্ষিত</value></data>
   <data name="Manager.NewSnippetName"><value>নতুন স্নিপেট</value></data>
-  <data name="Manager.Filter"><value>ফিল্টার…</value></data>
+  <data name="Manager.Filter"><value>বর্তমান বিভাগ ফিল্টার করুন…</value></data>
   <data name="Manager.Duplicate"><value>নকল করুন</value></data>
   <data name="Manager.Expand"><value>বড় করুন</value></data>
   <data name="Manager.LineNumbers"><value>লাইন নম্বর</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>উন্নত অধিকারে স্বয়ংক্রিয় শুরুর জন্য প্রশাসক অ্যাকাউন্ট এবং Program Files-এ সুরক্ষিত প্রোগ্রাম ও ফোল্ডার প্রয়োজন। চালু করার সময় একই অ্যাকাউন্টের UAC অনুমোদন লাগতে পারে। পোর্টেবল মোডেও কাজটি এই কম্পিউটারে থাকে।</value></data>
   <data name="Settings.AutostartFailed"><value>"Windows-এর সাথে চালু" সেটিংস হালনাগাদ করা যায়নি।</value></data>
   <data name="Msg.OutputFailed"><value>আউটপুট ব্যর্থ হয়েছে। আবার চেষ্টা করুন।</value></data>
+  <data name="Common.Clear"><value>মুছুন</value></data>
+  <data name="Search.Preview"><value>পূর্বরূপ প্রসারিত বা সংকুচিত করুন (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>সংরক্ষণ না করা পরিবর্তন</value></data>
 </root>

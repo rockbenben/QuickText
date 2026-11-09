@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>ลบออก</value></data>
   <data name="Manager.Saved"><value>✓ บันทึกแล้ว</value></data>
   <data name="Manager.NewSnippetName"><value>ข้อความใหม่</value></data>
-  <data name="Manager.Filter"><value>กรอง…</value></data>
+  <data name="Manager.Filter"><value>กรองหมวดหมู่ปัจจุบัน…</value></data>
   <data name="Manager.Duplicate"><value>ทำสำเนา</value></data>
   <data name="Manager.Expand"><value>ขยายแก้ไข</value></data>
   <data name="Manager.LineNumbers"><value>เลขบรรทัด</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>การเริ่มอัตโนมัติด้วยสิทธิ์สูงต้องใช้บัญชีผู้ดูแลระบบและโปรแกรมกับโฟลเดอร์ที่ได้รับการป้องกันใน Program Files การเปิดใช้อาจต้องยืนยัน UAC ด้วยบัญชีเดียวกัน แม้ในโหมดพกพา งานยังคงอยู่บนเครื่องนี้</value></data>
   <data name="Settings.AutostartFailed"><value>ไม่สามารถอัปเดตการตั้งค่าเปิดพร้อม Windows ได้</value></data>
   <data name="Msg.OutputFailed"><value>ส่งออกเนื้อหาไม่สำเร็จ โปรดลองอีกครั้ง</value></data>
+  <data name="Common.Clear"><value>ล้าง</value></data>
+  <data name="Search.Preview"><value>ขยายหรือย่อการแสดงตัวอย่าง (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>การเปลี่ยนแปลงที่ยังไม่ได้บันทึก</value></data>
 </root>

@@ -169,6 +169,9 @@ public partial class SettingsWindow : Window
     protected override void OnSourceInitialized(System.EventArgs e)
     {
         base.OnSourceInitialized(e);
+        // Show can coerce the preferred height against the conservative XAML fallback before
+        // the monitor cap is known. Restore it after the shared placement handler sets that cap.
+        if (!App.InSmoke) Height = Math.Min(620, MaxHeight);
         // Sizing/placement (cap to the work area so the docked Save button stays on-screen; the
         // card area scrolls instead) is handled by WindowTheming.PlaceOnActiveMonitor.
         (Application.Current as App)?.SuspendSummonTriggers();
@@ -200,8 +203,7 @@ public partial class SettingsWindow : Window
     }
 
     /// <summary>Applied on click, not on Save: a theme is judged by looking at it, and every window
-    /// repaints live. Save still persists it; closing without saving leaves the preview in place
-    /// until the next launch, which is the honest trade for being able to see the choice.</summary>
+    /// repaints live. Save persists it; discarding changes restores the saved theme.</summary>
     private void OnThemeChecked(object sender, RoutedEventArgs e)
     {
         if (sender is not RadioButton rb) return;
@@ -250,8 +252,18 @@ public partial class SettingsWindow : Window
     /// <summary>--shots only: keyboard focus lands where Tab would leave it, so the focus visual
     /// (or its absence) is on film — the one interaction state no static shot used to show.</summary>
     internal void ShotsFocusSave() => Keyboard.Focus(SaveButton);
-    internal void ShotsFocusChip() => Keyboard.Focus((System.Windows.Controls.RadioButton)OutputPanel.Children[0]);
-    internal void ShotsFocusBox() => Keyboard.Focus(DataFolder);   // witness: this template DOES react to focus
+    internal void ShotsFocusChip()
+    {
+        OutputTab.IsSelected = true;
+        UpdateLayout();
+        Keyboard.Focus((RadioButton)OutputPanel.Children[0]);
+    }
+    internal void ShotsFocusBox()
+    {
+        DataTab.IsSelected = true;
+        UpdateLayout();
+        Keyboard.Focus(DataFolder);
+    }
 
     /// <summary>--shots only: switch 呼出方式 to combo mode. The machine defaults to tap, so
     /// without this the combo panel — and its hint promising Ctrl/Alt/Shift/Win — is rendered by
@@ -264,6 +276,8 @@ public partial class SettingsWindow : Window
     /// show the enabled row at all.</summary>
     internal void ShotsElevatedAutostart()
     {
+        GeneralTab.IsSelected = true;
+        UpdateLayout();
         Autostart.IsChecked = true;      // reveals the sub-row and its hint, and enables both
         AutostartElevated.IsChecked = true;
         // The group is the last thing in the body, so in the longer languages it falls below the
@@ -271,6 +285,12 @@ public partial class SettingsWindow : Window
         // filmed in the machine's language only. Scrolling to the hint leaves the checkbox above
         // it on screen as well.
         AutostartElevatedHint.BringIntoView();
+    }
+
+    internal void ShotsSection(int index)
+    {
+        SettingsTabs.SelectedIndex = index;
+        UpdateLayout();
     }
 
     private void OnCaptureBoxClick(object sender, MouseButtonEventArgs e)

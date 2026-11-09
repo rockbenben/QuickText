@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>Retirer</value></data>
   <data name="Manager.Saved"><value>✓ Enregistré</value></data>
   <data name="Manager.NewSnippetName"><value>Nouvel extrait</value></data>
-  <data name="Manager.Filter"><value>Filtrer…</value></data>
+  <data name="Manager.Filter"><value>Filtrer la catégorie actuelle…</value></data>
   <data name="Manager.Duplicate"><value>Dupliquer</value></data>
   <data name="Manager.Expand"><value>Agrandir</value></data>
   <data name="Manager.LineNumbers"><value>Numéros de ligne</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>Le démarrage élevé nécessite un compte administrateur et un programme et dossier protégés sous Program Files. Une autorisation UAC du même compte peut être demandée. Même en mode portable, la tâche reste sur ce PC.</value></data>
   <data name="Settings.AutostartFailed"><value>Impossible de mettre à jour le paramètre de démarrage avec Windows.</value></data>
   <data name="Msg.OutputFailed"><value>Échec de la sortie. Veuillez réessayer.</value></data>
+  <data name="Common.Clear"><value>Effacer</value></data>
+  <data name="Search.Preview"><value>Développer ou réduire l’aperçu (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>Modifications non enregistrées</value></data>
 </root>

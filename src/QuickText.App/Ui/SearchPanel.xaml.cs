@@ -390,11 +390,19 @@ public partial class SearchPanel : Window
         ApplyListPadding(PreviewPane.Visibility == Visibility.Visible);
     }
 
-    private void OnPreviewToggle(object sender, MouseButtonEventArgs e) => TogglePreview();
+    private void OnClearQuery(object sender, RoutedEventArgs e)
+    {
+        Query.Clear();
+        Query.Focus();
+        _debounce.Stop();
+        Refresh();
+    }
 
-    /// <summary>Ctrl+Space folds/expands the preview strip — the strip is otherwise mouse-only,
-    /// and this panel's keyboard model keeps focus in the search box. Plain Space stays with the
-    /// query text (multi-word searches need it), which is why it's a chord. Split out as a pure
+    private void OnPreviewToggle(object sender, RoutedEventArgs e) => TogglePreview();
+
+    /// <summary>Ctrl+Space folds/expands the preview without moving focus from the search box.
+    /// Plain Space stays with the query text (multi-word searches need it), which is why it is
+    /// a chord. Split out as a pure
     /// decision so the --shots fixture can fire the exact binding the switch guards on.</summary>
     private bool TryTogglePreviewKey(Key key, ModifierKeys mods)
     {
@@ -895,6 +903,13 @@ public partial class SearchPanel : Window
     protected override void OnPreviewKeyDown(KeyEventArgs e)
     {
         var key = e.Key == Key.System ? e.SystemKey : e.Key;
+
+        // Enter belongs to the focused action, rather than sending a snippet behind it.
+        if (key == Key.Enter && Keyboard.FocusedElement is Button)
+        {
+            base.OnPreviewKeyDown(e);
+            return;
+        }
 
         // Alt+1..9 → instantly send the Nth visible snippet.
         if ((Keyboard.Modifiers & ModifierKeys.Alt) != 0 && key >= Key.D1 && key <= Key.D9)

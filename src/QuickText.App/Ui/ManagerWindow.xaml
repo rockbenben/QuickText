@@ -6,10 +6,14 @@
         Title="{Binding [App.Name], Source={x:Static app:LocProxy.Instance}}"
         Height="680" Width="880" MinWidth="680" MinHeight="320"
         Background="{DynamicResource Brush.WinBg}" FontFamily="{StaticResource Font.Ui}">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Save" Executed="OnSaveCommand" CanExecute="CanSaveCommand"/>
+        <CommandBinding Command="ApplicationCommands.Find" Executed="OnFindCommand" CanExecute="CanFindCommand"/>
+    </Window.CommandBindings>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="272"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" MinWidth="240" MaxWidth="320"/>
+            <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
         <!-- sidebar: categories over snippets, one soft panel -->
@@ -18,11 +22,11 @@
             <Grid Margin="14,16,12,14">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*" MaxHeight="176"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="2*"/>
                 </Grid.RowDefinitions>
 
                 <!-- categories -->
@@ -31,9 +35,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ContentControl Grid.Column="0" VerticalAlignment="Center" Margin="4,0,0,0"
-                                    Style="{StaticResource SetHeader}"
-                                    Content="{Binding [Manager.Categories], Source={x:Static app:LocProxy.Instance}}"/>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="4,0,8,0"
+                               FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap"
+                               Foreground="{DynamicResource Brush.TextPrimary}"
+                               Text="{Binding [Manager.Categories], Source={x:Static app:LocProxy.Instance}}"/>
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Button x:Name="AddCategoryButton" Style="{StaticResource GhostIconButton}" Content="&#xE710;" Click="OnAddCategory"
                                 AutomationProperties.Name="{Binding [Manager.NewCategory], Source={x:Static app:LocProxy.Instance}}"
@@ -74,9 +79,10 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <ContentControl Grid.Column="0" VerticalAlignment="Center" Margin="4,0,0,0"
-                                    Style="{StaticResource SetHeader}"
-                                    Content="{Binding [Manager.Snippets], Source={x:Static app:LocProxy.Instance}}"/>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" Margin="4,0,8,0"
+                               FontSize="14" FontWeight="SemiBold" TextWrapping="Wrap"
+                               Foreground="{DynamicResource Brush.TextPrimary}"
+                               Text="{Binding [Manager.Snippets], Source={x:Static app:LocProxy.Instance}}"/>
                     <StackPanel Grid.Column="1" Orientation="Horizontal">
                         <Button Style="{StaticResource GhostIconButton}" Content="&#xE710;" Click="OnAddSnippet"
                                 AutomationProperties.Name="{Binding [Manager.AddSnippet], Source={x:Static app:LocProxy.Instance}}"
@@ -90,11 +96,16 @@
                     </StackPanel>
                 </Grid>
                 <Grid Grid.Row="4" Margin="0,8,0,0">
-                    <TextBox x:Name="FilterBox" Style="{StaticResource DarkTextBox}" FontSize="12.5" Padding="8,5"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="FilterBox" AutomationProperties.AcceleratorKey="Ctrl+F"
+                             ToolTip="{Binding [Manager.Filter], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource DarkTextBox}" FontSize="12.5" Padding="8,5"
                              AutomationProperties.Name="{Binding [Manager.Filter], Source={x:Static app:LocProxy.Instance}}"
                              TextChanged="OnFilterChanged"/>
                     <TextBlock Text="{Binding [Manager.Filter], Source={x:Static app:LocProxy.Instance}}"
-                               FontSize="12.5" Margin="10,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False"
+                               FontSize="12.5" Margin="10,0,8,0" TextTrimming="CharacterEllipsis" VerticalAlignment="Center" IsHitTestVisible="False"
                                Foreground="{DynamicResource Brush.TextFaint}">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
@@ -107,12 +118,36 @@
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
+                    <Button Grid.Column="1" x:Name="ClearFilterButton" Content="&#xE711;" Margin="4,0,0,0"
+                            Click="OnClearFilter" AutomationProperties.Name="{Binding [Common.Clear], Source={x:Static app:LocProxy.Instance}}"
+                            ToolTip="{Binding [Common.Clear], Source={x:Static app:LocProxy.Instance}}">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource GhostIconButton}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, ElementName=FilterBox}" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                 </Grid>
-                <ListBox Grid.Row="5" x:Name="Snippets" DisplayMemberPath="Name" Margin="0,6,0,0" AllowDrop="True"
+                <ListBox Grid.Row="5" x:Name="Snippets" Margin="0,6,0,0" AllowDrop="True"
                          SelectionMode="Extended" ContextMenuOpening="OnSnippetsMenuOpening"
                          PreviewMouseLeftButtonDown="OnListPressed" PreviewMouseMove="OnListMove" Drop="OnSnippetsDrop"
                          Background="Transparent" BorderThickness="0" ItemContainerStyle="{StaticResource DarkListItem}"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="OnSnippetSelected"/>
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled" SelectionChanged="OnSnippetSelected">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding Body, Converter={StaticResource FirstLine}}" TextTrimming="CharacterEllipsis"
+                                           Visibility="{Binding Body, Converter={StaticResource EmptyToCollapsed}}"
+                                           FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </Grid>
         </Border>
 
@@ -124,20 +159,32 @@
                      into each other at the window's own MinWidth, where "已使用 88 次 · 最近 …" ends
                      exactly where 保存 begins. The stats reserve what is left and trim; the button, which
                      must always be hittable, keeps its size. -->
-                <Grid DockPanel.Dock="Bottom" Margin="0,16,0,0">
+                <Grid DockPanel.Dock="Bottom" Margin="0,16,0,0" Background="{DynamicResource Brush.CardBg}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" x:Name="UsageStat" HorizontalAlignment="Left" VerticalAlignment="Center"
-                           Margin="2,0,12,0" FontSize="12.5" TextTrimming="CharacterEllipsis"
+                <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="2,0,12,0">
+                <TextBlock x:Name="UnsavedHint" Visibility="Collapsed" FontSize="12.5" TextTrimming="CharacterEllipsis"
+                           Foreground="{DynamicResource Brush.Amber}"
+                           AutomationProperties.LiveSetting="Polite"
+                           ToolTip="{Binding [Manager.Unsaved], Source={x:Static app:LocProxy.Instance}}"
+                           Text="{Binding [Manager.Unsaved], Source={x:Static app:LocProxy.Instance}}"/>
+                <TextBlock x:Name="SavedHint" Visibility="Collapsed" Opacity="0" FontSize="12.5"
+                           Foreground="{DynamicResource Brush.Accent}"
+                           Text="{Binding [Manager.Saved], Source={x:Static app:LocProxy.Instance}}"/>
+                <TextBlock x:Name="UsageStat" HorizontalAlignment="Left" VerticalAlignment="Center"
+                           Margin="0,0,0,0" FontSize="12.5" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text, RelativeSource={RelativeSource Self}}"
                            Foreground="{DynamicResource Brush.TextFaint}"/>
+                </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <TextBlock x:Name="SavedHint" VerticalAlignment="Center" Margin="0,0,14,0" Opacity="0"
-                               FontFamily="{StaticResource Font.Ui}" FontSize="13" Foreground="{DynamicResource Brush.Accent}"
-                               Text="{Binding [Manager.Saved], Source={x:Static app:LocProxy.Instance}}"/>
                     <Button MinWidth="100" Padding="18,8" x:Name="SaveButton" Style="{StaticResource DarkButtonPrimary}" Click="OnSave"
-                            Content="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}}"/>
+                            AutomationProperties.AcceleratorKey="Ctrl+S"
+                            Content="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}}">
+                        <Button.ToolTip>
+                            <TextBlock><Run Text="{Binding [Manager.Save], Source={x:Static app:LocProxy.Instance}, Mode=OneWay}"/><Run Text=" (Ctrl+S)"/></TextBlock>
+                        </Button.ToolTip>
+                    </Button>
                 </StackPanel>
                 </Grid>
                 <ScrollViewer x:Name="EditorScroll" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
@@ -251,25 +298,27 @@
                                 </Border>
                             </StackPanel>
 
-                            <StackPanel x:Name="ImageSection" Orientation="Horizontal" Margin="0,10,0,0"
+                            <Grid x:Name="ImageSection" Margin="0,10,0,0"
                                         Visibility="Collapsed">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
                                 <Border Width="72" Height="72" CornerRadius="12" Background="{DynamicResource Brush.InputBg}"
                                         BorderBrush="{DynamicResource Brush.InputBorder}" BorderThickness="1">
                                     <Image x:Name="SnippetImage" Stretch="Uniform" Margin="4"/>
                                 </Border>
-                                <StackPanel VerticalAlignment="Center" Margin="14,0,0,0">
+                                <WrapPanel Grid.Column="1" VerticalAlignment="Center" Margin="14,0,0,0">
                                     <!-- No inner "图片" label: the disclosure title sits directly above the
                                          expanded section, and repeating it only doubled the word. -->
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Click="OnImageFromClipboard"
+                                    <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="0,0,8,8" Click="OnImageFromClipboard"
                                                 Content="{Binding [Manager.FromClipboard], Source={x:Static app:LocProxy.Instance}}"/>
-                                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageFromFile"
+                                    <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="0,0,8,8" Click="OnImageFromFile"
                                                 Content="{Binding [Manager.FromFile], Source={x:Static app:LocProxy.Instance}}"/>
-                                        <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="8,0,0,0" Click="OnImageRemove"
+                                    <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="0,0,8,8" Click="OnImageRemove"
                                                 Content="{Binding [Manager.RemoveImage], Source={x:Static app:LocProxy.Instance}}"/>
-                                    </StackPanel>
-                                </StackPanel>
-                            </StackPanel>
+                                </WrapPanel>
+                            </Grid>
                         </StackPanel>
 
                     </Grid>

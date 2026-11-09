@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>हटाएँ</value></data>
   <data name="Manager.Saved"><value>✓ सहेजा गया</value></data>
   <data name="Manager.NewSnippetName"><value>नया स्निपेट</value></data>
-  <data name="Manager.Filter"><value>फ़िल्टर…</value></data>
+  <data name="Manager.Filter"><value>वर्तमान श्रेणी फ़िल्टर करें…</value></data>
   <data name="Manager.Duplicate"><value>प्रतिलिपि बनाएँ</value></data>
   <data name="Manager.Expand"><value>बड़ा करें</value></data>
   <data name="Manager.LineNumbers"><value>लाइन नंबर</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>उन्नत स्वचालित प्रारंभ के लिए व्यवस्थापक खाता और Program Files में सुरक्षित प्रोग्राम तथा फ़ोल्डर आवश्यक हैं। सक्षम करते समय उसी खाते की UAC स्वीकृति माँगी जा सकती है। पोर्टेबल मोड में भी कार्य इसी कंप्यूटर पर रहता है।</value></data>
   <data name="Settings.AutostartFailed"><value>Windows के साथ शुरू करने की सेटिंग अपडेट नहीं की जा सकी।</value></data>
   <data name="Msg.OutputFailed"><value>आउटपुट विफल हुआ। फिर प्रयास करें।</value></data>
+  <data name="Common.Clear"><value>साफ़ करें</value></data>
+  <data name="Search.Preview"><value>पूर्वावलोकन फैलाएँ या समेटें (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>बिना सहेजे बदलाव</value></data>
 </root>

@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>Убрать</value></data>
   <data name="Manager.Saved"><value>✓ Сохранено</value></data>
   <data name="Manager.NewSnippetName"><value>Новый фрагмент</value></data>
-  <data name="Manager.Filter"><value>Фильтр…</value></data>
+  <data name="Manager.Filter"><value>Фильтр текущей категории…</value></data>
   <data name="Manager.Duplicate"><value>Дублировать</value></data>
   <data name="Manager.Expand"><value>Увеличить</value></data>
   <data name="Manager.LineNumbers"><value>Номера строк</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>Автозапуск с повышенными правами требует учётной записи администратора и защищённых программы и папки в Program Files. При включении может понадобиться разрешение UAC той же учётной записи. Задача остаётся на этом ПК и в переносном режиме.</value></data>
   <data name="Settings.AutostartFailed"><value>Не удалось обновить параметр запуска вместе с Windows.</value></data>
   <data name="Msg.OutputFailed"><value>Ошибка вывода. Повторите попытку.</value></data>
+  <data name="Common.Clear"><value>Очистить</value></data>
+  <data name="Search.Preview"><value>Развернуть или свернуть предпросмотр (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>Несохранённые изменения</value></data>
 </root>

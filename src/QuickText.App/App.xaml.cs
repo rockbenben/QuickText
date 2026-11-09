@@ -361,7 +361,11 @@ public partial class App : Application
         // shell icon from the constructor. H.NotifyIcon defers that to the Loaded event — and this
         // TaskbarIcon lives in App.xaml's resources, so it is never in a visual tree and never
         // loads. Without this the whole app runs with no tray icon at all: the only UI is a hotkey.
-        if (!_tray.IsCreated) _tray.ForceCreate();
+        if (!_tray.IsCreated)
+        {
+            try { _tray.ForceCreate(); }
+            catch (Exception ex) { Core.Log.Error("tray force create", ex); }
+        }
         // Clicking the "new version available" balloon opens the release page. _updateUrl is armed
         // only while that balloon is current — the Balloon() helper clears it whenever any other
         // balloon shows — and consumed on click, so a click on an unrelated balloon never opens it.
@@ -725,8 +729,16 @@ public partial class App : Application
                 w.Left = -32000; w.Top = -32000;
                 w.ShowActivated = false;
                 w.Show();
-                w.UpdateLayout();
-                w.Close();
+                try
+                {
+                    w.Dispatcher.Invoke(() => { }, System.Windows.Threading.DispatcherPriority.Loaded);
+                    w.UpdateLayout();
+                    if (!(w.ActualWidth > 0 && w.ActualHeight > 0))
+                        throw new InvalidOperationException($"{w.GetType().Name} did not lay out to a nonzero size.");
+                }
+                finally { w.Close(); }
+                if (w.Dispatcher.HasShutdownStarted)
+                    throw new InvalidOperationException($"Closing {w.GetType().Name} shut down the smoke dispatcher.");
             }
             var panel = new SearchPanel();
             panel.SmokeFill();       // seed a row so SearchPanel's own SnippetRowTemplate inflates on layout
@@ -738,6 +750,9 @@ public partial class App : Application
             if (string.IsNullOrEmpty(settings.DataFolder.Text) && settings.DataFolderPlaceholder.Visibility != Visibility.Visible)
                 throw new InvalidOperationException("data folder box is empty but its placeholder is not visible.");
             Exercise(settings);
+            var prompt = new AppDialog();
+            AppDialog.SetupPrompt(prompt, "Smoke", "Name", "Example");
+            Exercise(prompt);
             Exercise(new TrashDialog());
             Exercise(new BodyEditorWindow());
             // Also exercise the CODE path: the parameterless ctor above resolves to plain text and
@@ -751,13 +766,23 @@ public partial class App : Application
             // ForceCreate, or an IconSource that stops resolving, leaves an app with no tray icon at
             // all and nothing but the hotkey, which no other check here would notice.
             var tray = (TaskbarIcon)FindResource("Tray");
-            try
+            if (Interop.NativeMethods.FindWindow("Shell_TrayWnd", null) != IntPtr.Zero)
             {
-                tray.ForceCreate();
-                if (!tray.IsCreated)
-                    throw new InvalidOperationException("Tray icon did not materialize (TaskbarIcon.IsCreated == false).");
+                try
+                {
+                    tray.ForceCreate();
+                    if (!tray.IsCreated)
+                        throw new InvalidOperationException("Tray icon did not materialize (TaskbarIcon.IsCreated == false).");
+                }
+                finally { tray.Dispose(); }
             }
-            finally { tray.Dispose(); }
+            else
+            {
+                // In headless / detached desktop sessions with no shell taskbar (Shell_TrayWnd absent),
+                // Shell_NotifyIcon has nowhere to register. Verify the icon resource resolves directly.
+                if (tray.IconSource == null && tray.Icon == null)
+                    throw new InvalidOperationException("Tray icon resource did not resolve.");
+            }
 
             // An embedded .xshd that didn't get embedded is invisible at build time — the app
             // starts fine and only the user who picks that one format ever finds out. CI runs
@@ -961,6 +986,7 @@ public partial class App : Application
                 // SourceInitialized, so a pre-Show cap would be overwritten. This is the same
                 // assignment it makes, just with the simulated work area.
                 w.MaxHeight = wa;
+                if (w is SettingsWindow) w.Height = Math.Min(620, wa);
                 try { tweak?.Invoke(w); }
                 catch (Exception ex) { System.IO.File.WriteAllText(System.IO.Path.Combine(dir, name + ".tweak.err.txt"), ex.ToString()); }
                 try { Capture(w, $"{name}@{wa:0}"); }
@@ -1136,6 +1162,15 @@ public partial class App : Application
             Shot(t + "manager-narrow", () => new ManagerWindow(), w => { w.Width = w.MinWidth; }, allHeights: false);
             // Re-apply AFTER Show: the window's theme radio applies the saved theme on init.
             Shot(t + "settings", () => new SettingsWindow(), _ => Ui.ThemeService.Apply(activeTheme));
+            for (int section = 1; section < 5; section++)
+            {
+                int selected = section;
+                Shot(t + $"settings-section-{section}", () => new SettingsWindow(), w =>
+                {
+                    ((SettingsWindow)w).ShotsSection(selected);
+                    Ui.ThemeService.Apply(activeTheme);
+                });
+            }
             Shot(t + "trash", () => new TrashDialog(), allHeights: false);
             Shot(t + "editor-text", () => new BodyEditorWindow("欢迎语", "你好 {姓名}，\n感谢你的来信。\n\n祝好\n{光标}", true, 0, 0, null), allHeights: false);
             Shot(t + "editor-code", () => new BodyEditorWindow("配置", "{\n  \"name\": \"quicktext\",\n  \"version\": 1\n}", false, 0, 0, "json"), allHeights: false);
@@ -1192,7 +1227,7 @@ public partial class App : Application
                 new Core.Snippets.Placeholders.VariableSpec("环境", "dev", new[] { "dev", "test", "prod" }),
             }), allHeights: false);
 
-            // Second-round state matrix: the screens no window shot reached before —
+            // Dynamic state matrix: screens and states that require fixture setup —
             // first-run empty library, populated trash (the enabled side of the S1 pair),
             // inline abbreviation conflict, the saved flash, the image section, the hotkey
             // capture transient, and every menu surface.
@@ -1247,7 +1282,7 @@ public partial class App : Application
         }
 
         // Text-density pass: the longest translations, not just the authoring language. A fixed-width
-        // NoResize window (Settings is 860 DIP) has no way to absorb a label that grew 40% in German
+        // window at its initial width cannot absorb a label that grew 40% in German
         // or Russian, so those are where clipped or wrapped copy shows up first.
         Ui.ThemeService.Apply(Ui.ThemeService.Dark);
         activeTheme = Ui.ThemeService.Dark;
@@ -1258,6 +1293,15 @@ public partial class App : Application
         {
             LocalizationService.Instance.SetCulture(lang);
             Shot($"{lang}-settings", () => new SettingsWindow(), _ => Ui.ThemeService.Apply(activeTheme), allHeights: false);
+            for (int section = 1; section < 5; section++)
+            {
+                int selected = section;
+                Shot($"{lang}-settings-section-{section}", () => new SettingsWindow(), w =>
+                {
+                    ((SettingsWindow)w).ShotsSection(selected);
+                    Ui.ThemeService.Apply(activeTheme);
+                }, allHeights: false);
+            }
             // The gated row again: it needs autostart ticked to be enabled, and in these languages
             // the body is long enough that it sits below the fold, so this is the only pass that
             // proves its hint wraps the same way everywhere.

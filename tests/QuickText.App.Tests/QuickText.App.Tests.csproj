@@ -9,8 +9,10 @@
     <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="xunit.v3" Version="4.0.1" />
+    <PackageReference Include="xunit.v3" Version="4.0.3" />
     <ProjectReference Include="../../src/QuickText.App/QuickText.App.csproj" />
     <Using Include="Xunit" />
+    <!-- ThemeService resolves this relative to the test entry assembly. -->
+    <Page Include="../../src/QuickText.App/Ui/Theme.Light.xaml" Link="Ui/Theme.Light.xaml" />
   </ItemGroup>
 </Project>

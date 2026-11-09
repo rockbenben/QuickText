@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>Entfernen</value></data>
   <data name="Manager.Saved"><value>✓ Gespeichert</value></data>
   <data name="Manager.NewSnippetName"><value>Neuer Baustein</value></data>
-  <data name="Manager.Filter"><value>Filtern…</value></data>
+  <data name="Manager.Filter"><value>Aktuelle Kategorie filtern…</value></data>
   <data name="Manager.Duplicate"><value>Duplizieren</value></data>
   <data name="Manager.Expand"><value>Vergrößern</value></data>
   <data name="Manager.LineNumbers"><value>Zeilennummern</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>Der erhöhte Autostart erfordert ein Administratorkonto sowie ein geschütztes Programm und Verzeichnis unter Program Files. Beim Aktivieren kann eine UAC-Bestätigung desselben Kontos nötig sein. Auch im portablen Modus bleibt die Aufgabe auf diesem PC.</value></data>
   <data name="Settings.AutostartFailed"><value>Die Einstellung zum Start mit Windows konnte nicht aktualisiert werden.</value></data>
   <data name="Msg.OutputFailed"><value>Ausgabe fehlgeschlagen. Bitte erneut versuchen.</value></data>
+  <data name="Common.Clear"><value>Leeren</value></data>
+  <data name="Search.Preview"><value>Vorschau ein- oder ausklappen (Ctrl+Space)</value></data>
+  <data name="Manager.Unsaved"><value>Ungespeicherte Änderungen</value></data>
 </root>

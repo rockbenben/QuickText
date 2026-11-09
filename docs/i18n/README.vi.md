@@ -101,6 +101,10 @@ Nhấp đúp **`QuickText.exe`**; nó nằm trong **khay hệ thống** (không 
 
 ## Trình giữ chỗ (một mẫu, nhiều tình huống) · bật tùy chọn theo từng đoạn
 
+Trong trình quản lý, Ctrl+S lưu và Ctrl+F chọn văn bản bộ lọc. Bộ lọc chỉ tìm trong danh mục hiện tại; xóa bộ lọc vẫn giữ nhiều mục đã chọn và bản nháp. Chỉ báo chưa lưu còn hiển thị đến khi lưu hoặc bỏ thay đổi, kể cả khi lưu thất bại.
+
+Danh sách trình quản lý hiển thị dòng đầu của nội dung. Dùng × để xóa tìm kiếm trong bảng hoặc bộ lọc của trình quản lý; xóa bộ lọc vẫn giữ bản nháp đang sửa. Danh mục và các đoạn văn bản chia sẻ chiều cao có sẵn, các nút ảnh tự xuống dòng trong cửa sổ hẹp.
+
 Trình giữ chỗ là một **công tắc theo từng đoạn**: đánh dấu "**Bật trình giữ chỗ {biến}**" trong trình soạn thảo của Trình quản lý và các token bên dưới sẽ được giải quyết khi gửi; **để không đánh dấu (mặc định), nội dung được gửi nguyên văn** — mã, script và JSON đầy `{...}` nguyên văn không bao giờ bị phân tích sai hoặc bị hỏi.
 
 > Nâng cấp: trình giữ chỗ trước đây luôn bật. Lần khởi động đầu tiên sau khi nâng cấp tự động đánh dấu công tắc cho **các đoạn văn bản hiện có** có nội dung chứa `{...}`, nên không có gì thay đổi về hành vi; bỏ đánh dấu nó trong Trình quản lý cho những đoạn thực sự là mã.
@@ -133,6 +137,8 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 > **Về tiền tố:** tiền tố (mặc định `;`) giúp việc gõ thông thường / bính âm không vô tình kích hoạt một từ viết tắt trần. Thay đổi nó ở **Cài đặt → Từ viết tắt → Tiền tố kích hoạt** (thành `,`, `:`, …) hoặc **để trống**. Một từ viết tắt có tiền tố tự phân định và kích hoạt ngay cả khi dính liền với văn bản phía trước (ví dụ `thx;sig`); không có tiền tố thì nó chỉ kích hoạt như một từ riêng (không bao giờ như phần đuôi của một từ dài hơn như `graf`). Bạn cũng có thể tắt từ viết tắt theo từng ứng dụng (một danh sách đen, ví dụ `cmd.exe; putty.exe`) hoặc tắt hoàn toàn.
 
 ## Đầu ra & cài đặt thông dụng (Khay → Cài đặt)
+
+Chọn danh mục trong thanh bên để chỉnh cài đặt. Các thay đổi chưa lưu được giữ lại khi chuyển danh mục. Có thể đổi kích thước cửa sổ; trên màn hình thấp, nội dung cuộn còn nút Lưu luôn hiển thị. Dùng phím mũi tên trong thanh bên hoặc Ctrl+Tab để chuyển danh mục.
 
 > Chỉ sao chép vào bảng nhớ tạm cũng áp dụng cho viết tắt. Chuyển cửa sổ khi xuất sẽ hủy các phím còn chờ. Tự khởi động nâng quyền yêu cầu tài khoản quản trị viên cùng chương trình và thư mục được bảo vệ trong Program Files. Khi bật có thể cần xác nhận UAC từ cùng tài khoản. Tác vụ vẫn được lưu trên máy này trong chế độ di động.
 

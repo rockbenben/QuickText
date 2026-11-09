@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>移除</value></data>
   <data name="Manager.Saved"><value>✓ 已儲存</value></data>
   <data name="Manager.NewSnippetName"><value>新文字</value></data>
-  <data name="Manager.Filter"><value>篩選…</value></data>
+  <data name="Manager.Filter"><value>篩選目前分類…</value></data>
   <data name="Manager.Duplicate"><value>複製一份</value></data>
   <data name="Manager.Expand"><value>放大編輯</value></data>
   <data name="Manager.LineNumbers"><value>行號</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>提權自啟需要管理員帳戶，以及位於 Program Files 中且一般使用者無法修改的程式及目錄。啟用時可能需要一次相同帳戶的 UAC 授權。便攜模式的排程工作仍儲存在本機。</value></data>
   <data name="Settings.AutostartFailed"><value>未能更新開機自動啟動設定。</value></data>
   <data name="Msg.OutputFailed"><value>輸出失敗，請稍後重試。</value></data>
+  <data name="Common.Clear"><value>清除</value></data>
+  <data name="Search.Preview"><value>展開或收合預覽（Ctrl+Space）</value></data>
+  <data name="Manager.Unsaved"><value>尚未儲存</value></data>
 </root>

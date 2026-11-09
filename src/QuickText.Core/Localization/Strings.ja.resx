@@ -115,7 +115,7 @@
   <data name="Manager.RemoveImage"><value>削除</value></data>
   <data name="Manager.Saved"><value>✓ 保存しました</value></data>
   <data name="Manager.NewSnippetName"><value>新規スニペット</value></data>
-  <data name="Manager.Filter"><value>絞り込み…</value></data>
+  <data name="Manager.Filter"><value>現在のカテゴリを絞り込み…</value></data>
   <data name="Manager.Duplicate"><value>複製</value></data>
   <data name="Manager.Expand"><value>拡大編集</value></data>
   <data name="Manager.LineNumbers"><value>行番号</value></data>
@@ -237,4 +237,7 @@
   <data name="Settings.AutostartElevatedHint"><value>管理者権限での自動起動には、管理者アカウントと、一般ユーザーが変更できない Program Files 内のプログラムおよびフォルダーが必要です。有効化時に同じアカウントでの UAC 承認を求められる場合があります。ポータブル版でもタスクはこの PC に保存されます。</value></data>
   <data name="Settings.AutostartFailed"><value>スタートアップ設定を更新できませんでした。</value></data>
   <data name="Msg.OutputFailed"><value>出力に失敗しました。再試行してください。</value></data>
+  <data name="Common.Clear"><value>クリア</value></data>
+  <data name="Search.Preview"><value>プレビューを展開・折りたたむ（Ctrl+Space）</value></data>
+  <data name="Manager.Unsaved"><value>未保存の変更</value></data>
 </root>

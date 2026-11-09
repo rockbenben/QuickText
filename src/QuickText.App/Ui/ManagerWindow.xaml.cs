@@ -81,6 +81,14 @@ public partial class ManagerWindow : Window
             AppState.Current.DataReloaded -= OnDataReloaded;
         };
         LoadFromState();
+        SnippetName.TextChanged += (_, _) => UpdateSaveStatus();
+        Abbr.TextChanged += (_, _) => UpdateSaveStatus();
+        Body.EditorTextChanged += (_, _) => UpdateSaveStatus();
+        UseVars.Checked += (_, _) => UpdateSaveStatus();
+        UseVars.Unchecked += (_, _) => UpdateSaveStatus();
+        OutputMode.SelectionChanged += (_, _) => UpdateSaveStatus();
+        AddHandler(Button.ClickEvent, new RoutedEventHandler((_, _) => UpdateSaveStatus()), true);
+        UpdateSaveStatus();
     }
 
     private bool IsStale => _loadedVersion != AppState.Current.DataVersion;
@@ -455,6 +463,20 @@ public partial class ManagerWindow : Window
     {
         _baseline = _editing == null ? null : SnippetEdit.From(_editing);
         _baselineUpdatedAt = _editing?.UpdatedAt ?? default;
+        UpdateSaveStatus();
+    }
+
+    private void UpdateSaveStatus()
+    {
+        bool dirty = EditorIsDirty() || _dirty.Count > 0;
+        UnsavedHint.Visibility = dirty ? Visibility.Visible : Visibility.Collapsed;
+        // A success animation must stop as soon as a new edit makes it out of date.
+        if (dirty)
+        {
+            SavedHint.BeginAnimation(OpacityProperty, null);
+            SavedHint.Opacity = 0;
+            SavedHint.Visibility = Visibility.Collapsed;
+        }
     }
 
     private bool EditorIsDirty() =>
@@ -650,6 +672,7 @@ public partial class ManagerWindow : Window
             if (ex is InvalidDataException or System.Text.Json.JsonException) _saveFailureKey = "Msg.LibraryLoadWarning";
             return false;
         }
+        finally { UpdateSaveStatus(); }
     }
 
     private async void ReloadAfterConflict()
@@ -666,6 +689,29 @@ public partial class ManagerWindow : Window
     private string _filter = "";
     private bool _filterRefreshPending;
     private readonly DispatcherTimer _filterDebounce = new() { Interval = TimeSpan.FromMilliseconds(120) };
+
+    private void OnClearFilter(object sender, RoutedEventArgs e)
+    {
+        var selected = Snippets.SelectedItems.Cast<Snippet>().ToArray();
+        FilterBox.Clear();
+        FilterBox.Focus();
+        _filterDebounce.Stop();
+        // Clearing only broadens the list. Keep the editor's draft while ItemsSource resets
+        // selection, instead of treating that transient reset as leaving the snippet.
+        if (_editing != null && ReferenceEquals(_editingCategory, SelectedCategory))
+        {
+            _revertingSelection = true;
+            try
+            {
+                RefreshSnippets(_editing);
+                foreach (var snippet in selected)
+                    if (!Snippets.SelectedItems.Contains(snippet)) Snippets.SelectedItems.Add(snippet);
+                Snippets.ScrollIntoView(_editing);
+            }
+            finally { _revertingSelection = false; }
+        }
+        else ApplyFilter();
+    }
 
     private void OnFilterChanged(object s, TextChangedEventArgs e)
     {
@@ -703,6 +749,7 @@ public partial class ManagerWindow : Window
         Snippets.ItemsSource = items;
         if (select != null && items.Contains(select)) Snippets.SelectedItem = select;
         else if (items.Count > 0) Snippets.SelectedIndex = 0;
+        UpdateSaveStatus();
     }
 
     private void OnCategorySelected(object s, SelectionChangedEventArgs e)
@@ -809,6 +856,7 @@ public partial class ManagerWindow : Window
     private int _imageLoadGen;   // UI-thread only: newest image load wins
     private void UpdateSnippetImage()
     {
+        UpdateSaveStatus();
         // Bump first so any in-flight load (remove/replace/re-select all call this) is superseded
         // — keying only on the snippet identity let a slow load of a just-removed/replaced image
         // reappear over the correct state.
@@ -1187,6 +1235,7 @@ public partial class ManagerWindow : Window
     internal void ShotsSaved()
     {
         SavedHint.BeginAnimation(OpacityProperty, null);
+        SavedHint.Visibility = Visibility.Visible;
         SavedHint.Opacity = 1;
     }
 
@@ -1269,6 +1318,7 @@ public partial class ManagerWindow : Window
             // Ctrl+Shift+Enter / F11 while editing the body opens the enlarged editor.
             MaybeExpandBodyFromKey(e);
         }
+        UpdateSaveStatus();
         base.OnPreviewKeyDown(e);
     }
 
@@ -1310,6 +1360,32 @@ public partial class ManagerWindow : Window
         Body.Rescan();   // the restored name may resolve a nested reference elsewhere
     }
 
+    private void CanSaveCommand(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = !AppState.Current.IsLibraryBusy && !HasOpenOwnedWindow()
+            && (_editing != null || _dirty.Count > 0);
+        e.Handled = true;
+    }
+
+    private void OnSaveCommand(object sender, ExecutedRoutedEventArgs e)
+    {
+        OnSave(sender, e);
+        e.Handled = true;
+    }
+
+    private void CanFindCommand(object sender, CanExecuteRoutedEventArgs e)
+    {
+        e.CanExecute = !HasOpenOwnedWindow();
+        e.Handled = true;
+    }
+
+    private void OnFindCommand(object sender, ExecutedRoutedEventArgs e)
+    {
+        FilterBox.Focus();
+        FilterBox.SelectAll();
+        e.Handled = true;
+    }
+
     private void OnSave(object s, RoutedEventArgs e)
     {
         if (!EnsureFreshForWrite()) return;
@@ -1340,9 +1416,12 @@ public partial class ManagerWindow : Window
 
     private void FlashSaved()
     {
+        SavedHint.Visibility = Visibility.Visible;
         SavedHint.Opacity = 1;
-        SavedHint.BeginAnimation(OpacityProperty,
-            new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(1.4))) { BeginTime = TimeSpan.FromSeconds(0.7) });
+        var fade = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(1.4)))
+            { BeginTime = TimeSpan.FromSeconds(0.7) };
+        fade.Completed += (_, _) => SavedHint.Visibility = Visibility.Collapsed;
+        SavedHint.BeginAnimation(OpacityProperty, fade);
     }
 
     // ---------- drag: reorder + move-to-category ----------
