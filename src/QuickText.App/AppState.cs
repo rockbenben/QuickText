@@ -52,6 +52,7 @@ public sealed class AppState
             if (!System.IO.File.Exists(old)) return;
             System.IO.Directory.CreateDirectory(MachineStateDir);
             var dest = System.IO.Path.Combine(MachineStateDir, Core.AppPaths.UsageFileName);
+            if (SameFolder(old, dest)) return;
             if (!System.IO.File.Exists(dest)) System.IO.File.Move(old, dest);
             else System.IO.File.Delete(old);
         }
@@ -92,10 +93,70 @@ public sealed class AppState
     public async Task ReloadDataAsync(bool notify = true)
     {
         var folder = ResolveDataFolder();
+        int version = DataVersion;
         var store = new Store(folder);
-        var cats = await Task.Run(() => store.LoadAll());
-        if (!string.Equals(folder, ResolveDataFolder(), StringComparison.OrdinalIgnoreCase)) return;
+        var cats = await Task.Run(() => store.LoadAll(strict: true));
+        TryApplyReload(folder, version, cats, store, notify);
+    }
+
+    private static bool SameFolder(string first, string second) =>
+        string.Equals(System.IO.Path.TrimEndingDirectorySeparator(System.IO.Path.GetFullPath(first)),
+            System.IO.Path.TrimEndingDirectorySeparator(System.IO.Path.GetFullPath(second)), StringComparison.OrdinalIgnoreCase);
+
+    private bool TryApplyReload(string folder, int version, List<Category> cats, Store store, bool notify = true)
+    {
+        if (IsLibraryBusy || version != DataVersion || !SameFolder(folder, ResolveDataFolder())) return false;
+        if (cats.Count == Categories.Count && cats.Zip(Categories).All(p =>
+            p.First.Name == p.Second.Name && p.First.Color == p.Second.Color &&
+            p.First.Snippets.Count == p.Second.Snippets.Count && p.First.Snippets.Zip(p.Second.Snippets).All(s =>
+                s.First.Id == s.Second.Id && s.First.UpdatedAt == s.Second.UpdatedAt &&
+                SnippetEdit.From(s.First) == SnippetEdit.From(s.Second))))
+        {
+            // Formatting-only sync changes still establish a new on-disk write baseline.
+            Store = store;
+            LoadWarnings = store.LoadWarnings.ToList();
+            return true;
+        }
         ApplyLoaded(folder, cats, store, notify);
+        return true;
+    }
+
+    public bool IsLibraryBusy { get; private set; }
+
+    public async Task ImportLibraryAsync(string source)
+    {
+        if (IsLibraryBusy) throw new InvalidOperationException("Library is busy.");
+        IsLibraryBusy = true;
+        var folder = Store.Root;
+        try
+        {
+            var store = new Store(folder);
+            var cats = await Task.Run(() => store.ImportBackup(source));
+            ApplyLoaded(folder, cats, store);
+        }
+        finally
+        {
+            IsLibraryBusy = false;
+            ScheduleReload();
+        }
+    }
+
+    public async Task SaveSettingsAsync(AppSettings next)
+    {
+        if (IsLibraryBusy) throw new InvalidOperationException("Library is busy.");
+        string folder = string.IsNullOrWhiteSpace(next.DataFolder) ? Core.AppPaths.DefaultDataFolder : next.DataFolder;
+        Store? prepared = null;
+        List<Category>? cats = null;
+        int version = DataVersion;
+        if (!SameFolder(folder, Store.Root))
+        {
+            prepared = new Store(folder);
+            cats = await Task.Run(() => prepared.LoadAll(strict: true));
+        }
+        if (IsLibraryBusy || version != DataVersion) throw new System.IO.IOException("Library changed while saving settings. Retry.");
+        SettingsStore.Save(next);
+        Settings = next;
+        if (prepared != null) ApplyLoaded(folder, cats!, prepared);
     }
 
     /// <summary>Rebuild the abbreviation trigger table from the CURRENT saved model, without a disk
@@ -110,19 +171,20 @@ public sealed class AppState
 
     private readonly SemaphoreSlim _captureGate = new(1, 1);
 
-    /// <summary>Save one clipboard capture into the first category, reading and writing off the UI
-    /// thread, then publish the new snapshot. Call from the UI thread. Returns null when the data
-    /// folder changed underneath the capture.</summary>
-    public async Task<Snippet?> CaptureClipboardAsync(string name, string body)
+    /// <summary>Capture from the committed snapshot. The background write excludes other app
+    /// writes until publication, keeping slow-library I/O off the hook's dispatcher thread.</summary>
+    public async Task<Snippet?> CaptureClipboardAsync(string name, string body, bool notify = true)
     {
         await _captureGate.WaitAsync();
+        bool ownsWrite = false;
         try
         {
-            var folder = ResolveDataFolder();
             var store = Store;
-            MarkSelfWrite(10_000);
-            var cats = await Task.Run(() => store.LoadAll());
-            if (!ReferenceEquals(Store, store)) return null;
+            if (IsLibraryBusy) return null;
+            IsLibraryBusy = true;
+            ownsWrite = true;
+            MarkSelfWrite();
+            var cats = SnapshotCategories().ToList();
 
             var cat = cats.Count > 0
                 ? cats[0]
@@ -131,13 +193,21 @@ public sealed class AppState
             var sn = new Snippet { Name = name, Body = body };
             cat.Snippets.Add(sn);
             await Task.Run(() => store.SaveCategory(cat));
-            if (!ReferenceEquals(Store, store)) return null;
 
-            ApplyLoaded(folder, cats, store);
+            ApplyCategories(cats);
+            if (notify)
+            {
+                try { DataReloaded?.Invoke(); }
+                catch (Exception ex) { Core.Log.Error("DataReloaded subscriber", ex); }
+            }
             MarkSelfWrite();
             return sn;
         }
-        finally { _captureGate.Release(); }
+        finally
+        {
+            if (ownsWrite) IsLibraryBusy = false;
+            _captureGate.Release();
+        }
     }
 
     /// <summary>On a fresh install (no library yet), seed a small starter set so the tool is usable immediately.</summary>
@@ -253,7 +323,7 @@ public sealed class AppState
             var store = new Store(ResolveDataFolder());
             if (store.HasLibrary)
             {
-                foreach (var cat in store.LoadAll())
+                foreach (var cat in store.LoadAll(strict: true))
                 {
                     bool changed = false;
                     foreach (var s in cat.Snippets)
@@ -282,7 +352,8 @@ public sealed class AppState
             var dataFolder = ResolveDataFolder();
             var backupDir = BackupDir;
             // Guard against a data folder that CONTAINS the backup dir (recursive zip).
-            if (backupDir.StartsWith(dataFolder, StringComparison.OrdinalIgnoreCase)) return;
+            var dataPrefix = System.IO.Path.TrimEndingDirectorySeparator(System.IO.Path.GetFullPath(dataFolder)) + System.IO.Path.DirectorySeparatorChar;
+            if (SameFolder(backupDir, dataFolder) || System.IO.Path.GetFullPath(backupDir).StartsWith(dataPrefix, StringComparison.OrdinalIgnoreCase)) return;
             if (!System.IO.File.Exists(System.IO.Path.Combine(dataFolder, "index.json"))) return;
 
             System.IO.Directory.CreateDirectory(backupDir);
@@ -294,7 +365,7 @@ public sealed class AppState
 
             var name = $"qt-{DateTime.Now:yyyyMMdd-HHmmss}.zip";
             var tmp = System.IO.Path.Combine(backupDir, name + ".tmp");
-            System.IO.Compression.ZipFile.CreateFromDirectory(dataFolder, tmp);
+            LibraryBackup.Export(dataFolder, tmp);
             System.IO.File.Move(tmp, System.IO.Path.Combine(backupDir, name));
 
             existing.Add(System.IO.Path.Combine(backupDir, name));
@@ -304,8 +375,8 @@ public sealed class AppState
         catch { /* a failed backup must never disturb the app */ }
     }
 
-    /// <summary>Read the whole library from disk (blocking I/O) and apply it. Use off the UI
-    /// thread for external/watcher-driven reloads; see <see cref="ScheduleReload"/>.</summary>
+    /// <summary>Read and apply the library synchronously during initialization. Use
+    /// <see cref="ReloadDataAsync"/> for background reads with UI-thread publication.</summary>
     public void ReloadData(bool notify = true)
     {
         var folder = ResolveDataFolder();
@@ -319,11 +390,12 @@ public sealed class AppState
     private void ApplyLoaded(string folder, List<Category> cats, Store? store = null, bool notify = true)
     {
         Store = store ?? new Store(folder);
-        Usage?.Flush();   // don't lose a debounced write when swapping stores (null on first load)
+        bool usageSaved = Usage?.Flush() ?? true;
         // Usage counts are machine-local state: keep them OUT of the (possibly synced)
         // data folder — the file changes on every send and would conflict across machines.
         MigrateUsageStats(folder);
-        Usage = new UsageStore(MachineStateDir);
+        // A locked usage file must not discard the in-memory counts/favorites awaiting retry.
+        if (usageSaved) Usage = new UsageStore(MachineStateDir);
         RebuildIndexes(cats);
         LoadWarnings = Store.LoadWarnings.ToList();
         foreach (var warning in LoadWarnings)
@@ -443,8 +515,7 @@ public sealed class AppState
     public void StartWatching()
     {
         var folder = ResolveDataFolder();
-        _watcher?.Dispose();
-        _watcher = null;
+        StopWatching();
         // An unreachable/absent data folder (offline share, unplugged USB) makes the
         // FileSystemWatcher ctor throw — don't let that take down startup; live reload simply
         // stays off until the folder is present again (re-armed on the next settings apply).
@@ -454,7 +525,6 @@ public sealed class AppState
                 { NotifyFilter = System.IO.NotifyFilters.LastWrite | System.IO.NotifyFilters.FileName, EnableRaisingEvents = true };
             System.IO.FileSystemEventHandler handler = (_, _) =>
             {
-                if (IsSelfWriteSuppressed) return;
                 System.Windows.Application.Current?.Dispatcher.BeginInvoke(new Action(ScheduleReload));
             };
             w.Changed += handler; w.Created += handler;
@@ -462,6 +532,13 @@ public sealed class AppState
             _watcher = w;
         }
         catch { /* folder not present: no live reload until it is */ }
+    }
+
+    public void StopWatching()
+    {
+        _watcher?.Dispose();
+        _watcher = null;
+        _reloadDebounce?.Stop();
     }
 
     // A sync client (OneDrive/Dropbox/…) usually drops several files in a burst; coalesce the
@@ -475,6 +552,7 @@ public sealed class AppState
             _reloadDebounce.Tick += (_, _) =>
             {
                 _reloadDebounce!.Stop();
+                if (IsSelfWriteSuppressed || IsLibraryBusy) { _reloadDebounce.Start(); return; }
                 // The change came from OUTSIDE (a sync client or another editor). Do the
                 // blocking library read on a background thread — on a slow sync drive a
                 // UI-thread read here froze the app — then apply on the UI thread.
@@ -484,17 +562,18 @@ public sealed class AppState
                 // Guarding on last-APPLIED (not last-scheduled) means a newer read that FAILS its
                 // disk load doesn't strand an older read that succeeded.
                 int gen = ++_reloadGen;
+                int version = DataVersion;
                 System.Threading.Tasks.Task.Run(() =>
                 {
                     var store = new Store(folder);
                     List<Category> cats;
-                    try { cats = store.LoadAll(); }
+                    try { cats = store.LoadAll(strict: true); }
                     catch { return; }   // mid-write by the sync client: let the next event retry
                     System.Windows.Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
                     {
                         if (gen <= _appliedGen) return;   // an equal-or-newer reload already applied
                         _appliedGen = gen;
-                        ApplyLoaded(folder, cats, store);
+                        TryApplyReload(folder, version, cats, store);
                     }));
                 });
             };

@@ -85,7 +85,11 @@ Kısaltmalar ve değişkenlerle ilgili tüm ayrıntılar aşağıdaki **Ayrınt�
 
 ## Metninizi ekleyin / düzenleyin
 
+> Görüntü değiştirme ve kaldırma da kaydedilmelidir. Eski görüntüler başarılı kayıttan sonra temizlenir; değişiklikleri atmak özgün görüntüyü korur.
+
 ![Yönetici: solda kategoriler ve snippet'ler, sağda düzenleyici](../images/quicktext-manager.webp)
+
+> Kaydetme başarısız olursa yönetici taslağı korur ve geçerli parçacıkta kalır. Arama, başarıyla kaydedilen son içeriği kullanır. Dosya yazılabilir olduğunda yeniden deneyin. Silme geri alınırken önce parçacık kaydedilir, ardından çöp kutusundaki kopyası kaldırılır. Başarısız olursa dosya yazılabilir olduğunda Ctrl+Z ile yeniden deneyin.
 
 - **Tepsi → Yöneticiyi Aç** — tam editör: solda kategoriler, ortada snippet'ler, sağda editör. Kategori ekleyin/yeniden adlandırın/silin (**7 renkli** bir etiketle), snippet'leri düzenleyin (ad, kısaltma, gövde, görsel). Yeniden sıralamak veya kategoriler arasında taşımak için sürükleyin; `Ctrl+Z` bir silmeyi geri alır.
 - **Tepsi → Panodan yeni** — mevcut panodan yeni bir snippet oluşturun ve tamamlamak için Yönetici'de açın (diske yazmak için **Kaydet**'e basın; Yönetici'yi kapatırken kaydetmek mi yoksa vazgeçmek mi istediğiniz sorulur).

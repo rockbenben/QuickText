@@ -85,7 +85,11 @@ Klik ganda **`QuickText.exe`**; ia tinggal di **system tray** (tanpa tombol task
 
 ## Tambah / edit teks Anda
 
+> Mengganti atau menghapus gambar juga perlu disimpan. Gambar lama dibersihkan setelah penyimpanan berhasil; membuang perubahan mempertahankan gambar asli.
+
 ![Manager: kategori dan snippet di kiri, editor di kanan](../images/quicktext-manager.webp)
+
+> Jika penyimpanan gagal, pengelola mempertahankan draf dan tetap pada cuplikan saat ini. Pencarian memakai konten terakhir yang berhasil disimpan. Coba lagi setelah berkas dapat ditulis. Saat membatalkan penghapusan, cuplikan ditulis kembali sebelum salinannya di tempat sampah dihapus. Jika gagal, coba Ctrl+Z lagi setelah berkas dapat ditulis.
 
 - **Tray → Buka Manager** — editor lengkap: kategori dan snippet di kiri, editor di kanan. Tambah/ganti nama/hapus kategori (dengan tag **7 warna**), edit snippet (nama, singkatan, isi, gambar). Seret untuk menyusun ulang atau memindahkan antar kategori; `Ctrl+Z` membatalkan penghapusan.
 - **Tray → Baru dari clipboard** — buat snippet baru dari isi clipboard saat ini dan buka di Manager untuk menyelesaikannya (tekan **Simpan** untuk menulisnya ke disk; menutup Manager akan menanyakan apakah ingin menyimpan atau membuang perubahan).

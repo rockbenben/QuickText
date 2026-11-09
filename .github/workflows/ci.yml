@@ -28,7 +28,7 @@ jobs:
       - name: Test (Core)
         run: dotnet test --project tests/QuickText.Core.Tests -c Release --minimum-expected-tests 381
       - name: Test (App)
-        run: dotnet test --project tests/QuickText.App.Tests -c Release --minimum-expected-tests 3
+        run: dotnet test --project tests/QuickText.App.Tests -c Release --minimum-expected-tests 4
       - name: Build (App)
         run: dotnet build src/QuickText.App -c Release --nologo
       - name: Smoke (parse every window's XAML)

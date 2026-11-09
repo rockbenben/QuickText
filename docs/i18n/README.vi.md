@@ -85,7 +85,11 @@ Nhấp đúp **`QuickText.exe`**; nó nằm trong **khay hệ thống** (không 
 
 ## Thêm / chỉnh sửa văn bản của bạn
 
+> Thay hoặc xóa ảnh cũng cần lưu. Ảnh cũ chỉ được dọn sau khi lưu thành công; bỏ thay đổi sẽ giữ ảnh gốc.
+
 ![Trình quản lý: danh mục và đoạn văn bản bên trái, trình soạn thảo bên phải](../images/quicktext-manager.webp)
+
+> Nếu lưu thất bại, trình quản lý giữ bản nháp và ở lại đoạn hiện tại. Tìm kiếm tiếp tục dùng nội dung đã lưu thành công gần nhất. Hãy thử lưu lại khi có thể ghi vào tệp. Khi hoàn tác xóa, đoạn được ghi lại trước khi xóa bản sao trong thùng rác. Nếu thất bại, hãy thử Ctrl+Z lại khi có thể ghi vào tệp.
 
 - **Khay → Mở Trình quản lý** — trình soạn thảo đầy đủ: danh mục và đoạn văn bản bên trái, trình soạn thảo bên phải. Thêm/đổi tên/xóa danh mục (với thẻ **7 màu**), chỉnh sửa đoạn văn bản (tên, từ viết tắt, nội dung, hình ảnh). Kéo để sắp xếp lại hoặc chuyển giữa các danh mục; `Ctrl+Z` hoàn tác một thao tác xóa.
 - **Khay → Tạo mới từ clipboard** — tạo một đoạn văn bản mới từ clipboard hiện tại và mở nó trong Trình quản lý để hoàn thiện (nhấn **Lưu** để ghi vào ổ đĩa; đóng Trình quản lý sẽ hỏi bạn muốn lưu hay hủy).

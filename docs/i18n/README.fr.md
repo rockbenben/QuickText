@@ -85,7 +85,11 @@ Double-cliquez sur **`QuickText.exe`** ; il réside dans la **zone de notificati
 
 ## Ajouter / modifier vos textes
 
+> Le remplacement et le retrait d’images nécessitent aussi un enregistrement. Les anciennes images sont supprimées après réussite ; abandonner conserve l’original.
+
 ![Gestionnaire : catégories et fragments à gauche, éditeur à droite](../images/quicktext-manager.webp)
+
+> Si l’enregistrement échoue, le gestionnaire conserve le brouillon et reste sur l’extrait actuel. La recherche utilise le dernier contenu enregistré avec succès. Réessayez lorsque le fichier est accessible en écriture. L’annulation d’une suppression enregistre d’abord l’extrait, puis retire sa copie de la corbeille. En cas d’échec, réessayez avec Ctrl+Z lorsque le fichier est accessible en écriture.
 
 - **Zone de notification → Ouvrir le Gestionnaire** — l'éditeur complet : catégories et fragments à gauche, éditeur à droite. Ajouter/renommer/supprimer des catégories (avec une étiquette **7 couleurs**), modifier les fragments (nom, abréviation, corps, image). Glissez pour réordonner ou déplacer entre catégories ; `Ctrl+Z` annule une suppression.
 - **Zone de notification → Nouveau depuis le presse-papiers** — créez un nouveau fragment à partir du presse-papiers actuel et ouvrez-le dans le Gestionnaire pour le compléter (appuyez sur **Enregistrer** pour l'écrire sur le disque ; fermer le Gestionnaire demande s'il faut enregistrer ou abandonner).

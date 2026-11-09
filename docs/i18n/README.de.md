@@ -85,7 +85,11 @@ Doppelklicke **`QuickText.exe`**; es lebt im **System-Infobereich** (keine Taskl
 
 ## Deinen Text hinzufügen / bearbeiten
 
+> Auch das Ersetzen und Entfernen von Bildern muss gespeichert werden. Alte Bilder werden erst nach erfolgreichem Speichern entfernt; Verwerfen behält das Original.
+
 ![Manager: Kategorien und Snippets links, Editor rechts](../images/quicktext-manager.webp)
+
+> Wenn das Speichern fehlschlägt, behält der Manager den Entwurf und bleibt beim aktuellen Eintrag. Die Suche verwendet den zuletzt erfolgreich gespeicherten Inhalt. Sobald die Datei wieder beschreibbar ist, können Sie erneut speichern. Beim Rückgängigmachen wird der Eintrag zuerst gespeichert und danach die Papierkorbkopie entfernt. Bei einem Fehler können Sie Strg+Z erneut drücken, sobald die Datei beschreibbar ist.
 
 - **Infobereich → Manager öffnen** — der vollständige Editor: Kategorien und Snippets links, Editor rechts. Kategorien hinzufügen/umbenennen/löschen (mit einer **7-farbigen** Markierung), Snippets bearbeiten (Name, Kürzel, Text, Bild). Zum Umsortieren oder Verschieben zwischen Kategorien ziehen; `Ctrl+Z` macht ein Löschen rückgängig.
 - **Infobereich → Neu aus Zwischenablage** — erstellt ein neues Snippet aus dem aktuellen Inhalt der Zwischenablage und öffnet es im Manager zum Fertigstellen (auf **Speichern** klicken, um es auf den Datenträger zu schreiben; beim Schließen des Managers wirst du gefragt, ob gespeichert oder verworfen werden soll).

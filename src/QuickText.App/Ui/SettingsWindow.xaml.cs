@@ -522,8 +522,7 @@ public partial class SettingsWindow : Window
         try
         {
             var folder = AppState.Current.ResolveDataFolder();
-            if (System.IO.File.Exists(dlg.FileName)) System.IO.File.Delete(dlg.FileName);
-            System.IO.Compression.ZipFile.CreateFromDirectory(folder, dlg.FileName);
+            Core.Persistence.LibraryBackup.Export(folder, dlg.FileName);
             AppDialog.Alert(this, LocalizationService.Instance["App.Name"], LocalizationService.Instance["Msg.Exported"]);
         }
         catch (Exception ex)
@@ -548,13 +547,8 @@ public partial class SettingsWindow : Window
             if (dlg.ShowDialog() != true) return;
             await Task.Run(() => System.IO.Compression.ZipFile.ExtractToDirectory(dlg.FileName, tmp));
 
-            // A QuickText backup is the data folder zipped: index.json must exist and parse.
-            var idxPath = System.IO.Path.Combine(tmp, "index.json");
-            var idx = System.IO.File.Exists(idxPath)
-                ? System.Text.Json.JsonSerializer.Deserialize<QuickText.Core.Models.LibraryIndex>(
-                    System.IO.File.ReadAllText(idxPath), QuickText.Core.Persistence.JsonConfig.Read)
-                : null;
-            if (idx?.Categories == null)
+            try { await Task.Run(() => new Core.Persistence.Store(tmp).ValidateBackup()); }
+            catch
             {
                 AppDialog.Alert(this, loc["App.Name"], loc["Msg.ImportInvalid"]);
                 return;
@@ -572,11 +566,7 @@ public partial class SettingsWindow : Window
                 if (manager.IsVisible) return;   // user kept it open (unsaved-changes prompt)
             }
 
-            var dest = AppState.Current.ResolveDataFolder();
-            AppState.Current.MarkSelfWrite(60_000);
-            await Task.Run(() => QuickText.Core.Persistence.FileTreeCopy.CopyWithRollback(tmp, dest));
-            AppState.Current.MarkSelfWrite();   // extend suppression past the last copied file
-            await AppState.Current.ReloadDataAsync();
+            await AppState.Current.ImportLibraryAsync(tmp);
             AppDialog.Alert(this, loc["App.Name"], loc["Msg.Imported"]);
         }
         catch (Exception ex)
@@ -593,12 +583,13 @@ public partial class SettingsWindow : Window
 
     private async void OnSave(object sender, RoutedEventArgs e)
     {
-        if (_saving) return;
+        if (_saving || _importing) return;
         _saving = true;
         SaveButton.IsEnabled = false;
         try
         {
-            var s = AppState.Current.Settings;
+            var s = System.Text.Json.JsonSerializer.Deserialize<Core.Settings.AppSettings>(
+                System.Text.Json.JsonSerializer.Serialize(AppState.Current.Settings))!;
             // "tap" mode needs a VALID modifier to work; if the captured key isn't one recognized
             // (empty, an old-build name, a hand-edited value), save as "hotkey" so the mode shown next
             // time matches the trigger that actually fires. Same predicate the runtime arming uses, so
@@ -622,7 +613,6 @@ public partial class SettingsWindow : Window
             s.Autostart = Autostart.IsChecked == true;
             s.AutostartElevated = s.Autostart && AutostartElevated.IsChecked == true;
             s.CheckUpdates = CheckUpdates.IsChecked == true;
-
             if (s.AutostartElevated && !ElevationPolicy.CanRegister(Environment.ProcessPath ?? ""))
             {
                 AppDialog.Alert(this, L("App.Name"), L("Settings.AutostartElevatedHint"));
@@ -649,7 +639,7 @@ public partial class SettingsWindow : Window
                 s.AutostartElevated = realElevated;
             }
 
-            AppState.Current.SettingsStore.Save(s);
+            await AppState.Current.SaveSettingsAsync(s);
             _savedForm = CurrentForm();
 
             // Guard: only apply a known culture (SetCulture throws on bad input).
@@ -672,11 +662,11 @@ public partial class SettingsWindow : Window
                 if (IsVisible) Close();
             }
         }
-        catch
+        catch (Exception ex)
         {
             _saving = false;
             SaveButton.IsEnabled = true;
-            throw;
+            AppDialog.Alert(this, L("App.Name"), ex.Message);
         }
     }
 }

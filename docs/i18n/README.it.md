@@ -85,7 +85,11 @@ Fai doppio clic su **`QuickText.exe`**; vive nella **barra delle applicazioni** 
 
 ## Aggiungi / modifica il tuo testo
 
+> Anche sostituire o rimuovere immagini richiede il salvataggio. Le vecchie immagini vengono eliminate dopo il salvataggio riuscito; annullare conserva l’originale.
+
 ![Gestore: categorie e snippet a sinistra, editor a destra](../images/quicktext-manager.webp)
+
+> Se il salvataggio non riesce, il gestore conserva la bozza e resta sul frammento attuale. La ricerca usa l’ultimo contenuto salvato correttamente. Riprova quando il file è scrivibile. Annullando un’eliminazione, il frammento viene salvato prima di rimuovere la copia dal cestino. In caso di errore, riprova con Ctrl+Z quando il file è scrivibile.
 
 - **Barra delle applicazioni → Apri Gestore** — l'editor completo: categorie e snippet a sinistra, editor a destra. Aggiungi/rinomina/elimina categorie (con un'etichetta a **7 colori**), modifica gli snippet (nome, abbreviazione, corpo, immagine). Trascina per riordinare o spostare tra categorie; `Ctrl+Z` annulla un'eliminazione.
 - **Barra delle applicazioni → Nuovo dagli appunti** — crea un nuovo snippet dal contenuto attuale degli appunti e lo apre nel Gestore per completarlo (premi **Salva** per scriverlo su disco; chiudendo il Gestore ti verrà chiesto se salvare o scartare).

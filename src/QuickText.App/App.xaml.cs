@@ -409,7 +409,7 @@ public partial class App : Application
             // And both are logged — the backup zips the whole data folder, so "disk full" and "file
             // locked by the sync client" are ordinary outcomes here, and swallowing them silently
             // meant a user could go weeks with no backups and no way to find out.
-            try { state.MarkSelfWrite(); state.Store.LoadTrash(); }
+            try { state.MarkSelfWrite(); new Core.Persistence.Store(state.Store.Root).LoadTrash(); }
             catch (Exception ex) { Core.Log.Error("trash purge", ex); }
             try { state.AutoBackupIfDue(); }
             catch (Exception ex) { Core.Log.Error("auto backup", ex); }
@@ -1307,8 +1307,7 @@ public partial class App : Application
         var nextFolder = state.ResolveDataFolder();
         if (!string.Equals(currentFolder, nextFolder, StringComparison.OrdinalIgnoreCase))
         {
-            try { await state.ReloadDataAsync(); }
-            catch { /* bad folder: retain existing data */ }
+            await state.ReloadDataAsync();
         }
         try { state.StartWatching(); }
         catch { /* unreachable folder: retry on the next apply */ }
@@ -1379,7 +1378,7 @@ public partial class App : Application
         }
 
         var manager = Windows.OfType<ManagerWindow>().FirstOrDefault();
-        if (manager != null && manager.TryAddCapturedSnippet(cs.Name, cs.Body))
+        if (manager != null && await manager.TryAddCapturedSnippetAsync(cs.Name, cs.Body))
         {
             Balloon(string.Format(loc["Msg.Captured"], cs.Name), NotificationIcon.Info);
             return;

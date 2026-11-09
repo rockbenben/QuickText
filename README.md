@@ -93,7 +93,11 @@ Double-click **`QuickText.exe`**; it lives in the **system tray** (no taskbar bu
 
 ## Add / edit your text
 
+> Image replacements and removals also require saving. Old images are cleaned up after a successful save; discarding keeps the original image.
+
 ![Manager: categories and snippets on the left, the editor on the right](docs/images/quicktext-manager.webp)
+
+> If saving fails, the Manager keeps your draft and stays on the current snippet. Search continues to use the last successfully saved content. Retry after the file becomes writable. Undo writes the snippet back before removing its trash copy. If undo fails, retry Ctrl+Z once the file is writable.
 
 - **Tray → Open Manager** — the full editor: categories and snippets on the left, the editor on the right. Add/rename/delete categories (with a **7-color** tag), edit snippets (name, abbreviation, body, image). Drag to reorder or move between categories; `Ctrl+Z` undoes a delete.
 - **Tray → New from clipboard** — create a new snippet from the current clipboard and open it in the Manager to finish (press **Save** to write it to disk; nothing is written until you do, and anything unsaved is confirmed before it can be lost — on closing the Manager, on closing the enlarged editor, and on switching to another snippet).

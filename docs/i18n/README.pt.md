@@ -85,7 +85,11 @@ Dê um duplo clique em **`QuickText.exe`**; ele fica na **bandeja do sistema** (
 
 ## Adicione / edite seu texto
 
+> Substituir ou remover imagens também exige salvar. As imagens antigas são removidas após o salvamento; descartar mantém a original.
+
 ![Gerenciador: categorias e trechos à esquerda, editor à direita](../images/quicktext-manager.webp)
+
+> Se o salvamento falhar, o gerenciador mantém o rascunho e permanece no trecho atual. A pesquisa usa o último conteúdo salvo com sucesso. Tente novamente quando o arquivo permitir gravação. Ao desfazer uma exclusão, o trecho é salvo antes de remover a cópia da lixeira. Se falhar, tente Ctrl+Z novamente quando o arquivo permitir gravação.
 
 - **Bandeja → Abrir Gerenciador** — o editor completo: categorias e trechos à esquerda, editor à direita. Adicione/renomeie/exclua categorias (com uma etiqueta de **7 cores**), edite trechos (nome, abreviação, corpo, imagem). Arraste para reordenar ou mover entre categorias; `Ctrl+Z` desfaz uma exclusão.
 - **Bandeja → Novo a partir da área de transferência** — cria um novo trecho a partir do conteúdo atual da área de transferência e o abre no Gerenciador para finalizar (pressione **Salvar** para gravá-lo no disco; fechar o Gerenciador pergunta se deseja salvar ou descartar).

@@ -85,7 +85,11 @@ Haz doble clic en **`QuickText.exe`**; vive en la **bandeja del sistema** (sin b
 
 ## Añadir / editar tu texto
 
+> Reemplazar o quitar imágenes también requiere guardar. Las imágenes antiguas se eliminan tras guardar correctamente; descartar conserva la original.
+
 ![Gestor: categorías y fragmentos a la izquierda, editor a la derecha](../images/quicktext-manager.webp)
+
+> Si falla el guardado, el administrador conserva el borrador y permanece en el fragmento actual. La búsqueda utiliza el último contenido guardado correctamente. Vuelve a intentarlo cuando se pueda escribir en el archivo. Al deshacer una eliminación, primero se guarda el fragmento y después se elimina su copia de la papelera. Si falla, vuelve a pulsar Ctrl+Z cuando se pueda escribir en el archivo.
 
 - **Bandeja → Abrir Gestor** — el editor completo: categorías y fragmentos a la izquierda, editor a la derecha. Añade/renombra/elimina categorías (con una etiqueta de **7 colores**), edita fragmentos (nombre, abreviatura, cuerpo, imagen). Arrastra para reordenar o mover entre categorías; `Ctrl+Z` deshace un borrado.
 - **Bandeja → Nuevo desde el portapapeles** — crea un fragmento nuevo a partir del portapapeles actual y ábrelo en el Gestor para completarlo (pulsa **Guardar** para escribirlo en disco; al cerrar el Gestor te preguntará si guardar o descartar).

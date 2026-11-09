@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 using System.Windows;
 using QuickText.Core.Localization;
 using QuickText.Core.Models;
@@ -31,6 +32,7 @@ public partial class TrashDialog : Window
     }
 
     private List<TrashEntry> _trash = new();
+    private readonly string _libraryRoot = Path.TrimEndingDirectorySeparator(Path.GetFullPath(AppState.Current.Store.Root));
 
     public TrashDialog()
     {
@@ -103,12 +105,28 @@ public partial class TrashDialog : Window
     private List<TrashEntry> SelectedEntries() =>
         Items.SelectedItems.Cast<Row>().Select(r => r.Entry).ToList();
 
+    private bool EnsureCanWrite()
+    {
+        var state = AppState.Current;
+        string? message = state.IsLibraryBusy ? "Manager.SaveFailed" :
+            !string.Equals(_libraryRoot, Path.TrimEndingDirectorySeparator(Path.GetFullPath(state.Store.Root)),
+                StringComparison.OrdinalIgnoreCase) ? "Manager.StaleNotice" : null;
+        if (message == null) return true;
+        var loc = LocalizationService.Instance;
+        AppDialog.Alert(this, loc["App.Name"], loc[message]);
+        return false;
+    }
+
     private void OnRestore(object s, RoutedEventArgs e)
     {
         var selected = SelectedEntries();
         if (selected.Count == 0) return;
+        if (!EnsureCanWrite()) return;
         var state = AppState.Current;
-        var cats = state.Store.LoadAll();
+        var trash = state.Store.LoadTrash();
+        var selectedKeys = selected.Select(t => (t.Snippet.Id, t.DeletedAt)).ToHashSet();
+        selected = trash.Where(t => selectedKeys.Contains((t.Snippet.Id, t.DeletedAt))).ToList();
+        var cats = state.Store.LoadAll(strict: true);
         // A crash mid-delete can leave a snippet in both the library and the trash; restoring
         // such an entry must not create a duplicate Id — just drop the trash copy.
         var existingIds = new HashSet<string>(cats.SelectMany(c => c.Snippets).Select(s => s.Id));
@@ -129,9 +147,9 @@ public partial class TrashDialog : Window
             state.Store.SaveCategory(cat);
         }
 
-        _trash.RemoveAll(selected.Contains);
+        var remaining = trash.Where(t => !selected.Contains(t)).ToList();
         state.MarkSelfWrite();
-        state.Store.SaveTrash(_trash);
+        state.Store.SaveTrash(remaining);
         // The owning Manager is modal/disabled and reloads when this dialog closes; notifying it
         // here would make it refresh (or prompt about a conflict) behind an open modal.
         state.ReloadData(notify: false);
@@ -155,14 +173,19 @@ public partial class TrashDialog : Window
 
     private void PurgeEntries(List<TrashEntry> entries)
     {
+        if (!EnsureCanWrite()) return;
         var state = AppState.Current;
-        var remaining = _trash.Where(t => !entries.Contains(t)).ToList();
+        // Sync may have added entries while the dialog was open. Remove only the rows selected
+        // from this view, preserving the latest metadata for everything else.
+        var keys = entries.Select(t => (t.Snippet.Id, t.DeletedAt)).ToHashSet();
+        var current = state.Store.LoadTrash();
+        var remaining = current.Where(t => !keys.Contains((t.Snippet.Id, t.DeletedAt))).ToList();
         state.MarkSelfWrite();
         // Trash metadata first: if this write fails, nothing has been deleted yet.
         state.Store.SaveTrash(remaining);
         _trash = remaining;
         foreach (var t in entries)
-            if (t.Snippet.IsImage) state.Store.DeleteImage(t.Snippet.ImagePath);
+            if (t.Snippet.IsImage) state.Store.DeleteUnreferencedImage(t.Snippet.ImagePath);
         Reload();
     }
 
