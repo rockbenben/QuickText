@@ -44,7 +44,7 @@ try {
     ExpectFailure 'Wrong PE architecture'
     [IO.File]::WriteAllBytes($armExe, $original)
     ExpectFailure 'Configured signing did not produce valid signatures' @{ RequireSigning=$true }
-    $tarExecutable = (Get-Command tar -CommandType Application).Source
+    $tarExecutable = (Get-Command tar -CommandType Application | Select-Object -First 1).Source
     function tar {
         & $tarExecutable @args
         if ($LASTEXITCODE) { throw 'Fixture archive command failed' }
