@@ -20,15 +20,20 @@
 
 ## Tải xuống
 
-**[⬇ Tải bản mới nhất](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable một tệp. Không được ký số nên lần chạy đầu SmartScreen sẽ cảnh báo: **More info → Run anyway**.
+[↓ QuickText](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64
 
-- `QuickText-<version>-win-x64.zip` — đã đóng gói sẵn .NET runtime nên chạy được trên mọi máy Windows 10/11 x64 mà không cần cài gì thêm. Không chắc thì chọn bản này: máy trong mạng nội bộ, máy không có mạng, hay mang theo trong USB.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` — cần cài sẵn [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0). Dành cho máy có mạng của bạn: cài một lần, sau đó mỗi lần cập nhật chỉ tải một gói rất nhỏ.
-- `QuickText.exe` — cùng bản dựng đó nhưng không đóng gói zip: bấm là chạy, hoặc ghi đè lên bản hiện có để cập nhật.
+| Gói | Môi trường |
+| --- | --- |
+| `QuickText-<tag>-setup.exe` — Trình cài đặt (x64) | đã kèm |
+| `QuickText-<tag>-win-x64.zip` — Di động | đã kèm |
+| `QuickText-<tag>-win-arm64.zip` — Di động | đã kèm |
+| `QuickText-<tag>-win-x64-needs-dotnet10.zip` — Gọn nhẹ | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (x64) |
+| `QuickText-<tag>-win-arm64-needs-dotnet10.zip` — Gọn nhẹ | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (ARM64) |
 
-Tính năng và dữ liệu hoàn toàn giống nhau, khác biệt duy nhất là có kèm runtime hay không.
+`SHA256SUMS.txt` · `certutil -hashfile <file> SHA256` · `gh attestation verify <file> -R rockbenben/QuickText`
 
----
+Tệp exe chưa có chữ ký số nên lần chạy đầu tiên Windows SmartScreen sẽ cảnh báo: nhấp **More info → Run anyway**.
+
 
 ## Bạn sẽ dùng nó ở đâu
 
@@ -136,6 +141,8 @@ Chi tiết: việc khớp là **không phân biệt hoa thường** (`;SIG` vẫ
 
 > **Về tiền tố:** tiền tố (mặc định `;`) giúp việc gõ thông thường / bính âm không vô tình kích hoạt một từ viết tắt trần. Thay đổi nó ở **Cài đặt → Từ viết tắt → Tiền tố kích hoạt** (thành `,`, `:`, …) hoặc **để trống**. Một từ viết tắt có tiền tố tự phân định và kích hoạt ngay cả khi dính liền với văn bản phía trước (ví dụ `thx;sig`); không có tiền tố thì nó chỉ kích hoạt như một từ riêng (không bao giờ như phần đuôi của một từ dài hơn như `graf`). Bạn cũng có thể tắt từ viết tắt theo từng ứng dụng (một danh sách đen, ví dụ `cmd.exe; putty.exe`) hoặc tắt hoàn toàn.
 
+Khi bật từ viết tắt, bạn vẫn có thể gõ bình thường các ký tự có dấu bằng phím chết, như Š, Č và Ř trong tiếng Séc.
+
 ## Đầu ra & cài đặt thông dụng (Khay → Cài đặt)
 
 Chọn danh mục trong thanh bên để chỉnh cài đặt. Các thay đổi chưa lưu được giữ lại khi chuyển danh mục. Có thể đổi kích thước cửa sổ; trên màn hình thấp, nội dung cuộn còn nút Lưu luôn hiển thị. Dùng phím mũi tên trong thanh bên hoặc Ctrl+Tab để chuyển danh mục.
@@ -171,12 +178,12 @@ Chọn danh mục trong thanh bên để chỉnh cài đặt. Các thay đổi c
 - **Gọi ra**: phím tắt toàn cục — một **tổ hợp phím** (phím chức năng dùng như phím đơn) hoặc **gõ nhẹ một/hai lần một phím bổ trợ** (ví dụ Ctrl phải), **chọn một**; bảng theo cửa sổ đang hoạt động / con trỏ văn bản / vị trí đã ghi nhớ; các nút hàng trên nhảy đến **Mới / Trình quản lý / Cài đặt**; ghim nó để gửi liên tiếp nhiều đoạn; kéo & đổi cỡ với kích thước được ghi nhớ.
 - **Tìm kiếm**: tên / bính âm / chữ cái đầu / từ viết tắt / nội dung, được tô sáng; **phá vỡ đồng hạng bằng tần suất sử dụng (frecency)**; `@category keywords` giới hạn tìm kiếm vào một danh mục (chỉ `@category` để duyệt nó).
 - **Nội dung**: văn bản thuần (nhiều dòng, ký tự đặc biệt, emoji không mất mát), trình giữ chỗ (giá trị mặc định / danh sách lựa chọn / lồng đoạn văn bản / định dạng ngày tùy chỉnh / uuid / random — **bật tùy chọn theo từng đoạn**), **hình ảnh** (từ clipboard hoặc tệp, được dán dưới dạng hình ảnh khi gửi; **hình ảnh cũng có thể có từ viết tắt** — gõ từ viết tắt, được hình ảnh).
-- **Từ viết tắt**: kích hoạt bằng dấu kết thúc, hỏi biến, hoàn tác một cú nhấn, sửa lỗi gõ bằng Backspace, không phân biệt hoa thường, nhấp phá vỡ token, cảnh báo trùng lặp, danh sách đen theo ứng dụng, **tạm dừng bằng một cú nhấp trên khay hệ thống**.
+- **Từ viết tắt**: kích hoạt bằng dấu kết thúc, hỏi biến, hoàn tác một cú nhấn, sửa lỗi gõ bằng Backspace, không phân biệt hoa thường, giữ dấu phím chết, nhấp phá vỡ token, cảnh báo trùng lặp, danh sách đen theo ứng dụng, **tạm dừng bằng một cú nhấp trên khay hệ thống**.
 - **Đầu ra**: dán trực tiếp / chỉ sao chép; tùy chọn tự động Enter, khôi phục clipboard, nhấp một lần để gửi; **ghi đè đầu ra theo từng đoạn**; phím tắt thu thập (clipboard → đoạn văn bản trong một cú nhấn).
 - **Trình quản lý**: **trình soạn thảo nội dung rộng rãi** (`⤢ Phóng to` mở nó trong cửa sổ riêng; thay đổi chưa lưu luôn được hỏi lại — khi đóng cửa sổ và khi chuyển sang mục khác), **tô màu trình giữ chỗ** (tô theo loại; tham chiếu đoạn văn bản không tồn tại / định dạng ngày không hợp lệ / dấu ngoặc nhọn chưa đóng được gạch chân sóng đỏ kèm lý do khi di chuột qua; không có gì được tô màu khi trình giữ chỗ tắt — thay vào đó thanh trạng thái sẽ thông báo), **thân thiện với mã** (cửa sổ phóng to luôn hiển thị số dòng và cung cấp 13 định dạng mã để tô sáng cú pháp; Enter giữ nguyên thụt lề, `Tab` thụt lề một vùng chọn nhiều dòng, chế độ không ngắt dòng), 7 màu danh mục, kéo sắp xếp lại / chuyển, **chọn nhiều để chuyển / xóa hàng loạt** (chọn bằng Ctrl / Shift, rồi nhấp chuột phải), hoàn tác xóa, **thùng rác (khôi phục trong 30 ngày, có xem trước nội dung)**, cảnh báo trùng từ viết tắt, thống kê sử dụng, phản hồi khi lưu.
 - **Dữ liệu**: JSON cục bộ, tải lại nóng (tự động hợp nhất chỉnh sửa từ bên ngoài / đồng bộ), thông báo xung đột đồng bộ, xuất / nhập bản sao lưu, **tự động sao lưu hàng ngày (giữ 10 bản)**, khởi động cùng Windows (tùy chọn với quyền quản trị).
 - **Bản địa hóa**: **18 ngôn ngữ giao diện** (Tiếng Trung Giản thể / Phồn thể, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) với **phản chiếu phải-sang-trái cho tiếng Ả Rập**, chuyển đổi trực tiếp trong Cài đặt. Giao diện tối và sáng (hoặc theo Windows), cũng đổi ngay.
-- **Độ bền bỉ**: một phiên bản duy nhất (lần khởi động thứ hai sẽ gọi bảng tìm kiếm ra thay vì cài đặt hook trùng lặp); CI chạy các bài kiểm thử cộng với kiểm tra nhanh cửa sổ ở mỗi lần push và xuất bản cả hai bản dựng đơn tệp trên các thẻ `v*`.
+- **Độ bền bỉ**: một phiên bản duy nhất (lần khởi động thứ hai sẽ gọi bảng tìm kiếm ra thay vì cài đặt hook trùng lặp); CI chạy các bài kiểm thử cộng với kiểm tra nhanh cửa sổ ở mỗi lần push và xuất bản bộ cài x64 và bốn ZIP di động (x64/ARM64, có hoặc không kèm môi trường chạy) trên các thẻ `v*`.
 
 ## Dữ liệu & đồng bộ
 
@@ -211,7 +218,7 @@ Core thuần (không Win32, kiểm thử đơn vị được) được tách bi�
 | `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (giao diện tối), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Kiểm thử đơn vị Core (xUnit)                                                                                                                                                                                            |
 
-**tests/QuickText.App.Tests** — Kiểm thử hồi quy Windows/WPF biệt lập cho lưu, khôi phục, đổi thư viện, bố cục và chính sách tương tác hệ thống.
+**`tests/QuickText.App.Tests`** — Kiểm thử hồi quy Windows/WPF biệt lập cho lưu, khôi phục, đổi thư viện, bố cục, dịch phím bàn phím và chính sách tương tác hệ thống.
 
 ## Xây dựng & chạy
 
@@ -222,11 +229,13 @@ dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 
-Xuất bản một bản dựng di động đơn tệp (win-x64):
+Xuất bản một bản dựng di động đơn tệp (win-x64 / win-arm64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64-needs-dotnet10
 ```
 
 Yêu cầu .NET 10 SDK. Chỉ dành cho Windows (phím tắt toàn cục Win32 / keyboard hook / clipboard).

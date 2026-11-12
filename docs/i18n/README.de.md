@@ -20,15 +20,20 @@
 
 ## Download
 
-**[⬇ Neueste Version herunterladen](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable Einzeldatei. Nicht signiert, daher warnt SmartScreen beim ersten Start: **Weitere Informationen → Trotzdem ausführen**.
+[↓ QuickText](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64
 
-- `QuickText-<version>-win-x64.zip` – die .NET-Runtime ist enthalten, läuft also ohne Voraussetzungen auf jedem Windows 10/11 x64. Im Zweifel diese nehmen: Intranet- oder Offline-Rechner oder ein USB-Stick zum Mitnehmen.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` – setzt die installierte [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) voraus. Für den eigenen PC mit Internet: einmal installieren, danach sind Updates nur noch winzig.
-- `QuickText.exe` – derselbe Build ohne Zip: anklicken und starten, oder über die vorhandene Kopie legen, um zu aktualisieren.
+| Paket | Laufzeit |
+| --- | --- |
+| `QuickText-<tag>-setup.exe` — Installationspaket (x64) | enthalten |
+| `QuickText-<tag>-win-x64.zip` — Portabel | enthalten |
+| `QuickText-<tag>-win-arm64.zip` — Portabel | enthalten |
+| `QuickText-<tag>-win-x64-needs-dotnet10.zip` — Kompakt | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (x64) |
+| `QuickText-<tag>-win-arm64-needs-dotnet10.zip` — Kompakt | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (ARM64) |
 
-Funktionen und Daten sind identisch; der einzige Unterschied ist, ob die Runtime mitgeliefert wird.
+`SHA256SUMS.txt` · `certutil -hashfile <file> SHA256` · `gh attestation verify <file> -R rockbenben/QuickText`
 
----
+Die EXE ist nicht signiert, daher warnt Windows SmartScreen beim ersten Start: Klicke auf **Weitere Informationen → Trotzdem ausführen**.
+
 
 ## Wo du es einsetzt
 
@@ -136,6 +141,8 @@ Details: Der Abgleich ist **ohne Berücksichtigung der Groß-/Kleinschreibung** 
 
 > **Zum Präfix:** Das Präfix (Standard `;`) verhindert, dass normales Tippen / Pinyin ein bloßes Kürzel fälschlich auslöst. Ändere es unter **Einstellungen → Kürzel → Auslöse-Präfix** (auf `,`, `:`, …) oder **lass es leer**. Ein Kürzel mit Präfix begrenzt sich selbst und löst auch dann aus, wenn es direkt am vorangehenden Text klebt (z. B. `thx;sig`); ohne Präfix löst es nur als eigenständiges Wort aus (nie als Ende eines längeren wie `graf`). Du kannst Kürzel auch pro App deaktivieren (eine Sperrliste, z. B. `cmd.exe; putty.exe`) oder ganz ausschalten.
 
+Auch bei aktivierten Kürzeln lassen sich Akzentzeichen mit Tottasten normal eingeben, etwa die tschechischen Buchstaben Š, Č und Ř.
+
 ## Ausgabe & gängige Einstellungen (Infobereich → Einstellungen)
 
 Wähle eine Kategorie in der Seitenleiste. Nicht gespeicherte Änderungen bleiben beim Wechsel erhalten. Das Fenster lässt sich vergrößern und verkleinern; auf niedrigen Bildschirmen scrollt der Inhalt, während Speichern sichtbar bleibt. Mit den Pfeiltasten in der Seitenleiste oder Ctrl+Tab wechselst du die Kategorie.
@@ -171,12 +178,12 @@ Wähle eine Kategorie in der Seitenleiste. Nicht gespeicherte Änderungen bleibe
 - **Aufrufen**: globaler Hotkey — eine **Tastenkombination** (Funktionstasten funktionieren als Einzeltaste) oder **einfaches/doppeltes Tippen einer Modifikatortaste** (z. B. rechte Ctrl), **eine wählen**; das Panel folgt dem aktiven Fenster / dem Textcursor / der gemerkten Position; die Schaltflächen oben springen zu **Neu / Manager / Einstellungen**; anheften, um mehrere hintereinander zu senden; ziehen & Größe ändern mit gemerkter Größe.
 - **Suche**: Name / Pinyin / Initialen / Kürzel / Text, hervorgehoben; **Gleichstände nach Nutzungshäufigkeit (Frecency) aufgelöst**; `@category keywords` grenzt die Suche auf eine Kategorie ein (bloßes `@category` durchblättert sie).
 - **Inhalt**: Klartext (mehrzeilig, Sonderzeichen, Emojis verlustfrei), Platzhalter (Standardwerte / Options-Dropdowns / Snippet-Verschachtelung / eigene Datumsformate / uuid / random — **pro Snippet aktivierbar**), **Bilder** (aus Zwischenablage oder Datei, beim Senden als Bild eingefügt; **Bilder können ebenfalls Kürzel haben** — tippe das Kürzel, erhalte das Bild).
-- **Kürzel**: durch Abschlusszeichen ausgelöst, Variablen-Abfrage, Rückgängig mit einem Tastendruck, Tippfehlerkorrektur per Rücktaste, ohne Groß-/Kleinschreibung, Klick trennt das Token, Duplikat-Warnung, App-Sperrliste, **Ein-Klick-Pause im Infobereich**.
+- **Kürzel**: durch Abschlusszeichen ausgelöst, Variablen-Abfrage, Rückgängig mit einem Tastendruck, Tippfehlerkorrektur per Rücktaste, ohne Groß-/Kleinschreibung, Erhalt von Tottasten-Akzenten, Klick trennt das Token, Duplikat-Warnung, App-Sperrliste, **Ein-Klick-Pause im Infobereich**.
 - **Ausgabe**: direkt einfügen / nur kopieren; optional automatisches Enter, Zwischenablage wiederherstellen, Senden per Einfachklick; **Ausgabe-Überschreibung pro Snippet**; Erfassungs-Hotkey (Zwischenablage → Snippet mit einem Tastendruck).
 - **Manager**: **geräumiger Text-Editor** (`⤢ Vergrößern` öffnet ihn in einem eigenen Fenster; ungespeicherte Änderungen werden immer abgefragt — beim Schließen und beim Wechsel zu einem anderen Eintrag), **Platzhalter-Hervorhebung** (je nach Art eingefärbt; ungültige Snippet-Verweise / ungültige Datumsformate / nicht geschlossene geschweifte Klammern erhalten eine rote Wellenlinie mit Grund beim Hovern; sind Platzhalter deaktiviert, wird nichts hervorgehoben — das steht dann stattdessen in der Statusleiste), **codefreundlich** (das vergrößerte Fenster zeigt immer Zeilennummern und bietet 13 Code-Formate zur Syntaxhervorhebung; Enter behält die Einrückung bei, `Tab` rückt eine mehrzeilige Auswahl komplett ein, Zeilenumbruch-aus-Modus), 7 Kategoriefarben, Ziehen zum Umsortieren / Verschieben, **Mehrfachauswahl für Stapel-Verschieben / -Löschen** (Ctrl / Shift auswählen, dann Rechtsklick), Löschen rückgängig, **Papierkorb (30-Tage-Wiederherstellung, mit Textvorschau)**, Duplikat-Kürzel-Warnung, Nutzungsstatistik, Speicher-Rückmeldung.
 - **Daten**: lokales JSON, Hot-Reload (führt externe Änderungen / Synchronisierung automatisch zusammen), Hinweis bei Synchronisierungskonflikten, Backup exportieren / importieren, **tägliches Auto-Backup (10 aufbewahrt)**, mit Windows starten (optional als Administrator).
 - **Lokalisierung**: **18 Oberflächensprachen** (vereinfachtes / traditionelles Chinesisch, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) mit **Rechts-nach-links-Spiegelung für Arabisch**, live in den Einstellungen umgeschaltet. Dunkles und helles Design (oder Windows folgen), ebenfalls sofort umschaltbar.
-- **Robustheit**: einzelne Instanz (ein zweiter Start ruft das Suchpanel auf, statt Hooks doppelt zu installieren); CI führt bei jedem Push Tests plus einen Fenster-Smoke-Check aus und veröffentlicht bei `v*`-Tags beide Einzeldatei-Builds.
+- **Robustheit**: einzelne Instanz (ein zweiter Start ruft das Suchpanel auf, statt Hooks doppelt zu installieren); CI führt bei jedem Push Tests plus einen Fenster-Smoke-Check aus und veröffentlicht bei `v*`-Tags ein x64-Installationsprogramm und vier portable ZIPs (x64/ARM64, mit oder ohne Laufzeit).
 
 ## Daten & Synchronisierung
 
@@ -211,7 +218,7 @@ Reiner Core (kein Win32, unit-testbar) getrennt von Win32/UI gehalten.
 | `src/QuickText.App`          | WPF-UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (dunkles Design), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Core-Unit-Tests (xUnit)                                                                                                                                                                                                  |
 
-**tests/QuickText.App.Tests** — Isolierte Windows/WPF-Regressionstests für Speichern, Wiederherstellen, Bibliothekswechsel, Layout und Systeminteraktion.
+**`tests/QuickText.App.Tests`** — Isolierte Windows/WPF-Regressionstests für Speichern, Wiederherstellen, Bibliothekswechsel, Layout, Tastaturübersetzung und Systeminteraktion.
 
 ## Build & Ausführung
 
@@ -222,11 +229,13 @@ dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 
-Einen portablen Einzeldatei-Build veröffentlichen (win-x64):
+Einen portablen Einzeldatei-Build veröffentlichen (win-x64 / win-arm64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64-needs-dotnet10
 ```
 
 Erfordert das .NET 10 SDK. Nur Windows (Win32-Globaler-Hotkey / Tastatur-Hook / Zwischenablage).

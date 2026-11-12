@@ -20,15 +20,20 @@
 
 ## 下載
 
-**[⬇ 下載最新版](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64，單檔綠色版。程式未做程式碼簽章，首次執行 SmartScreen 會攔一下：點**其他資訊 → 仍要執行**。
+[↓ QuickText](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64
 
-- `QuickText-<版本>-win-x64.zip` —— 已內建 .NET 執行階段，任何 Windows 10/11 x64 都能直接跑，沒有前置需求。拿不準就下這個：內網電腦、離線電腦，或用 USB 隨身帶著跑。
-- `QuickText-<版本>-win-x64-needs-dotnet10.zip` —— 需要先安裝 [.NET 10 桌面執行階段](https://dotnet.microsoft.com/download/dotnet/10.0)。適合自己那台能連網的電腦：裝一次，之後每次更新都只要下載一個很小的包。
-- `QuickText.exe` —— 同一個版本，只是沒套 zip：點開即用，也可以直接蓋掉現有的那份完成更新。
+| 發佈套件 | 執行階段 |
+| --- | --- |
+| `QuickText-<tag>-setup.exe` — 安裝程式 (x64) | 已包含 |
+| `QuickText-<tag>-win-x64.zip` — 可攜版 | 已包含 |
+| `QuickText-<tag>-win-arm64.zip` — 可攜版 | 已包含 |
+| `QuickText-<tag>-win-x64-needs-dotnet10.zip` — 精簡版 | [.NET 10 桌面執行階段](https://dotnet.microsoft.com/download/dotnet/10.0) (x64) |
+| `QuickText-<tag>-win-arm64-needs-dotnet10.zip` — 精簡版 | [.NET 10 桌面執行階段](https://dotnet.microsoft.com/download/dotnet/10.0) (ARM64) |
 
-功能與資料完全相同，差別只在有沒有把執行階段打包進去。
+`SHA256SUMS.txt` · `certutil -hashfile <file> SHA256` · `gh attestation verify <file> -R rockbenben/QuickText`
 
----
+程式未做程式碼簽章，首次執行 Windows SmartScreen 會攔一下：點**其他資訊 → 仍要執行**。
+
 
 ## 你會在哪裡用到它
 
@@ -136,6 +141,8 @@
 
 > **關於前綴：** 前綴（預設 `;`）可避免一般打字／拼音誤觸發裸縮寫。在 **設定 → 縮寫 → 觸發前綴** 中更改（改成 `,`、`:`……）或**留空**。帶前綴的縮寫可自我分隔，即使緊貼前面的文字也會觸發（例如 `thx;sig`）；不帶前綴時，它只會作為獨立單字觸發（絕不會作為較長單字的尾端如 `graf` 觸發）。你也可以逐應用程式停用縮寫（黑名單，例如 `cmd.exe; putty.exe`）或完全關閉。
 
+啟用縮寫後，一般打字仍可使用死鍵組合輸入重音字元，例如捷克語的 Š、Č、Ř。
+
 ## 輸出與常用設定（系統匣 → 設定）
 
 在側欄選擇分類查看設定，切換分類會保留尚未儲存的修改。視窗可調整大小；小螢幕上僅目前分類的內容捲動，儲存按鈕保持可見。可用側欄方向鍵或 Ctrl+Tab 切換分類。
@@ -171,12 +178,12 @@
 - **呼叫**：全域熱鍵——一組**組合鍵**（功能鍵可單鍵使用）或**單擊／雙擊一個修飾鍵**（例如右 Ctrl），**擇一**；面板跟隨使用中的視窗／文字插入點／記住的位置；頂列按鈕可跳到 **新增／管理員／設定**；釘選以連續送出多個；可拖曳與縮放並記住尺寸。
 - **搜尋**：名稱／拼音／首字母／縮寫／內文，附標示；**平手時以使用頻率（frecency）決勝**；`@分類 關鍵字` 將搜尋範圍限縮到單一分類（單獨 `@分類` 即瀏覽該分類）。
 - **內容**：純文字（多行、特殊字元、表情符號無損）、預留位置（預設值／選項下拉／片語巢狀／日期自訂格式／uuid／random——**逐片語自選啟用**）、**圖片**（來自剪貼簿或檔案，送出時以圖片貼上；**圖片也能設縮寫**——打縮寫、得圖片）。
-- **縮寫**：以終止符觸發、變數提示、一鍵還原、Backspace 錯字更正、不分大小寫、點擊即中斷權杖、重複警告、逐應用程式黑名單、**系統匣一鍵暫停**。
+- **縮寫**：以終止符觸發、變數提示、一鍵還原、Backspace 錯字更正、不分大小寫、死鍵重音字元保留、點擊即中斷權杖、重複警告、逐應用程式黑名單、**系統匣一鍵暫停**。
 - **輸出**：直接貼上／僅複製；可選自動 Enter、還原剪貼簿、單擊送出；**逐片語輸出覆寫**；擷取熱鍵（剪貼簿 → 片語，一鍵完成）。
 - **管理員**：**寬敞的內文編輯器**（`⤢ 放大編輯` 開獨立視窗；有未儲存的變更一律先詢問 —— 關閉視窗時問，切換到其他項目時也問）、**預留位置標示**（依種類上色；失效的片語參照／無效的日期格式／未關閉的大括號會以紅色波浪底線標示，滑鼠停留可看原因；預留位置關閉時不會有任何標示，狀態列會改為說明），**對程式碼友善**（放大視窗永遠顯示行號，並提供 13 種程式碼格式供語法標示；Enter 會保留縮排、`Tab` 會將多行選取一併縮排、不換行模式），7 種分類顏色、拖曳重排／移動、**多選批次移動／刪除**（Ctrl／Shift 選取後按右鍵）、還原刪除、**回收桶（30 天內還原，附內文預覽）**、重複縮寫警告、使用統計、儲存回饋。
 - **資料**：本機 JSON、熱重載（自動合併外部編輯／同步）、同步衝突通知、匯出／匯入備份、**每日自動備份（保留 10 份）**、開機自動啟動（可選以系統管理員身分）。
 - **在地化**：**18 種介面語言**（簡體／繁體中文、English、日本語、한국어、Español、Français、Deutsch、Русский、العربية……），**阿拉伯文支援由右至左鏡像**，於設定中即時切換。深色／淺色主題（也可跟隨系統），同樣即時切換。
-- **穩健性**：單一實例（第二次啟動會呼叫搜尋面板，而非重複安裝掛勾）；CI 於每次推送執行測試加視窗煙霧檢查，並在 `v*` 標籤發佈兩種單一檔案建置。
+- **穩健性**：單一實例（第二次啟動會呼叫搜尋面板，而非重複安裝掛勾）；CI 於每次推送執行測試加視窗煙霧檢查，並在 `v*` 標籤發佈 x64 安裝程式與四種可攜式 ZIP（x64/ARM64，各含自包含與框架相依版本）。
 
 ## 資料與同步
 
@@ -211,7 +218,7 @@
 | `src/QuickText.App`          | WPF UI（`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`）、`Ui/Theme.xaml`（深色主題）、`Interop`（`GlobalHotkey`、`KeyboardHook`、`PasteEngine`、`Autostart`、`NativeMethods`） |
 | `tests/QuickText.Core.Tests` | Core 單元測試（xUnit）                                                                                                                                                                                                |
 
-**tests/QuickText.App.Tests** — 隔離的 Windows/WPF 回歸測試，涵蓋儲存、還原、切換資料庫、版面及系統互動原則。
+**`tests/QuickText.App.Tests`** — 隔離的 Windows/WPF 回歸測試，涵蓋儲存、還原、切換資料庫、版面、按鍵轉義及系統互動原則。
 
 ## 建置與執行
 
@@ -222,11 +229,13 @@ dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 
-發佈單一檔案可攜式建置（win-x64）：
+發佈單一檔案可攜式建置（win-x64 / win-arm64）：
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64-needs-dotnet10
 ```
 
 需要 .NET 10 SDK。僅限 Windows（Win32 全域熱鍵／鍵盤掛勾／剪貼簿）。

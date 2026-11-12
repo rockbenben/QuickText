@@ -39,17 +39,17 @@ public static class UpdateCheck
 
     /// <summary>
     /// The self-contained build among a release's assets, or null when there is none.
-    /// <para>A release carries two zips: the self-contained one (the .NET runtime is inside it, so
+    /// <para>For each supported architecture, a release carries two zips: the self-contained one (the .NET runtime is inside it, so
     /// it runs on a machine with no .NET installed) and a framework-dependent one (the runtime has
     /// to be installed separately). Only the first can be handed to a user as "just run this", so
     /// the framework-dependent one is never picked — a user who took it would get an exe that
     /// refuses to start with a message about a missing runtime.</para>
     /// </summary>
-    public static string? SelectSelfContainedAsset(IEnumerable<string> assetNames)
+    public static string? SelectSelfContainedAsset(IEnumerable<string> assetNames, string architecture = "x64")
     {
         foreach (var name in assetNames)
         {
-            if (!name.EndsWith("-win-x64.zip", StringComparison.OrdinalIgnoreCase)) continue;
+            if (!name.EndsWith($"-win-{architecture}.zip", StringComparison.OrdinalIgnoreCase)) continue;
             if (name.Contains("-needs-dotnet10", StringComparison.OrdinalIgnoreCase)) continue;
             return name;
         }

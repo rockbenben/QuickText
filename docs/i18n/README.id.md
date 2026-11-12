@@ -20,15 +20,20 @@
 
 ## Unduh
 
-**[⬇ Unduh versi terbaru](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portabel satu file. Tidak ditandatangani, jadi SmartScreen memperingatkan saat pertama dijalankan: **More info → Run anyway**.
+[↓ QuickText](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64
 
-- `QuickText-<version>-win-x64.zip` — runtime .NET sudah disertakan, jadi langsung jalan di Windows 10/11 x64 mana pun tanpa prasyarat. Pilih ini kalau ragu: komputer di intranet atau tanpa internet, atau dibawa-bawa lewat USB.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` — perlu [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) yang sudah terpasang. Untuk PC Anda sendiri yang terhubung internet: pasang sekali, setelah itu tiap pembaruan cuma unduhan kecil.
-- `QuickText.exe` — build yang sama tanpa zip: klik dan jalankan, atau timpa salinan lama untuk memperbarui.
+| Paket | Runtime |
+| --- | --- |
+| `QuickText-<tag>-setup.exe` — Penginstal (x64) | disertakan |
+| `QuickText-<tag>-win-x64.zip` — Portabel | disertakan |
+| `QuickText-<tag>-win-arm64.zip` — Portabel | disertakan |
+| `QuickText-<tag>-win-x64-needs-dotnet10.zip` — Ringkas | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (x64) |
+| `QuickText-<tag>-win-arm64-needs-dotnet10.zip` — Ringkas | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (ARM64) |
 
-Fitur dan datanya sama persis; bedanya hanya pada disertakan atau tidaknya runtime.
+`SHA256SUMS.txt` · `certutil -hashfile <file> SHA256` · `gh attestation verify <file> -R rockbenben/QuickText`
 
----
+File exe tidak ditandatangani kode, sehingga Windows SmartScreen akan menampilkan peringatan saat pertama dijalankan: klik **More info → Run anyway**.
+
 
 ## Di mana Anda akan memakainya
 
@@ -136,6 +141,8 @@ Detail: pencocokan **tidak peka huruf besar/kecil** (`;SIG` tetap terpicu dengan
 
 > **Tentang prefiks:** prefiks (default `;`) mencegah pengetikan biasa / pinyin memicu palsu sebuah singkatan telanjang. Ubah di **Pengaturan → Singkatan → Prefiks pemicu** (menjadi `,`, `:`, …) atau **biarkan kosong**. Singkatan berprefiks bersifat membatasi diri sendiri dan terpicu bahkan saat menempel pada teks sebelumnya (mis. `thx;sig`); tanpa prefiks ia hanya terpicu sebagai kata tersendiri (tak pernah sebagai ekor kata yang lebih panjang seperti `graf`). Anda juga bisa menonaktifkan singkatan per aplikasi (daftar hitam, mis. `cmd.exe; putty.exe`) atau mematikannya sepenuhnya.
 
+Saat singkatan diaktifkan, karakter beraksen tetap dapat diketik seperti biasa menggunakan tombol mati, termasuk Š, Č, dan Ř dalam bahasa Ceko.
+
 ## Output & pengaturan umum (Tray → Pengaturan)
 
 Pilih kategori di bilah samping. Perubahan yang belum disimpan tetap ada saat berpindah kategori. Ukuran jendela dapat diubah; pada layar pendek, konten bergulir dan tombol Simpan tetap terlihat. Gunakan tombol panah di bilah samping atau Ctrl+Tab untuk berpindah kategori.
@@ -171,12 +178,12 @@ Pilih kategori di bilah samping. Perubahan yang belum disimpan tetap ada saat be
 - **Pemanggilan**: hotkey global — sebuah **kombinasi tombol** (tombol fungsi bekerja sebagai satu tombol) atau **ketuk sekali/dua kali sebuah modifier** (mis. Ctrl kanan), **pilih satu**; panel mengikuti jendela aktif / kursor teks / posisi yang diingat; tombol baris atas melompat ke **Baru / Manager / Pengaturan**; sematkan untuk mengirim beberapa berturut-turut; seret & ubah ukuran dengan ukuran yang diingat.
 - **Pencarian**: nama / pinyin / inisial / singkatan / isi, disorot; **seri diputus berdasarkan frekuensi pemakaian (frecency)**; `@category keywords` mempersempit pencarian ke satu kategori (`@category` telanjang menelusurinya).
 - **Konten**: teks polos (multi-baris, karakter khusus, emoji tanpa kehilangan), placeholder (default / dropdown opsi / snippet bersarang / format tanggal kustom / uuid / random — **dipilih per snippet**), **gambar** (dari clipboard atau file, ditempel sebagai gambar saat dikirim; **gambar bisa punya singkatan juga** — ketik singkatannya, dapatkan gambarnya).
-- **Singkatan**: dipicu terminator, prompt variabel, batalkan sekali tekan, koreksi salah ketik dengan Backspace, tidak peka huruf besar/kecil, klik memecah token, peringatan duplikat, daftar hitam per aplikasi, **jeda tray sekali klik**.
+- **Singkatan**: dipicu terminator, prompt variabel, batalkan sekali tekan, koreksi salah ketik dengan Backspace, tidak peka huruf besar/kecil, pelestarian aksen dead-key, klik memecah token, peringatan duplikat, daftar hitam per aplikasi, **jeda tray sekali klik**.
 - **Output**: tempel langsung / salin saja; auto-Enter opsional, pulihkan clipboard, kirim klik tunggal; **penimpaan output per snippet**; hotkey tangkap (clipboard → snippet dalam satu tekan).
 - **Manager**: **editor isi yang lapang** (`⤢ Perbesar` membukanya di jendela sendiri; perubahan yang belum disimpan selalu dikonfirmasi — saat menutupnya dan saat beralih ke entri lain), **highlighting placeholder** (diwarnai menurut jenis; referensi snippet yang mati / format tanggal tidak valid / kurung kurawal tak tertutup diberi garis bawah bergelombang merah dengan alasan saat diarahkan kursor; tidak ada yang disorot saat placeholder nonaktif — status bar yang memberi tahu sebagai gantinya), **ramah kode** (jendela yang diperbesar selalu menampilkan nomor baris dan menawarkan 13 format kode untuk highlighting sintaks; Enter mempertahankan indentasi, `Tab` mengindentasi seleksi multi-baris, mode tanpa bungkus), 7 warna kategori, seret susun ulang / pindah, **pilih banyak untuk pindah / hapus massal** (pilih dengan Ctrl / Shift, lalu klik kanan), batalkan penghapusan, **tempat sampah (pulihkan 30 hari, dengan pratinjau isi)**, peringatan singkatan duplikat, statistik pemakaian, umpan balik penyimpanan.
 - **Data**: JSON lokal, hot-reload (menggabungkan otomatis suntingan eksternal / sinkronisasi), pemberitahuan konflik sinkronisasi, ekspor / impor cadangan, **cadangan otomatis harian (10 disimpan)**, mulai bersama Windows (opsional sebagai administrator).
 - **Lokalisasi**: **18 bahasa UI** (Tionghoa Sederhana / Tradisional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) dengan **pencerminan kanan-ke-kiri untuk bahasa Arab**, diganti langsung di Pengaturan. Tema gelap dan terang (atau ikuti Windows), juga langsung.
-- **Ketahanan**: instance tunggal (peluncuran kedua memanggil panel pencarian alih-alih memasang hook dua kali); CI menjalankan tes plus pemeriksaan asap jendela pada setiap push dan menerbitkan kedua build file tunggal pada tag `v*`.
+- **Ketahanan**: instance tunggal (peluncuran kedua memanggil panel pencarian alih-alih memasang hook dua kali); CI menjalankan tes plus pemeriksaan asap jendela pada setiap push dan menerbitkan penginstal x64 dan empat ZIP portabel (x64/ARM64, dengan atau tanpa runtime) pada tag `v*`.
 
 ## Data & sinkronisasi
 
@@ -211,7 +218,7 @@ Core Murni (tanpa Win32, bisa diuji unit) dipisahkan dari Win32/UI.
 | `src/QuickText.App`          | UI WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (tema gelap), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Tes unit Core (xUnit)                                                                                                                                                                                                |
 
-**tests/QuickText.App.Tests** — Pengujian regresi Windows/WPF terisolasi untuk penyimpanan, pemulihan, pergantian pustaka, tata letak, dan interaksi sistem.
+**`tests/QuickText.App.Tests`** — Pengujian regresi Windows/WPF terisolasi untuk penyimpanan, pemulihan, pergantian pustaka, tata letak, penerjemahan keyboard, dan interaksi sistem.
 
 ## Build & jalankan
 
@@ -222,11 +229,13 @@ dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # atau jalankan QuickText.exe di bawah bin
 ```
 
-Terbitkan build portabel file tunggal (win-x64):
+Terbitkan build portabel file tunggal (win-x64 / win-arm64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64-needs-dotnet10
 ```
 
 Membutuhkan .NET 10 SDK. Hanya Windows (hotkey global Win32 / keyboard hook / clipboard).

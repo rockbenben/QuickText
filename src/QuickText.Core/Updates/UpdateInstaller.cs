@@ -12,6 +12,14 @@ public static class UpdateInstaller
     public const string CompletionMarkerName = ".complete";
     public const string ExpectedExecutableName = "QuickText.exe";
 
+    /// <summary>Isolates downloaded updates by architecture so multi-arch portable USB drives or environments don't cross-execute.</summary>
+    public static string CacheDirectory(string root, string version, string architecture)
+    {
+        if (architecture is not ("x64" or "arm64"))
+            throw new ArgumentOutOfRangeException(nameof(architecture));
+        return Path.Combine(root, architecture, version);
+    }
+
     /// <summary>The executable of a COMPLETED install in <paramref name="destDir"/>, else null.</summary>
     public static string? FindInstalledExecutable(string destDir)
     {

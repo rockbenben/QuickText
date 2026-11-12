@@ -20,15 +20,20 @@
 
 ## 다운로드
 
-**[⬇ 최신 버전 내려받기](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, 단일 파일 포터블. 코드 서명이 없어 처음 실행할 때 SmartScreen이 경고합니다: **추가 정보 → 실행**을 클릭하세요.
+[↓ QuickText](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64
 
-- `QuickText-<version>-win-x64.zip` — .NET 런타임이 포함되어 있어 사전 준비 없이 Windows 10/11 x64에서 바로 실행됩니다. 잘 모르겠으면 이것을 받으세요: 인트라넷·오프라인 PC, USB에 담아 들고 다닐 때도 좋습니다.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` — [.NET 10 데스크톱 런타임](https://dotnet.microsoft.com/download/dotnet/10.0)이 설치되어 있어야 합니다. 인터넷이 되는 내 PC용: 한 번만 설치해 두면 이후 업데이트는 매번 아주 작은 파일만 받으면 됩니다.
-- `QuickText.exe` — 같은 빌드를 zip 없이 그대로 올린 것입니다. 클릭해서 바로 실행하거나, 기존 파일에 덮어써서 업데이트하세요.
+| 패키지 | 런타임 |
+| --- | --- |
+| `QuickText-<tag>-setup.exe` — 설치 프로그램 (x64) | 포함 |
+| `QuickText-<tag>-win-x64.zip` — 포터블 | 포함 |
+| `QuickText-<tag>-win-arm64.zip` — 포터블 | 포함 |
+| `QuickText-<tag>-win-x64-needs-dotnet10.zip` — 경량 버전 | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (x64) |
+| `QuickText-<tag>-win-arm64-needs-dotnet10.zip` — 경량 버전 | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (ARM64) |
 
-기능과 데이터는 완전히 동일하며, 차이는 런타임을 포함하느냐뿐입니다.
+`SHA256SUMS.txt` · `certutil -hashfile <file> SHA256` · `gh attestation verify <file> -R rockbenben/QuickText`
 
----
+실행 파일에 코드 서명이 없으므로 처음 실행할 때 Windows SmartScreen 경고가 표시됩니다: **추가 정보 → 실행**을 클릭하세요.
+
 
 ## 어디에 쓰나요
 
@@ -136,6 +141,8 @@ Windows에서 **같은 내용을 반복해서 입력하는 곳이라면 어디�
 
 > **접두사에 관하여:** 접두사(기본값 `;`)는 일반 입력 / 병음이 접두사 없는 약어를 잘못 발동시키지 않도록 막아줍니다. **설정 → 약어 → 트리거 접두사**에서 변경(`,`, `:` 등)하거나 **비워둘** 수 있습니다. 접두사가 붙은 약어는 스스로 경계를 구분하므로 앞 텍스트에 붙어 있어도 발동합니다(예: `thx;sig`). 접두사가 없으면 독립된 단어일 때만 발동하며(`graf`처럼 더 긴 단어의 꼬리에서는 절대 발동하지 않음), 앱별로 약어를 비활성화하거나(블랙리스트, 예: `cmd.exe; putty.exe`) 아예 끌 수도 있습니다.
 
+약어를 켠 상태에서도 데드 키를 사용해 체코어의 Š, Č, Ř 같은 발음 구별 기호가 있는 문자를 정상적으로 입력할 수 있습니다.
+
 ## 출력 및 공통 설정 (트레이 → 설정)
 
 사이드바에서 범주를 선택해 설정합니다. 범주를 바꿔도 저장하지 않은 변경 사항은 유지됩니다. 창 크기를 조절할 수 있으며, 높이가 낮은 화면에서는 내용만 스크롤되고 저장 버튼은 계속 보입니다. 사이드바의 방향키 또는 Ctrl+Tab으로 범주를 전환하세요.
@@ -171,12 +178,12 @@ Windows에서 **같은 내용을 반복해서 입력하는 곳이라면 어디�
 - **호출**: 전역 단축키 — **키 조합**(기능 키는 단독 키로 동작) 또는 **모디파이어 한 번/두 번 탭**(예: 오른쪽 Ctrl), **하나 선택**. 패널은 활성 창 / 텍스트 커서 / 기억된 위치를 따라감. 상단 버튼으로 **새로 만들기 / 관리자 / 설정**으로 이동. 고정해 두고 연속 전송, 드래그와 크기 조절 및 크기 기억.
 - **검색**: 이름 / 병음 / 초성 / 약어 / 본문, 강조 표시. **동점은 사용 빈도(frecency)로 결정**. `@category keywords`는 검색을 한 카테고리로 한정(단독 `@category`는 해당 카테고리 둘러보기).
 - **콘텐츠**: 일반 텍스트(여러 줄, 특수 문자, 이모지 무손실), 자리표시자(기본값 / 선택지 드롭다운 / 스니펫 중첩 / 날짜 사용자 지정 형식 / uuid / random — **스니펫별 선택 적용**), **이미지**(클립보드나 파일에서, 전송 시 이미지로 붙여넣기. **이미지에도 약어 지정 가능** — 약어를 입력하면 이미지가 나옴).
-- **약어**: 종결 문자로 발동, 변수 입력 요청, 원클릭 취소, Backspace 오타 교정, 대소문자 무시, 클릭으로 토큰 분리, 중복 경고, 앱별 블랙리스트, **트레이에서 원클릭 일시 중지**.
+- **약어**: 종결 문자로 발동, 변수 입력 요청, 원클릭 취소, Backspace 오타 교정, 대소문자 무시, 데드키 악센트 유지, 클릭으로 토큰 분리, 중복 경고, 앱별 블랙리스트, **트레이에서 원클릭 일시 중지**.
 - **출력**: 직접 붙여넣기 / 복사만. 선택적 자동 Enter, 클립보드 복원, 원클릭 전송. **스니펫별 출력 재정의**. 캡처 단축키(클립보드 → 한 번의 조작으로 스니펫).
 - **관리자**: **넉넉한 본문 편집기**(`⤢ 크게 편집`으로 전용 창을 엽니다. 저장하지 않은 변경 사항은 항상 확인합니다 — 창을 닫을 때도, 다른 항목으로 전환할 때도), **자리표시자 강조 표시**(종류별로 색이 다르게 표시되며, 존재하지 않는 스니펫 참조 / 잘못된 날짜 형식 / 닫히지 않은 중괄호는 빨간 물결선으로 표시되고 마우스를 올리면 이유가 나타남. 자리표시자가 꺼져 있으면 아무것도 강조 표시되지 않고 대신 상태 표시줄에 안내가 표시됨), **코드 친화적**(확대된 창은 항상 줄 번호를 표시하고 구문 강조를 위한 13가지 코드 형식을 제공함. Enter는 들여쓰기를 유지하고 `Tab`은 여러 줄 선택을 들여쓰기하며, 줄바꿈 없음 모드도 지원), 7가지 카테고리 색상, 드래그 순서 변경 / 이동, **다중 선택 일괄 이동 / 삭제**(Ctrl / Shift 선택 후 우클릭), 삭제 취소, **휴지통(30일 복원, 본문 미리보기)**, 중복 약어 경고, 사용 통계, 저장 피드백.
 - **데이터**: 로컬 JSON, 핫 리로드(외부 편집 / 동기화 자동 병합), 동기화 충돌 알림, 백업 내보내기 / 가져오기, **매일 자동 백업(10개 유지)**, Windows 시작 시 실행(관리자 권한으로도 가능).
 - **현지화**: **18개 UI 언어**(중국어 간체 / 번체, 영어, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …), **아랍어의 오른쪽에서 왼쪽 미러링** 포함, 설정에서 실시간 전환. 다크 / 라이트 테마(Windows 설정 따르기 가능)도 즉시 전환.
-- **견고성**: 단일 인스턴스(두 번째 실행은 후크를 중복 설치하는 대신 검색 패널을 호출). CI는 매 푸시마다 테스트와 창 스모크 체크를 실행하고 `v*` 태그에서 두 가지 단일 파일 빌드를 게시.
+- **견고성**: 단일 인스턴스(두 번째 실행은 후크를 중복 설치하는 대신 검색 패널을 호출). CI는 매 푸시마다 테스트와 창 스모크 체크를 실행하고 `v*` 태그에서 x64 설치 프로그램과 네 가지 포터블 ZIP(x64/ARM64, 각각 런타임 포함 및 미포함)을 게시.
 
 ## 데이터 및 동기화
 
@@ -211,7 +218,7 @@ Windows에서 **같은 내용을 반복해서 입력하는 곳이라면 어디�
 | `src/QuickText.App`          | WPF UI(`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml`(다크 테마), `Interop`(`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Core 단위 테스트(xUnit)                                                                                                                                                                                          |
 
-**tests/QuickText.App.Tests** — 저장, 복원, 라이브러리 전환, 레이아웃 및 시스템 상호 작용 정책을 위한 격리된 Windows/WPF 회귀 테스트.
+**`tests/QuickText.App.Tests`** — 저장, 복원, 라이브러리 전환, 레이아웃, 키보드 변환 및 시스템 상호 작용 정책을 위한 격리된 Windows/WPF 회귀 테스트.
 
 ## 빌드 및 실행
 
@@ -222,11 +229,13 @@ dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 
-단일 파일 포터블 빌드 게시(win-x64):
+단일 파일 포터블 빌드 게시(win-x64 / win-arm64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64-needs-dotnet10
 ```
 
 .NET 10 SDK가 필요합니다. Windows 전용(Win32 전역 단축키 / 키보드 후크 / 클립보드).

@@ -22,21 +22,20 @@
 
 ## 下载
 
-**[⬇ 下载最新版](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64。
+[↓ QuickText](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64
 
-两种构建，三个下载，都是免安装的绿色版、无需注册。
+| 发布包 | 运行时 |
+| --- | --- |
+| `QuickText-<tag>-setup.exe` — 安装包 (x64) | 已包含 |
+| `QuickText-<tag>-win-x64.zip` — 便携版 | 已包含 |
+| `QuickText-<tag>-win-arm64.zip` — 便携版 | 已包含 |
+| `QuickText-<tag>-win-x64-needs-dotnet10.zip` — 精简版 | [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0) (x64) |
+| `QuickText-<tag>-win-arm64-needs-dotnet10.zip` — 精简版 | [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0) (ARM64) |
 
-| 文件 | 前提 | 适合 |
-| --- | --- | --- |
-| `QuickText-<版本>-win-x64.zip` | 无 | **拿不准就下这个。** 内网机、离线机、U 盘随身带着到处插、不让装东西的公司电脑 |
-| `QuickText-<版本>-win-x64-needs-dotnet10.zip` | 已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0) | 自己那台能联网的电脑：运行时装一次，以后每次更新都只下一个很小的包 |
-| `QuickText.exe` | 同上 | 同一个版本没套 zip：点开即用，也可以直接盖掉现有的那份完成更新 |
-
-三个拿到手都是同一个单文件 `QuickText.exe`。两种构建的区别只在**运行时从哪来**：第一个把 .NET 运行时打进了 exe，体积因此大出一大截；第二个用系统里已有的那份。各个包的确切大小，发布页上有。功能、数据完全一致，随时可以换着下。
+`SHA256SUMS.txt` · `certutil -hashfile <file> SHA256` · `gh attestation verify <file> -R rockbenben/QuickText`
 
 程序没有代码签名，首次运行 Windows SmartScreen 会拦一下：点**更多信息 → 仍要运行**。
 
----
 
 ## 用在哪里
 
@@ -144,6 +143,8 @@
 
 > **关于前缀**：前缀（默认 `;`）能避免正常打字 / 拼音误触发裸缩写。可在**设置 → 缩写 → 触发前缀**改成 `,`、`:` 等，或**留空取消**。带前缀的缩写自带边界、紧贴前面的字也能触发（如 `多谢;qm`）；不加前缀时缩写只在独立成词时才触发（不会被 `graf` 这类长词结尾误撞）。也可按进程停用缩写（黑名单，如 `cmd.exe; putty.exe`），或整体关掉。
 
+开启缩写后，正常打字仍可使用死键组合输入重音字符，例如捷克语的 Š、Č、Ř。
+
 ## 输出方式与常用设置（托盘右键 → 设置）
 
 在侧栏选择分类查看设置，切换分类会保留未保存的修改。窗口可调整大小；小屏幕上仅当前分类的内容滚动，保存按钮始终可见。可用侧栏方向键或 Ctrl+Tab 切换分类。
@@ -179,12 +180,12 @@
 - **呼出**：全局热键，**组合键**（功能键可单键）或**单击 / 双击一个修饰键**（如右 Ctrl）**二选一**；面板可跟随活动窗口 / 文字光标 / 记忆位置；顶部一排按钮直达**新建 / 管理 / 设置**；图钉可**固定连发**多条；可拖动、缩放并记忆尺寸。
 - **搜索**：名称 / 拼音全拼 / 首字母 / 缩写 / 正文。**命中的那几个字会高亮** —— 拼音命中也标得出来（查询词根本不在名称里），若是缩写命中则点亮缩写键帽，不会有"这条为什么在这"的疑惑；**同分档按使用频次排序（frecency）**；`@分类 关键词` 限定在某分类内搜（`@分类` 单独输入即浏览该分类）。
 - **内容**：纯文本（多行、特殊字符、emoji 无损）、变量占位符（默认值 / 选项下拉 / 片段嵌套 / 日期自定义格式 / uuid / 随机数，**按条目启用**）、**图片**（剪贴板或文件添加，发送时粘贴图片；**图片也能设缩写**，打缩写直接贴图）。
-- **缩写扩展**：终端键触发、变量弹窗、误展开一键撤销、退格改错、大小写不敏感、点击断词、冲突提示、进程黑名单、**托盘一键暂停**。
+- **缩写扩展**：终端键触发、变量弹窗、误展开一键撤销、退格改错、大小写不敏感、死键重音字符保留、点击断词、冲突提示、进程黑名单、**托盘一键暂停**。
 - **输出**：直接粘贴 / 仅复制；可选自动回车、保留原剪贴板内容、单击发送；**按条目覆盖输出方式**；快速采集热键（剪贴板一键入库）。
 - **管理器**：**大正文编辑区**（`⤢ 放大编辑` 开独立大窗；有未保存的改动一律先问你 —— 关窗时问，切到别的条目时也问）、**占位符高亮**（按类型着色，找不到的片段 / 写错的日期格式 / 未闭合花括号标红并说明原因；未启用占位符时不高亮，只在状态栏提示）、**代码友好**（放大窗恒开行号并可选 13 种代码格式做语法高亮、回车保持缩进、多行 `Tab` 整块缩进、不换行模式）、分类 7 色、拖拽排序 / 移动、**多选批量移动 / 删除**（Ctrl / Shift 选中后右键）、撤销删除、**回收站（30 天可恢复，带正文预览）**、缩写冲突提示、使用次数统计、保存反馈。
 - **数据**：本地 JSON、热加载（外部编辑 / 同步后自动合并重载）、同步冲突提示、导出 / 导入备份、**每日自动备份（保留 10 份）**、开机自启（可选以管理员身份）。
 - **本地化**：**18 种界面语言**（简体 / 繁體 / English / 日本語 / 한국어 / Español / Français / Deutsch / Русский / العربية…），**阿拉伯语右到左镜像**，设置里即时切换。深色 / 浅色主题（也可跟随系统），同样即时切换。
-- **稳健**：单实例（重复启动会唤出搜索面板而不是跑出第二份钩子）；CI 每次提交跑测试与窗口冒烟检查，打 `v*` 标签自动发布两种单文件构建。
+- **稳健**：单实例（重复启动会唤出搜索面板而不是跑出第二份钩子）；CI 每次提交跑测试与窗口冒烟检查，打 `v*` 标签自动发布 x64 安装包和四种便携 ZIP（x64/ARM64，各含自包含与框架依赖版）。
 
 ## 数据与同步
 
@@ -229,7 +230,7 @@ Core 纯逻辑（无 Win32，可单测）与 Win32/UI 隔离。
 
 **`tests/QuickText.Core.Tests`** —— Core 单元测试（xUnit）。
 
-**tests/QuickText.App.Tests** — 隔离的 Windows/WPF 回归测试，覆盖保存、恢复、切库、布局及系统交互策略。
+**`tests/QuickText.App.Tests`** —— 隔离的 Windows/WPF 回归测试，覆盖保存、恢复、切库、布局、按键转义及系统交互策略。
 
 ## 构建与运行
 
@@ -240,11 +241,13 @@ dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # 或运行 bin 下的 QuickText.exe
 ```
 
-发布单文件绿色版（win-x64），含 / 不含 .NET 运行时：
+发布单文件绿色版（win-x64 / win-arm64），含 / 不含 .NET 运行时：
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64                 # 绿色版，不需要额外运行时
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10  # 体积小得多，需要已装 .NET 10 桌面运行时
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64-needs-dotnet10
 ```
 
 需要 .NET 10 SDK。仅 Windows（依赖 Win32 全局热键 / 键盘钩子 / 剪贴板）。

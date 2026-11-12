@@ -22,21 +22,20 @@
 
 ## Download
 
-**[⬇ Get the latest release](https://github.com/rockbenben/QuickText/releases/latest)** — Windows x64.
+[↓ QuickText](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64
 
-Two builds, three downloads — portable either way. No installer, no account.
+| Package | Requires |
+| --- | --- |
+| `QuickText-<tag>-setup.exe` — Installer (x64) | included |
+| `QuickText-<tag>-win-x64.zip` — Portable | included |
+| `QuickText-<tag>-win-arm64.zip` — Portable | included |
+| `QuickText-<tag>-win-x64-needs-dotnet10.zip` — Compact | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (x64) |
+| `QuickText-<tag>-win-arm64-needs-dotnet10.zip` — Compact | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (ARM64) |
 
-| File | Needs | Good for |
-| --- | --- | --- |
-| `QuickText-<version>-win-x64.zip` | nothing | **take this one if unsure.** Air-gapped or intranet machines, a USB stick you carry between PCs, a work PC where you can't install anything |
-| `QuickText-<version>-win-x64-needs-dotnet10.zip` | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed | your own online PC: install the runtime once, and every update after that is a small download |
-| `QuickText.exe` | same as above | the same build with no zip around it: click and run, or drop it over your existing copy to update |
-
-Every one of them is (or unpacks to) the same single-file `QuickText.exe`. The only difference between the two builds is **where the runtime comes from** — the first bundles .NET into the exe, which is why it is so much larger; the second uses the copy already on the machine. The release page lists each asset's exact size. Same features, same data; switch between them any time.
+`SHA256SUMS.txt` · `certutil -hashfile <file> SHA256` · `gh attestation verify <file> -R rockbenben/QuickText`
 
 The exe isn't code-signed, so Windows SmartScreen warns on first run: click **More info → Run anyway**.
 
----
 
 ## Where you'd use it
 
@@ -144,6 +143,8 @@ Details: matching is **case-insensitive** (`;SIG` fires with CapsLock on); a typ
 
 > **About the prefix:** the prefix (default `;`) keeps ordinary typing / pinyin from false-triggering a bare abbreviation. Change it under **Settings → Abbreviations → Trigger prefix** (to `,`, `:`, …) or **leave it empty**. A prefixed abbreviation is self-delimiting and fires even glued to the preceding text (e.g. `thx;sig`); with no prefix it only fires as its own word (never as the tail of a longer one like `graf`). You can also disable abbreviations per app (a blacklist, e.g. `cmd.exe; putty.exe`) or turn them off entirely.
 
+Dead-key accents remain available during normal typing with abbreviations enabled, including Czech Š, Č and Ř.
+
 ## Output & common settings (Tray → Settings)
 
 Choose a category in the sidebar to edit its settings. Switching categories keeps unsaved edits. The window is resizable; on short screens the selected section scrolls while Save stays visible. Use the arrow keys in the sidebar or Ctrl+Tab to switch categories.
@@ -179,12 +180,12 @@ Choose a category in the sidebar to edit its settings. Switching categories keep
 - **Summon**: global hotkey — a **key combo** (function keys work as a single key) or **single/double-tap a modifier** (e.g. right Ctrl), **pick one**; panel follows active window / text caret / remembered position; top-row buttons jump to **New / Manager / Settings**; pin it to send several in a row; drag & resize with remembered size.
 - **Search**: name / pinyin / initials / abbreviation / body. The **matched characters are accented** — including for a pinyin hit, where the query appears nowhere in the name — and when the abbreviation is what matched, its key lights up instead, so no result is ever unexplained; **ties broken by usage frequency (frecency)**; `@category keywords` scopes the search to one category (bare `@category` browses it).
 - **Content**: plain text (multi-line, special chars, emoji lossless), placeholders (defaults / option dropdowns / snippet nesting / custom date formats / uuid / random — **opt-in per snippet**), **images** (from clipboard or file, pasted as an image on send; **images can have abbreviations too** — type the abbr, get the image).
-- **Abbreviations**: terminator-triggered, variable prompt, one-press undo, Backspace typo-correction, case-insensitive, click breaks the token, duplicate warning, per-app blacklist, **one-click tray pause**.
+- **Abbreviations**: terminator-triggered, variable prompt, one-press undo, Backspace typo-correction, case-insensitive, dead-key accent preservation, click breaks the token, duplicate warning, per-app blacklist, **one-click tray pause**.
 - **Output**: paste directly / copy only; optional auto-Enter, “Keep my clipboard intact”, single-click send; **per-snippet output override**; capture hotkey (clipboard → snippet in one press).
 - **Manager**: **roomy body editor** (`⤢ Enlarge` opens it in its own window; unsaved changes are always confirmed — on closing it, and on switching to another snippet), **placeholder highlighting** (tinted by kind; dead snippet refs / invalid date formats / unclosed braces are squiggled red with a reason on hover; nothing is highlighted when placeholders are off — the status bar says so instead), **code-friendly** (the enlarged window always shows line numbers and offers 13 code formats for syntax highlighting; Enter keeps indentation, `Tab` indents a multi-line selection, no-wrap mode), 7 category colors, drag reorder / move, **multi-select batch move / delete** (Ctrl / Shift select, then right-click), undo delete, **trash (30-day restore, with body preview)**, duplicate-abbr warning, usage stats, save feedback.
 - **Data**: local JSON, hot-reload (auto-merges external edits / sync), sync-conflict notice, export / import backup, **daily auto-backup (10 kept)**, start with Windows (optionally elevated).
 - **Localization**: **18 UI languages** (Simplified / Traditional Chinese, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) with **right-to-left mirroring for Arabic**, switched live in Settings. Dark and light themes (or follow Windows), switched live too.
-- **Robustness**: single instance (a second launch summons the search panel instead of double-installing hooks); CI runs tests plus a window smoke-check on every push and publishes both single-file builds on `v*` tags.
+- **Robustness**: single instance (a second launch summons the search panel instead of double-installing hooks); CI runs tests plus a window smoke-check on every push and publishes an x64 installer and four portable ZIPs (x64/ARM64, with or without the runtime) on `v*` tags.
 
 ## Data & sync
 
@@ -229,7 +230,7 @@ Pure Core (no Win32, unit-testable) kept separate from Win32/UI.
 
 **`tests/QuickText.Core.Tests`** — Core unit tests (xUnit).
 
-**tests/QuickText.App.Tests** — Isolated Windows/WPF regression tests for saves, restores, library switching, layout and system interaction policies.
+**`tests/QuickText.App.Tests`** — Isolated Windows/WPF regression tests for saves, restores, library switching, layout, keyboard translation, and system interaction policies.
 
 ## Build & run
 
@@ -240,11 +241,13 @@ dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 
-Publish a single-file portable build (win-x64), with or without the .NET runtime bundled:
+Publish a single-file portable build (win-x64 / win-arm64), with or without the .NET runtime bundled:
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64                 # standalone, no runtime needed
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10  # much smaller, needs the .NET 10 desktop runtime
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64-needs-dotnet10
 ```
 
 Requires the .NET 10 SDK. Windows only (Win32 global hotkey / keyboard hook / clipboard).

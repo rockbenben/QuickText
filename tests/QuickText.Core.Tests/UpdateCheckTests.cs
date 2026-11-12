@@ -59,6 +59,16 @@ public class UpdateCheckTests
         Assert.Equal("QuickText-v1.4.2-win-x64.zip", UpdateCheck.SelectSelfContainedAsset(assets));
     }
 
+    [Theory]
+    [InlineData("x64")]
+    [InlineData("arm64")]
+    public void Update_asset_matches_the_running_architecture(string architecture)
+    {
+        string[] assets = ["QuickText-v1.5.0-win-x64.zip", "QuickText-v1.5.0-win-arm64-needs-dotnet10.zip", "QuickText-v1.5.0-win-arm64.zip"];
+        Assert.Equal($"QuickText-v1.5.0-win-{architecture}.zip", UpdateCheck.SelectSelfContainedAsset(assets, architecture));
+        Assert.Null(UpdateCheck.SelectSelfContainedAsset(["QuickText-v1.5.0-win-x64.zip"], "arm64"));
+    }
+
     [Fact]
     public void No_self_contained_asset_means_no_pick()
     {

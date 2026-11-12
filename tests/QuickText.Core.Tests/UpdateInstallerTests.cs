@@ -27,6 +27,19 @@ public class UpdateInstallerTests : IDisposable
     private string ValidZip() => Zip((UpdateInstaller.ExpectedExecutableName, "program"u8.ToArray()));
 
     [Fact]
+    public void Architecture_caches_do_not_reuse_each_other_or_the_legacy_version_directory()
+    {
+        UpdateInstaller.InstallFromZip(ValidZip(), Path.Combine(_work, "1.5.0"));
+        var x64 = UpdateInstaller.CacheDirectory(_work, "1.5.0", "x64");
+        var arm64 = UpdateInstaller.CacheDirectory(_work, "1.5.0", "arm64");
+        Assert.Null(UpdateInstaller.FindInstalledExecutable(x64));
+        Assert.Null(UpdateInstaller.FindInstalledExecutable(arm64));
+        UpdateInstaller.InstallFromZip(ValidZip(), x64);
+        Assert.NotNull(UpdateInstaller.FindInstalledExecutable(x64));
+        Assert.Null(UpdateInstaller.FindInstalledExecutable(arm64));
+    }
+
+    [Fact]
     public void Installed_executable_requires_both_the_expected_exe_and_completion_marker()
     {
         var dest = Path.Combine(_work, "1.0.0");

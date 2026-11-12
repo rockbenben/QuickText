@@ -188,6 +188,8 @@ internal static class NativeMethods
     [DllImport("user32.dll")]
     public static extern uint GetClipboardSequenceNumber();
 
+    // Bit 2 (0x04) in wFlags tells ToUnicodeEx not to change the keyboard buffer state (Windows 10 1607+),
+    // preserving pending dead keys and accents for the target window.
     [DllImport("user32.dll", CharSet = CharSet.Unicode)]
     public static extern int ToUnicodeEx(uint wVirtKey, uint wScanCode, byte[] lpKeyState,
         [Out] System.Text.StringBuilder pwszBuff, int cchBuff, uint wFlags, IntPtr dwhkl);

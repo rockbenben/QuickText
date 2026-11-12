@@ -20,15 +20,20 @@
 
 ## Download
 
-**[⬇ Scarica l'ultima versione](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable in un solo file. Non è firmato, quindi SmartScreen avvisa al primo avvio: **Ulteriori informazioni → Esegui comunque**.
+[↓ QuickText](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64
 
-- `QuickText-<version>-win-x64.zip` — include il runtime .NET, quindi gira su qualsiasi Windows 10/11 x64 senza prerequisiti. Nel dubbio scegli questo: macchine in intranet o offline, o una chiavetta USB da portare in giro.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` — richiede il [Desktop Runtime di .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) già installato. Per il tuo PC connesso: lo installi una volta e ogni aggiornamento pesa pochissimo.
-- `QuickText.exe` — la stessa build senza lo zip: clicca ed esegui, oppure sovrascrivi la copia esistente per aggiornare.
+| Pacchetto | Runtime |
+| --- | --- |
+| `QuickText-<tag>-setup.exe` — Programma di installazione (x64) | incluso |
+| `QuickText-<tag>-win-x64.zip` — Portatile | incluso |
+| `QuickText-<tag>-win-arm64.zip` — Portatile | incluso |
+| `QuickText-<tag>-win-x64-needs-dotnet10.zip` — Compatto | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (x64) |
+| `QuickText-<tag>-win-arm64-needs-dotnet10.zip` — Compatto | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (ARM64) |
 
-Funzioni e dati sono identici: l'unica differenza è se il runtime è incluso.
+`SHA256SUMS.txt` · `certutil -hashfile <file> SHA256` · `gh attestation verify <file> -R rockbenben/QuickText`
 
----
+L'eseguibile non è firmato con codice, quindi al primo avvio Windows SmartScreen mostrerà un avviso: fai clic su **Maggiori informazioni → Esegui comunque**.
+
 
 ## Dove ti serve
 
@@ -136,6 +141,8 @@ Dettagli: la corrispondenza è **senza distinzione tra maiuscole e minuscole** (
 
 > **A proposito del prefisso:** il prefisso (predefinito `;`) evita che la digitazione ordinaria / il pinyin attivino per errore un'abbreviazione nuda. Cambialo in **Impostazioni → Abbreviazioni → Prefisso di attivazione** (in `,`, `:`, …) oppure **lascialo vuoto**. Un'abbreviazione con prefisso è auto-delimitante e si attiva anche se attaccata al testo precedente (es. `thx;sig`); senza prefisso si attiva solo come parola a sé (mai come coda di una più lunga come `graf`). Puoi anche disabilitare le abbreviazioni per singola app (una lista di esclusione, es. `cmd.exe; putty.exe`) o disattivarle del tutto.
 
+Con le abbreviazioni attive, puoi continuare a digitare normalmente i caratteri accentati tramite i tasti morti, come Š, Č e Ř in ceco.
+
 ## Output e impostazioni comuni (Barra delle applicazioni → Impostazioni)
 
 Scegli una categoria nella barra laterale. Le modifiche non salvate vengono conservate quando cambi categoria. La finestra è ridimensionabile; sugli schermi bassi il contenuto scorre e Salva rimane visibile. Usa le frecce nella barra laterale o Ctrl+Tab per cambiare categoria.
@@ -171,12 +178,12 @@ Scegli una categoria nella barra laterale. Le modifiche non salvate vengono cons
 - **Richiamo**: scorciatoia globale — una **combinazione di tasti** (i tasti funzione funzionano come singolo tasto) o **tocco singolo/doppio di un modificatore** (es. Ctrl destro), **scegline uno**; il pannello segue la finestra attiva / il cursore di testo / la posizione memorizzata; i pulsanti della riga superiore vanno a **Nuovo / Gestore / Impostazioni**; fissalo per inviarne diversi di fila; trascina e ridimensiona con dimensione memorizzata.
 - **Ricerca**: nome / pinyin / iniziali / abbreviazione / corpo, evidenziati; **parità risolta dalla frequenza d'uso (frecency)**; `@categoria parole chiave` restringe la ricerca a una categoria (il solo `@categoria` la sfoglia).
 - **Contenuto**: testo semplice (multiriga, caratteri speciali, emoji senza perdite), segnaposto (valori predefiniti / menu a discesa di opzioni / annidamento di snippet / formati data personalizzati / uuid / random — **attivabili per singolo snippet**), **immagini** (dagli appunti o da file, incollate come immagine all'invio; **anche le immagini possono avere abbreviazioni** — digita l'abbreviazione, ottieni l'immagine).
-- **Abbreviazioni**: attivazione con terminatore, richiesta variabili, annullamento con una pressione, correzione errori con Backspace, senza distinzione maiuscole/minuscole, il clic interrompe il token, avviso di duplicati, lista di esclusione per app, **sospensione a un clic dalla barra delle applicazioni**.
+- **Abbreviazioni**: attivazione con terminatore, richiesta variabili, annullamento con una pressione, correzione errori con Backspace, senza distinzione maiuscole/minuscole, conservazione accenti con tasti morti, il clic interrompe il token, avviso di duplicati, lista di esclusione per app, **sospensione a un clic dalla barra delle applicazioni**.
 - **Output**: incolla direttamente / solo copia; Invio automatico opzionale, ripristino appunti, invio con singolo clic; **sovrascrittura output per singolo snippet**; scorciatoia di cattura (appunti → snippet con una pressione).
 - **Gestore**: **editor del corpo spazioso** (`⤢ Ingrandisci` lo apre in una finestra propria; le modifiche non salvate vengono sempre confermate: alla chiusura e passando a un altro elemento), **evidenziazione dei segnaposto** (colorata in base al tipo; riferimenti a snippet inesistenti / formati di data non validi / parentesi graffe non chiuse vengono sottolineati in rosso ondulato con il motivo al passaggio del mouse; nulla viene evidenziato quando i segnaposto sono disattivati — lo indica invece la barra di stato), **adatto al codice** (la finestra ingrandita mostra sempre i numeri di riga e offre 13 formati di codice per l'evidenziazione della sintassi; Invio mantiene l'indentazione, `Tab` indenta una selezione multiriga, modalità senza a capo), 7 colori di categoria, trascinamento per riordinare / spostare, **spostamento / eliminazione in blocco multiselezione** (selezione con Ctrl / Shift, poi clic destro), annullamento eliminazione, **cestino (ripristino a 30 giorni, con anteprima del corpo)**, avviso di abbreviazioni duplicate, statistiche d'uso, riscontro al salvataggio.
 - **Dati**: JSON locale, ricaricamento a caldo (unisce automaticamente le modifiche esterne / la sincronizzazione), avviso di conflitto di sincronizzazione, esporta / importa backup, **backup automatico giornaliero (10 conservati)**, avvio con Windows (facoltativamente come amministratore).
 - **Localizzazione**: **18 lingue dell'interfaccia** (cinese semplificato / tradizionale, inglese, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) con **rispecchiamento da destra a sinistra per l'arabo**, cambiate dal vivo nelle Impostazioni. Temi scuro e chiaro (o segui Windows), anche questi al volo.
-- **Robustezza**: istanza singola (un secondo avvio richiama il pannello di ricerca invece di installare due volte gli hook); la CI esegue i test più un controllo rapido della finestra a ogni push e pubblica entrambe le build a file singolo sui tag `v*`.
+- **Robustezza**: istanza singola (un secondo avvio richiama il pannello di ricerca invece di installare due volte gli hook); la CI esegue i test più un controllo rapido della finestra a ogni push e pubblica un programma di installazione x64 e quattro ZIP portabili (x64/ARM64, con o senza runtime) sui tag `v*`.
 
 ## Dati e sincronizzazione
 
@@ -211,7 +218,7 @@ Core puro (nessun Win32, testabile a unità) tenuto separato da Win32/UI.
 | `src/QuickText.App`          | UI WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (tema scuro), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Test unitari del Core (xUnit)                                                                                                                                                                                        |
 
-**tests/QuickText.App.Tests** — Test Windows/WPF isolati per salvataggio, ripristino, cambio libreria, layout e interazione con il sistema.
+**`tests/QuickText.App.Tests`** — Test Windows/WPF isolati per salvataggio, ripristino, cambio libreria, layout, traduzione della tastiera e interazione con il sistema.
 
 ## Compilazione ed esecuzione
 
@@ -222,11 +229,13 @@ dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # o esegui QuickText.exe sotto bin
 ```
 
-Pubblica una build portatile a file singolo (win-x64):
+Pubblica una build portatile a file singolo (win-x64 / win-arm64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64-needs-dotnet10
 ```
 
 Richiede l'SDK .NET 10. Solo Windows (scorciatoia globale Win32 / hook della tastiera / appunti).

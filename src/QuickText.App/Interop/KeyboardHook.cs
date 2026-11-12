@@ -369,16 +369,18 @@ public sealed class KeyboardHook : IDisposable
             layout = GetKeyboardLayout(tid);
         }
 
+        return TranslateKey(vk, scan, keyState, layout);
+    }
+
+    internal static char? TranslateKey(uint vk, uint scan, byte[] keyState, IntPtr layout)
+    {
         var sb = CharBuffer;
         sb.Clear();
-        int rc = ToUnicodeEx(vk, scan, keyState, sb, sb.Capacity, 0, layout);
-        if (rc < 0)
-        {
-            // Dead key: call again to flush the dead-key state ToUnicodeEx just set into
-            // the layout, so we don't corrupt the user's next real keypress. No char yet.
-            ToUnicodeEx(vk, scan, keyState, sb, sb.Capacity, 0, layout);
-            return null;
-        }
+        // Observe without changing the kernel keyboard buffer (Windows 10 1607+).
+        // Otherwise we consume the pending accent before the target's TranslateMessage
+        // can compose it, turning Czech Š/Č/Ř into S/C/R. Never flush dead keys here.
+        const uint noStateChange = 0x04;
+        int rc = ToUnicodeEx(vk, scan, keyState, sb, sb.Capacity, noStateChange, layout);
         if (rc == 1 && sb.Length == 1)
         {
             char c = sb[0];

@@ -6,6 +6,13 @@ on:
     tags: ['v*']
   pull_request:
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref_type != 'tag' }}
+
 jobs:
   test:
     runs-on: windows-latest
@@ -17,6 +24,7 @@ jobs:
         # build would silently stamp VersionFallback instead of the release being built.
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
@@ -26,21 +34,29 @@ jobs:
       # Do NOT add --nologo here: the .NET 10 SDK doesn't claim that option yet, so it gets forwarded
       # verbatim to the test app and kills the run (exit 5) before a single test is seen.
       - name: Test (Core)
-        run: dotnet test --project tests/QuickText.Core.Tests -c Release --minimum-expected-tests 382
+        run: dotnet test --project tests/QuickText.Core.Tests -c Release --minimum-expected-tests 385
       - name: Test (App)
-        run: dotnet test --project tests/QuickText.App.Tests -c Release --minimum-expected-tests 4
+        run: dotnet test --project tests/QuickText.App.Tests -c Release --minimum-expected-tests 5
       - name: Build (App)
         run: dotnet build src/QuickText.App -c Release --nologo
+      - name: Test package validation
+        shell: pwsh
+        run: ./tools/tests/package-release.Tests.ps1
       - name: Smoke (parse every window's XAML)
         shell: pwsh
         run: |
           $exe = Get-ChildItem src/QuickText.App/bin/Release -Recurse -Filter QuickText.exe | Select-Object -First 1
           if (-not $exe) { Write-Error 'QuickText.exe not found'; exit 1 }
-          # Resolve the marker via the SAME API the app writes with (.NET Path.GetTempPath), so a
-          # TMP-vs-TEMP divergence can't make the workflow look in a different directory than the app.
-          $marker = Join-Path ([System.IO.Path]::GetTempPath()) 'quicktext-smoke.txt'
-          Remove-Item $marker -ErrorAction SilentlyContinue
-          $p = Start-Process $exe.FullName -ArgumentList '--smoke' -PassThru -Wait
+          # Portable mode also isolates the library, which otherwise defaults to Documents.
+          $sandbox = Join-Path ([IO.Path]::GetTempPath()) ("QuickText-ci-" + [guid]::NewGuid())
+          $appDirectory = Join-Path $sandbox 'app'
+          $tempDirectory = Join-Path $sandbox 'temp'
+          New-Item -ItemType Directory -Path $appDirectory,$tempDirectory -Force | Out-Null
+          Copy-Item -Path (Join-Path $exe.DirectoryName '*') -Destination $appDirectory -Recurse -Force
+          New-Item -ItemType File -Path (Join-Path $appDirectory 'QuickText.portable') | Out-Null
+          $marker = Join-Path $tempDirectory 'quicktext-smoke.txt'
+          $p = Start-Process (Join-Path $appDirectory 'QuickText.exe') -ArgumentList '--smoke' -WorkingDirectory $appDirectory -WindowStyle Hidden -PassThru -Environment @{APPDATA=$sandbox; LOCALAPPDATA=$sandbox; TEMP=$tempDirectory; TMP=$tempDirectory}
+          if (-not $p.WaitForExit(60000)) { $p.Kill(); throw 'Window smoke timed out' }
           # The 'OK' marker the app writes is the reliable success signal; a WPF ExitCode can come back
           # $null via Start-Process, so only an EXPLICIT non-zero code counts as failure.
           $ok = (Test-Path $marker) -and ((Get-Content $marker -Raw).Trim() -eq 'OK')
@@ -55,10 +71,13 @@ jobs:
     needs: test
     runs-on: windows-latest
     timeout-minutes: 20
+    env:
+      TAG: ${{ github.ref_name }}
     permissions:
       contents: write        # creating the Release
       id-token: write        # the attest step below: exchange an OIDC token to sign the provenance
-      attestations: write    # ...and write that attestation back to the repo
+      attestations: write
+      artifact-metadata: write
     steps:
       - uses: actions/checkout@v7
         # fetch-depth: 0 for the tags. VersionFromGitTag in the csproj derives the version from
@@ -66,59 +85,31 @@ jobs:
         # build would silently stamp VersionFallback instead of the release being built.
         with:
           fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-dotnet@v6
         with:
           global-json-file: global.json
-      - name: Publish (single-file win-x64, with and without the .NET runtime)
+      - name: Install Inno Setup 6
         shell: pwsh
         run: |
-          $v = "${{ github.ref_name }}" -replace '^v', ''   # tag v1.0.0 -> assembly version 1.0.0
-          # ⚠️ **原生命令的非零退出不会中断 pwsh**，所以每次 publish 之后都要显式判一次。
-          # 少了这个判断，「第一个 publish 失败 + 第二个成功」会以绿灯收场，
-          # release 里就少了自包含那份 zip —— 而更新器只认自包含那份，
-          # 装好的应用于是永远拿不到更新，只能靠人看出来少了资产。
-          # 同一条判据见 033-windowshuttle 的 ci.yml。
-          dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64 -p:Version=$v --nologo
+          $versions = choco search innosetup --exact --all-versions --limit-output
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-          # Both profiles share bin/obj and differ in runtimeconfig.json (self-contained pins the
-          # framework); publishing the second straight after the first regenerates it correctly —
-          # verified by running the framework-dependent exe with --smoke, so no rebuild is needed.
-          dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10 -p:Version=$v --nologo
+          $version = $versions | ForEach-Object { if ($_ -match '^innosetup\|(6\.\d+\.\d+)$') { [version]$Matches[1] } } | Sort-Object -Descending | Select-Object -First 1
+          if (-not $version) { throw 'No stable Inno Setup 6.x available' }
+          choco install innosetup --version="$version" --allow-downgrade --no-progress -y
           if ($LASTEXITCODE) { exit $LASTEXITCODE }
-      - name: Package + SHA256
+      - name: Build and verify release packages
+        id: package
         shell: pwsh
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
         run: |
-          # Two zips — the variant lives in the ZIP name, so unpacking either always leaves a clean
-          # QuickText.exe instead of a name a portable install would keep forever.
-          Compress-Archive -Path src/QuickText.App/bin/Release/publish/QuickText.exe -DestinationPath "QuickText-${{ github.ref_name }}-win-x64.zip"
-          Compress-Archive -Path src/QuickText.App/bin/Release/publish-needs-dotnet10/QuickText.exe -DestinationPath "QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip"
-          # Every downloadable asset gets a line — the two builds go to two different audiences, and
-          # signing only one of them leaves the other group holding a file they cannot check.
-          # THIS LINE IS THE ASSET LIST. The attest step below consumes this file rather than
-          # repeating the paths, so adding an asset here carries the attestation with it; listing
-          # them again over there is how a new asset ends up silently unsigned.
-          # Format is shasum's: hex digest, a separating space, a mode flag (space = text,
-          # '*' = binary), then the name — which is exactly what the two spaces below produce.
-          # Encoding pinned to ascii so this does not depend on which PowerShell runs it: 5.1
-          # defaults to a BOM that breaks line-by-line parsing of the first entry.
-          # Write LF explicitly: Set-Content uses CRLF on Windows, and sha256sum -c treats the \r
-          # as part of the file name, so every line fails on Linux/macOS/Git Bash.
-          $lines = Get-FileHash *.zip, src/QuickText.App/bin/Release/publish-needs-dotnet10/QuickText.exe -Algorithm SHA256 |
-            ForEach-Object { "{0}  {1}" -f $_.Hash.ToLower(), (Split-Path $_.Path -Leaf) }
-          [IO.File]::WriteAllText((Join-Path $PWD 'SHA256SUMS.txt'), ($lines -join "`n") + "`n", [Text.Encoding]::ASCII)
-      # Signed build provenance, and the closest thing this project has to a code signature: the exe
-      # is unsigned, so a downloader's only other signal is SmartScreen telling them it is unknown.
-      # This lets them check the file actually came out of THIS repo's workflow rather than merely
-      # "is unmodified" — the attestation lives on GitHub's side, not next to the asset it vouches
-      # for, so replacing the release does not let an attacker replace the proof along with it.
-      # Runs BEFORE the Release step on purpose: a failure here should mean no release at all,
-      # rather than published assets whose provenance quietly went missing.
-      # Fed the checksums file rather than a repeated list of paths — the asset list then lives in
-      # exactly one place (the Get-FileHash above) and new assets are covered automatically.
+          if ($env:RELEASE_TAG -notmatch '^v\d+\.\d+\.\d+$') { throw 'Expected stable vX.Y.Z tag' }
+          ./tools/release.ps1 -Version $env:RELEASE_TAG.Substring(1)
       - name: Attest build provenance
         uses: actions/attest-build-provenance@v4
         with:
-          subject-checksums: SHA256SUMS.txt
+          subject-checksums: artifacts/release/SHA256SUMS.txt
       - name: Compose release body
         shell: pwsh
         run: |
@@ -139,9 +130,12 @@ jobs:
           $tail = @'
           **Which package? / 下载哪个？**
 
+          - `QuickText-…-setup.exe` — Installer with runtime included. / 含运行时的安装包。
+          - `QuickText-…-win-arm64.zip` — Self-contained portable for Windows on Arm. / ARM64 自包含便携版。
+          - `QuickText-…-win-arm64-needs-dotnet10.zip` — Requires .NET 10 Desktop Runtime for ARM64. / ARM64 框架依赖精简版。
+
           - `QuickText-${{ github.ref_name }}-win-x64.zip` — .NET runtime included; unzip and run on any Windows 10/11 x64. Take this if you're unsure. / 内含 .NET 运行时，解压即用；拿不准、内网机、离线机、U 盘随身带就选它。
           - `QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip` — same app without the bundled runtime; needs the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) installed. / 同一个程序，只是不带运行时；需要电脑上已装 [.NET 10 桌面运行时](https://dotnet.microsoft.com/download/dotnet/10.0)。
-          - `QuickText.exe` — the same build as the zip above, unzipped: click, run, or drop it over your existing QuickText.exe to update. Windows will offer the runtime download if it is missing. / 就是上面那个不含运行时的版本，只是没打包：点开即用，也可直接覆盖现有的 QuickText.exe 完成更新。缺运行时时 Windows 会自己提示下载。
 
           **Verify your download / 校验下载** — the exe isn't code-signed. Two ways, pick either: / 程序没有代码签名，两种校验方式任选：
 
@@ -165,18 +159,11 @@ jobs:
         # before a release.
         uses: softprops/action-gh-release@v3
         with:
-          # The third asset is the framework-dependent build attached raw, straight from its publish
-          # directory so it lands under its plain name: one click to download and run, and it drops
-          # straight over an existing QuickText.exe to update. Only the small build gets that — a
-          # bare bundled-runtime exe is what browsers and SmartScreen fight hardest, and a plain,
-          # version-less name can only belong to one of the two.
-          # Spelled out rather than globbed: the names match what the Package step just produced,
-          # one line per asset, so nothing looks missing and nothing can be uploaded twice.
-          files: |
-            QuickText-${{ github.ref_name }}-win-x64.zip
-            QuickText-${{ github.ref_name }}-win-x64-needs-dotnet10.zip
-            src/QuickText.App/bin/Release/publish-needs-dotnet10/QuickText.exe
-            SHA256SUMS.txt
+          # The packaging script supplies the installer, four ZIPs and checksums.
+          draft: false
+          make_latest: legacy
+          fail_on_unmatched_files: true
+          files: ${{ steps.package.outputs.files }}
           # The body is composed by the step above: docs/release-notes/<tag>.md holds the
           # "What's new" bullets, and the package-picking note rides along underneath them. A
           # release cannot go out without its notes — the compose step fails if the file is
@@ -187,39 +174,16 @@ jobs:
           # while the release page shows each asset's actual size right next to its download button.
           body_path: release-body.md
           generate_release_notes: true
-      # 把 release 发布出去，并显式把 `releases/latest` 指到它，然后自己确认一遍。
-      #
-      # ⚠️ **显式给 make_latest 不是多此一举**：GitHub 在「草稿转成已发布」时**不会**重算
-      # `releases/latest` 指向谁。2026-10-20 在 rclone-deck 上撞到过一次：release 已经是
-      # `draft=false`、`prerelease=false`、`published_at` 也填上了，`releases/latest` 却仍
-      # 返回旧版本，端点 `releases/latest/download/latest.json` 于是 404（旧 release 里没有
-      # 那个文件）——已装的应用从此收不到更新。
-      #
-      # 判据是**看 API 指到谁**，不是看 release 的字段：字段全对而指针没挪，端点照样 404。
-      # CDN 那层重定向会再滞后几分钟，属正常——这里判 API，不判 CDN。
-      - name: 发布这个 release，并把 latest 指到它
+      - name: Verify published assets
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
         shell: bash
         run: |
           set -euo pipefail
-          tag="${GITHUB_REF_NAME}"
-          # ⚠️ **不能用 `releases/tags/<tag>` 找这条 release**：那个端点**不返回草稿**。
-          # 草稿只能从 release 列表里捞——列表按创建时间倒序，新建的草稿总在第一页。
-          id="$(gh api "repos/${GITHUB_REPOSITORY}/releases?per_page=100" \
-                 --jq "first(.[] | select(.tag_name == \"${tag}\") | .id)")"
-          if [ -z "$id" ]; then
-            echo "::error::没找到 tag ${tag} 对应的 release"
-            exit 1
-          fi
-          gh api --method PATCH "repos/${GITHUB_REPOSITORY}/releases/${id}" \
-            -F draft=false -f make_latest=true > /dev/null
-          latest="$(gh api "repos/${GITHUB_REPOSITORY}/releases/latest" --jq .tag_name)"
-          if [ "$latest" != "$tag" ]; then
-            echo "::error::releases/latest 指着 ${latest}，不是 ${tag}"
-            exit 1
-          fi
-          echo "release ${tag} 已发布，releases/latest 指向它"
+          gh release download "$TAG" --dir downloaded
+          cd downloaded
+          sha256sum --strict -c SHA256SUMS.txt
 
       # --- winget ------------------------------------------------------------------------------
       # **清单不归这个仓管** —— 它归 rockbenben/winget-manifests：那边的 apps.json 是唯一源，
@@ -227,7 +191,6 @@ jobs:
       #
       # WARNING: **不要再在这里直接提交一份 manifest。** 两条路都往 winget-pkgs 开同一个包的 PR，
       # 第二个会被当重复拒掉，看起来就像「winget 坏了」。要改清单，改 apps.json 里那一项。
-      # 原来的 wingetcreate update ... --submit 那段已经删掉了，原因就是这个。
       #
       # WHICH ASSET: the SELF-CONTAINED zip, deliberately. winget picks an installer by
       # architecture / installer type / scope / locale — "bundles the .NET runtime or not" is not

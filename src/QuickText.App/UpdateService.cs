@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
@@ -112,16 +113,17 @@ public static class UpdateService
                 return new(UpdateStatus.UpToDate, UpdateCheck.NormalizeVersion(tag), null, releaseUrl, null);
 
             var assets = ReadAssets(root);
-            string? zipName = UpdateCheck.SelectSelfContainedAsset(assets.Select(a => a.Name));
+            string architecture = RuntimeInformation.ProcessArchitecture == Architecture.Arm64 ? "arm64" : "x64";
+            string? zipName = UpdateCheck.SelectSelfContainedAsset(assets.Select(a => a.Name), architecture);
             string? zipUrl = zipName is null ? null : assets.FirstOrDefault(a => a.Name == zipName).Url;
             string? sumsUrl = assets.FirstOrDefault(a => a.Name == ChecksumsAsset).Url;
             if (zipName is null || zipUrl is null)
-                return new(UpdateStatus.Failed, null, null, releaseUrl, "the release has no self-contained win-x64 zip");
+                return new(UpdateStatus.Failed, null, null, releaseUrl, $"the release has no self-contained win-{architecture} zip");
             if (sumsUrl is null)
                 return new(UpdateStatus.Failed, null, null, releaseUrl, "the release has no " + ChecksumsAsset);
 
             string version = UpdateCheck.NormalizeVersion(tag);
-            string destDir = Path.Combine(UpdatesRoot, version);
+            string destDir = UpdateInstaller.CacheDirectory(UpdatesRoot, version, architecture);
 
             // Already fully installed: the completion marker is only written after extraction
             // succeeded, so a partial folder from an interrupted run is not treated as ready.

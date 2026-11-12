@@ -20,15 +20,20 @@
 
 ## İndir
 
-**[⬇ En son sürümü indir](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, tek dosya taşınabilir. Kod imzalı değil, bu yüzden SmartScreen ilk çalıştırmada uyarır: **More info → Run anyway**.
+[↓ QuickText](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64
 
-- `QuickText-<version>-win-x64.zip` — .NET çalışma zamanı gömülü olduğu için hiçbir ön koşul olmadan her Windows 10/11 x64 makinede çalışır. Emin değilseniz bunu indirin: intranetteki veya internete bağlı olmayan bilgisayarlar ya da USB'de yanınızda taşımak için.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip` — [.NET 10 Masaüstü Çalışma Zamanı](https://dotnet.microsoft.com/download/dotnet/10.0) kurulu olmasını gerektirir. İnternete bağlı kendi bilgisayarınız için: bir kez kurun, sonrasında her güncelleme çok küçük bir indirme.
-- `QuickText.exe` — aynı sürümün zip'siz hâli: tıklayıp çalıştırın veya güncellemek için mevcut kopyanın üzerine yazın.
+| Paket | Çalışma zamanı |
+| --- | --- |
+| `QuickText-<tag>-setup.exe` — Yükleyici (x64) | dahil |
+| `QuickText-<tag>-win-x64.zip` — Taşınabilir | dahil |
+| `QuickText-<tag>-win-arm64.zip` — Taşınabilir | dahil |
+| `QuickText-<tag>-win-x64-needs-dotnet10.zip` — Kompakt | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (x64) |
+| `QuickText-<tag>-win-arm64-needs-dotnet10.zip` — Kompakt | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (ARM64) |
 
-Özellikler ve veriler tamamen aynı; tek fark çalışma zamanının pakete dahil olup olmaması.
+`SHA256SUMS.txt` · `certutil -hashfile <file> SHA256` · `gh attestation verify <file> -R rockbenben/QuickText`
 
----
+Program kod imzalı değildir, bu nedenle ilk çalıştırmada Windows SmartScreen uyarır: **Daha fazla bilgi → Yine de çalıştır**'a tıklayın.
+
 
 ## Nerelerde kullanırsınız
 
@@ -136,6 +141,8 @@ Ayrıntılar: eşleştirme **büyük/küçük harfe duyarlı değildir** (`;SIG`
 
 > **Önek hakkında:** önek (varsayılan `;`), sıradan yazmanın / pinyin'in çıplak bir kısaltmayı yanlışlıkla tetiklemesini engeller. **Ayarlar → Kısaltmalar → Tetikleme öneki** altında değiştirin (`,`, `:`, … olarak) veya **boş bırakın**. Önekli bir kısaltma kendi kendini sınırlar ve önündeki metne yapışık olsa bile tetiklenir (örneğin `thx;sig`); önek olmadan yalnızca kendi kelimesi olarak tetiklenir (asla `graf` gibi daha uzun bir kelimenin kuyruğu olarak değil). Kısaltmaları uygulama başına da devre dışı bırakabilir (bir kara liste, örneğin `cmd.exe; putty.exe`) veya tamamen kapatabilirsiniz.
 
+Kısaltmalar etkinken de ölü tuşlarla Çekçedeki Š, Č ve Ř gibi aksanlı karakterleri normal şekilde yazabilirsiniz.
+
 ## Çıktı ve genel ayarlar (Tepsi → Ayarlar)
 
 Kenar çubuğundan bir kategori seçin. Kategori değiştirirken kaydedilmemiş değişiklikler korunur. Pencere yeniden boyutlandırılabilir; kısa ekranlarda içerik kayar ve Kaydet görünür kalır. Kategori değiştirmek için kenar çubuğundaki ok tuşlarını veya Ctrl+Tab kullanın.
@@ -171,12 +178,12 @@ Kenar çubuğundan bir kategori seçin. Kategori değiştirirken kaydedilmemiş 
 - **Çağırma**: global kısayol — bir **tuş kombinasyonu** (işlev tuşları tek tuş olarak çalışır) veya **bir değiştirici tuşa tek/çift dokunma** (örneğin sağ Ctrl), **birini seçin**; panel etkin pencereyi / metin imlecini / hatırlanan konumu takip eder; üst sıra düğmeleri **Yeni / Yönetici / Ayarlar** bölümüne atlar; arka arkaya birkaç tane göndermek için sabitleyin; hatırlanan boyutla sürükleyip yeniden boyutlandırın.
 - **Arama**: ad / pinyin / baş harfler / kısaltma / gövde, vurgulanmış; **eşitlikler kullanım sıklığıyla (frecency) çözülür**; `@category keywords` aramayı tek bir kategoriyle sınırlar (çıplak `@category` ona göz atar).
 - **İçerik**: düz metin (çok satırlı, özel karakterler, kayıpsız emoji), yer tutucular (varsayılanlar / seçenek açılır listeleri / snippet iç içe geçirme / özel tarih biçimleri / uuid / random — **snippet başına isteğe bağlı**), **görseller** (panodan veya dosyadan, gönderimde görsel olarak yapıştırılır; **görsellerin de kısaltması olabilir** — kısaltmayı yazın, görseli alın).
-- **Kısaltmalar**: sonlandırıcı tetiklemeli, değişken istemi, tek tuşla geri alma, Backspace ile yazım düzeltme, büyük/küçük harfe duyarsız, tıklama tokenı böler, yinelenme uyarısı, uygulama başına kara liste, **tek tıkla tepsiden duraklatma**.
+- **Kısaltmalar**: sonlandırıcı tetiklemeli, değişken istemi, tek tuşla geri alma, Backspace ile yazım düzeltme, büyük/küçük harfe duyarsız, ölü tuş aksan koruması, tıklama tokenı böler, yinelenme uyarısı, uygulama başına kara liste, **tek tıkla tepsiden duraklatma**.
 - **Çıktı**: doğrudan yapıştır / yalnızca kopyala; isteğe bağlı otomatik Enter, panoyu geri yükleme, tek tıkla gönderme; **snippet başına çıktı geçersiz kılma**; yakalama kısayolu (pano → tek basışta snippet).
 - **Yönetici**: **geniş gövde editörü** (`⤢ Büyüt` onu kendi penceresinde açar; kaydedilmemiş değişiklikler her zaman sorulur — pencereyi kapatırken ve başka bir kayda geçerken), **yer tutucu vurgulama** (türe göre renklendirilir; ölü snippet referansları / geçersiz tarih biçimleri / kapanmamış süslü parantezler, üzerine gelindiğinde nedeniyle birlikte kırmızı dalgalı çizgiyle gösterilir; yer tutucular kapalıyken hiçbir şey vurgulanmaz — bunun yerine durum çubuğu bunu belirtir), **koda uygun** (büyütülmüş pencere her zaman satır numaralarını gösterir ve sözdizimi vurgulama için 13 kod biçimi sunar; Enter girintiyi korur, `Tab` çok satırlı bir seçime girinti uygular, kaydırmasız mod), 7 kategori rengi, sürükleyerek sıralama / taşıma, **çoklu seçimle toplu taşıma / silme** (Ctrl / Shift ile seçin, sonra sağ tıklayın), silmeyi geri alma, **çöp kutusu (30 günlük geri yükleme, gövde önizlemesiyle)**, yinelenen kısaltma uyarısı, kullanım istatistikleri, kaydetme geri bildirimi.
 - **Veri**: yerel JSON, sıcak yeniden yükleme (dış düzenlemeleri / senkronizasyonu otomatik birleştirir), senkronizasyon çakışması bildirimi, yedeği dışa / içe aktarma, **günlük otomatik yedekleme (10 tanesi tutulur)**, Windows ile başlatma (isteğe bağlı olarak yönetici olarak).
 - **Yerelleştirme**: **18 arayüz dili** (Basitleştirilmiş / Geleneksel Çince, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …), **Arapça için sağdan sola yansıtmayla**, Ayarlar'da canlı olarak değişir. Koyu ve açık tema (veya Windows’u izle) de anında değişir.
-- **Sağlamlık**: tek örnek (ikinci bir başlatma, kancaları iki kez kurmak yerine arama panelini çağırır); CI her push'ta testleri artı bir pencere duman kontrolü çalıştırır ve `v*` etiketlerinde her iki tek dosyalık derlemeyi de yayınlar.
+- **Sağlamlık**: tek örnek (ikinci bir başlatma, kancaları iki kez kurmak yerine arama panelini çağırır); CI her push'ta testleri artı bir pencere duman kontrolü çalıştırır ve `v*` etiketlerinde bir x64 yükleyicisini ve dört taşınabilir ZIP dosyasını (x64/ARM64, çalışma zamanı dahil veya hariç) de yayınlar.
 
 ## Veri ve senkronizasyon
 
@@ -211,7 +218,7 @@ Saf Core (Win32 yok, birim testi yapılabilir), Win32/UI'dan ayrı tutulur.
 | `src/QuickText.App`          | WPF UI (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (koyu tema), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Core birim testleri (xUnit)                                                                                                                                                                                         |
 
-**tests/QuickText.App.Tests** — Kaydetme, geri yükleme, kitaplık değiştirme, düzen ve sistem etkileşimi için yalıtılmış Windows/WPF regresyon testleri.
+**`tests/QuickText.App.Tests`** — Kaydetme, geri yükleme, kitaplık değiştirme, düzen, klavye çevirisi ve sistem etkileşimi için yalıtılmış Windows/WPF regresyon testleri.
 
 ## Derleme ve çalıştırma
 
@@ -222,11 +229,13 @@ dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # or run QuickText.exe under bin
 ```
 
-Tek dosyalık taşınabilir bir derleme yayınlayın (win-x64):
+Tek dosyalık taşınabilir bir derleme yayınlayın (win-x64 / win-arm64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64-needs-dotnet10
 ```
 
 .NET 10 SDK gerektirir. Yalnızca Windows (Win32 global kısayol / klavye kancası / pano).

@@ -20,15 +20,20 @@
 
 ## Descargar
 
-**[⬇ Descargar la última versión](https://github.com/rockbenben/QuickText/releases/latest)** —— Windows x64, portable de un solo archivo. No está firmado digitalmente, así que SmartScreen avisa la primera vez: **Más información → Ejecutar de todas formas**.
+[↓ QuickText](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64
 
-- `QuickText-<version>-win-x64.zip`: incluye el runtime de .NET, así que funciona en cualquier Windows 10/11 x64 sin requisitos previos. Elige este si tienes dudas: equipos en intranet o sin conexión, o para llevarlo en un USB.
-- `QuickText-<version>-win-x64-needs-dotnet10.zip`: necesita el [Runtime de Escritorio de .NET 10](https://dotnet.microsoft.com/download/dotnet/10.0) ya instalado. Para tu propio PC con conexión: lo instalas una vez y cada actualización es una descarga mínima.
-- `QuickText.exe`: la misma compilación sin el zip. Haz clic y ejecuta, o sobrescribe tu copia actual para actualizar.
+| Paquete | Entorno |
+| --- | --- |
+| `QuickText-<tag>-setup.exe` — Instalador (x64) | incluido |
+| `QuickText-<tag>-win-x64.zip` — Portátil | incluido |
+| `QuickText-<tag>-win-arm64.zip` — Portátil | incluido |
+| `QuickText-<tag>-win-x64-needs-dotnet10.zip` — Compacto | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (x64) |
+| `QuickText-<tag>-win-arm64-needs-dotnet10.zip` — Compacto | [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0) (ARM64) |
 
-Mismas funciones y mismos datos; la única diferencia es si el runtime va incluido.
+`SHA256SUMS.txt` · `certutil -hashfile <file> SHA256` · `gh attestation verify <file> -R rockbenben/QuickText`
 
----
+El ejecutable no está firmado con código, por lo que Windows SmartScreen avisará en la primera ejecución: haz clic en **Más información → Ejecutar de todas formas**.
+
 
 ## Dónde lo usarías
 
@@ -136,6 +141,8 @@ Detalles: la coincidencia **no distingue mayúsculas** (`;SIG` se activa con Blo
 
 > **Sobre el prefijo:** el prefijo (por defecto `;`) evita que la escritura normal / el pinyin activen por error una abreviatura desnuda. Cámbialo en **Ajustes → Abreviaturas → Prefijo de activación** (a `,`, `:`, …) o **déjalo vacío**. Una abreviatura con prefijo se autodelimita y se activa incluso pegada al texto anterior (p. ej. `thx;sig`); sin prefijo, solo se activa como palabra propia (nunca como el final de una más larga como `graf`). También puedes desactivar las abreviaturas por aplicación (una lista negra, p. ej. `cmd.exe; putty.exe`) o desactivarlas por completo.
 
+Con las abreviaturas activadas, puedes seguir escribiendo caracteres acentuados mediante teclas muertas, como Š, Č y Ř en checo.
+
 ## Salida y ajustes comunes (Bandeja → Ajustes)
 
 Elige una categoría en la barra lateral. Los cambios sin guardar se conservan al cambiar de categoría. Puedes redimensionar la ventana; en pantallas bajas el contenido se desplaza y Guardar sigue visible. Usa las flechas en la barra lateral o Ctrl+Tab para cambiar de categoría.
@@ -171,12 +178,12 @@ Elige una categoría en la barra lateral. Los cambios sin guardar se conservan a
 - **Invocación**: tecla rápida global — una **combinación de teclas** (las teclas de función funcionan como tecla única) o **una/dos pulsaciones de un modificador** (p. ej. `Ctrl` derecho), **elige una**; el panel sigue la ventana activa / el cursor de texto / la posición recordada; los botones de la fila superior saltan a **Nuevo / Gestor / Ajustes**; fíjalo para enviar varios seguidos; arrastra y redimensiona con tamaño recordado.
 - **Búsqueda**: nombre / pinyin / iniciales / abreviatura / cuerpo, resaltados; **empates resueltos por frecuencia de uso (frecency)**; `@categoría palabras clave` limita la búsqueda a una categoría (`@categoría` a secas la navega).
 - **Contenido**: texto plano (varias líneas, caracteres especiales, emoji sin pérdidas), marcadores de posición (valores por defecto / desplegables de opciones / anidamiento de fragmentos / formatos de fecha personalizados / uuid / aleatorio, **opcional por fragmento**), **imágenes** (desde el portapapeles o un archivo, pegadas como imagen al enviar; **las imágenes también pueden tener abreviaturas**: escribe la abreviatura, obtén la imagen).
-- **Abreviaturas**: activadas por terminador, cuadro de variables, deshacer con una pulsación, corrección de erratas con Retroceso, sin distinción de mayúsculas, el clic rompe el token, aviso de duplicados, lista negra por aplicación, **pausa desde la bandeja con un clic**.
+- **Abreviaturas**: activadas por terminador, cuadro de variables, deshacer con una pulsación, corrección de erratas con Retroceso, sin distinción de mayúsculas, conservación de acentos con teclas muertas, el clic rompe el token, aviso de duplicados, lista negra por aplicación, **pausa desde la bandeja con un clic**.
 - **Salida**: pegar directamente / solo copiar; Enter automático opcional, restaurar portapapeles, envío con un solo clic; **anulación de salida por fragmento**; tecla de captura (portapapeles → fragmento con una pulsación).
 - **Gestor**: **editor de cuerpo amplio** (`⤢ Ampliar` lo abre en su propia ventana; los cambios sin guardar siempre se confirman: al cerrarla y al cambiar a otro elemento), **resaltado de marcadores** (coloreado según el tipo; las referencias a fragmentos inexistentes / los formatos de fecha inválidos / las llaves sin cerrar se subrayan en rojo ondulado con el motivo al pasar el cursor; no se resalta nada cuando los marcadores están desactivados —la barra de estado lo indica en su lugar—), **compatible con código** (la ventana ampliada siempre muestra números de línea y ofrece 13 formatos de código para resaltado de sintaxis; Enter conserva la sangría, `Tab` sangra una selección de varias líneas, modo sin ajuste de línea), 7 colores de categoría, reordenar / mover arrastrando, **mover / eliminar por lotes con selección múltiple** (selecciona con Ctrl / Shift y luego clic derecho), deshacer borrado, **papelera (restauración de 30 días, con vista previa del cuerpo)**, aviso de abreviatura duplicada, estadísticas de uso, confirmación de guardado.
 - **Datos**: JSON local, recarga en caliente (fusiona automáticamente las ediciones externas / la sincronización), aviso de conflicto de sincronización, exportar / importar copia de seguridad, **copia automática diaria (se conservan 10)**, iniciar con Windows (opcionalmente como administrador).
 - **Localización**: **18 idiomas de interfaz** (chino simplificado / tradicional, English, 日本語, 한국어, Español, Français, Deutsch, Русский, العربية …) con **reflejo de derecha a izquierda para el árabe**, con cambio en vivo desde Ajustes. Temas oscuro y claro (o seguir a Windows), también al instante.
-- **Robustez**: instancia única (un segundo arranque invoca el panel de búsqueda en lugar de instalar los ganchos por duplicado); la CI ejecuta las pruebas más una comprobación de humo de ventana en cada push y publica ambas compilaciones de un solo archivo en las etiquetas `v*`.
+- **Robustez**: instancia única (un segundo arranque invoca el panel de búsqueda en lugar de instalar los ganchos por duplicado); la CI ejecuta las pruebas más una comprobación de humo de ventana en cada push y publica un instalador x64 y cuatro ZIP portátiles (x64/ARM64, con o sin el entorno de ejecución) en las etiquetas `v*`.
 
 ## Datos y sincronización
 
@@ -211,7 +218,7 @@ Core puro (sin Win32, con pruebas unitarias) mantenido separado de Win32/UI.
 | `src/QuickText.App`          | Interfaz WPF (`SearchPanel` / `ManagerWindow` / `SettingsWindow` / `AppDialog` / `VariablesDialog`), `Ui/Theme.xaml` (tema oscuro), `Interop` (`GlobalHotkey`, `KeyboardHook`, `PasteEngine`, `Autostart`, `NativeMethods`) |
 | `tests/QuickText.Core.Tests` | Pruebas unitarias de Core (xUnit)                                                                                                                                                                                           |
 
-**tests/QuickText.App.Tests** — Pruebas aisladas de Windows/WPF para guardado, restauración, cambio de biblioteca, diseño e interacción con el sistema.
+**`tests/QuickText.App.Tests`** — Pruebas aisladas de Windows/WPF para guardado, restauración, cambio de biblioteca, diseño, traducción de teclado e interacción con el sistema.
 
 ## Compilar y ejecutar
 
@@ -222,11 +229,13 @@ dotnet test --project tests/QuickText.App.Tests -c Release
 dotnet run  --project src/QuickText.App        # o ejecuta QuickText.exe en bin
 ```
 
-Publica una versión portátil de un solo archivo (win-x64):
+Publica una versión portátil de un solo archivo (win-x64 / win-arm64):
 
 ```bash
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64
 dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-x64-needs-dotnet10
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64
+dotnet publish src/QuickText.App -c Release -p:PublishProfile=win-arm64-needs-dotnet10
 ```
 
 Requiere el SDK de .NET 10. Solo Windows (tecla rápida global de Win32 / gancho de teclado / portapapeles).

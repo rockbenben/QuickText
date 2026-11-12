@@ -2,7 +2,7 @@
 
 This is the repository-level working agreement for AI coding agents. Read it before changing code. If your tool has its own instruction file, treat it as a pointer to this file, not as a second source of rules.
 
-QuickText is a **Windows-only WPF / .NET 10** tray application: a snippet manager and text expander. It is distributed as a portable executable. There is no web stack and no plugin system. User-facing documentation is `README.md`, `README.zh.md` and the translations under `docs/i18n/`; release notes live under `docs/release-notes/`. Build instructions are in the README’s **Build & run** section.
+QuickText is a **Windows-only WPF / .NET 10** tray application: a snippet manager and text expander. It is distributed as an x64 installer and x64/ARM64 self-contained and framework-dependent portable ZIPs. There is no web stack and no plugin system. User-facing documentation is `README.md`, `README.zh.md` and the translations under `docs/i18n/`; release notes live under `docs/release-notes/`. Build instructions are in the README’s **Build & run** section.
 
 ## 1. Read before changing
 
@@ -21,6 +21,7 @@ dotnet build QuickText.sln -c Debug
 dotnet test tests/QuickText.Core.Tests/QuickText.Core.Tests.csproj
 dotnet test tests/QuickText.App.Tests/QuickText.App.Tests.csproj
 dotnet build src/QuickText.App -c Release
+pwsh ./tools/tests/package-release.Tests.ps1
 ```
 
 The app has two in-process self-checks:
@@ -47,6 +48,8 @@ QuickText.exe --shots <directory>
 - Custom focusable visuals need an accessibility story, not just a tooltip: give them an `AutomationPeer` and an `AutomationProperties.Name`, label form controls with `LabeledBy`, and name list items from the displayed data rather than their model type. Verify the names through UIA; XAML alone is not evidence.
 - Keep the single-instance, config-location and startup behavior intact. A test that needs a second instance must use an isolated copy or a dedicated message name; it must not disturb a running user instance.
 - Put first-run defaults in the settings default or the relevant seed, not in a model property that existing configs rely on. Existing settings files may omit a field; a missing field must keep its previous behavior. Test both a fresh config and an old config with the field absent.
+- In the low-level keyboard hook, observe key translation without altering the system keyboard buffer (`ToUnicodeEx` with flag `0x04` / `noStateChange`); never flush or mutate dead-key state, so composed accents (e.g. Czech Š, Č, Ř) reach target applications intact.
+- Elevated autostart uses Windows Task Scheduler with `RunLevel=HighestAvailable` under the current user's SID (`TaskName = "QuickText." + UserSid`) via COM and a one-shot child invocation (`--register-elevated-autostart` / `--unregister-elevated-autostart`), keeping the main executable `asInvoker` without prompting UAC at every login. Never change `app.manifest` to `requireAdministrator`.
 - The application is offline by design. The update check is the only network path and is opt-in. Do not add telemetry, cloud calls or silent background network behavior.
 
 ## 4. Localization and documentation
@@ -66,7 +69,7 @@ QuickText.exe --shots <directory>
 ## 6. CI and releases
 
 - The git tag is the version source. A source build takes the newest reachable tag; CI passes the tag to `dotnet publish`. Do not maintain a second version number in the app or docs.
-- Read `.github/workflows/ci.yml` before changing CI. It runs the test floor, a window smoke check, both single-file publishes, checksum/attestation and the release job. A release is not proven by a green local build; verify the latest release and every downloadable asset separately.
+- Read `.github/workflows/ci.yml` before changing CI. It runs the test floor, a window smoke check, all four publish profiles and the installer, checksum/attestation and the release job. A release is not proven by a green local build; verify the latest release and every downloadable asset separately.
 - Do not add Dependabot. Dependency versions are checked manually before a release with `dotnet list package --outdated`, `dotnet list package --vulnerable --include-transitive`, and the Action major check.
 - The winget manifest is owned by the external `rockbenben/winget-manifests` repository. Do not submit a second manifest from this repository; doing so opens a duplicate PR.
 - Do not push, create a tag, publish a release or edit published assets without explicit maintainer approval. A local commit is not a release.
