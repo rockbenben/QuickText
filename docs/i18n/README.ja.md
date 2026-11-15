@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · **日本語** · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
-
 # QuickText
 
 > Windows トレイ常駐のスニペットマネージャー兼テキスト展開ツール。
 
+[⬇ 最新版をダウンロード (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · ポータブル版
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · **日本語** · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+
 ![任意のウィンドウでパネルを呼び出し、数文字打つとスニペットがカーソル位置に入る](../images/quicktext-demo.webp)
 
 **同じ文章を二度打つのはもうやめましょう。** QuickText は Windows のタスクトレイに常駐します。何度も使い回すテキスト（メール・住所・署名・テンプレート・定型返信・画像など）を一度だけ登録しておけば、**あらゆる入力欄**でキーを数回打つか略語を入力するだけで、カーソル位置にそのまま貼り付けられます。複数行・特殊文字・絵文字も一文字たがわず保持されます。
-
-> 使い回すテキストを、数キー打つだけで — カーソル位置へそのまま届けます。
 
 - WPF / .NET 10、単一ファイルのポータブル exe、**アカウント不要・既定でオフライン**——ネットワークに接続するのは任意の「更新を確認」だけです。
 - データは自分のフォルダー内の**ローカル JSON**。Dropbox / OneDrive / NAS に置けば同期できます。
@@ -147,7 +147,7 @@ Windows で**同じ文章を何度も打つ**場面ならどこでも。タス�
 
 サイドバーでカテゴリを選んで設定します。カテゴリを切り替えても未保存の変更は保持されます。ウィンドウはサイズ変更でき、高さの小さい画面では内容だけがスクロールし、保存ボタンは常に表示されます。サイドバーの矢印キーまたは Ctrl+Tab でカテゴリを切り替えられます。
 
-> 「クリップボードにコピーのみ」は略語にも適用されます。出力中にウィンドウを切り替えると、未実行のキー入力を取り消します。 管理者権限での自動起動には、管理者アカウントと、一般ユーザーが変更できない Program Files 内のプログラムおよびフォルダーが必要です。有効化時に同じアカウントでの UAC 承認を求められる場合があります。ポータブル版でもタスクはこの PC に保存されます。
+> 「クリップボードにコピーのみ」は略語にも適用されます。出力中にウィンドウを切り替えると、未実行のキー入力を取り消します。 管理者権限での自動起動には管理者アカウントが必要です。有効化時に同じアカウントでの UAC 承認を求められる場合があります。ポータブル版でもタスクはこの PC に保存されます。
 
 - **出力** — デフォルトは「アクティブなアプリに貼り付け」。または「クリップボードにコピーのみ」（`Ctrl+V` で貼り付け）。オプション：貼り付け後に Enter を押す、シングルクリックで送信、「元のクリップボードを保持」（復元は既定でオフ — クリップボードの読み取りが遅いアプリでは、古い内容が貼り付けられることがあります）。**スニペットごとにこれを上書きできます**（マネージャー → 出力：グローバルに従う / 貼り付け / 貼り付け + Enter / コピーのみ）— チャットのフレーズは自動送信、コードスニペットは絶対にしません。
 - **パネル位置** — アクティブなウィンドウに追従（デフォルト） / テキストキャレットに追従 / 前回の位置を記憶。

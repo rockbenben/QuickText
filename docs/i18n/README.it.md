@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · **Italiano** · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
-
 # QuickText
 
 > un gestore di snippet ed espansore di testo nella barra di Windows.
 
+[⬇ Scarica l'ultima versione (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · Portatile
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · **Italiano** · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+
 ![Richiama il pannello sopra qualsiasi finestra, digita poche lettere e lo snippet finisce al cursore](../images/quicktext-demo.webp)
 
 **Basta digitare due volte la stessa cosa.** QuickText vive nella barra delle applicazioni di Windows: memorizza una volta il testo a cui ricorri di continuo — email, indirizzi, firme, modelli, risposte preconfezionate, immagini — e poi, in **qualsiasi casella di testo**, digiti pochi tasti o un'abbreviazione e il testo compare direttamente al cursore. Testo su più righe, caratteri speciali ed emoji conservati carattere per carattere.
-
-> Il tuo testo riutilizzabile, a pochi tasti di distanza — inserito direttamente al cursore.
 
 - WPF / .NET 10, exe portatile a file singolo, **nessun account, offline per impostazione predefinita** — solo il controllo aggiornamenti opzionale contatta GitHub.
 - I dati sono in **JSON locale** nella tua cartella — mettila su Dropbox / OneDrive / un NAS per sincronizzarli.
@@ -147,7 +147,7 @@ Con le abbreviazioni attive, puoi continuare a digitare normalmente i caratteri 
 
 Scegli una categoria nella barra laterale. Le modifiche non salvate vengono conservate quando cambi categoria. La finestra è ridimensionabile; sugli schermi bassi il contenuto scorre e Salva rimane visibile. Usa le frecce nella barra laterale o Ctrl+Tab per cambiare categoria.
 
-> La sola copia negli appunti vale anche per le abbreviazioni. Cambiare finestra durante l’output annulla le pressioni dei tasti in attesa. L’avvio con privilegi elevati richiede un account amministratore e un programma e una cartella protetti in Program Files. L’attivazione può richiedere l’approvazione UAC dello stesso account. Anche in modalità portatile, l’attività resta su questo PC.
+> La sola copia negli appunti vale anche per le abbreviazioni. Cambiare finestra durante l’output annulla le pressioni dei tasti in attesa. L’avvio con privilegi elevati richiede un account amministratore. L’attivazione può richiedere l’approvazione UAC dello stesso account. Anche in modalità portatile, l’attività resta su questo PC.
 
 - **Output** — predefinito "incolla nell'app attiva"; oppure "copia solo negli appunti" (incolli tu con `Ctrl+V`). Opzionale: premere Invio dopo l'incolla, invio con un solo clic, “Mantieni intatti i miei appunti” (il ripristino è disattivato per impostazione predefinita: le app che leggono gli appunti lentamente potrebbero incollare il contenuto precedente). **Ogni snippet può sovrascriverlo** (Gestore → Output: segui globale / incolla / incolla + Invio / solo copia) — le frasi di chat si inviano automaticamente, gli snippet di codice mai.
 - **Posizione del pannello** — segui la finestra attiva (predefinito) / segui il cursore di testo / ricorda l'ultima posizione.

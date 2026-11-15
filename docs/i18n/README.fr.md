@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · **Français** · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
-
 # QuickText
 
 > un gestionnaire d'extraits et expanseur de texte dans la barre d'état de Windows.
 
+[⬇ Télécharger la dernière version (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · Portable
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · **Français** · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+
 ![Appelez le panneau au-dessus de n’importe quelle fenêtre, tapez quelques lettres, le fragment atterrit au curseur](../images/quicktext-demo.webp)
 
 **Ne tapez plus jamais deux fois la même chose.** QuickText réside dans la zone de notification de Windows : enregistrez une seule fois les textes que vous saisissez encore et encore — e-mail, adresses, signatures, modèles, réponses toutes faites, images — puis, dans **n'importe quel champ de saisie**, tapez quelques touches ou une abréviation et le texte se dépose juste à l'emplacement de votre curseur. Multiligne, caractères spéciaux et emoji préservés caractère par caractère.
-
-> Vos textes réutilisables à quelques frappes de distance — déposés directement au curseur.
 
 - WPF / .NET 10, exe portable en un seul fichier, **sans compte, hors ligne par défaut** — seule la vérification des mises à jour facultative contacte GitHub.
 - Les données sont du **JSON local** dans votre propre dossier — placez-le dans Dropbox / OneDrive / un NAS pour le synchroniser.
@@ -147,7 +147,7 @@ Lorsque les abréviations sont activées, les touches mortes permettent toujours
 
 Choisissez une catégorie dans la barre latérale. Les modifications non enregistrées sont conservées quand vous changez de catégorie. La fenêtre est redimensionnable ; sur un écran bas, le contenu défile et Enregistrer reste visible. Utilisez les flèches dans la barre latérale ou Ctrl+Tab pour changer de catégorie.
 
-> La copie seule dans le presse-papiers s’applique aussi aux abréviations. Changer de fenêtre pendant la sortie annule les frappes en attente. Le démarrage élevé nécessite un compte administrateur et un programme et dossier protégés sous Program Files. Une autorisation UAC du même compte peut être demandée. Même en mode portable, la tâche reste sur ce PC.
+> La copie seule dans le presse-papiers s’applique aussi aux abréviations. Changer de fenêtre pendant la sortie annule les frappes en attente. Le démarrage élevé nécessite un compte administrateur. Une autorisation UAC du même compte peut être demandée. Même en mode portable, la tâche reste sur ce PC.
 
 - **Sortie** — par défaut « coller dans l'application active » ; ou « copier uniquement dans le presse-papiers » (vous collez avec `Ctrl+V`). En option : appuyer sur Entrée après le collage, envoi au simple clic, “Conserver mon presse-papiers intact” (la restauration est désactivée par défaut — les applications qui lisent lentement le presse-papiers risquent de coller l'ancien contenu). **Chaque fragment peut remplacer ce réglage** (Gestionnaire → Sortie : suivre le global / coller / coller + Entrée / copier uniquement) — les phrases de chat s'envoient automatiquement, les fragments de code jamais.
 - **Position du panneau** — suivre la fenêtre active (par défaut) / suivre le curseur de texte / se souvenir de la dernière position.

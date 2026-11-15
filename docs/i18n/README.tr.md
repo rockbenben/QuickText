@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · **Türkçe**
-
 # QuickText
 
 > Windows sistem tepsisinde çalışan snippet yöneticisi ve metin genişletici.
 
+[⬇ En son sürümü indir (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · Taşınabilir
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · **Türkçe**
+
 ![Paneli herhangi bir pencerenin üzerinde çağır, birkaç harf yaz, snippet imlecin olduğu yere düşsün](../images/quicktext-demo.webp)
 
 **Aynı şeyi iki kez yazmayı bırakın.** QuickText, Windows sistem tepsisinde durur: tekrar tekrar başvurduğunuz metinleri — e-posta, adresler, imzalar, şablonlar, hazır yanıtlar, görseller — bir kez saklayın, ardından **herhangi bir giriş kutusunda** birkaç tuşa veya bir kısaltmaya basın; metin tam imlecinizin olduğu yere düşsün. Çok satırlı içerik, özel karakterler ve emojiler karakter karakter korunur.
-
-> Yeniden kullanabileceğiniz metinleriniz birkaç tuş ötede — doğrudan imlece bırakılır.
 
 - WPF / .NET 10, tek dosyalık taşınabilir exe, **hesap yok, varsayılan olarak çevrimdışı** — yalnızca isteğe bağlı güncelleme denetimi GitHub'a bağlanır.
 - Veriler kendi klasörünüzdeki **yerel JSON** olarak durur — senkronize etmek için Dropbox / OneDrive / bir NAS içine koyun.
@@ -147,7 +147,7 @@ Kısaltmalar etkinken de ölü tuşlarla Çekçedeki Š, Č ve Ř gibi aksanlı 
 
 Kenar çubuğundan bir kategori seçin. Kategori değiştirirken kaydedilmemiş değişiklikler korunur. Pencere yeniden boyutlandırılabilir; kısa ekranlarda içerik kayar ve Kaydet görünür kalır. Kategori değiştirmek için kenar çubuğundaki ok tuşlarını veya Ctrl+Tab kullanın.
 
-> Yalnızca panoya kopyalama kısaltmalar için de geçerlidir. Çıktı sırasında pencere değiştirmek bekleyen tuşları iptal eder. Yükseltilmiş otomatik başlangıç, yönetici hesabı ve Program Files altında korunan program ve klasör gerektirir. Etkinleştirme sırasında aynı hesaptan UAC onayı istenebilir. Taşınabilir modda da görev bu bilgisayarda kalır.
+> Yalnızca panoya kopyalama kısaltmalar için de geçerlidir. Çıktı sırasında pencere değiştirmek bekleyen tuşları iptal eder. Yükseltilmiş otomatik başlangıç, yönetici hesabı gerektirir. Etkinleştirme sırasında aynı hesaptan UAC onayı istenebilir. Taşınabilir modda da görev bu bilgisayarda kalır.
 
 - **Çıktı** — varsayılan "etkin uygulamaya yapıştır"; veya "yalnızca panoya kopyala" (`Ctrl+V` ile siz yapıştırırsınız). İsteğe bağlı: yapıştırmadan sonra Enter'a bas, göndermek için tek tıklama, “Panomu olduğu gibi koru” (geri yükleme varsayılan olarak kapalıdır — panoyu yavaş okuyan uygulamalar eski içeriği yapıştırabilir). **Her snippet bunu geçersiz kılabilir** (Yönetici → Çıktı: geneli takip et / yapıştır / yapıştır + Enter / yalnızca kopyala) — sohbet ifadeleri otomatik gönderilir, kod snippet'leri asla gönderilmez.
 - **Panel konumu** — etkin pencereyi takip et (varsayılan) / metin imlecini takip et / son konumu hatırla.

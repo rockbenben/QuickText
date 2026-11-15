@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · **Bahasa Indonesia** · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
-
 # QuickText
 
 > pengelola snippet dan pemekar teks yang menetap di baki Windows.
 
+[⬇ Unduh versi terbaru (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · Portabel
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · **Bahasa Indonesia** · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+
 ![Panggil panel di atas jendela mana pun, ketik beberapa huruf, snippet mendarat di kursor](../images/quicktext-demo.webp)
 
 **Berhenti mengetik hal yang sama dua kali.** QuickText tinggal di tray Windows: simpan teks yang Anda pakai berulang kali — email, alamat, tanda tangan, templat, balasan siap pakai, gambar — cukup sekali, lalu di **kotak input mana pun** ketik beberapa tombol atau sebuah singkatan dan teks itu langsung mendarat tepat di kursor Anda. Multi-baris, karakter khusus, dan emoji dipertahankan karakter demi karakter.
-
-> Teks pakai-ulang Anda, hanya beberapa ketukan tombol — langsung dijatuhkan di kursor.
 
 - WPF / .NET 10, exe portabel file tunggal, **tanpa akun, luring secara bawaan** — hanya pemeriksaan pembaruan opsional yang menghubungi GitHub.
 - Data berupa **JSON lokal** di folder Anda sendiri — taruh di Dropbox / OneDrive / NAS untuk sinkronisasi.
@@ -147,7 +147,7 @@ Saat singkatan diaktifkan, karakter beraksen tetap dapat diketik seperti biasa m
 
 Pilih kategori di bilah samping. Perubahan yang belum disimpan tetap ada saat berpindah kategori. Ukuran jendela dapat diubah; pada layar pendek, konten bergulir dan tombol Simpan tetap terlihat. Gunakan tombol panah di bilah samping atau Ctrl+Tab untuk berpindah kategori.
 
-> Hanya salin ke papan klip juga berlaku untuk singkatan. Berpindah jendela saat keluaran membatalkan penekanan tombol yang masih menunggu. Mulai otomatis dengan hak tinggi memerlukan akun administrator serta program dan folder terlindungi di Program Files. Saat diaktifkan, persetujuan UAC dari akun yang sama mungkin diperlukan. Tugas tetap disimpan di komputer ini dalam mode portabel.
+> Hanya salin ke papan klip juga berlaku untuk singkatan. Berpindah jendela saat keluaran membatalkan penekanan tombol yang masih menunggu. Mulai otomatis dengan hak tinggi memerlukan akun administrator. Saat diaktifkan, persetujuan UAC dari akun yang sama mungkin diperlukan. Tugas tetap disimpan di komputer ini dalam mode portabel.
 
 - **Output** — default “tempel ke aplikasi aktif”; atau “salin ke clipboard saja” (Anda menempel dengan `Ctrl+V`). Opsional: tekan Enter setelah menempel, klik tunggal untuk mengirim, “Jaga clipboard tetap utuh” (pemulihan nonaktif secara bawaan — aplikasi yang membaca clipboard dengan lambat bisa menempelkan konten lama). **Setiap snippet bisa menimpa ini** (Manager → Output: ikuti global / tempel / tempel + Enter / salin saja) — frasa chat terkirim otomatis, snippet kode tak pernah.
 - **Posisi panel** — mengikuti jendela aktif (default) / mengikuti kursor teks / mengingat posisi terakhir.

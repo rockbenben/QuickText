@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · **Tiếng Việt** · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
-
 # QuickText
 
 > trình quản lý đoạn văn bản kiêm mở rộng văn bản thường trú ở khay Windows.
 
+[⬇ Tải bản mới nhất (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · Bản di động
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · **Tiếng Việt** · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+
 ![Gọi bảng tìm kiếm trên bất kỳ cửa sổ nào, gõ vài chữ, đoạn văn bản rơi đúng vị trí con trỏ](../images/quicktext-demo.webp)
 
 **Đừng gõ đi gõ lại cùng một thứ.** QuickText nằm trong khay hệ thống của Windows: hãy lưu một lần những đoạn văn bản bạn dùng đi dùng lại — email, địa chỉ, chữ ký, mẫu văn bản, câu trả lời soạn sẵn, hình ảnh — rồi trong **bất kỳ ô nhập liệu nào**, chỉ cần gõ vài phím hoặc một từ viết tắt là nó xuất hiện ngay tại con trỏ của bạn. Nhiều dòng, ký tự đặc biệt và emoji được giữ nguyên vẹn từng ký tự.
-
-> Văn bản tái sử dụng của bạn, chỉ cách vài phím gõ — thả thẳng vào ngay tại con trỏ.
 
 - WPF / .NET 10, exe di động dạng đơn tệp, **không cần tài khoản, ngoại tuyến theo mặc định** — chỉ việc kiểm tra cập nhật tùy chọn mới kết nối GitHub.
 - Dữ liệu là **JSON cục bộ** trong thư mục của riêng bạn — đặt nó vào Dropbox / OneDrive / một NAS để đồng bộ.
@@ -147,7 +147,7 @@ Khi bật từ viết tắt, bạn vẫn có thể gõ bình thường các ký 
 
 Chọn danh mục trong thanh bên để chỉnh cài đặt. Các thay đổi chưa lưu được giữ lại khi chuyển danh mục. Có thể đổi kích thước cửa sổ; trên màn hình thấp, nội dung cuộn còn nút Lưu luôn hiển thị. Dùng phím mũi tên trong thanh bên hoặc Ctrl+Tab để chuyển danh mục.
 
-> Chỉ sao chép vào bảng nhớ tạm cũng áp dụng cho viết tắt. Chuyển cửa sổ khi xuất sẽ hủy các phím còn chờ. Tự khởi động nâng quyền yêu cầu tài khoản quản trị viên cùng chương trình và thư mục được bảo vệ trong Program Files. Khi bật có thể cần xác nhận UAC từ cùng tài khoản. Tác vụ vẫn được lưu trên máy này trong chế độ di động.
+> Chỉ sao chép vào bảng nhớ tạm cũng áp dụng cho viết tắt. Chuyển cửa sổ khi xuất sẽ hủy các phím còn chờ. Tự khởi động nâng quyền yêu cầu tài khoản quản trị viên. Khi bật có thể cần xác nhận UAC từ cùng tài khoản. Tác vụ vẫn được lưu trên máy này trong chế độ di động.
 
 - **Đầu ra** — mặc định "dán vào ứng dụng đang hoạt động"; hoặc "chỉ sao chép vào clipboard" (bạn dán bằng `Ctrl+V`). Tùy chọn: nhấn Enter sau khi dán, nhấp một lần để gửi, “Giữ nguyên bộ nhớ tạm của tôi” (khôi phục mặc định tắt — các ứng dụng đọc clipboard chậm có thể dán ra nội dung cũ). **Mỗi đoạn văn bản có thể ghi đè điều này** (Trình quản lý → Đầu ra: theo toàn cục / dán / dán + Enter / chỉ sao chép) — câu chat tự động gửi, đoạn mã thì không bao giờ.
 - **Vị trí bảng** — theo cửa sổ đang hoạt động (mặc định) / theo con trỏ văn bản / ghi nhớ vị trí lần trước.

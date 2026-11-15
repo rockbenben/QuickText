@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · **Español** · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
-
 # QuickText
 
 > un gestor de fragmentos y expansor de texto en la bandeja de Windows.
 
+[⬇ Descargar la última versión (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · Portable
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · **Español** · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+
 ![Invoca el panel sobre cualquier ventana, escribe unas letras y el fragmento aparece en el cursor](../images/quicktext-demo.webp)
 
 **Deja de escribir lo mismo dos veces.** QuickText vive en la bandeja de Windows: guarda una vez el texto al que recurres una y otra vez —correo, direcciones, firmas, plantillas, respuestas predefinidas, imágenes— y luego, en **cualquier campo de texto**, escribe unas pocas teclas o una abreviatura y aparece justo en el cursor. Varias líneas, caracteres especiales y emoji preservados carácter por carácter.
-
-> Tu texto reutilizable, a unas pocas teclas de distancia: colocado directamente en el cursor.
 
 - WPF / .NET 10, exe portátil de un solo archivo, **sin cuenta, sin conexión por defecto**: solo la comprobación de actualizaciones opcional contacta con GitHub.
 - Los datos son **JSON local** en tu propia carpeta: ponlos en Dropbox / OneDrive / un NAS para sincronizarlos.
@@ -147,7 +147,7 @@ Con las abreviaturas activadas, puedes seguir escribiendo caracteres acentuados 
 
 Elige una categoría en la barra lateral. Los cambios sin guardar se conservan al cambiar de categoría. Puedes redimensionar la ventana; en pantallas bajas el contenido se desplaza y Guardar sigue visible. Usa las flechas en la barra lateral o Ctrl+Tab para cambiar de categoría.
 
-> Copiar solo al portapapeles también se aplica a las abreviaturas. Cambiar de ventana durante la salida cancela las pulsaciones pendientes. El inicio elevado requiere una cuenta de administrador y un programa y carpeta protegidos en Program Files. Al activarlo puede solicitarse aprobación UAC de la misma cuenta. La tarea permanece en este equipo incluso en modo portátil.
+> Copiar solo al portapapeles también se aplica a las abreviaturas. Cambiar de ventana durante la salida cancela las pulsaciones pendientes. El inicio elevado requiere una cuenta de administrador. Al activarlo puede solicitarse aprobación UAC de la misma cuenta. La tarea permanece en este equipo incluso en modo portátil.
 
 - **Salida** — por defecto "pegar en la aplicación activa"; o "copiar solo al portapapeles" (pegas tú con `Ctrl+V`). Opcional: pulsar Enter tras pegar, un solo clic para enviar, “Mantener mi portapapeles intacto” (restaurar está desactivado por defecto: las aplicaciones que leen el portapapeles con lentitud pueden acabar pegando el contenido antiguo). **Cada fragmento puede anular esto** (Gestor → Salida: seguir global / pegar / pegar + Enter / solo copiar): las frases de chat se envían solas, los fragmentos de código nunca.
 - **Posición del panel** — seguir la ventana activa (por defecto) / seguir el cursor de texto / recordar la última posición.

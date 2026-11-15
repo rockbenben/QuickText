@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · **Português** · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
-
 # QuickText
 
 > um gerenciador de snippets e expansor de texto na bandeja do Windows.
 
+[⬇ Baixar a versão mais recente (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · Portátil
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · **Português** · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+
 ![Abra o painel sobre qualquer janela, digite algumas letras e o trecho aparece no cursor](../images/quicktext-demo.webp)
 
 **Pare de digitar a mesma coisa duas vezes.** O QuickText fica na bandeja do Windows: armazene uma única vez o texto ao qual você recorre repetidamente — e-mails, endereços, assinaturas, modelos, respostas prontas, imagens — e depois, em **qualquer caixa de texto**, digite algumas teclas ou uma abreviação e ele aparece exatamente no cursor. Múltiplas linhas, caracteres especiais e emoji preservados caractere por caractere.
-
-> Seu texto reutilizável, a poucas teclas de distância — inserido direto no cursor.
 
 - WPF / .NET 10, executável portátil de arquivo único, **sem conta, offline por padrão** — apenas a verificação de atualizações opcional acessa o GitHub.
 - Os dados são **JSON local** na sua própria pasta — coloque-os no Dropbox / OneDrive / num NAS para sincronizar.
@@ -147,7 +147,7 @@ Com as abreviações ativadas, você pode continuar digitando normalmente caract
 
 Escolha uma categoria na barra lateral. As alterações não salvas são mantidas ao trocar de categoria. A janela pode ser redimensionada; em telas baixas, o conteúdo rola e Salvar continua visível. Use as setas na barra lateral ou Ctrl+Tab para trocar de categoria.
 
-> Copiar apenas para a área de transferência também se aplica às abreviações. Mudar de janela durante a saída cancela as teclas pendentes. A inicialização elevada exige uma conta de administrador e um programa e pasta protegidos em Program Files. Ao ativar, pode ser necessária aprovação UAC da mesma conta. A tarefa permanece neste computador mesmo no modo portátil.
+> Copiar apenas para a área de transferência também se aplica às abreviações. Mudar de janela durante a saída cancela as teclas pendentes. A inicialização elevada exige uma conta de administrador. Ao ativar, pode ser necessária aprovação UAC da mesma conta. A tarefa permanece neste computador mesmo no modo portátil.
 
 - **Saída** — padrão "colar no aplicativo ativo"; ou "apenas copiar para a área de transferência" (você cola com `Ctrl+V`). Opcional: pressionar Enter após colar, enviar com um clique, “Manter a minha área de transferência intacta” (a restauração vem desativada por padrão — aplicativos que leem a área de transferência lentamente podem acabar colando o conteúdo antigo). **Cada trecho pode substituir isso** (Gerenciador → Saída: seguir o global / colar / colar + Enter / apenas copiar) — frases de chat se enviam automaticamente, trechos de código nunca.
 - **Posição do painel** — seguir a janela ativa (padrão) / seguir o cursor de texto / lembrar a última posição.

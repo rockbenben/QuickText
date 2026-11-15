@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · **Deutsch** · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
-
 # QuickText
 
 > ein Snippet-Manager und Textexpander im Windows-Infobereich.
 
+[⬇ Neueste Version herunterladen (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · Portable
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · **Deutsch** · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+
 ![Panel über jedem Fenster aufrufen, ein paar Buchstaben tippen — das Snippet landet an der Cursorposition](../images/quicktext-demo.webp)
 
 **Schluss damit, dasselbe zweimal zu tippen.** QuickText sitzt im Windows-Infobereich: Speichere den Text, den du immer wieder brauchst — E-Mail, Adressen, Signaturen, Vorlagen, Standardantworten, Bilder — einmal ab, und tippe dann in **jedem beliebigen Eingabefeld** ein paar Tasten oder ein Kürzel, und er landet genau an deiner Cursorposition. Mehrzeilig, Sonderzeichen und Emojis bleiben Zeichen für Zeichen erhalten.
-
-> Dein wiederverwendbarer Text, nur ein paar Tastendrücke entfernt — direkt am Cursor abgelegt.
 
 - WPF / .NET 10, portable Einzeldatei-Exe, **kein Konto, standardmäßig offline** — nur die optionale Update-Prüfung kontaktiert GitHub.
 - Die Daten liegen als **lokales JSON** in deinem eigenen Ordner — leg ihn in Dropbox / OneDrive / ein NAS, um zu synchronisieren.
@@ -147,7 +147,7 @@ Auch bei aktivierten Kürzeln lassen sich Akzentzeichen mit Tottasten normal ein
 
 Wähle eine Kategorie in der Seitenleiste. Nicht gespeicherte Änderungen bleiben beim Wechsel erhalten. Das Fenster lässt sich vergrößern und verkleinern; auf niedrigen Bildschirmen scrollt der Inhalt, während Speichern sichtbar bleibt. Mit den Pfeiltasten in der Seitenleiste oder Ctrl+Tab wechselst du die Kategorie.
 
-> Nur in die Zwischenablage kopieren gilt auch für Kürzel. Ein Fensterwechsel während der Ausgabe bricht ausstehende Tasteneingaben ab. Der erhöhte Autostart erfordert ein Administratorkonto sowie ein geschütztes Programm und Verzeichnis unter Program Files. Beim Aktivieren kann eine UAC-Bestätigung desselben Kontos nötig sein. Auch im portablen Modus bleibt die Aufgabe auf diesem PC.
+> Nur in die Zwischenablage kopieren gilt auch für Kürzel. Ein Fensterwechsel während der Ausgabe bricht ausstehende Tasteneingaben ab. Der erhöhte Autostart erfordert ein Administratorkonto. Beim Aktivieren kann eine UAC-Bestätigung desselben Kontos nötig sein. Auch im portablen Modus bleibt die Aufgabe auf diesem PC.
 
 - **Ausgabe** — Standard „in die aktive App einfügen“; oder „nur in die Zwischenablage kopieren“ (du fügst mit `Ctrl+V` ein). Optional: nach dem Einfügen Enter drücken, mit Einfachklick senden, “Zwischenablage unverändert lassen” (Wiederherstellen ist standardmäßig aus — Apps, die die Zwischenablage langsam lesen, fügen sonst den alten Inhalt ein). **Jedes Snippet kann dies überschreiben** (Manager → Ausgabe: global folgen / einfügen / einfügen + Enter / nur kopieren) — Chat-Textbausteine werden automatisch gesendet, Code-Snippets niemals.
 - **Panel-Position** — dem aktiven Fenster folgen (Standard) / dem Textcursor folgen / letzte Position merken.

@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · **繁體中文** · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
-
 # QuickText
 
 > Windows 托盤速貼，常用文字 / 圖片幾鍵即達游標。
 
+[⬇ 下載最新版 (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · 免安裝可攜式
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · **繁體中文** · [日本語](README.ja.md) · [한국어](README.ko.md) · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+
 ![在任意視窗上呼出面板，敲幾個字母，片語直接落在游標處](../images/quicktext-demo.webp)
 
 **別再把同樣的內容打第二次。** QuickText 常駐於 Windows 系統匣：把你一再需要用到的文字——電子郵件、地址、簽名檔、範本、罐頭回覆、圖片——只存一次，之後在**任何輸入框**裡打幾個鍵或一組縮寫，內容就直接落在游標處。多行、特殊字元與表情符號都逐字元原樣保留。
-
-> 你的可重複使用文字，只差幾個鍵——直接落在游標上。
 
 - WPF / .NET 10，單一檔案免安裝可攜式 exe，**免帳號、預設不連網**——僅可選的「檢查更新」會存取 GitHub。
 - 資料是存在你自己資料夾裡的**本機 JSON**——放進 Dropbox / OneDrive / NAS 即可同步。
@@ -147,7 +147,7 @@
 
 在側欄選擇分類查看設定，切換分類會保留尚未儲存的修改。視窗可調整大小；小螢幕上僅目前分類的內容捲動，儲存按鈕保持可見。可用側欄方向鍵或 Ctrl+Tab 切換分類。
 
-> 「僅複製到剪貼簿」同樣適用於縮寫。傳送期間切換視窗會取消尚未執行的按鍵。 提權自啟需要管理員帳戶，以及位於 Program Files 中且一般使用者無法修改的程式及目錄。啟用時可能需要一次相同帳戶的 UAC 授權。便攜模式的排程工作仍儲存在本機。
+> 「僅複製到剪貼簿」同樣適用於縮寫。傳送期間切換視窗會取消尚未執行的按鍵。 提權自啟需要管理員帳戶。。啟用時可能需要一次相同帳戶的 UAC 授權。便攜模式的排程工作仍儲存在本機。
 
 - **輸出** — 預設「貼入使用中的應用程式」；或「僅複製到剪貼簿」（你自己按 `Ctrl+V` 貼上）。可選：貼上後按 Enter、單擊送出、「保留原剪貼簿內容」（還原預設關閉 —— 少數程式讀取剪貼簿較慢，還原可能趕在它讀取之前，導致貼出舊內容）。**每個片語都能覆寫此設定**（管理員 → 輸出：跟隨全域／貼上／貼上 + Enter／僅複製）——聊天片語自動送出，程式碼片語絕不。
 - **面板位置** — 跟隨使用中的視窗（預設）／跟隨文字插入點／記住上次位置。

@@ -6,15 +6,15 @@
 
 > A tray snippet manager and text expander for Windows
 
-**English** · [简体中文](README.zh.md) · [繁體中文](docs/i18n/README.zh-Hant.md) · [日本語](docs/i18n/README.ja.md) · [한국어](docs/i18n/README.ko.md) · [Español](docs/i18n/README.es.md) · [Português](docs/i18n/README.pt.md) · [Français](docs/i18n/README.fr.md) · [Deutsch](docs/i18n/README.de.md) · [Italiano](docs/i18n/README.it.md) · [Русский](docs/i18n/README.ru.md) · [Tiếng Việt](docs/i18n/README.vi.md) · [ไทย](docs/i18n/README.th.md) · [Bahasa Indonesia](docs/i18n/README.id.md) · [हिन्दी](docs/i18n/README.hi.md) · [বাংলা](docs/i18n/README.bn.md) · [العربية](docs/i18n/README.ar.md) · [Türkçe](docs/i18n/README.tr.md)
-
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![365 Open Source Plan #023](https://img.shields.io/badge/365%20Open%20Source%20Plan-%23023-1f6feb)](https://github.com/rockbenben/365opensource)
+
+[⬇ Download latest (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · Portable Single-File
+
+**English** · [简体中文](README.zh.md) · [繁體中文](docs/i18n/README.zh-Hant.md) · [日本語](docs/i18n/README.ja.md) · [한국어](docs/i18n/README.ko.md) · [Español](docs/i18n/README.es.md) · [Português](docs/i18n/README.pt.md) · [Français](docs/i18n/README.fr.md) · [Deutsch](docs/i18n/README.de.md) · [Italiano](docs/i18n/README.it.md) · [Русский](docs/i18n/README.ru.md) · [Tiếng Việt](docs/i18n/README.vi.md) · [ไทย](docs/i18n/README.th.md) · [Bahasa Indonesia](docs/i18n/README.id.md) · [हिन्दी](docs/i18n/README.hi.md) · [বাংলা](docs/i18n/README.bn.md) · [العربية](docs/i18n/README.ar.md) · [Türkçe](docs/i18n/README.tr.md)
 
 ![Summon the panel over any window, type a few letters, and the snippet lands at your cursor](docs/images/quicktext-demo.webp)
 
 **Stop typing the same thing twice.** QuickText lives in the Windows tray: store the text you reach for again and again — email, addresses, signatures, templates, canned replies, images — once, then in **any input box** type a few keystrokes or an abbreviation and it lands right at your cursor. Multi-line, special characters and emoji preserved character-for-character.
-
-> Your reusable text, a few keystrokes away — dropped straight at the cursor.
 
 - A single portable exe — **no account, offline by default**; only the optional update check ever contacts GitHub.
 - Data is **local JSON** in your own folder — put it in Dropbox / OneDrive / a NAS to sync.
@@ -149,7 +149,7 @@ Dead-key accents remain available during normal typing with abbreviations enable
 
 Choose a category in the sidebar to edit its settings. Switching categories keeps unsaved edits. The window is resizable; on short screens the selected section scrolls while Save stays visible. Use the arrow keys in the sidebar or Ctrl+Tab to switch categories.
 
-> Copy to clipboard only also applies to abbreviations. Switching windows during output cancels pending keystrokes. Elevated autostart requires an administrator account and a protected program and folder under Program Files. Enabling it may ask for UAC approval from the same account. A portable copy still creates a task on this machine.
+> Copy to clipboard only also applies to abbreviations. Switching windows during output cancels pending keystrokes. Elevated autostart requires an administrator account. Enabling it may ask for UAC approval from the same account. A portable copy still creates a task on this machine.
 
 - **Output** — default “paste into the active app”; or “copy to clipboard only” (you paste with `Ctrl+V`). Optional: press Enter after pasting, single-click to send, “Keep my clipboard intact” (off by default — apps that read the clipboard slowly can end up pasting the old content instead). **Each snippet can override this** (Manager → Output: follow global / paste / paste + Enter / copy only) — chat phrases auto-send, code snippets never do.
 - **Panel position** — follow the active window (default) / follow the text caret / remember last position.

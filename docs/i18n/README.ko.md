@@ -2,17 +2,17 @@
   <img src="../../assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · **한국어** · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
-
 # QuickText
 
 > Windows 트레이 상주 스니펫 관리자 겸 텍스트 확장기.
 
+[⬇ 최신 버전 다운로드 (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · 포터블
+
+[English](../../README.md) · [简体中文](../../README.zh.md) · [繁體中文](README.zh-Hant.md) · [日本語](README.ja.md) · **한국어** · [Español](README.es.md) · [Português](README.pt.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Русский](README.ru.md) · [Tiếng Việt](README.vi.md) · [ไทย](README.th.md) · [Bahasa Indonesia](README.id.md) · [हिन्दी](README.hi.md) · [বাংলা](README.bn.md) · [العربية](README.ar.md) · [Türkçe](README.tr.md)
+
 ![어떤 창에서든 패널을 불러 몇 글자만 입력하면 스니펫이 커서 위치에 들어갑니다](../images/quicktext-demo.webp)
 
 **같은 내용을 두 번 입력하지 마세요.** QuickText는 Windows 트레이에 상주합니다. 자주 쓰는 텍스트 — 이메일, 주소, 서명, 템플릿, 정형 답변, 이미지 — 를 한 번만 저장해 두면, **어떤 입력창에서든** 몇 번의 키 입력이나 약어만으로 커서 위치에 바로 삽입됩니다. 여러 줄, 특수 문자, 이모지까지 한 글자도 빠짐없이 그대로 보존됩니다.
-
-> 재사용할 텍스트를 몇 번의 키 입력만으로 — 커서 위치에 곧바로 삽입.
 
 - WPF / .NET 10 기반, 단일 파일 포터블 exe, **계정 불필요, 기본값 오프라인** — 선택적 "업데이트 확인"만 GitHub에 연결합니다.
 - 데이터는 여러분의 폴더에 저장되는 **로컬 JSON** 입니다 — Dropbox / OneDrive / NAS에 넣어 동기화하세요.
@@ -147,7 +147,7 @@ Windows에서 **같은 내용을 반복해서 입력하는 곳이라면 어디�
 
 사이드바에서 범주를 선택해 설정합니다. 범주를 바꿔도 저장하지 않은 변경 사항은 유지됩니다. 창 크기를 조절할 수 있으며, 높이가 낮은 화면에서는 내용만 스크롤되고 저장 버튼은 계속 보입니다. 사이드바의 방향키 또는 Ctrl+Tab으로 범주를 전환하세요.
 
-> ‘클립보드에 복사만’은 약어에도 적용됩니다. 출력 중 창을 전환하면 대기 중인 키 입력을 취소합니다. 관리자 자동 시작에는 관리자 계정과 일반 사용자가 수정할 수 없는 Program Files 내 프로그램 및 폴더가 필요합니다. 활성화 시 동일 계정의 UAC 승인이 필요할 수 있습니다. 휴대용 모드에서도 작업은 이 PC에 저장됩니다.
+> ‘클립보드에 복사만’은 약어에도 적용됩니다. 출력 중 창을 전환하면 대기 중인 키 입력을 취소합니다. 관리자 자동 시작에는 관리자 계정이 필요합니다. 활성화 시 동일 계정의 UAC 승인이 필요할 수 있습니다. 휴대용 모드에서도 작업은 이 PC에 저장됩니다.
 
 - **출력** — 기본값은 "활성 앱에 붙여넣기". 또는 "클립보드에만 복사"(`Ctrl+V`로 직접 붙여넣기). 선택 옵션: 붙여넣기 후 Enter 누르기, 원클릭 전송, 「클립보드 유지」(복원은 기본값이 꺼짐 — 클립보드를 늦게 읽는 앱에서는 이전 내용이 붙여넣어질 수 있습니다). **스니펫마다 이를 재정의할 수 있습니다**(관리자 → 출력: 전역 설정 따르기 / 붙여넣기 / 붙여넣기 + Enter / 복사만) — 채팅 문구는 자동 전송, 코드 스니펫은 절대 자동 전송하지 않음.
 - **패널 위치** — 활성 창을 따라감(기본값) / 텍스트 커서를 따라감 / 마지막 위치 기억.

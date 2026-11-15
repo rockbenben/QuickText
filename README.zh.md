@@ -2,19 +2,19 @@
   <img src="assets/branding/quicktext-256.png" width="72" alt="QuickText">
 </p>
 
-[English](README.md) · **简体中文** · [繁體中文](docs/i18n/README.zh-Hant.md) · [日本語](docs/i18n/README.ja.md) · [한국어](docs/i18n/README.ko.md) · [Español](docs/i18n/README.es.md) · [Português](docs/i18n/README.pt.md) · [Français](docs/i18n/README.fr.md) · [Deutsch](docs/i18n/README.de.md) · [Italiano](docs/i18n/README.it.md) · [Русский](docs/i18n/README.ru.md) · [Tiếng Việt](docs/i18n/README.vi.md) · [ไทย](docs/i18n/README.th.md) · [Bahasa Indonesia](docs/i18n/README.id.md) · [हिन्दी](docs/i18n/README.hi.md) · [বাংলা](docs/i18n/README.bn.md) · [العربية](docs/i18n/README.ar.md) · [Türkçe](docs/i18n/README.tr.md)
-
 # QuickText
 
-> Windows 托盘速贴，常用文本 / 图片几键即达光标
+> Windows 托盘速贴，常用文本与图片几键即达光标
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![365 开源计划 #023](https://img.shields.io/badge/365%20%E5%BC%80%E6%BA%90%E8%AE%A1%E5%88%92-%23023-1f6feb)](https://github.com/rockbenben/365opensource)
+
+[⬇ 下载最新版 (Releases)](https://github.com/rockbenben/QuickText/releases/latest) · Windows x64 / ARM64 · 免安装绿色版
+
+[English](README.md) · **简体中文** · [繁體中文](docs/i18n/README.zh-Hant.md) · [日本語](docs/i18n/README.ja.md) · [한국어](docs/i18n/README.ko.md) · [Español](docs/i18n/README.es.md) · [Português](docs/i18n/README.pt.md) · [Français](docs/i18n/README.fr.md) · [Deutsch](docs/i18n/README.de.md) · [Italiano](docs/i18n/README.it.md) · [Русский](docs/i18n/README.ru.md) · [Tiếng Việt](docs/i18n/README.vi.md) · [ไทย](docs/i18n/README.th.md) · [Bahasa Indonesia](docs/i18n/README.id.md) · [हिन्दी](docs/i18n/README.hi.md) · [বাংলা](docs/i18n/README.bn.md) · [العربية](docs/i18n/README.ar.md) · [Türkçe](docs/i18n/README.tr.md)
 
 ![在任意窗口上呼出面板，敲几个字母，片段直接落在光标处](docs/images/quicktext-demo.webp)
 
 **同样的话，别再打第二遍。** QuickText 常驻 Windows 托盘，把你反复要输入的东西（邮箱、地址、签名、模板、常用回复、图片……）存一次，之后在**任意输入框**里敲几个拼音、或打一个缩写，就贴到光标处。多行、特殊字符、emoji 逐字符无损。
-
-> 存好常用文本，在任意输入框敲几个拼音，一键贴到光标处。
 
 - 单文件绿色版，**无账号、默认不联网**——仅可选的「检查更新」会访问 GitHub。
 - 数据是你自己文件夹里的**本地 JSON**，可放进坚果云 / OneDrive / NAS 同步。
@@ -96,7 +96,7 @@
 
 ![管理器：左侧分类与条目、右侧编辑器](docs/images/quicktext-manager.webp)
 
-> 保存失败时，管理器会保留草稿并停留在当前条目；搜索继续使用上次成功保存的内容。文件恢复可写后可重试保存。 撤销删除会先写回条目，再移除回收站副本；撤销失败后，文件恢复可写时可再次按 Ctrl+Z 重试。
+> 保存失败时，管理器会保留草稿并停留在当前条目；搜索继续使用上次成功保存的内容。文件恢复可写后可重试保存。撤销删除会先写回条目，再移除回收站副本；撤销失败后，文件恢复可写时可再次按 Ctrl+Z 重试。
 
 - **托盘右键 → 打开管理**：完整管理器。左侧分类与条目、右侧编辑器。可新建/改名/删除分类（选 **7 色**标记）、增删改条目（名称、缩写、正文、图片）。拖拽可排序或移到别的分类；`Ctrl+Z` 撤销删除。
 - **托盘右键 → 从剪贴板新增**：把当前剪贴板内容新建成一条，在管理器里打开补全（点**保存**才写盘，不点就不落盘；未保存的改动在丢失前一律会问你 —— 关管理器时问、关放大窗时问、切到别的条目时也问）。
@@ -149,7 +149,7 @@
 
 在侧栏选择分类查看设置，切换分类会保留未保存的修改。窗口可调整大小；小屏幕上仅当前分类的内容滚动，保存按钮始终可见。可用侧栏方向键或 Ctrl+Tab 切换分类。
 
-> “仅复制到剪贴板”同样适用于缩写。发送过程中切换窗口会取消尚未执行的按键。 提权自启需要管理员账户，以及位于 Program Files 中且普通用户无法修改的程序和目录。开启时可能需要一次同一账户的 UAC 授权。便携模式的计划任务仍保存在本机。
+> “仅复制到剪贴板”同样适用于缩写。发送过程中切换窗口会取消尚未执行的按键。提权自启需要管理员账户。开启时可能需要一次同一账户的 UAC 授权。便携模式的计划任务仍保存在本机。
 
 - **输出方式**：默认「直接粘贴到当前位置」；也可切「仅复制到剪贴板」（自己去 `Ctrl+V`）。可选「粘贴后自动回车」「单击即发送」「保留原剪贴板内容」（默认关闭 —— 少数程序读剪贴板较慢，还原可能赶在它读取之前，导致贴出旧内容）。**每条条目还能单独覆盖**（管理器 → 输出方式：跟随全局 / 直接粘贴 / 粘贴并回车 / 仅复制）—— 聊天短语自动回车、代码片段永不回车，互不干扰。
 - **快速采集热键**：设置一个组合键后，按下即把当前剪贴板文本**静默存为新条目**（气泡提示，不弹窗口）。
