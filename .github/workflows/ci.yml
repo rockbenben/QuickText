@@ -36,7 +36,7 @@ jobs:
       - name: Test (Core)
         run: dotnet test --project tests/QuickText.Core.Tests -c Release --minimum-expected-tests 385
       - name: Test (App)
-        run: dotnet test --project tests/QuickText.App.Tests -c Release --minimum-expected-tests 5
+        run: dotnet test --project tests/QuickText.App.Tests -c Release --minimum-expected-tests 8
       - name: Build (App)
         run: dotnet build src/QuickText.App -c Release --nologo
       - name: Test package validation

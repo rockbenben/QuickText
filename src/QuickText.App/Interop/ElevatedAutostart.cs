@@ -126,28 +126,37 @@ public static class ElevatedAutostart
         catch { return false; }
     }
 
-    /// <summary>Register the elevated logon task.</summary>
-    private static TaskOutcome Register(string exePath) => Guard(() =>
+    internal static string BuildTaskXml(string exePath, string userSid)
     {
-        if (!ElevationPolicy.CanRegister(exePath)) throw new InvalidOperationException("Elevated autostart requires an administrator account and a protected Program Files location.");
-        var user = UserSid;
         var cmd = SecurityElement.Escape(exePath) ?? "";
+        var dir = System.IO.Path.GetDirectoryName(exePath) ?? "";
+        var workDir = SecurityElement.Escape(dir) ?? "";
         // RegisterTask takes the XML as a UTF-16 string, so no temp file and no UTF-16+BOM dance
         // (which is what schtasks.exe /XML would need).
-        var xml = $@"<?xml version=""1.0"" encoding=""UTF-16""?>
+        // Priority=4 gives the task Normal priority instead of Task Scheduler's default 7 (Below Normal).
+        return $@"<?xml version=""1.0"" encoding=""UTF-16""?>
 <Task version=""1.2"" xmlns=""http://schemas.microsoft.com/windows/2004/02/mit/task"">
   <RegistrationInfo><Description>{Description}</Description></RegistrationInfo>
-  <Triggers><LogonTrigger><Enabled>true</Enabled><UserId>{user}</UserId></LogonTrigger></Triggers>
-  <Principals><Principal id=""Author""><UserId>{user}</UserId><LogonType>InteractiveToken</LogonType><RunLevel>HighestAvailable</RunLevel></Principal></Principals>
+  <Triggers><LogonTrigger><Enabled>true</Enabled><UserId>{userSid}</UserId></LogonTrigger></Triggers>
+  <Principals><Principal id=""Author""><UserId>{userSid}</UserId><LogonType>InteractiveToken</LogonType><RunLevel>HighestAvailable</RunLevel></Principal></Principals>
   <Settings>
     <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
     <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
     <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
     <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
+    <Priority>4</Priority>
     <Enabled>true</Enabled>
   </Settings>
-  <Actions Context=""Author""><Exec><Command>{cmd}</Command><Arguments>{Autostart.Flag}</Arguments></Exec></Actions>
+  <Actions Context=""Author""><Exec><Command>{cmd}</Command><Arguments>{Autostart.Flag}</Arguments><WorkingDirectory>{workDir}</WorkingDirectory></Exec></Actions>
 </Task>";
+    }
+
+    /// <summary>Register the elevated logon task.</summary>
+    private static TaskOutcome Register(string exePath) => Guard(() =>
+    {
+        if (!ElevationPolicy.CanRegister(exePath)) throw new InvalidOperationException("Elevated autostart requires an administrator account.");
+        var user = UserSid;
+        var xml = BuildTaskXml(exePath, user);
         RunTaskOp(folder =>
         {
             dynamic? existing = FindOwnedTask(folder, TaskName);

@@ -33,6 +33,28 @@ public class InteropSafetyTests
     }
 
     [Fact]
+    public void Task_xml_contains_normal_priority_and_working_directory()
+    {
+        var xml = ElevatedAutostart.BuildTaskXml(@"C:\Program Files\QuickText\QuickText.exe", "S-1-5-21-1");
+        Assert.Contains("<Priority>4</Priority>", xml);
+        Assert.Contains(@"<WorkingDirectory>C:\Program Files\QuickText</WorkingDirectory>", xml);
+        Assert.Contains(@"<Command>C:\Program Files\QuickText\QuickText.exe</Command>", xml);
+        Assert.True(ElevatedAutostart.BelongsTo(xml, "S-1-5-21-1", "PC\\User"));
+    }
+
+    [Fact]
+    public void Administrator_account_is_detected_under_uac()
+    {
+        Assert.True(ElevationPolicy.IsAdministratorAccount());
+    }
+
+    [Fact]
+    public void Valid_executable_can_be_registered_by_administrator()
+    {
+        Assert.True(ElevationPolicy.CanRegister(Environment.ProcessPath!));
+    }
+
+    [Fact]
     public void Writable_executables_and_untrusted_ACL_owners_cannot_be_elevated()
     {
         Assert.False(ElevationPolicy.CanRegister(Path.Combine(Path.GetTempPath(), "QuickText.exe")));

@@ -159,8 +159,10 @@ public static class Autostart
 
     private static void RegistryEnable()
     {
+        var command = $"\"{ExePath}\" {Flag}";
+        if (command.Length > 260) throw new InvalidOperationException("The Run command exceeds Windows' 260-character limit.");
         using var key = Registry.CurrentUser.CreateSubKey(RunKey);
-        key.SetValue(ValueName, $"\"{ExePath}\" {Flag}");
+        key.SetValue(ValueName, command);
     }
 
     private static void RegistryDisable()
