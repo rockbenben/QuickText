@@ -16,7 +16,15 @@ try {
             if ($LASTEXITCODE) { throw "Publish failed: $profile" }
         }
     }
-    if (-not (Test-Path -LiteralPath $InnoCompiler)) { throw 'Pass -InnoCompiler with the path to Inno Setup 6 ISCC.exe' }
+    if (-not (Test-Path -LiteralPath $InnoCompiler)) {
+        $candidates = @(
+            "${env:ProgramFiles(x86)}/Inno Setup 6/ISCC.exe",
+            "$env:ProgramFiles/Inno Setup 6/ISCC.exe",
+            "D:/Backup/Libraries/Documents/GitHub/Projects/365/037-scene-anchor/.deps/inno/InnoSetup6/ISCC.exe"
+        )
+        $InnoCompiler = $candidates | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
+    }
+    if (-not $InnoCompiler -or -not (Test-Path -LiteralPath $InnoCompiler)) { throw 'Pass -InnoCompiler with the path to Inno Setup 6 ISCC.exe' }
     & $InnoCompiler "/DAppVersion=$Version" "/O$output" "/FQuickText-v$Version-setup" 'tools/installer/QuickText.iss'
     if ($LASTEXITCODE) { throw 'Installer compilation failed' }
     $installer = Join-Path $output "QuickText-v$Version-setup.exe"

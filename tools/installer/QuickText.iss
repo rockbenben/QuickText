@@ -6,10 +6,10 @@
 AppId={{E8125AE1-BB4A-441C-8EB6-C098323E0914}
 AppName={#AppName}
 AppVersion={#AppVersion}
-DefaultDirName={localappdata}\Programs\{#AppName}
+DefaultDirName={autopf}\{#AppName}
 DefaultGroupName={#AppName}
 DisableProgramGroupPage=yes
-PrivilegesRequired=lowest
+PrivilegesRequired=admin
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
 Compression=lzma2
@@ -19,6 +19,7 @@ SetupIconFile=..\..\assets\branding\quicktext.ico
 ShowLanguageDialog=no
 CloseApplications=yes
 RestartApplications=no
+UninstallDisplayName={#AppName}
 UninstallDisplayIcon={app}\{#AppName}.exe
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
