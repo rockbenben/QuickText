@@ -13,8 +13,8 @@
         <Style x:Key="SettingsTab" TargetType="TabItem">
             <Setter Property="Foreground" Value="{DynamicResource Brush.TextMuted}"/>
             <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Padding" Value="14,12"/>
-            <Setter Property="Margin" Value="0,0,0,6"/>
+            <Setter Property="Padding" Value="14,11"/>
+            <Setter Property="Margin" Value="0,0,0,4"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="FocusVisualStyle" Value="{StaticResource AppFocusVisual}"/>
             <Setter Property="AutomationProperties.Name" Value="{Binding Header, RelativeSource={RelativeSource Self}}"/>
@@ -23,17 +23,34 @@
                     <ControlTemplate TargetType="TabItem">
                         <Border x:Name="TabBorder" Background="{TemplateBinding Background}"
                                 BorderBrush="Transparent" BorderThickness="1" CornerRadius="8"
-                                Padding="{TemplateBinding Padding}">
-                            <TextBlock Text="{TemplateBinding Header}" TextWrapping="Wrap"
-                                       FontSize="13" FontWeight="Medium"/>
+                                Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <!-- Accent vertical pill on the leading edge when selected -->
+                                <Border x:Name="ActivePill" Grid.Column="0" Width="3" Height="16" CornerRadius="1.5"
+                                        Background="{DynamicResource Brush.Accent}" VerticalAlignment="Center"
+                                        Visibility="Collapsed"/>
+                                <DockPanel Grid.Column="1" Margin="9,0,0,0" VerticalAlignment="Center">
+                                    <TextBlock DockPanel.Dock="Left" Text="{TemplateBinding Tag}" FontFamily="Segoe MDL2 Assets"
+                                               FontSize="14" VerticalAlignment="Center" Margin="0,0,10,0"
+                                               Foreground="{TemplateBinding Foreground}"/>
+                                    <TextBlock Text="{TemplateBinding Header}" TextWrapping="Wrap"
+                                               VerticalAlignment="Center" FontSize="13" FontWeight="Medium"/>
+                                </DockPanel>
+                            </Grid>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="TabBorder" Property="Background" Value="{DynamicResource Brush.CardBg}"/>
+                                <Setter TargetName="TabBorder" Property="Background" Value="{DynamicResource Brush.RowHover}"/>
+                                <Setter Property="Foreground" Value="{DynamicResource Brush.TextPrimary}"/>
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="TabBorder" Property="Background" Value="{DynamicResource Brush.CardBg}"/>
-                                <Setter TargetName="TabBorder" Property="BorderBrush" Value="{DynamicResource Brush.Accent}"/>
+                                <Setter TargetName="TabBorder" Property="BorderBrush" Value="{DynamicResource Brush.Stroke}"/>
+                                <Setter TargetName="ActivePill" Property="Visibility" Value="Visible"/>
                                 <Setter Property="Foreground" Value="{DynamicResource Brush.TextPrimary}"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -45,7 +62,7 @@
     <DockPanel Margin="24,16,24,18">
 
         <!-- title: 设置 + brand caret (the "text▮" mark), version stamp on the right -->
-        <Grid DockPanel.Dock="Top" Margin="0,0,0,12">
+        <Grid DockPanel.Dock="Top" Margin="0,0,0,14">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="{Binding [Tray.Settings], Source={x:Static app:LocProxy.Instance}}"
                            FontSize="19" FontWeight="SemiBold" Foreground="{DynamicResource Brush.TextPrimary}"/>
@@ -111,292 +128,330 @@
                     </Grid>
                 </ControlTemplate>
             </TabControl.Template>
-            <TabItem x:Name="SummonTab" Header="{Binding [Settings.SectionSummon], Source={x:Static app:LocProxy.Instance}}">
+            <TabItem x:Name="SummonTab" Tag="&#xE765;" Header="{Binding [Settings.SectionSummon], Source={x:Static app:LocProxy.Instance}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                              Padding="0,0,4,0">
-                    <Border Style="{StaticResource SetCard}">
-                        <StackPanel>
-                            <ContentControl Margin="0,0,0,10" Style="{StaticResource SetHeader}"
-                                            Content="{Binding [Settings.SectionSummon], Source={x:Static app:LocProxy.Instance}}"/>
+                              Padding="0,0,6,0">
+                    <StackPanel>
+                        <!-- Card 1: 呼出方式与快捷键 -->
+                        <Border Style="{StaticResource SetCard}" Margin="0,0,0,14">
+                            <StackPanel>
+                                <ContentControl Margin="0,0,0,12" Style="{StaticResource SetHeader}"
+                                                Content="{Binding [Settings.SectionSummon], Source={x:Static app:LocProxy.Instance}}"/>
+                                <TextBlock Text="{Binding [Settings.SummonMode], Source={x:Static app:LocProxy.Instance}}"
+                                           Style="{StaticResource FieldLabel}"/>
+                                <WrapPanel x:Name="SummonModePanel" Margin="0,0,0,4">
+                                    <RadioButton GroupName="SummonMode" Style="{StaticResource ChipToggle}" Tag="hotkey" Checked="OnSummonModeChecked"
+                                                 Content="{Binding [Settings.SummonModeHotkey], Source={x:Static app:LocProxy.Instance}}"/>
+                                    <RadioButton GroupName="SummonMode" Style="{StaticResource ChipToggle}" Tag="tap" Checked="OnSummonModeChecked"
+                                                 Content="{Binding [Settings.SummonModeTap], Source={x:Static app:LocProxy.Instance}}"/>
+                                </WrapPanel>
 
-                            <!-- summon method: key combo OR tap a lone modifier — mutually exclusive -->
-                            <TextBlock Text="{Binding [Settings.SummonMode], Source={x:Static app:LocProxy.Instance}}"
-                                       Style="{StaticResource FieldLabel}"/>
-                            <WrapPanel x:Name="SummonModePanel">
-                                <RadioButton GroupName="SummonMode" Style="{StaticResource ChipToggle}" Tag="hotkey" Checked="OnSummonModeChecked"
-                                             Content="{Binding [Settings.SummonModeHotkey], Source={x:Static app:LocProxy.Instance}}"/>
-                                <RadioButton GroupName="SummonMode" Style="{StaticResource ChipToggle}" Tag="tap" Checked="OnSummonModeChecked"
-                                             Content="{Binding [Settings.SummonModeTap], Source={x:Static app:LocProxy.Instance}}"/>
-                            </WrapPanel>
-
-                            <!-- mode: key combo -->
-                            <StackPanel x:Name="HotkeyModePanel" Margin="0,6,0,0">
-                                <ui:AccessibleHotkeyBox x:Name="HotkeyBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
-                                        BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}"
-                                        AutomationProperties.Name="{Binding [Settings.Hotkey], Source={x:Static app:LocProxy.Instance}}"
-                                        AutomationProperties.HelpText="{Binding [Settings.HotkeyHint], Source={x:Static app:LocProxy.Instance}}"
-                                        MouseLeftButtonDown="OnHotkeyBoxClick" PreviewKeyDown="OnHotkeyKeyDown"
-                                        LostKeyboardFocus="OnHotkeyLostFocus">
-                                    <TextBlock x:Name="HotkeyText" FontFamily="{StaticResource Font.Ui}" FontSize="14"
-                                               Foreground="{DynamicResource Brush.TextPrimary}"/>
-                                </ui:AccessibleHotkeyBox>
-                                <TextBlock Text="{Binding [Settings.HotkeyHint], Source={x:Static app:LocProxy.Instance}}"
-                                           FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,6,0,0" TextWrapping="Wrap"/>
-                            </StackPanel>
-
-                            <!-- mode: tap a lone modifier (RegisterHotKey can't do a single modifier) -->
-                            <StackPanel x:Name="TapModePanel" Margin="0,6,0,0">
-                                <!-- Grid, not a horizontal StackPanel: a StackPanel hands its children
-                                     infinite width, so the label never wrapped and Russian's "Двойное
-                                     нажатие (иначе одиночное)" ran past the card and was sliced mid-word.
-                                     The key box keeps its size; the label takes the rest and wraps. -->
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <ui:AccessibleHotkeyBox Grid.Column="0" x:Name="SummonTapBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
-                                            BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}" MinWidth="88"
-                                            AutomationProperties.Name="{Binding [Settings.SummonModeTap], Source={x:Static app:LocProxy.Instance}}"
-                                            AutomationProperties.HelpText="{Binding [Settings.SummonTapHint], Source={x:Static app:LocProxy.Instance}}"
-                                            MouseLeftButtonDown="OnSummonTapClick" PreviewKeyDown="OnSummonTapKeyDown" LostKeyboardFocus="OnSummonTapLostFocus">
-                                        <TextBlock x:Name="SummonTapText" FontFamily="{StaticResource Font.Ui}" FontSize="14"
+                                <!-- mode: key combo -->
+                                <StackPanel x:Name="HotkeyModePanel" Margin="0,8,0,0">
+                                    <ui:AccessibleHotkeyBox x:Name="HotkeyBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
+                                            BorderThickness="1" CornerRadius="7" Padding="14,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}"
+                                            HorizontalAlignment="Left" MinWidth="220" MaxWidth="360"
+                                            AutomationProperties.Name="{Binding [Settings.Hotkey], Source={x:Static app:LocProxy.Instance}}"
+                                            AutomationProperties.HelpText="{Binding [Settings.HotkeyHint], Source={x:Static app:LocProxy.Instance}}"
+                                            MouseLeftButtonDown="OnHotkeyBoxClick" PreviewKeyDown="OnHotkeyKeyDown"
+                                            LostKeyboardFocus="OnHotkeyLostFocus">
+                                        <TextBlock x:Name="HotkeyText" FontFamily="{StaticResource Font.Ui}" FontSize="14" FontWeight="Medium"
                                                    Foreground="{DynamicResource Brush.TextPrimary}"/>
                                     </ui:AccessibleHotkeyBox>
-                                    <CheckBox Grid.Column="1" x:Name="SummonTapDouble" Style="{StaticResource DarkCheckBox}" VerticalAlignment="Center" Margin="12,0,0,0">
-                                        <TextBlock Text="{Binding [Settings.SummonTapDouble], Source={x:Static app:LocProxy.Instance}}"
-                                                   TextWrapping="Wrap"/>
-                                    </CheckBox>
-                                </Grid>
-                                <TextBlock Text="{Binding [Settings.SummonTapHint], Source={x:Static app:LocProxy.Instance}}"
+                                    <TextBlock Text="{Binding [Settings.HotkeyHint], Source={x:Static app:LocProxy.Instance}}"
+                                               FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,6,0,0" TextWrapping="Wrap"/>
+                                </StackPanel>
+
+                                <!-- mode: tap a lone modifier -->
+                                <StackPanel x:Name="TapModePanel" Margin="0,8,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ui:AccessibleHotkeyBox Grid.Column="0" x:Name="SummonTapBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
+                                                BorderThickness="1" CornerRadius="7" Padding="14,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}" MinWidth="100"
+                                                AutomationProperties.Name="{Binding [Settings.SummonModeTap], Source={x:Static app:LocProxy.Instance}}"
+                                                AutomationProperties.HelpText="{Binding [Settings.SummonTapHint], Source={x:Static app:LocProxy.Instance}}"
+                                                MouseLeftButtonDown="OnSummonTapClick" PreviewKeyDown="OnSummonTapKeyDown" LostKeyboardFocus="OnSummonTapLostFocus">
+                                            <TextBlock x:Name="SummonTapText" FontFamily="{StaticResource Font.Ui}" FontSize="14" FontWeight="Medium"
+                                                       Foreground="{DynamicResource Brush.TextPrimary}"/>
+                                        </ui:AccessibleHotkeyBox>
+                                        <CheckBox Grid.Column="1" x:Name="SummonTapDouble" Style="{StaticResource DarkCheckBox}" VerticalAlignment="Center" Margin="14,0,0,0">
+                                            <TextBlock Text="{Binding [Settings.SummonTapDouble], Source={x:Static app:LocProxy.Instance}}"
+                                                       TextWrapping="Wrap"/>
+                                        </CheckBox>
+                                    </Grid>
+                                    <TextBlock Text="{Binding [Settings.SummonTapHint], Source={x:Static app:LocProxy.Instance}}"
+                                               FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,6,0,0" TextWrapping="Wrap"/>
+                                </StackPanel>
+
+                                <Border Height="1" Background="{DynamicResource Brush.Divider}" Margin="0,14,0,14"/>
+
+                                <!-- 快速采集热键 -->
+                                <TextBlock Text="{Binding [Settings.CaptureHotkey], Source={x:Static app:LocProxy.Instance}}"
+                                           Style="{StaticResource FieldLabel}"/>
+                                <ui:AccessibleHotkeyBox x:Name="CaptureBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
+                                        BorderThickness="1" CornerRadius="7" Padding="14,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}"
+                                        HorizontalAlignment="Left" MinWidth="220" MaxWidth="360"
+                                        AutomationProperties.Name="{Binding [Settings.CaptureHotkey], Source={x:Static app:LocProxy.Instance}}"
+                                        AutomationProperties.HelpText="{Binding [Settings.CaptureHotkeyHint], Source={x:Static app:LocProxy.Instance}}"
+                                        MouseLeftButtonDown="OnCaptureBoxClick" PreviewKeyDown="OnHotkeyKeyDown"
+                                        LostKeyboardFocus="OnHotkeyLostFocus">
+                                    <TextBlock x:Name="CaptureText" FontFamily="{StaticResource Font.Ui}" FontSize="14" FontWeight="Medium"
+                                               Foreground="{DynamicResource Brush.TextPrimary}"/>
+                                </ui:AccessibleHotkeyBox>
+                                <TextBlock Text="{Binding [Settings.CaptureHotkeyHint], Source={x:Static app:LocProxy.Instance}}"
                                            FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,6,0,0" TextWrapping="Wrap"/>
                             </StackPanel>
+                        </Border>
 
-                            <TextBlock Text="{Binding [Settings.CaptureHotkey], Source={x:Static app:LocProxy.Instance}}"
-                                       Style="{StaticResource FieldLabel}" Margin="2,12,0,6"/>
-                            <ui:AccessibleHotkeyBox x:Name="CaptureBox" Background="{DynamicResource Brush.InputBg}" BorderBrush="{DynamicResource Brush.InputBorder}"
-                                    BorderThickness="1" CornerRadius="7" Padding="12,9" Focusable="True" Cursor="Hand" FocusVisualStyle="{StaticResource AppFocusVisual}"
-                                    AutomationProperties.Name="{Binding [Settings.CaptureHotkey], Source={x:Static app:LocProxy.Instance}}"
-                                    AutomationProperties.HelpText="{Binding [Settings.CaptureHotkeyHint], Source={x:Static app:LocProxy.Instance}}"
-                                    MouseLeftButtonDown="OnCaptureBoxClick" PreviewKeyDown="OnHotkeyKeyDown"
-                                    LostKeyboardFocus="OnHotkeyLostFocus">
-                                <TextBlock x:Name="CaptureText" FontFamily="{StaticResource Font.Ui}" FontSize="14"
-                                           Foreground="{DynamicResource Brush.TextPrimary}"/>
-                            </ui:AccessibleHotkeyBox>
-                            <TextBlock Text="{Binding [Settings.CaptureHotkeyHint], Source={x:Static app:LocProxy.Instance}}"
-                                       FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,6,0,0" TextWrapping="Wrap"/>
-
-                            <TextBlock Text="{Binding [Settings.PanelPlacement], Source={x:Static app:LocProxy.Instance}}"
-                                       Style="{StaticResource FieldLabel}" Margin="2,12,0,6"/>
-                            <WrapPanel x:Name="PlacementPanel">
-                                <RadioButton GroupName="Place" Style="{StaticResource ChipToggle}" Tag="window" Checked="OnPlacementChecked"
-                                             Content="{Binding [Settings.PlaceWindow], Source={x:Static app:LocProxy.Instance}}"/>
-                                <RadioButton GroupName="Place" Style="{StaticResource ChipToggle}" Tag="caret" Checked="OnPlacementChecked"
-                                             Content="{Binding [Settings.PlaceCaret], Source={x:Static app:LocProxy.Instance}}"/>
-                                <RadioButton GroupName="Place" Style="{StaticResource ChipToggle}" Tag="fixed" Checked="OnPlacementChecked"
-                                             Content="{Binding [Settings.PlaceFixed], Source={x:Static app:LocProxy.Instance}}"/>
-                            </WrapPanel>
-                        </StackPanel>
-                    </Border>
+                        <!-- Card 2: 搜索框位置 -->
+                        <Border Style="{StaticResource SetCard}" Margin="0,0,0,14">
+                            <StackPanel>
+                                <ContentControl Margin="0,0,0,12" Style="{StaticResource SetHeader}"
+                                                Content="{Binding [Settings.PanelPlacement], Source={x:Static app:LocProxy.Instance}}"/>
+                                <WrapPanel x:Name="PlacementPanel">
+                                    <RadioButton GroupName="Place" Style="{StaticResource ChipToggle}" Tag="window" Checked="OnPlacementChecked"
+                                                 Content="{Binding [Settings.PlaceWindow], Source={x:Static app:LocProxy.Instance}}"/>
+                                    <RadioButton GroupName="Place" Style="{StaticResource ChipToggle}" Tag="caret" Checked="OnPlacementChecked"
+                                                 Content="{Binding [Settings.PlaceCaret], Source={x:Static app:LocProxy.Instance}}"/>
+                                    <RadioButton GroupName="Place" Style="{StaticResource ChipToggle}" Tag="fixed" Checked="OnPlacementChecked"
+                                                 Content="{Binding [Settings.PlaceFixed], Source={x:Static app:LocProxy.Instance}}"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem x:Name="AbbrTab" Header="{Binding [Settings.SectionAbbr], Source={x:Static app:LocProxy.Instance}}">
+            <TabItem x:Name="AbbrTab" Tag="&#xE8AC;" Header="{Binding [Settings.SectionAbbr], Source={x:Static app:LocProxy.Instance}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                              Padding="0,0,4,0">
-                    <Border Style="{StaticResource SetCard}">
-                        <StackPanel>
-                            <ContentControl Margin="0,0,0,10" Style="{StaticResource SetHeader}"
-                                            Content="{Binding [Settings.SectionAbbr], Source={x:Static app:LocProxy.Instance}}"/>
-                            <CheckBox x:Name="AbbrEnabled" Style="{StaticResource DarkCheckBox}"
-                                      Content="{Binding [Settings.AbbrEnabled], Source={x:Static app:LocProxy.Instance}}"/>
-                            <StackPanel IsEnabled="{Binding IsChecked, ElementName=AbbrEnabled}" Margin="0,12,0,0">
-                                <TextBlock x:Name="AbbrPrefixLabel" Text="{Binding [Settings.AbbrPrefix], Source={x:Static app:LocProxy.Instance}}"
-                                           Style="{StaticResource FieldLabel}"/>
-                                <TextBox x:Name="AbbrPrefixBox" Style="{StaticResource DarkTextBox}" HorizontalAlignment="Left" Width="90"
-                                         AutomationProperties.LabeledBy="{Binding ElementName=AbbrPrefixLabel}"
-                                         FontFamily="{StaticResource Font.Mono}" FontSize="14"/>
-                                <TextBlock Text="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"
-                                           FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,6,0,14" TextWrapping="Wrap"/>
-                                <TextBlock Text="{Binding [Settings.AbbrExpandHint], Source={x:Static app:LocProxy.Instance}}"
-                                           FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,-8,0,14" TextWrapping="Wrap"/>
-                                <TextBlock x:Name="AbbrBlacklistLabel" Text="{Binding [Settings.AbbrBlacklist], Source={x:Static app:LocProxy.Instance}}"
-                                           Style="{StaticResource FieldLabel}"/>
+                              Padding="0,0,6,0">
+                    <StackPanel>
+                        <!-- Card 1: 缩写展开规则 -->
+                        <Border Style="{StaticResource SetCard}" Margin="0,0,0,14">
+                            <StackPanel>
+                                <ContentControl Margin="0,0,0,12" Style="{StaticResource SetHeader}"
+                                                Content="{Binding [Settings.SectionAbbr], Source={x:Static app:LocProxy.Instance}}"/>
+                                <CheckBox x:Name="AbbrEnabled" Style="{StaticResource DarkCheckBox}"
+                                          Content="{Binding [Settings.AbbrEnabled], Source={x:Static app:LocProxy.Instance}}"/>
+                                <StackPanel IsEnabled="{Binding IsChecked, ElementName=AbbrEnabled}" Margin="0,14,0,0">
+                                    <TextBlock x:Name="AbbrPrefixLabel" Text="{Binding [Settings.AbbrPrefix], Source={x:Static app:LocProxy.Instance}}"
+                                               Style="{StaticResource FieldLabel}"/>
+                                    <TextBox x:Name="AbbrPrefixBox" Style="{StaticResource DarkTextBox}" HorizontalAlignment="Left" Width="100"
+                                             AutomationProperties.LabeledBy="{Binding ElementName=AbbrPrefixLabel}"
+                                             FontFamily="{StaticResource Font.Mono}" FontSize="14"/>
+                                    <TextBlock Text="{Binding [Settings.AbbrPrefixHint], Source={x:Static app:LocProxy.Instance}}"
+                                               FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,6,0,10" TextWrapping="Wrap"/>
+                                    <Border Background="{DynamicResource Brush.RowHover}" BorderBrush="{DynamicResource Brush.Stroke}"
+                                            BorderThickness="1" CornerRadius="8" Padding="12,10" Margin="0,4,0,2">
+                                        <DockPanel>
+                                            <TextBlock DockPanel.Dock="Left" Text="&#xE946;" FontFamily="Segoe MDL2 Assets"
+                                                       FontSize="14" Foreground="{DynamicResource Brush.Accent}"
+                                                       VerticalAlignment="Top" Margin="0,1,10,0"/>
+                                            <TextBlock Text="{Binding [Settings.AbbrExpandHint], Source={x:Static app:LocProxy.Instance}}"
+                                                       FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" TextWrapping="Wrap"
+                                                       LineHeight="18"/>
+                                        </DockPanel>
+                                    </Border>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Card 2: 排除应用 -->
+                        <Border Style="{StaticResource SetCard}" Margin="0,0,0,14">
+                            <StackPanel>
+                                <ContentControl Margin="0,0,0,12" Style="{StaticResource SetHeader}"
+                                                Content="{Binding [Settings.AbbrBlacklist], Source={x:Static app:LocProxy.Instance}}"/>
                                 <TextBox x:Name="AbbrBlacklist" Style="{StaticResource DarkTextBox}"
-                                         AutomationProperties.LabeledBy="{Binding ElementName=AbbrBlacklistLabel}"
+                                         AutomationProperties.Name="{Binding [Settings.AbbrBlacklist], Source={x:Static app:LocProxy.Instance}}"
                                          FontFamily="{StaticResource Font.Mono}" FontSize="13"/>
                                 <TextBlock Text="{Binding [Settings.AbbrBlacklistHint], Source={x:Static app:LocProxy.Instance}}"
                                            FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,6,0,0" TextWrapping="Wrap"/>
                             </StackPanel>
-                        </StackPanel>
-                    </Border>
+                        </Border>
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem x:Name="OutputTab" Header="{Binding [Settings.SectionOutput], Source={x:Static app:LocProxy.Instance}}">
+            <TabItem x:Name="OutputTab" Tag="&#xE77F;" Header="{Binding [Settings.SectionOutput], Source={x:Static app:LocProxy.Instance}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                              Padding="0,0,4,0">
-                    <Border Style="{StaticResource SetCard}">
-                        <StackPanel>
-                            <ContentControl Margin="0,0,0,10" Style="{StaticResource SetHeader}"
-                                            Content="{Binding [Settings.SectionOutput], Source={x:Static app:LocProxy.Instance}}"/>
-                            <WrapPanel x:Name="OutputPanel">
-                                <RadioButton GroupName="Output" Style="{StaticResource ChipToggle}" Tag="paste" Checked="OnOutputChecked"
-                                             Content="{Binding [Settings.OutputPaste], Source={x:Static app:LocProxy.Instance}}"/>
-                                <RadioButton GroupName="Output" Style="{StaticResource ChipToggle}" Tag="clip" Checked="OnOutputChecked"
-                                             Content="{Binding [Settings.OutputClipboard], Source={x:Static app:LocProxy.Instance}}"/>
-                            </WrapPanel>
-                            <CheckBox x:Name="AutoSend" Style="{StaticResource DarkCheckBox}" Margin="0,4,0,0"
-                                      Content="{Binding [Settings.AutoSend], Source={x:Static app:LocProxy.Instance}}"/>
-                            <CheckBox x:Name="ClickToSend" Style="{StaticResource DarkCheckBox}" Margin="0,9,0,0"
-                                      Content="{Binding [Settings.ClickToSend], Source={x:Static app:LocProxy.Instance}}"/>
-                            <TextBlock Text="{Binding [Settings.ClickToSendHint], Source={x:Static app:LocProxy.Instance}}"
-                                       FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="24,3,0,0" TextWrapping="Wrap"/>
-                            <CheckBox x:Name="RestoreClipboard" Style="{StaticResource DarkCheckBox}" Margin="0,9,0,0"
-                                      Content="{Binding [Settings.RestoreClipboard], Source={x:Static app:LocProxy.Instance}}"/>
-                            <TextBlock Text="{Binding [Settings.RestoreClipboardHint], Source={x:Static app:LocProxy.Instance}}"
-                                       FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="24,3,0,0" TextWrapping="Wrap"/>
-                        </StackPanel>
-                    </Border>
+                              Padding="0,0,6,0">
+                    <StackPanel>
+                        <!-- Card 1: 基础上屏模式 -->
+                        <Border Style="{StaticResource SetCard}" Margin="0,0,0,14">
+                            <StackPanel>
+                                <ContentControl Margin="0,0,0,12" Style="{StaticResource SetHeader}"
+                                                Content="{Binding [Settings.SectionOutput], Source={x:Static app:LocProxy.Instance}}"/>
+                                <WrapPanel x:Name="OutputPanel">
+                                    <RadioButton GroupName="Output" Style="{StaticResource ChipToggle}" Tag="paste" Checked="OnOutputChecked"
+                                                 Content="{Binding [Settings.OutputPaste], Source={x:Static app:LocProxy.Instance}}"/>
+                                    <RadioButton GroupName="Output" Style="{StaticResource ChipToggle}" Tag="clip" Checked="OnOutputChecked"
+                                                 Content="{Binding [Settings.OutputClipboard], Source={x:Static app:LocProxy.Instance}}"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Card 2: 行为控制 -->
+                        <Border Style="{StaticResource SetCard}" Margin="0,0,0,14">
+                            <StackPanel>
+                                <CheckBox x:Name="AutoSend" Style="{StaticResource DarkCheckBox}" Margin="0,2,0,0"
+                                          Content="{Binding [Settings.AutoSend], Source={x:Static app:LocProxy.Instance}}"/>
+                                <Border Height="1" Background="{DynamicResource Brush.Divider}" Margin="0,12,0,12"/>
+                                <CheckBox x:Name="ClickToSend" Style="{StaticResource DarkCheckBox}"
+                                          Content="{Binding [Settings.ClickToSend], Source={x:Static app:LocProxy.Instance}}"/>
+                                <TextBlock Text="{Binding [Settings.ClickToSendHint], Source={x:Static app:LocProxy.Instance}}"
+                                           FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="24,4,0,0" TextWrapping="Wrap"/>
+                                <Border Height="1" Background="{DynamicResource Brush.Divider}" Margin="0,12,0,12"/>
+                                <CheckBox x:Name="RestoreClipboard" Style="{StaticResource DarkCheckBox}"
+                                          Content="{Binding [Settings.RestoreClipboard], Source={x:Static app:LocProxy.Instance}}"/>
+                                <TextBlock Text="{Binding [Settings.RestoreClipboardHint], Source={x:Static app:LocProxy.Instance}}"
+                                           FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="24,4,0,0" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem x:Name="DataTab" Header="{Binding [Settings.SectionData], Source={x:Static app:LocProxy.Instance}}">
+            <TabItem x:Name="DataTab" Tag="&#xE838;" Header="{Binding [Settings.SectionData], Source={x:Static app:LocProxy.Instance}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                              Padding="0,0,4,0">
-                    <Border Style="{StaticResource SetCard}">
-                        <StackPanel>
-                            <ContentControl Margin="0,0,0,10" Style="{StaticResource SetHeader}"
-                                            Content="{Binding [Settings.SectionData], Source={x:Static app:LocProxy.Instance}}"/>
-                            <TextBlock x:Name="DataFolderLabel" Text="{Binding [Settings.DataFolder], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource FieldLabel}"/>
-                            <DockPanel>
-                                <Button DockPanel.Dock="Right" Content="…" Width="38" Margin="8,0,0,0" Style="{StaticResource DarkButton}" Click="OnBrowse"
-                                        AutomationProperties.Name="{Binding [Settings.ChooseFolder], Source={x:Static app:LocProxy.Instance}}"/>
-                                <Button DockPanel.Dock="Right" Width="38" Margin="8,0,0,0" Style="{StaticResource DarkButton}" Click="OnOpenFolder"
-                                        AutomationProperties.Name="{Binding [Settings.OpenFolder], Source={x:Static app:LocProxy.Instance}}"
-                                        ToolTip="{Binding [Settings.OpenFolder], Source={x:Static app:LocProxy.Instance}}">
-                                    <TextBlock Text="&#xE838;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
-                                </Button>
-                                <!-- The box bound the RAW setting, which is empty until the user picks a
-                                     folder — a blank input read as "broken", not as "default". The
-                                     placeholder shows where the library actually lives (same resolution
-                                     the store uses), and vanishes the moment anything is typed. -->
-                                <Grid>
-                                    <TextBox x:Name="DataFolder" Style="{StaticResource DarkTextBox}"
-                                             AutomationProperties.LabeledBy="{Binding ElementName=DataFolderLabel}"/>
-                                    <TextBlock x:Name="DataFolderPlaceholder" Margin="10,0,0,0" VerticalAlignment="Center"
-                                               IsHitTestVisible="False" TextTrimming="CharacterEllipsis"
-                                               FontFamily="{StaticResource Font.Ui}" FontSize="13"
-                                               Foreground="{DynamicResource Brush.TextFaint}">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Text, ElementName=DataFolder}" Value="">
-                                                        <Setter Property="Visibility" Value="Visible"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </Grid>
-                            </DockPanel>
-                            <!-- WrapPanel so the three buttons wrap instead of overflowing the card when
-                                 the labels are longer (English / 日本語) or the column is narrow. -->
-                            <WrapPanel Margin="0,10,0,-8">
-                                <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="0,0,8,8"
-                                        Content="{Binding [Settings.ExportBackup], Source={x:Static app:LocProxy.Instance}}"
-                                        Click="OnExportBackup"/>
-                                <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="0,0,8,8"
-                                        Content="{Binding [Settings.ImportBackup], Source={x:Static app:LocProxy.Instance}}"
-                                        Click="OnImportBackup"/>
-                                <Button Style="{StaticResource DarkButton}" Padding="12,6" Margin="0,0,0,8"
-                                        Content="{Binding [Settings.OpenBackups], Source={x:Static app:LocProxy.Instance}}"
-                                        Click="OnOpenBackups"/>
-                            </WrapPanel>
-                            <TextBlock Text="{Binding [Settings.AutoBackupHint], Source={x:Static app:LocProxy.Instance}}"
-                                       FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,8,0,0" TextWrapping="Wrap"/>
+                              Padding="0,0,6,0">
+                    <StackPanel>
+                        <!-- Card 1: 数据文件夹与备份 -->
+                        <Border Style="{StaticResource SetCard}" Margin="0,0,0,14">
+                            <StackPanel>
+                                <ContentControl Margin="0,0,0,12" Style="{StaticResource SetHeader}"
+                                                Content="{Binding [Settings.SectionData], Source={x:Static app:LocProxy.Instance}}"/>
+                                <TextBlock x:Name="DataFolderLabel" Text="{Binding [Settings.DataFolder], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource FieldLabel}"/>
+                                <DockPanel>
+                                    <Button DockPanel.Dock="Right" Content="…" Width="38" Height="32" Margin="8,0,0,0" Style="{StaticResource DarkButton}" Click="OnBrowse"
+                                            AutomationProperties.Name="{Binding [Settings.ChooseFolder], Source={x:Static app:LocProxy.Instance}}"
+                                            ToolTip="{Binding [Settings.ChooseFolder], Source={x:Static app:LocProxy.Instance}}"/>
+                                    <Button DockPanel.Dock="Right" Width="38" Height="32" Margin="8,0,0,0" Style="{StaticResource DarkButton}" Click="OnOpenFolder"
+                                            AutomationProperties.Name="{Binding [Settings.OpenFolder], Source={x:Static app:LocProxy.Instance}}"
+                                            ToolTip="{Binding [Settings.OpenFolder], Source={x:Static app:LocProxy.Instance}}">
+                                        <TextBlock Text="&#xE838;" FontFamily="Segoe MDL2 Assets" FontSize="14"/>
+                                    </Button>
+                                    <Grid>
+                                        <TextBox x:Name="DataFolder" Style="{StaticResource DarkTextBox}" Height="32"
+                                                 AutomationProperties.Name="{Binding [Settings.DataFolder], Source={x:Static app:LocProxy.Instance}}"/>
+                                        <TextBlock x:Name="DataFolderPlaceholder" Margin="10,0,0,0" VerticalAlignment="Center"
+                                                   IsHitTestVisible="False" TextTrimming="CharacterEllipsis"
+                                                   FontFamily="{StaticResource Font.Ui}" FontSize="13"
+                                                   Foreground="{DynamicResource Brush.TextFaint}">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, ElementName=DataFolder}" Value="">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Grid>
+                                </DockPanel>
 
-                            <!-- portable mode: the toggle creates/removes the marker file for the user
-                                 (it can't be a plain saved setting — it decides where settings.json lives) -->
-                            <CheckBox x:Name="PortableMode" Style="{StaticResource DarkCheckBox}" Margin="0,12,0,0"
-                                      Click="OnPortableToggle"
-                                      Content="{Binding [Settings.Portable], Source={x:Static app:LocProxy.Instance}}"/>
-                            <TextBlock Text="{Binding [Settings.PortableHint], Source={x:Static app:LocProxy.Instance}}"
-                                       FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="24,3,0,0" TextWrapping="Wrap"/>
-                        </StackPanel>
-                    </Border>
+                                <Border Height="1" Background="{DynamicResource Brush.Divider}" Margin="0,14,0,14"/>
+
+                                <!-- 备份与恢复操作 -->
+                                <WrapPanel Margin="0,0,0,8">
+                                    <Button Style="{StaticResource DarkButton}" Padding="14,7" Margin="0,0,8,8"
+                                            Content="{Binding [Settings.ExportBackup], Source={x:Static app:LocProxy.Instance}}"
+                                            Click="OnExportBackup"/>
+                                    <Button Style="{StaticResource DarkButton}" Padding="14,7" Margin="0,0,8,8"
+                                            Content="{Binding [Settings.ImportBackup], Source={x:Static app:LocProxy.Instance}}"
+                                            Click="OnImportBackup"/>
+                                    <Button Style="{StaticResource DarkButton}" Padding="14,7" Margin="0,0,0,8"
+                                            Content="{Binding [Settings.OpenBackups], Source={x:Static app:LocProxy.Instance}}"
+                                            Click="OnOpenBackups"/>
+                                </WrapPanel>
+                                <TextBlock Text="{Binding [Settings.AutoBackupHint], Source={x:Static app:LocProxy.Instance}}"
+                                           FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="2,2,0,0" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Card 2: 便携模式 -->
+                        <Border Style="{StaticResource SetCard}" Margin="0,0,0,14">
+                            <StackPanel>
+                                <CheckBox x:Name="PortableMode" Style="{StaticResource DarkCheckBox}"
+                                          Click="OnPortableToggle"
+                                          Content="{Binding [Settings.Portable], Source={x:Static app:LocProxy.Instance}}"/>
+                                <TextBlock Text="{Binding [Settings.PortableHint], Source={x:Static app:LocProxy.Instance}}"
+                                           FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="24,4,0,0" TextWrapping="Wrap"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
-            <TabItem x:Name="GeneralTab" Header="{Binding [Settings.SectionGeneral], Source={x:Static app:LocProxy.Instance}}">
+            <TabItem x:Name="GeneralTab" Tag="&#xE713;" Header="{Binding [Settings.SectionGeneral], Source={x:Static app:LocProxy.Instance}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
-                              Padding="0,0,4,0">
-                    <Border Style="{StaticResource SetCard}">
-                        <StackPanel>
-                            <ContentControl Margin="0,0,0,10" Style="{StaticResource SetHeader}"
-                                            Content="{Binding [Settings.SectionGeneral], Source={x:Static app:LocProxy.Instance}}"/>
-                            <TextBlock x:Name="LanguageLabel" Text="{Binding [Settings.Language], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource FieldLabel}"/>
-                            <!-- 18 UI languages + follow-system: a dropdown keeps the card compact.
-                                 Items (code + native name) are supplied in code so the dark item style applies. -->
-                            <ComboBox x:Name="LangCombo" Style="{StaticResource DarkComboBox}"
-                                      AutomationProperties.LabeledBy="{Binding ElementName=LanguageLabel}"
-                                      SelectedValuePath="Code" HorizontalAlignment="Left" MinWidth="190">
-                                <!-- An explicit ItemTemplate (not DisplayMemberPath): the dark template's
-                                     selection box renders via SelectionBoxItemTemplate, which DisplayMemberPath
-                                     does NOT populate — so the closed box would otherwise show the record's
-                                     ToString() ("LangItem { … }") instead of the language name. -->
-                                <ComboBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Name}"/>
-                                    </DataTemplate>
-                                </ComboBox.ItemTemplate>
-                            </ComboBox>
-                            <TextBlock Text="{Binding [Settings.Theme], Source={x:Static app:LocProxy.Instance}}"
-                                       Style="{StaticResource FieldLabel}" Margin="2,12,0,6"/>
-                            <!-- Same chip group as Panel position: three exclusive choices, applied live. -->
-                            <WrapPanel x:Name="ThemePanel">
-                                <RadioButton GroupName="Theme" Style="{StaticResource ChipToggle}" Tag="dark" Checked="OnThemeChecked"
-                                             Content="{Binding [Settings.ThemeDark], Source={x:Static app:LocProxy.Instance}}"/>
-                                <RadioButton GroupName="Theme" Style="{StaticResource ChipToggle}" Tag="light" Checked="OnThemeChecked"
-                                             Content="{Binding [Settings.ThemeLight], Source={x:Static app:LocProxy.Instance}}"/>
-                                <RadioButton GroupName="Theme" Style="{StaticResource ChipToggle}" Tag="system" Checked="OnThemeChecked"
-                                             Content="{Binding [Settings.FollowSystem], Source={x:Static app:LocProxy.Instance}}"/>
-                            </WrapPanel>
+                              Padding="0,0,6,0">
+                    <StackPanel>
+                        <!-- Card 1: 界面外观与语言 -->
+                        <Border Style="{StaticResource SetCard}" Margin="0,0,0,14">
+                            <StackPanel>
+                                <ContentControl Margin="0,0,0,12" Style="{StaticResource SetHeader}"
+                                                Content="{Binding [Settings.SectionGeneral], Source={x:Static app:LocProxy.Instance}}"/>
+                                <TextBlock x:Name="LanguageLabel" Text="{Binding [Settings.Language], Source={x:Static app:LocProxy.Instance}}" Style="{StaticResource FieldLabel}"/>
+                                <ComboBox x:Name="LangCombo" Style="{StaticResource DarkComboBox}"
+                                          AutomationProperties.LabeledBy="{Binding ElementName=LanguageLabel}"
+                                          SelectedValuePath="Code" HorizontalAlignment="Left" MinWidth="220" Margin="0,0,0,14">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <TextBlock Text="{Binding [Settings.Theme], Source={x:Static app:LocProxy.Instance}}"
+                                           Style="{StaticResource FieldLabel}" Margin="2,0,0,6"/>
+                                <WrapPanel x:Name="ThemePanel">
+                                    <RadioButton GroupName="Theme" Style="{StaticResource ChipToggle}" Tag="dark" Checked="OnThemeChecked"
+                                                 Content="{Binding [Settings.ThemeDark], Source={x:Static app:LocProxy.Instance}}"/>
+                                    <RadioButton GroupName="Theme" Style="{StaticResource ChipToggle}" Tag="light" Checked="OnThemeChecked"
+                                                 Content="{Binding [Settings.ThemeLight], Source={x:Static app:LocProxy.Instance}}"/>
+                                    <RadioButton GroupName="Theme" Style="{StaticResource ChipToggle}" Tag="system" Checked="OnThemeChecked"
+                                                 Content="{Binding [Settings.FollowSystem], Source={x:Static app:LocProxy.Instance}}"/>
+                                </WrapPanel>
+                            </StackPanel>
+                        </Border>
 
-                            <!-- Click-wired (not Checked/Unchecked): the constructor sets IsChecked from the
-                                 OS, and a programmatic set must not fire the handler and clobber it. -->
-                            <CheckBox x:Name="Autostart" Style="{StaticResource DarkCheckBox}" Margin="0,10,0,0"
-                                      Content="{Binding [Tray.Autostart], Source={x:Static app:LocProxy.Instance}}"
-                                      Click="OnAutostartChecked"/>
-                            <!-- Opt-in: a logon task that starts the app elevated (one UAC prompt when
-                                 enabling, none at login). Meaningless with autostart off, so both its
-                                 enabled state AND its explanation hang off the parent checkbox — one
-                                 source, so the greyed row can never outlive its own hint text. -->
-                            <CheckBox x:Name="AutostartElevated" Style="{StaticResource DarkCheckBox}" Margin="24,6,0,0"
-                                      IsEnabled="{Binding IsChecked, ElementName=Autostart}"
-                                      Content="{Binding [Settings.AutostartElevated], Source={x:Static app:LocProxy.Instance}}"
-                                      AutomationProperties.Name="{Binding [Settings.AutostartElevated], Source={x:Static app:LocProxy.Instance}}"/>
-                            <TextBlock x:Name="AutostartElevatedHint"
-                                       Text="{Binding [Settings.AutostartElevatedHint], Source={x:Static app:LocProxy.Instance}}"
-                                       FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="48,3,0,0" TextWrapping="Wrap">
-                                <TextBlock.Style>
-                                    <Style TargetType="TextBlock">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsChecked, ElementName=Autostart}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
+                        <!-- Card 2: 系统集成与更新 -->
+                        <Border Style="{StaticResource SetCard}" Margin="0,0,0,14">
+                            <StackPanel>
+                                <CheckBox x:Name="Autostart" Style="{StaticResource DarkCheckBox}"
+                                          Content="{Binding [Tray.Autostart], Source={x:Static app:LocProxy.Instance}}"
+                                          Click="OnAutostartChecked"/>
+                                <CheckBox x:Name="AutostartElevated" Style="{StaticResource DarkCheckBox}" Margin="24,8,0,0"
+                                          IsEnabled="{Binding IsChecked, ElementName=Autostart}"
+                                          Content="{Binding [Settings.AutostartElevated], Source={x:Static app:LocProxy.Instance}}"
+                                          AutomationProperties.Name="{Binding [Settings.AutostartElevated], Source={x:Static app:LocProxy.Instance}}"/>
+                                <TextBlock x:Name="AutostartElevatedHint"
+                                           Text="{Binding [Settings.AutostartElevatedHint], Source={x:Static app:LocProxy.Instance}}"
+                                           FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="48,4,0,0" TextWrapping="Wrap">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsChecked, ElementName=Autostart}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
 
-                            <!-- opt-in update check: OFF by default; the only feature that goes online -->
-                            <CheckBox x:Name="CheckUpdates" Style="{StaticResource DarkCheckBox}" Margin="0,9,0,0"
-                                      Content="{Binding [Settings.CheckUpdates], Source={x:Static app:LocProxy.Instance}}"/>
-                            <TextBlock Text="{Binding [Settings.CheckUpdatesHint], Source={x:Static app:LocProxy.Instance}}"
-                                       FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="24,3,0,0" TextWrapping="Wrap"/>
-                            <Button x:Name="CheckNowButton" HorizontalAlignment="Left" Style="{StaticResource DarkButton}" Padding="12,6" Margin="24,8,0,0"
-                                    Content="{Binding [Settings.CheckNow], Source={x:Static app:LocProxy.Instance}}" Click="OnCheckUpdatesNow"/>
-                        </StackPanel>
-                    </Border>
+                                <Border Height="1" Background="{DynamicResource Brush.Divider}" Margin="0,14,0,14"/>
+
+                                <!-- 启动时检查更新 -->
+                                <CheckBox x:Name="CheckUpdates" Style="{StaticResource DarkCheckBox}"
+                                          Content="{Binding [Settings.CheckUpdates], Source={x:Static app:LocProxy.Instance}}"/>
+                                <TextBlock Text="{Binding [Settings.CheckUpdatesHint], Source={x:Static app:LocProxy.Instance}}"
+                                           FontSize="12" Foreground="{DynamicResource Brush.TextMuted}" Margin="24,4,0,10" TextWrapping="Wrap"/>
+                                <Button x:Name="CheckNowButton" HorizontalAlignment="Left" Style="{StaticResource DarkButton}" Padding="14,7" Margin="24,0,0,0"
+                                        Content="{Binding [Settings.CheckNow], Source={x:Static app:LocProxy.Instance}}" Click="OnCheckUpdatesNow"/>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
                 </ScrollViewer>
             </TabItem>
         </TabControl>

@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="H.NotifyIcon.Wpf" Version="2.4.1" />
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+    <PackageReference Include="TaskScheduler" Version="2.12.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +26,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <StartupObject>QuickText.App.Program</StartupObject>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -75,12 +77,10 @@
     warnings (measured). The exit code is still read through _GitTagExit, so the logic is
     unchanged; it just stops reporting the normal case as a problem.
   -->
-  <Target Name="VersionFromGitTag" BeforeTargets="GetAssemblyVersion"
-          Condition="'$(Version)' == '$(VersionFallback)'">
-    <Exec Command="git describe --tags --abbrev=0" ConsoleToMSBuild="true"
-          IgnoreExitCode="true" StandardOutputImportance="low" StandardErrorImportance="low">
-      <Output TaskParameter="ConsoleOutput" PropertyName="_GitTag"/>
-      <Output TaskParameter="ExitCode" PropertyName="_GitTagExit"/>
+  <Target Name="VersionFromGitTag" BeforeTargets="GetAssemblyVersion" Condition="'$(Version)' == '$(VersionFallback)'">
+    <Exec Command="git describe --tags --abbrev=0" ConsoleToMSBuild="true" IgnoreExitCode="true" StandardOutputImportance="low" StandardErrorImportance="low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_GitTag" />
+      <Output TaskParameter="ExitCode" PropertyName="_GitTagExit" />
     </Exec>
     <PropertyGroup Condition="'$(_GitTagExit)' == '0' AND $([System.Text.RegularExpressions.Regex]::IsMatch($(_GitTag), '^v?[0-9]+\.[0-9]+\.[0-9]+$'))">
       <Version>$(_GitTag.TrimStart('v'))</Version>

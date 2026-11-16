@@ -248,21 +248,6 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        // One-shot elevated autostart subcommand: the non-elevated instance relaunches us with
-        // Verb=runas to register/delete the logon task. FIRST, before the single-instance mutex:
-        // the running instance must stay alive while this child does its job and exits, and the
-        // child must not build a tray, hooks or a message window. It exits with a code the parent
-        // uses to report success/failure (a declined UAC never starts a child at all).
-        if (Interop.ElevatedAutostart.RunSubcommand(e.Args) is int subcommandExit)
-        {
-            // The parent waits on the process, not on a marker: a GUI exe's exit code read via
-            // Start-Process -PassThru has a known null quirk, but Process.WaitForExit()+ExitCode
-            // (what ElevatedAutostart.Apply uses) does not.
-            Environment.ExitCode = subcommandExit;
-            Shutdown();
-            return;
-        }
-
         // Decide installed-vs-portable before any path is read: a "QuickText.portable" file
         // next to the exe redirects settings/usage/backups under <exeDir>\Data.
         Core.AppPaths.SetExeDir(System.IO.Path.GetDirectoryName(Environment.ProcessPath) ?? Core.AppPaths.ExeDir);

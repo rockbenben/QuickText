@@ -645,12 +645,13 @@ public partial class SettingsWindow : Window
             // A declined prompt is not an error, but nothing changed — so neither settings.json
             // nor the two checkboxes may claim a mode that isn't live. Re-read the real state from
             // the OS instead; the next open does the same, so this can't drift.
-            var autostartRes = QuickText.App.Interop.Autostart.Apply(s.Autostart, s.AutostartElevated);
+            var autostartRes = await QuickText.App.Interop.Autostart.ApplyAsync(s.Autostart, s.AutostartElevated);
             // A declined UAC prompt is not worth a dialog, and a real failure gets one localized
             // sentence rather than .NET text in 17 wrong languages (the reason goes to the log).
-            if (autostartRes == QuickText.App.Interop.AutostartResult.Failed)
+            if (autostartRes.Outcome == QuickText.App.Interop.StartupOutcome.Failed)
                 AppDialog.Alert(this, L("App.Name"), L("Settings.AutostartFailed"));
-            if (autostartRes != QuickText.App.Interop.AutostartResult.Applied)
+            if (autostartRes.Outcome != QuickText.App.Interop.StartupOutcome.Applied &&
+                autostartRes.Outcome != QuickText.App.Interop.StartupOutcome.Unchanged)
             {
                 var (realOn, realElevated) = QuickText.App.Interop.Autostart.CurrentState();
                 Autostart.IsChecked = realOn;
