@@ -116,14 +116,11 @@ jobs:
           $ErrorActionPreference = 'Stop'
           $tag = "${{ github.ref_name }}"
           $notesPath = "docs/release-notes/$tag.md"
-          if (-not (Test-Path $notesPath)) {
-            Write-Error "No release notes at $notesPath - write the 'What's new' bullets for $tag before tagging."
-            exit 1
+          $notes = ''
+          if (Test-Path $notesPath) {
+            # Preserve optional hand-written notes, including their CJK text.
+            $notes = Get-Content $notesPath -Raw -Encoding utf8
           }
-          # -Raw, not a line array: the bullets have to land in the body exactly as they were
-          # written. -Encoding utf8 because the notes carry CJK, and a PowerShell that guesses
-          # the encoding turns them into mojibake.
-          $notes = (Get-Content $notesPath -Raw -Encoding utf8).TrimEnd()
           # Single-quoted here-string, so PowerShell interpolates nothing: the markdown is full of
           # backticks (the code fence), and the tag expression is expanded by Actions before the
           # shell ever sees this script.
@@ -151,7 +148,10 @@ jobs:
           # The CR strip is the other half of that: .gitattributes stores these files as LF, but a
           # Windows checkout can hand back CRLF, and without this the body would mix CRLF (from the
           # notes file) with the LF this script writes.
-          $body = "**What's new / 更新内容**`n`n" + $notes + "`n`n" + $tail + "`n"
+          $body = $tail + "`n"
+          if (-not [string]::IsNullOrWhiteSpace($notes)) {
+            $body = "**What's new / 更新内容**`n`n" + $notes.TrimEnd() + "`n`n" + $body
+          }
           Set-Content -Path release-body.md -Value ($body -replace "`r`n", "`n") -Encoding utf8 -NoNewline
       - name: Release
         # Major-version tag on purpose: `v3` moves with each patch, which is how fixes arrive without
@@ -164,10 +164,8 @@ jobs:
           make_latest: legacy
           fail_on_unmatched_files: true
           files: ${{ steps.package.outputs.files }}
-          # The body is composed by the step above: docs/release-notes/<tag>.md holds the
-          # "What's new" bullets, and the package-picking note rides along underneath them. A
-          # release cannot go out without its notes — the compose step fails if the file is
-          # missing, which is the only reason v1.4.0 and v1.4.2 shipped with none.
+          # Hand-written notes in docs/release-notes/<tag>.md are optional; GitHub generates
+          # the changelog below whether or not that file exists.
           # Picking a package happens on the download page, not in the README, so the note has to
           # ride along with the release. GitHub appends the generated changelog after this body.
           # No sizes quoted here or in the READMEs: they move with every build and go stale silently,
